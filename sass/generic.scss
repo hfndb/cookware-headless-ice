@@ -1,0 +1,220 @@
+@import "variables";
+@import "mixins";
+@import "reset";
+
+/***********************************************************************
+ * Generic
+ ***********************************************************************/
+body {
+	box-sizing: border-box; // box won't grow as a result of padding. Default behavior is content-box
+	color: #333;
+	counter-reset: h1-counter;
+	font-family: Arial, serif;
+	font-size: 13pt;
+	position: relative;
+}
+
+blockquote {
+	background-image: url('../img/quote.png');
+	background-position: left top;
+	background-repeat: no-repeat;
+	border: 0;
+	color: rgb(144, 144, 144);
+	margin-left: 0;
+	min-height: 25px;
+	padding-left: 40px;
+
+	p {
+		color: rgb(128, 128, 128);
+		margin-bottom: 15px;
+	}
+
+	small:before {
+		content: "-- ";
+	}
+}
+
+
+code {
+	background-color: #eef;
+	border-radius: 6px;
+	display: block;
+	font-family: monospace, Courier, "Courier New";
+	font-size: 0.9em;
+	padding: 10px;
+	word-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+	margin: 20px 0, 20px, 0;
+}
+
+h1.center {
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+hr {
+	border-top: 1px solid black;
+	width: 100%;
+}
+
+li {
+	margin-bottom: 10px;
+}
+
+header,
+footer,
+container {
+	position: relative;
+}
+
+footer {
+	clear: both;
+}
+
+h1 {
+	font-size: 2em;
+}
+
+h2 {
+	font-size: 1.7em;
+}
+
+h3 {
+	font-size: 1.4em;
+}
+
+h4 {
+	font-size: 1.1em;
+}
+
+noscript {
+	display: block;
+	padding: 5px;
+	position: absolute; /* in case fixed isn't supported */
+	position: fixed;
+	right: 0px;
+	top: 250px;
+	width: 260px;
+	z-index: 20;
+}
+p.list {
+	margin-bottom: 0px;
+}
+
+ul,
+ol {
+	margin-bottom: 20px;
+	margin-top: 0;
+}
+
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+	margin-top: 10px;
+}
+table {
+	margin: 0;
+	margin-bottom: 20px;
+}
+
+/* For ol and ul styling */
+.named-items > li > p:first-child {
+	font-style: italic;
+	margin-bottom: 0;
+}
+
+/***********************************************************************
+ * Screens
+ ***********************************************************************/
+@media only screen {
+	// Standard elements
+	// --------------------------------------------------
+	header nav,
+	footer nav {
+		text-align: right;
+		width: 100%;
+	}
+
+	.noview {
+		display: none;
+	}
+
+	// Responsive
+	// --------------------------------------------------
+
+	// Extra small devices (portrait phones, less than 576px)
+	@media (max-width: $breakpoint-small) {
+	}
+
+	// Small devices (landscape phones, 576px and up)
+	@media (min-width: $breakpoint-small) {
+		#contact-form {
+			margin-top: 20px;
+		}
+	}
+
+	// Medium devices (tablets, 768px and up)
+	@media (min-width: $breakpoint-medium) {
+	}
+
+	// Large devices (desktops, 992px and up)
+	@media (min-width: $breakpoint-large) {
+		#container,
+		.content-width {
+			margin-left: auto;
+			margin-right: auto;
+			width: 1080px;
+		}
+	}
+
+	// Extra large devices (large desktops, 1200px and up)
+	@media (min-width: $breakpoint-xl) {
+	}
+}
+
+/***********************************************************************
+ * Printing
+ ***********************************************************************/
+@media only print {
+	blockquote {
+		/*	border-left: 1px solid black; */
+		font-style: italic;
+		font-size: 0.9em;
+		margin-left: 10px;
+		padding-left: 10px;
+
+		p,
+		li,
+		ul,
+		ol {
+			color: #909090;
+			font-size: inherit;
+			font-style: italic;
+		}
+
+		small {
+			color: #909090;
+			display: block;
+			margin-top: -10px;
+		}
+	}
+
+	body {
+		color: black;
+	}
+
+	fieldset {
+		page-break-inside: auto;
+	}
+
+	.noprint {
+		display: none;
+	}
+}

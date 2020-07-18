@@ -1,0 +1,38 @@
+{% extends "base.njk" %}
+{% set blockLintLink = true %}
+{% set title = "Linting results" %}
+{% block content %}
+<h1>Linting results</h1>
+<table>
+	<tr>
+		<th>Type</th>
+		<th>Line:column</th>
+		<th>Message</th>
+		<th>Rule</th>
+		<th>Code</th>
+	</tr>
+	{%- for file in files %}
+	<tr>
+		<td colspan="5">&nbsp;</td>
+	</tr>
+	<tr>
+		<th colspan="5">{{ file.file }}</th>
+	</tr>
+	{%- if file.output | length == 0 %}
+	<tr>
+		<td colspan="5">Nothing to report, seems perfect</td>
+	</tr>
+	{%- else %}
+	{%- for entry in file.output %}
+	<tr>
+		<td>{{ entry.type }}</td>
+		<td>{{ entry.line }}:{{ entry.column }}</td>
+		<td>{{ entry.message }}</td>
+		<td>{{ entry.rule }}</td>
+		<td>{{ entry.code }}</td>
+	</tr>
+	{%- endfor %}     {#- for loop entry in file.output #}
+	{%- endif %}      {#- if output for file available #}
+	{%- endfor %}     {#- for loop file in files #}
+</table>
+{% endblock %}

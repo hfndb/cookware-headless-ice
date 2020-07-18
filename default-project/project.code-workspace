@@ -1,0 +1,42 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"css.validate": true,
+		"editor.fontSize": 12,
+		"editor.formatOnSave": true,
+		"editor.lineNumbers": "on",
+		"editor.insertSpaces": false,
+		//"editor.wrappingColumn": 80,
+		"editor.tabSize": 2,
+		"editor.wrappingIndent": "same",
+		"files.autoSave": "off",
+		"files.exclude": {
+			"**/.git": true,
+			"**/*.js": {
+				"when": "$(basename).ts"
+			},
+		},
+		"files.trimTrailingWhitespace": true,
+		"git.enabled": false,
+		"html.format.wrapLineLength": 120,
+		"prettier.semi": true,
+		"prettier.tabWidth": 1,
+		"prettier.useTabs": true,
+		"prettier.arrayExpand": true,
+		"prettier.singleQuote": false,
+		"scss.validate": true,
+		"telemetry.enableTelemetry": false,
+		"telemetry.enableCrashReporter": false,
+		"typescript.suggest.autoImports": false,
+		"[typescript]": {
+			"editor.formatOnSave": true,
+			"editor.formatOnPaste": true,
+		},
+		"debug.node.autoAttach": "off",
+		"workbench.editor.showTabs": true,
+	}
+}

@@ -1,0 +1,82 @@
+@import "variables";
+/* @import "mixins"; */
+/* @import "alerts"; */
+@import "table";
+
+body {
+	margin: 20px 20px 20px 5%;
+}
+
+h1 {
+	text-align: center;
+}
+
+// Reports in general
+.report-stamp {
+	text-align: right;
+}
+.align-right {
+	text-align: right;
+}
+.center-vertically {
+	margin-left: auto;
+	margin-right: auto;
+}
+.padl15 {
+	padding-left: 15px;
+}
+
+// Report: Project overview
+.project-overview {
+	td, th {
+		text-align: right;
+	}
+	td:first-child, th:first-child {
+		text-align: left;
+	}
+	td:last-child {
+		font-weight: bold;
+	}
+	.plain {
+		font-weight: normal !important;
+	}
+}
+
+/***********************************************************************
+ * Screens
+ ***********************************************************************/
+@media only screen {
+
+	a[href^="http:"],
+	a[href^="https:"],
+	a[href^="http:"]:visited,
+	a[href^="https:"]:visited
+	{
+		background-position: right center;
+		background-repeat: no-repeat;
+		margin: -2px 0;
+		padding: 2px 15px 2px 0;
+		background-image: url('../img/external.gif');
+	}
+
+	// Extra large devices (large desktops, 1200px and up)
+	@media (min-width: $breakpoint-xl) {
+		.container {
+			margin-left: auto;
+			margin-right: auto;
+			padding-bottom: 60px;
+			width: 1084px;
+		}
+	}
+
+
+}
+
+/***********************************************************************
+ * Printing
+ ***********************************************************************/
+@media only print {
+	body {
+		font-size: 11pt;
+	}
+}

@@ -1,0 +1,6 @@
+{% extends "base.njk" %}
+{% set blockLintLink = true %}
+{% set title = extractedTitle %}
+{% block content %}
+{{ rendered | safe }}
+{% endblock %}

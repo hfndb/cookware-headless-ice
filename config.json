@@ -1,0 +1,27 @@
+{
+	"version": "0.0.1",
+	"html": {
+		"caching": {
+			"exclude": [
+				"index.html",
+				"lint.html",
+				"markdown.html",
+				"project-overview.html",
+				"test-pages",
+				"todo.html"
+			]
+		}
+	},
+	"javascript": {
+		"compiler": "typescript",
+		"compress": false,
+		"sourceMapping": true
+	},
+	"projects": [],
+	"projectOverview": {
+		"exclude": [
+			"api",
+			"notes"
+		]
+	}
+}

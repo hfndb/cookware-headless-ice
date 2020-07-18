@@ -1,0 +1,53 @@
+{
+	"folders": [
+		{
+			"path": "./src"
+		}
+	],
+	"settings": {
+		"css.validate": true,
+		"debug.node.autoAttach": "off",
+		"editor.fontSize": 12,
+		"editor.formatOnSave": true,
+		"editor.lineNumbers": "on",
+		"editor.insertSpaces": false,
+		//"editor.wrappingColumn": 80,
+		"editor.semanticHighlighting.enabled": true,
+		"editor.tabSize": 2,
+		"editor.wrappingIndent": "same",
+		"files.autoSave": "off",
+		"files.exclude": {
+			"**/.git": true,
+			"**/*.js": {
+				"when": "$(basename).ts"
+			},
+		},
+		"files.trimTrailingWhitespace": true,
+		"files.watcherExclude": {
+			"**/.git/objects/**": true,
+			"**/.git/subtree-cache/**": true,
+			"**/api/*/**": true,
+			"**/backups/*/**": true,
+			"**/node_modules/*/**": true
+		},
+		"git.enabled": false,
+		"html.format.wrapLineLength": 120,
+		"outline.showProperties": false,
+		"outline.showVariables": false,
+		"prettier.semi": true,
+		"prettier.tabWidth": 1,
+		"prettier.useTabs": true,
+		"prettier.arrayExpand": true,
+		"prettier.singleQuote": false,
+		"scss.validate": true,
+		"telemetry.enableTelemetry": false,
+		"telemetry.enableCrashReporter": false,
+		"typescript.suggest.autoImports": false,
+		"[typescript]": {
+			"editor.formatOnSave": true,
+			"editor.formatOnPaste": true,
+		},
+		"workbench.editor.showTabs": true,
+		"workbench.editor.closeOnFileDelete": true
+	}
+}

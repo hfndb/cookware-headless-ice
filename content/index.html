@@ -1,0 +1,65 @@
+{% extends "base.njk" %}
+{% set title = "Main system page" %}
+{% block content %}
+<h1>System home page</h1>
+<p>
+	<strong>Tools</strong>
+</p>
+<ul>
+
+	<li>
+		<p>
+			<a href="/sys/project-overview.html">Project overview</a> with (code) statistics
+		</p>
+	</li>
+	<li>
+		<p>
+			<a href="/sys/todo.html">Project "to do" list</a> - searches for lines containing @todo or #todo
+		</p>
+	</li>
+</ul>
+{%- if isProject %}
+<p>
+	<strong>Project documentation</strong>
+</p>
+<ul>
+	<li>
+		<p>
+			Project <a href="/README.md">README.md</a>, if any
+		</p>
+	</li>
+{%- if projectPackages.length > 0 %}
+	<li>
+		Integrated packages, readme files:
+		<ul>
+			{%- for pkg in projectPackages %}
+			<li>
+				<p><a href="/node_modules/{{ pkg.name }}/{{ pkg.file }}">{{ pkg.name }}</a></p>
+			</li>
+			{%- endfor %}
+		</ul>
+	</li>
+{%- endif %}           {#- projectPackages.length > 0 #}
+</ul>
+{%- endif %}           {#- !isProject #}
+<p>
+	<strong>System documentation</strong>
+</p>
+<ul>
+	<li>
+		<p>
+			System <a href="/sys/README.md">README.md</a>
+		</p>
+	</li>
+	<li>
+		Integrated packages, readme files:
+		<ul>
+			{%- for pkg in systemPackages %}
+			<li>
+				<p><a href="/node_modules/{{ pkg.name }}/{{ pkg.file }}">{{ pkg.name }}</a></p>
+			</li>
+			{%- endfor %}
+		</ul>
+	</li>
+</ul>
+{% endblock %}

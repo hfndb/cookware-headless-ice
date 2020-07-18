@@ -1,0 +1,38 @@
+{
+	"compileOnSave": true,
+	"compilerOptions": {
+		"esModuleInterop": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"lib": [
+			"dom",
+			"es2017"
+		],
+		"module": "commonjs",
+		"moduleResolution": "Node",
+		"noEmit": true,
+		"noImplicitAny": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"outDir": "./dist/static/js",
+		"preserveConstEnums": true,
+		"removeComments": true,
+		"rootDir": "./src",
+		"sourceMap": true,
+		"sourceRoot": "./src",
+		"strict": true,
+		"target": "es2017",
+		"typeRoots" : [
+			"./node_modules/@types",
+			"./src/@types"
+			]
+	},
+	"include": [
+		"src/*.ts",
+		"src/**/*.ts"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}

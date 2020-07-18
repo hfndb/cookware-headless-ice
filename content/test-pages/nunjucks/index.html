@@ -1,0 +1,35 @@
+{% extends "page_en.njk" %}
+{% set var_str = "Some text" %}
+{% set var_boolean = true %}
+{% set var_number = 6 %}
+{% set var_object = {"str":"a","bool":true} %}
+{% set var_formatted_object = {
+	"str": "a",
+	"bool": true
+} %}
+
+{%- include "test-include.njk" %}
+
+
+{%- block content %}
+<p>
+	Some content
+</p>
+{% endblock %}
+
+{% block additional %}
+<p>
+	Some additional content
+</p>
+{% endblock -%}
+
+
+{#
+	---------
+	Notes
+	---------
+
+	[\\s\\S]*
+	[\\w\\W]*
+	.*
+#}
