@@ -8,7 +8,7 @@ All configuration options are set in the file config.json. For your convenience,
 
 As a **general rule** all directory paths in config.json are relative to the project root.
 
-Config.json in a project directory **overrides** the default program settings, as configured in [default-config.js](../src/default-config.js) in the 'src' directory. It contains the following sections:
+Config.json in a project directory **overrides** the default program settings, as configured in [default-config.js](https://github.com/hfndb/cookware-headless-ice/blob/master/src/default-config.ts) in the 'src' directory. It contains the following sections:
 
 
 ## Version information
