@@ -55,8 +55,11 @@ class Lint {
     });
     let entry = new _lib.FileStatus((0, _path.join)(cfg.dirMain, "content"));
     entry.setSoure("lint.html", ".html");
-    let data = content.render(entry.dir, entry.source, false, {
-      files: output
+    let data = content.render(entry.dir, entry.source, {
+      additionalContext: {
+        files: output
+      },
+      useProjectTemplates: false
     });
 
     if (write2disk && data) {

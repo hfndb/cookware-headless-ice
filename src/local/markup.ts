@@ -58,7 +58,10 @@ export class Lint {
 
 		let entry = new FileStatus(join(cfg.dirMain, "content"));
 		entry.setSoure("lint.html", ".html");
-		let data = content.render(entry.dir, entry.source, false, { files: output });
+		let data = content.render(entry.dir, entry.source, {
+			additionalContext: { files: output },
+			useProjectTemplates: false
+			});
 
 		if (write2disk && data) {
 			// Write linting output to file

@@ -35,6 +35,15 @@ class Stripper {
 	}
 }
 
+/**
+ * For render()
+ */
+export interface RenderOptions {
+	additionalContext?: object;
+	templateDir?: string; // In case of an exotic location
+	useProjectTemplates?: boolean;
+}
+
 export class Content {
 	rendered: string[] = [];
 	saydHello = false;
@@ -173,17 +182,27 @@ export class Content {
 	}
 
 	/**
- * Read a HTML content file file from disk and render it
- *
- * @todo implement multiple template engines
- */
-	render(dir: string, file: string, useProjectTemplates: boolean = true, additionalContext?: object): string {
+	 * Read a HTML content file file from disk and render it
+	 *
+	 * @todo implement multiple template engines
+	 */
+	render(dir: string, file: string, opts?: RenderOptions): string {
 		let cfg = AppConfig.getInstance();
 		const frmtr = Formatter.getInstance();
 		let retVal = "";
-		const templateDir = useProjectTemplates
-			? join(cfg.dirProject, cfg.options.html.dirs.templates[0])
-			: join(cfg.dirMain, "templates");
+
+		if (!opts) opts = {}
+		if (!opts.useProjectTemplates) opts.useProjectTemplates = true;
+
+		let templateDir;
+		if (opts.templateDir) {
+			templateDir = opts.templateDir;
+		} else if (opts.useProjectTemplates) {
+			templateDir = join(cfg.dirProject, cfg.options.html.dirs.templates[0]);
+		}
+		else {
+			templateDir = join(cfg.dirMain, "templates");
+		}
 
 		// Determine prefix for statics, variable 'level' in context and base template
 		let levelNum = StringUtils.occurrences(file, "/");
@@ -219,8 +238,8 @@ export class Content {
 			path: file,
 			url: cfg.options.domain.url
 		};
-		if (additionalContext) {
-			Object.assign(context, additionalContext);
+		if (opts.additionalContext) {
+			Object.assign(context, opts.additionalContext);
 		}
 		Object.assign(context, this.getCustomContext(dir, file));
 

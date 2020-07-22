@@ -368,7 +368,7 @@ export class FileWatcher {
 						this.nowChanging.push(file);
 					}
 
-					// Bug in node.js (reacting time)
+					// Bug in node.js (respond time)
 					// See https://github.com/gruntjs/grunt-contrib-watch/issues/13
 					setTimeout(() => {
 						this.nowChanging[this.nowChanging.indexOf(file)] = "-"; // ready for recycling

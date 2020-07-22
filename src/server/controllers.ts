@@ -76,7 +76,10 @@ function renderSysTemplate(res: Response, path: string, context: object) {
 
 	let entry = new FileStatus(join(cfg.dirMain, "content"));
 	entry.setSoure(path, ".html");
-	let data = content.render(entry.dir, entry.source, false, context);
+	let data = content.render(entry.dir, entry.source, {
+		additionalContext: context,
+		useProjectTemplates: false
+		});
 	content.rendered.forEach((file) => {
 		session.add(ProcessingTypes.html, file);
 	});
@@ -181,7 +184,10 @@ async function controllerGeneric(req: Request, res: Response, next: Function, di
 
 				entry = new FileStatus(dir);
 				entry.setSoure(url, ".html");
-				data = content.render(entry.dir, entry.source, ext != ".md" && prefix != "/sys", context);
+				data = content.render(entry.dir, entry.source, {
+					additionalContext: context,
+					useProjectTemplates: ext != ".md" && prefix != "/sys"
+					});
 				content.rendered.forEach((file) => {
 					session.add(ProcessingTypes.html, file);
 				});

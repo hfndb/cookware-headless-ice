@@ -183,13 +183,23 @@ class Content {
     }
   }
 
-  render(dir, file, useProjectTemplates = true, additionalContext) {
+  render(dir, file, opts) {
     let cfg = _lib.AppConfig.getInstance();
 
     const frmtr = _utils.Formatter.getInstance();
 
     let retVal = "";
-    const templateDir = useProjectTemplates ? (0, _path.join)(cfg.dirProject, cfg.options.html.dirs.templates[0]) : (0, _path.join)(cfg.dirMain, "templates");
+    if (!opts) opts = {};
+    if (!opts.useProjectTemplates) opts.useProjectTemplates = true;
+    let templateDir;
+
+    if (opts.templateDir) {
+      templateDir = opts.templateDir;
+    } else if (opts.useProjectTemplates) {
+      templateDir = (0, _path.join)(cfg.dirProject, cfg.options.html.dirs.templates[0]);
+    } else {
+      templateDir = (0, _path.join)(cfg.dirMain, "templates");
+    }
 
     let levelNum = _utils.StringUtils.occurrences(file, "/");
 
@@ -211,8 +221,8 @@ class Content {
       url: cfg.options.domain.url
     };
 
-    if (additionalContext) {
-      Object.assign(context, additionalContext);
+    if (opts.additionalContext) {
+      Object.assign(context, opts.additionalContext);
     }
 
     Object.assign(context, this.getCustomContext(dir, file));
