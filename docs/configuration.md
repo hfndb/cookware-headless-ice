@@ -389,6 +389,7 @@ Entries:
 {
 	"server": {
 		"backupInterval": 0,
+		beautify: ["src"],
 		"firstUpdateSources": true,
 		"logStatic": false,
 		"port": 8000,
@@ -399,6 +400,7 @@ Entries:
 ```
 Entries:
 + *backupInterval*: Interval for automatic backups of recently changed source code to backups directory. Unit: min. If set to 0, the auto-backup functionality is ignored.
++ "beautify": Array with kinds of code to beautify on the fly, when file change is detected. Possible values: saas, src
 + *firstUpdateSources*: Before running the server, first update sources and sass.
 + *logStatic*: Log static files; css, js and pictures. If set to false, only html, markdown, epub and pdf requests will be logged.
 + *port*: The HTTP port number of your website.

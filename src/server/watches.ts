@@ -4,6 +4,7 @@ import { FileWatcher, FileStatus, Logger } from "../lib";
 import { AppConfig } from "../lib/config";
 import { compileFile } from "../local/babel";
 import { JavascriptUtils } from "../local/javascript";
+import { beautify } from "../local/misc";
 import { SassUtils } from "../local/styling";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 
@@ -46,6 +47,7 @@ export class SassWatch extends FileWatcher {
 			return;
 		}
 		log.info(`- ${file} changed`);
+		if (cfg.options.server.beautify.includes("sass")) beautify(file);
 
 		let session = SessionVars.getInstance();
 		session.add(ProcessingTypes.sass, file);
@@ -73,6 +75,8 @@ export class JsWatch extends FileWatcher {
 		let cfg = AppConfig.getInstance();
 		let log = Logger.getInstance();
 		log.info(`- ${file} changed`);
+
+		if (cfg.options.server.beautify.includes("src")) beautify(file);
 
 		let isTypescript = extname(file) == ".ts";
 		let status = new FileStatus(join(cfg.dirProject, cfg.options.javascript.dirs.source));

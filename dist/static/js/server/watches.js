@@ -19,6 +19,8 @@ var _babel = require("../local/babel");
 
 var _javascript = require("../local/javascript");
 
+var _misc = require("../local/misc");
+
 var _styling = require("../local/styling");
 
 var _session = require("../sys/session");
@@ -78,6 +80,7 @@ class SassWatch extends _lib.FileWatcher {
     }
 
     log.info(`- ${file} changed`);
+    if (cfg.options.server.beautify.includes("sass")) (0, _misc.beautify)(file);
 
     let session = _session.SessionVars.getInstance();
 
@@ -113,6 +116,7 @@ class JsWatch extends _lib.FileWatcher {
     let log = _lib.Logger.getInstance();
 
     log.info(`- ${file} changed`);
+    if (cfg.options.server.beautify.includes("src")) (0, _misc.beautify)(file);
     let isTypescript = (0, _path.extname)(file) == ".ts";
     let status = new _lib.FileStatus((0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.source));
     status.setSoure(file, isTypescript ? ".ts" : ".js");

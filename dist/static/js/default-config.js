@@ -183,6 +183,7 @@ let DefaultConfig = {
   },
   server: {
     backupInterval: 0,
+    beautify: ["src"],
     firstUpdateSources: true,
     logStatic: false,
     port: 8000,
