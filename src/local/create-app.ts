@@ -21,9 +21,7 @@ let browserify = require("browserify");
 
 // Add some paths to NODE_PATH
 let dir = join(cfg.dirProject, "node_modules");
-let paths = [
-	join(cfg.dirMain, "node_modules")
-];
+let paths = [join(cfg.dirMain, "node_modules")];
 let sep = platform() == "win32" ? ";" : ":";
 if (cfg.isProject && test("-d", dir)) {
 	paths.push(cfg.dirProject);
@@ -60,11 +58,17 @@ if (process.env.NODE_ENV == "production") {
 		);
 } else {
 	// For dev purposes
-	browserify(src).bundle().pipe(
-		createWriteStream(outfile, {
-			encoding: "utf8"
-		})
-	);
+	browserify(src)
+		.bundle()
+		.pipe(
+			createWriteStream(outfile, {
+				encoding: "utf8"
+			})
+		);
 }
 
-log.info(`- Written Javascript app ${bundle.output} (${process.env.NODE_ENV == "production" ? "compressed" : "plain"}) `);
+log.info(
+	`- Written Javascript app ${bundle.output} (${
+		process.env.NODE_ENV == "production" ? "compressed" : "plain"
+	}) `
+);

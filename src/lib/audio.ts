@@ -12,10 +12,15 @@ export class AudioUtils {
 		let cfg = AppConfig.getInstance();
 		let fullPath = join(process.cwd(), file);
 		if (!test("-f", fullPath)) {
-			throw new Error(`File ${file} doesn't exist. Current working directory: ${process.cwd()}`);
+			throw new Error(
+				`File ${file} doesn't exist. Current working directory: ${process.cwd()}`
+			);
 		}
 		try {
-			exec(`${cfg.options.audio.player} ${fullPath}`, { async: true, silent: true });
+			exec(`${cfg.options.audio.player} ${fullPath}`, {
+				async: true,
+				silent: true
+			});
 		} catch (error) {
 			let log = Logger.getInstance();
 			log.warn(error);

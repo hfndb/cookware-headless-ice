@@ -70,9 +70,7 @@ export class Sitemap {
 
 		// Generate Google sitemap
 		let html = FileUtils.getFileList(outputDir, {
-			allowedExtensions: [
-				".html"
-			]
+			allowedExtensions: [".html"]
 		});
 		let outputFile = join(outputDir, "sitemap.xml");
 		let sitemap = new Sitemap(cfg.dirProject, outputFile, cfg.options.domain.url);
@@ -81,7 +79,8 @@ export class Sitemap {
 		html.forEach((entry: string) => {
 			let source = join(outputDir, entry);
 			let modified = statSync(source).mtime;
-			if (ArrayUtils.inExcludeList(cfg.options.html.sitemap.exclude, entry)) return;
+			if (ArrayUtils.inExcludeList(cfg.options.html.sitemap.exclude, entry))
+				return;
 			sitemap.addEntry(entry, modified);
 		});
 

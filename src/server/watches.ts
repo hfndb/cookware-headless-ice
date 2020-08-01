@@ -32,7 +32,10 @@ export class CssWatch extends FileWatcher {
 		let cfg = AppConfig.getInstance();
 		let log = Logger.getInstance();
 		log.info(`- ${file} changed`);
-		cp(join(cfg.dirProject, cfg.options.sass.dirs.source, file), SassUtils.getOutputDir());
+		cp(
+			join(cfg.dirProject, cfg.options.sass.dirs.source, file),
+			SassUtils.getOutputDir()
+		);
 	}
 }
 
@@ -56,7 +59,9 @@ export class SassWatch extends FileWatcher {
 			// Mixin, compile everything
 			SassUtils.compile(true);
 		} else {
-			let status = new FileStatus(join(cfg.dirProject, cfg.options.sass.dirs.source));
+			let status = new FileStatus(
+				join(cfg.dirProject, cfg.options.sass.dirs.source)
+			);
 			status.setSoure(file, ".scss");
 			status.setTarget(SassUtils.getOutputDir(), ".css");
 			SassUtils.compileFile(status);
@@ -79,9 +84,14 @@ export class JsWatch extends FileWatcher {
 		if (cfg.options.server.beautify.includes("src")) beautify(file);
 
 		let isTypescript = extname(file) == ".ts";
-		let status = new FileStatus(join(cfg.dirProject, cfg.options.javascript.dirs.source));
+		let status = new FileStatus(
+			join(cfg.dirProject, cfg.options.javascript.dirs.source)
+		);
 		status.setSoure(file, isTypescript ? ".ts" : ".js");
-		status.setTarget(join(cfg.dirProject, cfg.options.javascript.dirs.output), ".js");
+		status.setTarget(
+			join(cfg.dirProject, cfg.options.javascript.dirs.output),
+			".js"
+		);
 
 		switch (cfg.options.javascript.compiler) {
 			case "":
@@ -91,7 +101,10 @@ export class JsWatch extends FileWatcher {
 				);
 			default:
 				let session = SessionVars.getInstance();
-				session.add(isTypescript ? ProcessingTypes.typescript : ProcessingTypes.javascript, file);
+				session.add(
+					isTypescript ? ProcessingTypes.typescript : ProcessingTypes.javascript,
+					file
+				);
 				compileFile(status, true);
 				JavascriptUtils.bundle();
 				break;

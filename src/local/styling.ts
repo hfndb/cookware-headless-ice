@@ -1,6 +1,12 @@
 import { basename, join } from "path";
 import { cp, test, touch } from "shelljs";
-import { getChangeList, AppConfig, FileStatus, FileUtils, Logger } from "../lib";
+import {
+	getChangeList,
+	AppConfig,
+	FileStatus,
+	FileUtils,
+	Logger
+} from "../lib";
 import { removeObsolete } from "../lib/files";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 
@@ -40,9 +46,7 @@ export class SassUtils {
 
 		const autoprefixer = require("autoprefixer");
 		const postcss = require("postcss");
-		let result: prefixResult = postcss([
-			autoprefixer
-		]).process(content);
+		let result: prefixResult = postcss([autoprefixer]).process(content);
 		result.warnings().forEach(function(warn: string) {
 			log.warn("Warning autoprefixer: " + warn.toString());
 		});
@@ -61,16 +65,18 @@ export class SassUtils {
 
 		let path = join(cfg.dirProject, cfg.options.sass.dirs.source);
 		if (!test("-e", path)) {
-			log.warn(`Path ./${cfg.options.sass.dirs.source} doesn't exist. Request to compile ignored`);
+			log.warn(
+				`Path ./${
+					cfg.options.sass.dirs.source
+				} doesn't exist. Request to compile ignored`
+			);
 			return;
 		}
 
 		let changeList = getChangeList({
 			sourcePath: join(cfg.dirProject, cfg.options.sass.dirs.source),
 			targetPath: outDir,
-			sourceExt: [
-				".scss"
-			],
+			sourceExt: [".scss"],
 			targetExt: ".css"
 		});
 
@@ -119,9 +125,7 @@ export class SassUtils {
 
 		// Before removing obsolete css, look at plain css that belongs in output directory
 		FileUtils.getFileList(join(cfg.dirProject, cfg.options.sass.dirs.source), {
-			allowedExtensions: [
-				".css"
-			]
+			allowedExtensions: [".css"]
 		}).forEach((file: string) => {
 			let path = join(outDir, file);
 			if (!test("-f", path)) {
@@ -170,7 +174,10 @@ export class SassUtils {
 			FileUtils.writeFile(entry.targetDir, entry.target, prefixed, verbose);
 			session.add(ProcessingTypes.sass, entry.target);
 		} catch (err) {
-			log.warn(`- Failed to compile file: ${entry.source}`, Logger.error2string(err));
+			log.warn(
+				`- Failed to compile file: ${entry.source}`,
+				Logger.error2string(err)
+			);
 			return false;
 		}
 

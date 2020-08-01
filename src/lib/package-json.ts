@@ -42,11 +42,9 @@ export function getPackageReadmeFiles(sys: boolean): object[] {
 	for (let i = 0; i < list.length; i++) {
 		pkg = list[i];
 		FileUtils.getFileList(join(dir, "node_modules", pkg), {
-			allowedExtensions: [
-				".md"
-			],
+			allowedExtensions: [".md"],
 			recursive: false
-		}).forEach((file) => {
+		}).forEach(file => {
 			if (file.toLowerCase() == "readme.md") {
 				mds.push({
 					name: pkg,

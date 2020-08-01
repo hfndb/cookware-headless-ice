@@ -18,7 +18,9 @@ export function upgrade(cfg: AppConfig, system: boolean = false): boolean {
 	if (versionCurrent) {
 		versionCurrent = versionCurrent.value;
 	} else {
-		console.error("Couldn't find a version number in config.json. Exiting now... bye!\n");
+		console.error(
+			"Couldn't find a version number in config.json. Exiting now... bye!\n"
+		);
 		return false;
 	}
 

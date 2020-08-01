@@ -1,6 +1,12 @@
 import { basename, join } from "path";
 import { exec } from "shelljs";
-import { getChangeList, AppConfig, FileStatus, FileUtils, Logger } from "../lib";
+import {
+	getChangeList,
+	AppConfig,
+	FileStatus,
+	FileUtils,
+	Logger
+} from "../lib";
 import { removeObsolete } from "../lib/files";
 import { Content } from "../lib/html";
 import { signFile } from "../lib/pgp";
@@ -33,9 +39,7 @@ export function renderPdf(): void {
 	let changeList = getChangeList({
 		sourcePath: Content.getOutputDir(),
 		targetPath: join(cfg.dirProject, cfg.options.pdf.dirs.output),
-		sourceExt: [
-			".html"
-		],
+		sourceExt: [".html"],
 		targetExt: ".pdf",
 		excludeList: cfg.options.pdf.rendering.exclude,
 		flatten: true

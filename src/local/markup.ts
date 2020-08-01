@@ -29,10 +29,7 @@ export class Lint {
 		let dir = join(cfg.dirProject, cfg.options.html.dirs.content);
 		let dirs: string[] = [];
 		let files = FileUtils.getFileList(dir, {
-			allowedExtensions: [
-				".html",
-				".njk"
-			]
+			allowedExtensions: [".html", ".njk"]
 		});
 		let output: object[] = [];
 
@@ -61,7 +58,7 @@ export class Lint {
 		let data = content.render(entry.dir, entry.source, {
 			additionalContext: { files: output },
 			useProjectTemplates: false
-			});
+		});
 
 		if (write2disk && data) {
 			// Write linting output to file
@@ -91,7 +88,12 @@ export class Lint {
 		// https://github.com/ecomfe/htmlcs/blob/HEAD/lib/default/htmlcsrc
 
 		if (!test("-f", join(dirname(path), ".htmlcsrc"))) {
-			FileUtils.writeJsonFile(cfg.options.dependencies.htmlcs.config, dirname(path), ".htmlcsrc", false);
+			FileUtils.writeJsonFile(
+				cfg.options.dependencies.htmlcs.config,
+				dirname(path),
+				".htmlcsrc",
+				false
+			);
 		}
 
 		let result: lintResult[] = htmlcs.hintFile(path);
@@ -106,8 +108,8 @@ export class Lint {
 
 export class Html {
 	/**
- * Get the content between a HTML opening and closing tag
- */
+	 * Get the content between a HTML opening and closing tag
+	 */
 	static getTagContent(data: string, tag: string): string[] {
 		let retVal: string[] = [];
 

@@ -76,12 +76,19 @@ export class FileStatus {
 		if (flatten) {
 			this.target = join(basename(this.source, this.ext).concat(this.targetExt));
 		} else {
-			this.target = join(dirname(this.source), basename(this.source, this.ext)).concat(this.targetExt);
+			this.target = join(
+				dirname(this.source),
+				basename(this.source, this.ext)
+			).concat(this.targetExt);
 		}
 
 		if (test("-e", join(this.targetDir, this.target))) {
-			this.targetLastModified = FileUtils.getLastModified(this.targetDir, this.target);
-			this.status = this.lastModified > this.targetLastModified ? "modified" : "unchanged";
+			this.targetLastModified = FileUtils.getLastModified(
+				this.targetDir,
+				this.target
+			);
+			this.status =
+				this.lastModified > this.targetLastModified ? "modified" : "unchanged";
 		} else {
 			this.status = "new";
 		}
@@ -96,18 +103,24 @@ export class FileStatus {
 }
 
 /**
-	 * Get an array of (un)modified or new files
-	 */
+ * Get an array of (un)modified or new files
+ */
 export function getChangeList(opts: ChangeList): FileStatus[] {
 	let changes: FileStatus[] = [];
-	let sources = FileUtils.getFileList(opts.sourcePath, { allowedExtensions: opts.sourceExt });
+	let sources = FileUtils.getFileList(opts.sourcePath, {
+		allowedExtensions: opts.sourceExt
+	});
 
 	sources.forEach((file: string) => {
 		if (ArrayUtils.inExcludeList(opts.excludeList || [], file)) return;
 
 		let status = new FileStatus(opts.sourcePath);
 		status.setSoure(file, extname(file));
-		status.setTarget(opts.targetPath, opts.targetExt, opts.flatten != undefined && opts.flatten);
+		status.setTarget(
+			opts.targetPath,
+			opts.targetExt,
+			opts.flatten != undefined && opts.flatten
+		);
 		changes.push(status);
 	});
 

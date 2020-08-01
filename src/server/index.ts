@@ -1,4 +1,8 @@
-import { controllerContent, controllerStatic, controllerSys } from "./controllers";
+import {
+	controllerContent,
+	controllerStatic,
+	controllerSys
+} from "./controllers";
 import { ConfigWatch, CssWatch, JsWatch, SassWatch } from "./watches";
 import { AppConfig } from "../lib/config";
 import { Logger } from "../lib";
@@ -114,7 +118,10 @@ export function coatRack(): void {
 	// Setup incremental autobackup of changed sources
 	if (cfg.options.server.backupInterval > 0) {
 		backupChangedSource(true);
-		setInterval(backupChangedSource, cfg.options.server.backupInterval * 60 * 1000);
+		setInterval(
+			backupChangedSource,
+			cfg.options.server.backupInterval * 60 * 1000
+		);
 	}
 
 	// Setup express server
@@ -124,7 +131,10 @@ export function coatRack(): void {
 	eu.app.get(/^\/.*.md$/, controllerContent); // Markdown
 	eu.app.get(/^\/sys\//, controllerSys); // System start page
 	if (cfg.isProject && cfg.options.server.staticUrl != "static") {
-		eu.app.get(new RegExp(`^\/${cfg.options.server.staticUrl}\/`), controllerStatic);
+		eu.app.get(
+			new RegExp(`^\/${cfg.options.server.staticUrl}\/`),
+			controllerStatic
+		);
 	}
 	eu.app.get(/^\/static\//, controllerStatic);
 	eu.app.get(/^\/epub/, controllerStatic);

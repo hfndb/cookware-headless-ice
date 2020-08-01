@@ -1,4 +1,11 @@
-import { readdirSync, readFileSync, statSync, watch, writeFileSync, FSWatcher } from "fs";
+import {
+	readdirSync,
+	readFileSync,
+	statSync,
+	watch,
+	writeFileSync,
+	FSWatcher
+} from "fs";
 import { basename, dirname, extname, join } from "path";
 import { mkdir, mv, rm, test, touch } from "shelljs";
 import { AppConfig } from "./config";
@@ -69,7 +76,8 @@ export class FileUtils {
 The structure of this file is invalid, meaning, messed up.
 `);
 			}
-		} else if (!ignoreErrors) throw new Error(`No data retured whle reading ${file}`);
+		} else if (!ignoreErrors)
+			throw new Error(`No data retured whle reading ${file}`);
 
 		return parsed;
 	}
@@ -80,11 +88,20 @@ The structure of this file is invalid, meaning, messed up.
 	 * @param content for json file to write
 	 * @param path of file
 	 */
-	static writeJsonFile(content: object, dir: string, file: string, verbose: boolean = true): void {
+	static writeJsonFile(
+		content: object,
+		dir: string,
+		file: string,
+		verbose: boolean = true
+	): void {
 		let data = JSON.stringify(content, null, "\t");
 		let log = Logger.getInstance();
 
-		if (FileUtils.writeFile(dir, file, data, false) && verbose && process.env.NODE_ENV !== "test") {
+		if (
+			FileUtils.writeFile(dir, file, data, false) &&
+			verbose &&
+			process.env.NODE_ENV !== "test"
+		) {
 			log.info(`Data written to file ${file}`);
 		}
 	}
@@ -107,7 +124,13 @@ The structure of this file is invalid, meaning, messed up.
 	/**
 	 * Method to safely write to a file.
 	 */
-	static writeFile(dir: string, file: string, content: string, verbose: boolean, flag: string = "w"): boolean {
+	static writeFile(
+		dir: string,
+		file: string,
+		content: string,
+		verbose: boolean,
+		flag: string = "w"
+	): boolean {
 		let log = Logger.getInstance();
 		let fullPath = join(dir, file);
 		let dir4sure = dirname(fullPath);
@@ -141,7 +164,8 @@ The structure of this file is invalid, meaning, messed up.
 			throw new Error("Path " + path + " doesn't exist");
 		}
 
-		let allowedExtensions = opts.allowedExtensions == undefined ? [] : opts.allowedExtensions;
+		let allowedExtensions =
+			opts.allowedExtensions == undefined ? [] : opts.allowedExtensions;
 		let excludeList = opts.excludeList == undefined ? [] : opts.excludeList;
 		let recursive = opts.recursive == undefined ? true : opts.recursive;
 		let files: string[] = [];
@@ -149,7 +173,10 @@ The structure of this file is invalid, meaning, messed up.
 		function addFile(file: string) {
 			file = file.substr(path.length + 1);
 			if (excludeList.includes(file)) return;
-			if (allowedExtensions.length == 0 || allowedExtensions.includes(extname(file))) {
+			if (
+				allowedExtensions.length == 0 ||
+				allowedExtensions.includes(extname(file))
+			) {
 				files.push(file);
 			}
 		}
@@ -209,7 +236,11 @@ The structure of this file is invalid, meaning, messed up.
 		return statSync(fullPath).mtimeMs;
 	}
 
-	static getLastChangeInDirectory(path: string, extensions: string[], startAt: number = 0): number {
+	static getLastChangeInDirectory(
+		path: string,
+		extensions: string[],
+		startAt: number = 0
+	): number {
 		let retVal = startAt;
 
 		let lst = FileUtils.getFileList(path, { allowedExtensions: extensions });
@@ -240,7 +271,11 @@ The structure of this file is invalid, meaning, messed up.
 	 *
 	 * @returns array with arrays; 1st element line #, 2nd element data of line
 	 */
-	static searchInFile(path: string, searchFor: string, opts: searchOptions): object[] {
+	static searchInFile(
+		path: string,
+		searchFor: string,
+		opts: searchOptions
+	): object[] {
 		const regex = new RegExp(searchFor, opts.ignoreCase ? "i" : undefined);
 		if (opts.markFound != "") {
 			opts.markFound = opts.markFound.replace("$", searchFor);
@@ -261,10 +296,7 @@ The structure of this file is invalid, meaning, messed up.
 				if (opts.processor != undefined) {
 					line = opts.processor(line);
 				}
-				retVal.push([
-					lineNr,
-					line.replace("\t", "")
-				]);
+				retVal.push([lineNr, line.replace("\t", "")]);
 			}
 		} while (true);
 
@@ -318,16 +350,28 @@ export class FileWatcher {
 		this.addWatch(workingDir, projectDir, path, verbose);
 	}
 
-	private addWatch(workingDir: string, projectDir: string, path: string, verbose: boolean = true): void {
+	private addWatch(
+		workingDir: string,
+		projectDir: string,
+		path: string,
+		verbose: boolean = true
+	): void {
 		let log = Logger.getInstance();
 		let fullPath = join(workingDir, projectDir, path);
 		if (!test("-e", fullPath)) {
-			log.warn(`Path ./${join(projectDir, path)} doesn't exist. Request to watch ${this.description} ignored`);
+			log.warn(
+				`Path ./${join(projectDir, path)} doesn't exist. Request to watch ${
+					this.description
+				} ignored`
+			);
 			return;
 		}
 		let isDir = test("-d", fullPath);
 
-		if (isDir && FileUtils.getFileList(fullPath, { recursive: false }).length == 0) {
+		if (
+			isDir &&
+			FileUtils.getFileList(fullPath, { recursive: false }).length == 0
+		) {
 			// To prevent error with dirs which don't contain files
 			return;
 		} else if (!isDir) {
@@ -415,19 +459,25 @@ export class FileWatcher {
  * @param outputDir
  * @param ext to search for
  */
-export function removeObsolete(removeObsolete: any, processed: string[], outputDir: string, ext: string): number {
+export function removeObsolete(
+	removeObsolete: any,
+	processed: string[],
+	outputDir: string,
+	ext: string
+): number {
 	if (!removeObsolete.active) return 0;
 
 	let cfg = AppConfig.getInstance();
 	let log = Logger.getInstance(cfg.options.logging);
 	let sources = FileUtils.getFileList(outputDir, {
-		allowedExtensions: [
-			ext
-		]
+		allowedExtensions: [ext]
 	});
 
 	sources.forEach((file: string) => {
-		if (!ArrayUtils.inExcludeList(removeObsolete.exclude, file) && !processed.includes(file)) {
+		if (
+			!ArrayUtils.inExcludeList(removeObsolete.exclude, file) &&
+			!processed.includes(file)
+		) {
 			// Not in exclude list, not in list of processed files
 			let trashFile = join(cfg.dirTemp, file);
 			FileUtils.mkdir(dirname(trashFile));

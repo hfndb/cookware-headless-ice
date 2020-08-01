@@ -31,8 +31,5 @@ export function renderMarkdownFile(dir: string, path: string): string[] {
 	// Syntax comments in markdown:
 	// [comment]: <> (some text)
 
-	return [
-		content,
-		title
-	];
+	return [content, title];
 }

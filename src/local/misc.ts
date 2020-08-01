@@ -25,9 +25,7 @@ export function beautify(path: string): void {
 	let log = Logger.getInstance(cfg.options.logging);
 	let files = pathIsDir
 		? FileUtils.getFileList(join(cfg.dirProject, path))
-		: [
-				path
-			];
+		: [path];
 	let options = cfg.options.dependencies.prettier.config;
 	const prettier = require("prettier");
 
@@ -94,12 +92,16 @@ export function generateWeb(verbose: boolean): void {
 	if (test("-d", dir)) {
 		let content = new Content();
 		content.renderAll(verbose);
-		content.rendered.forEach((file) => {
+		content.rendered.forEach(file => {
 			session.add(ProcessingTypes.html, file);
 		});
 		Sitemap.generate(verbose);
 	} else {
-		log.warn(`HTML content directory "${cfg.options.html.dirs.content}" not found, skipping...`);
+		log.warn(
+			`HTML content directory "${
+				cfg.options.html.dirs.content
+			}" not found, skipping...`
+		);
 	}
 }
 
@@ -128,14 +130,7 @@ export function backupChangedSource(isFirst: boolean = false): void {
 			);
 			return;
 		}
-	} else if (
-		[
-			"darwin",
-			"freebsd",
-			"linux",
-			"openbsd"
-		].includes(platform())
-	) {
+	} else if (["darwin", "freebsd", "linux", "openbsd"].includes(platform())) {
 		cmd = join(cfg.dirMain, "bin", "backup-source.sh").concat(` ${arch} ${diff}`);
 	} else {
 		log.warn("You are trying to run an external bash script. No can do");
@@ -220,12 +215,16 @@ export function searchProject(searchFor: string, html: boolean): object {
 		files.forEach((file: string) => {
 			let fileContent: searchFile = {
 				name: file,
-				results: FileUtils.searchInFile(join(cfg.dirProject, dir, file), searchFor, {
-					inverse: false,
-					ignoreCase: true,
-					markFound: html ? `<span style="color: red;">$</span>` : "",
-					processor: stripHeaders
-				})
+				results: FileUtils.searchInFile(
+					join(cfg.dirProject, dir, file),
+					searchFor,
+					{
+						inverse: false,
+						ignoreCase: true,
+						markFound: html ? `<span style="color: red;">$</span>` : "",
+						processor: stripHeaders
+					}
+				)
 			};
 			if (fileContent.results.length > 0) {
 				dirContent.files.push(fileContent);

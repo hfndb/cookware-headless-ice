@@ -19,7 +19,8 @@ const date = require("date-and-time");
  */
 export function controllerSys(req: Request, res: Response, next: Function) {
 	let cfg = AppConfig.getInstance();
-	let root = extname(req.path) == ".md" ? cfg.dirMain : join(cfg.dirMain, "content");
+	let root =
+		extname(req.path) == ".md" ? cfg.dirMain : join(cfg.dirMain, "content");
 	controllerGeneric(req, res, next, root, "/sys");
 }
 
@@ -28,7 +29,10 @@ export function controllerSys(req: Request, res: Response, next: Function) {
  */
 export function controllerContent(req: Request, res: Response, next: Function) {
 	let cfg = AppConfig.getInstance();
-	let root = extname(req.path) == ".md" ? cfg.dirProject : join(cfg.dirProject, cfg.options.html.dirs.content);
+	let root =
+		extname(req.path) == ".md"
+			? cfg.dirProject
+			: join(cfg.dirProject, cfg.options.html.dirs.content);
 	(async () => {
 		controllerGeneric(req, res, next, root, "");
 	})();
@@ -79,17 +83,27 @@ function renderSysTemplate(res: Response, path: string, context: object) {
 	let data = content.render(entry.dir, entry.source, {
 		additionalContext: context,
 		useProjectTemplates: false
-		});
-	content.rendered.forEach((file) => {
+	});
+	content.rendered.forEach(file => {
 		session.add(ProcessingTypes.html, file);
 	});
 
 	res.send(data);
 }
 
-async function getCustomContext(req: Request, res: Response, dir: string, url: string): Promise<Object> {
+async function getCustomContext(
+	req: Request,
+	res: Response,
+	dir: string,
+	url: string
+): Promise<Object> {
 	let cfg = AppConfig.getInstance();
-	let file = join(cfg.dirProject, cfg.options.javascript.dirs.output, "server", "data-provider.js");
+	let file = join(
+		cfg.dirProject,
+		cfg.options.javascript.dirs.output,
+		"server",
+		"data-provider.js"
+	);
 	if (!cfg.isProject) return {};
 	if (cfg.isProject && !test("-f", file)) return {};
 
@@ -98,7 +112,13 @@ async function getCustomContext(req: Request, res: Response, dir: string, url: s
 	return await mw.getAdditionalContext(req, res, dir, url, cfg);
 }
 
-async function controllerGeneric(req: Request, res: Response, next: Function, dir: string, prefix: string) {
+async function controllerGeneric(
+	req: Request,
+	res: Response,
+	next: Function,
+	dir: string,
+	prefix: string
+) {
 	let cfg = AppConfig.getInstance();
 	let content = new Content();
 	let session = SessionVars.getInstance();
@@ -154,7 +174,10 @@ async function controllerGeneric(req: Request, res: Response, next: Function, di
 					files: [
 						{
 							file: url,
-							output: Lint.file(join(cfg.dirProject, cfg.options.html.dirs.content, url), true)
+							output: Lint.file(
+								join(cfg.dirProject, cfg.options.html.dirs.content, url),
+								true
+							)
 						}
 					]
 				});
@@ -174,12 +197,16 @@ async function controllerGeneric(req: Request, res: Response, next: Function, di
 				context = Object.assign(context, tmp);
 
 				// Prevent browser caching
-				let lastModified = date.format(new Date(), "ddd, DD MMM YYYY hh:mm:00 [GMT]"); // Sun, 22 Sep 2019 10:13:00 GMT
+				let lastModified = date.format(
+					new Date(),
+					"ddd, DD MMM YYYY hh:mm:00 [GMT]"
+				); // Sun, 22 Sep 2019 10:13:00 GMT
 				res.set({
 					Pragma: "public",
 					"Last-Modified": lastModified,
 					Expires: "Mon, 26 Jul 1997 05:00:00 GMT",
-					"Cache-Control": "no-cache, no-store, must-revalidate, post-check=0, pre-check=0, private"
+					"Cache-Control":
+						"no-cache, no-store, must-revalidate, post-check=0, pre-check=0, private"
 				});
 
 				entry = new FileStatus(dir);
@@ -187,8 +214,8 @@ async function controllerGeneric(req: Request, res: Response, next: Function, di
 				data = content.render(entry.dir, entry.source, {
 					additionalContext: context,
 					useProjectTemplates: ext != ".md" && prefix != "/sys"
-					});
-				content.rendered.forEach((file) => {
+				});
+				content.rendered.forEach(file => {
 					session.add(ProcessingTypes.html, file);
 				});
 				res.send(data);

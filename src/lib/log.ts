@@ -87,7 +87,9 @@ export class Logger {
 		if (!Logger.instance) {
 			Logger.instance = new Logger(options || null);
 			if (!options) {
-				console.log("Programming error? Logger.getInstance() called without options");
+				console.log(
+					"Programming error? Logger.getInstance() called without options"
+				);
 			}
 		}
 
@@ -122,7 +124,12 @@ export class Logger {
 		}
 	}
 
-	private writeFile(file: string, level: string, args: string, line = false): void {
+	private writeFile(
+		file: string,
+		level: string,
+		args: string,
+		line = false
+	): void {
 		this.writeUdf(level, args);
 
 		if (!this.opts.transports.file.active) return;
@@ -131,7 +138,13 @@ export class Logger {
 		let stamp = frmtr.date(new Date(), this.opts.transports.file.format);
 		let msg = line ? "-".repeat(this.lineLenght) : `${stamp} ${level} ${args}`;
 
-		FileUtils.writeFile("", join(this.opts.transports.file.dir, file), msg, false, "a");
+		FileUtils.writeFile(
+			"",
+			join(this.opts.transports.file.dir, file),
+			msg,
+			false,
+			"a"
+		);
 	}
 
 	private getStackInfo(): object {
@@ -144,9 +157,7 @@ export class Logger {
 			pos: "",
 			dir: "",
 			file: "",
-			stack: [
-				""
-			]
+			stack: [""]
 		};
 		let err = new Error("");
 		let idx = 1;
@@ -161,10 +172,7 @@ export class Logger {
 			data.pos = sp[4];
 			data.stack = stacklist;
 
-			[
-				"dist/src",
-				"static/js"
-			].forEach((search) => {
+			["dist/src", "static/js"].forEach(search => {
 				let idx = data.path.indexOf(search);
 				let len = search.length;
 				if (idx >= 0) {
@@ -190,7 +198,11 @@ export class Logger {
 			return;
 		}
 		let stack: any = this.getStackInfo();
-		args.unshift(`  [ ${stack.dir}/${stack.file}:${stack.line}:${stack.pos}, ${stack.method} ]`);
+		args.unshift(
+			`  [ ${stack.dir}/${stack.file}:${stack.line}:${stack.pos}, ${
+				stack.method
+			} ]`
+		);
 		let pars = Logger.args2string(args);
 		this.writeConsole(color.blue("Debug"), pars);
 		this.writeFile(this.fileAll, "debug", pars + "\n");

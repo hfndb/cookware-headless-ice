@@ -24,7 +24,8 @@ am.addOption({
 	alias: "b",
 	name: "beautify",
 	type: String,
-	description: "Beautifies html, js, ts or scss file - or all such files in directory",
+	description:
+		"Beautifies html, js, ts or scss file - or all such files in directory",
 	typeLabel: "<path>"
 });
 am.addOption(am.checkOverridesShortcutC);
@@ -71,7 +72,8 @@ am.addOption({
 	alias: "t",
 	name: "touch",
 	type: String,
-	description: "Touch files recursively, in order to force regeneration of output. Valid types: content, sass, src",
+	description:
+		"Touch files recursively, in order to force regeneration of output. Valid types: content, sass, src",
 	typeLabel: "<type>"
 });
 am.addOption({
@@ -92,7 +94,7 @@ if (choice.init) {
 let cfg = AppConfig.getInstance("cookware-headless-ice");
 let log = Logger.getInstance(cfg.options.logging);
 process.chdir(cfg.dirMain); // Always work from application directory
-process.on("uncaughtException", (err) => {
+process.on("uncaughtException", err => {
 	if (!log.isShuttingDown) {
 		console.log(Logger.error2string(err));
 	}
@@ -156,13 +158,12 @@ if (choice.beautify) {
 		},
 		{
 			header: "Options",
-			hide: [
-				"number"
-			],
+			hide: ["number"],
 			optionList: am.options
 		},
 		{
-			content: "Project home: {underline https://github.com/hfndb/cookware-headless-ice}"
+			content:
+				"Project home: {underline https://github.com/hfndb/cookware-headless-ice}"
 		}
 	]);
 }

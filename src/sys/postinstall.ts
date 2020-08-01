@@ -7,7 +7,10 @@ import { upgrade } from "./upgrades";
 
 let cfg = AppConfig.getInstance();
 if (!test("-f", join(cfg.dirProject, "config-org.json"))) {
-	cp(join(cfg.dirMain, "default-project", "config.json"), join(cfg.dirProject, "config-org.json"));
+	cp(
+		join(cfg.dirMain, "default-project", "config.json"),
+		join(cfg.dirProject, "config-org.json")
+	);
 }
 
 upgrade(cfg, true);

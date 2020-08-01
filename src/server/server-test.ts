@@ -2,7 +2,10 @@ const chai = require("chai");
 const chaiHttp = require("chai-http");
 import { AppConfig } from "../lib/config";
 import { ExpressUtils } from "../lib/express";
-import { gracefulShutdown as stopDevServer, coatRack as startDevServer } from "../server";
+import {
+	gracefulShutdown as stopDevServer,
+	coatRack as startDevServer
+} from "../server";
 
 let cfg = AppConfig.getInstance();
 cfg.options.logging.useConsole = false;
@@ -17,35 +20,47 @@ describe("Local development server", function() {
 	let app = eu.app;
 
 	it("should render", () => {
-		chai.request(app).get("/").end((err: Error, res: any) => {
-			chai.expect(res.status).to.equal(200, "HTTP status code home page");
-			chai.expect(res.body).be.an.instanceof(Object);
-			err; // Fool compiler
-		});
+		chai
+			.request(app)
+			.get("/")
+			.end((err: Error, res: any) => {
+				chai.expect(res.status).to.equal(200, "HTTP status code home page");
+				chai.expect(res.body).be.an.instanceof(Object);
+				err; // Fool compiler
+			});
 	});
 
 	it("should render Markdown files", () => {
-		chai.request(app).get("/sys/README.md").end((err: Error, res: any) => {
-			chai.expect(res.status).to.equal(200, "HTTP status code README.md");
-			chai.expect(res.body).be.an.instanceof(Object);
-			err; // Fool compiler
-		});
+		chai
+			.request(app)
+			.get("/sys/README.md")
+			.end((err: Error, res: any) => {
+				chai.expect(res.status).to.equal(200, "HTTP status code README.md");
+				chai.expect(res.body).be.an.instanceof(Object);
+				err; // Fool compiler
+			});
 	});
 
 	it("should render a todo list", () => {
-		chai.request(app).get("/sys/todo.html").end((err: Error, res: any) => {
-			chai.expect(res.status).to.equal(200, "HTTP status code todo.html");
-			chai.expect(res.body).be.an.instanceof(Object);
-			err; // Fool compiler
-		});
+		chai
+			.request(app)
+			.get("/sys/todo.html")
+			.end((err: Error, res: any) => {
+				chai.expect(res.status).to.equal(200, "HTTP status code todo.html");
+				chai.expect(res.body).be.an.instanceof(Object);
+				err; // Fool compiler
+			});
 	});
 
 	it("should lint a HTML file", () => {
-		chai.request(app).get("/?lint=true").end((err: Error, res: any) => {
-			chai.expect(res.status).to.equal(200, "HTTP status code lint output");
-			chai.expect(res.body).be.an.instanceof(Object);
-			err; // Fool compiler
-		});
+		chai
+			.request(app)
+			.get("/?lint=true")
+			.end((err: Error, res: any) => {
+				chai.expect(res.status).to.equal(200, "HTTP status code lint output");
+				chai.expect(res.body).be.an.instanceof(Object);
+				err; // Fool compiler
+			});
 	});
 });
 

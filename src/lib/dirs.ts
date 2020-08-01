@@ -58,7 +58,11 @@ import { FileUtils } from "./files";
  * @param tree object with definition
  * @param sourceControl in case of Source Controle, touch a delete-me.txt file
  */
-export function createDirTree(rootDir: string, tree: object, sourceControl: boolean = false): void {
+export function createDirTree(
+	rootDir: string,
+	tree: object,
+	sourceControl: boolean = false
+): void {
 	Object.entries(tree).forEach((entry: [string, any]) => {
 		let key = entry[0];
 		if (key == "dirs") {
@@ -81,11 +85,11 @@ export function createDirTree(rootDir: string, tree: object, sourceControl: bool
 }
 
 /**
-	 * Method to create a list of directories within a directory name
-	 *
-	 * @param path of dir
-	 * @returns array with dir list
-	 */
+ * Method to create a list of directories within a directory name
+ *
+ * @param path of dir
+ * @returns array with dir list
+ */
 export function getDirList(path: string, recursive: boolean = true): string[] {
 	if (!test("-e", path)) {
 		throw new Error(`Path ${path} doesn't exist`);

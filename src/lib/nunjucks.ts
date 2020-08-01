@@ -26,10 +26,7 @@ class CacheItem {
 	variables: any[] = [];
 
 	constructor(dir: string, file: string, stripFoundTags: boolean) {
-		this.template = [
-			dir,
-			file
-		];
+		this.template = [dir, file];
 		this.rawData = FileUtils.readFile(join(dir, file));
 		this.stripFoundTags = stripFoundTags;
 	}
@@ -45,8 +42,14 @@ export class NunjucksUtils {
 	/**
 	 * Sets a template (extends)
 	 */
-	static setExtends(template: string, trimBegin: boolean = false, trimEnd: boolean = false): string {
-		return `{%${trimBegin ? "- " : ""} extends "${template}" ${trimEnd ? " -" : ""}%}\n`;
+	static setExtends(
+		template: string,
+		trimBegin: boolean = false,
+		trimEnd: boolean = false
+	): string {
+		return `{%${trimBegin ? "- " : ""} extends "${template}" ${
+			trimEnd ? " -" : ""
+		}%}\n`;
 	}
 
 	/**
@@ -78,10 +81,14 @@ export class NunjucksUtils {
 				break;
 
 			default:
-				console.log(`Unknown type ${type} for variable ${name} received in NunjucksUtils.setVariable()`);
+				console.log(
+					`Unknown type ${type} for variable ${name} received in NunjucksUtils.setVariable()`
+				);
 				break;
 		}
-		return `{% set${trimBegin ? "- " : ""} ${name} = ${value} ${trimEnd ? " -" : ""}%}\n`;
+		return `{% set${trimBegin ? "- " : ""} ${name} = ${value} ${
+			trimEnd ? " -" : ""
+		}%}\n`;
 	}
 
 	/**
@@ -105,7 +112,10 @@ ${value}
 	 */
 	static getEnvironment(searchPaths: string[]): any {
 		let cfg = AppConfig.getInstance();
-		let env = nunjucks.configure(searchPaths[0], cfg.options.dependencies.nunjucks.config);
+		let env = nunjucks.configure(
+			searchPaths[0],
+			cfg.options.dependencies.nunjucks.config
+		);
 		for (let i = 1; i < searchPaths.length; i++) {
 			env.loaders[0].searchPaths.push(searchPaths[i]);
 		}
@@ -146,10 +156,7 @@ ${value}
 			for (let i = 0; i < searchPaths.length; i++) {
 				if (test("-f", join(searchPaths[i], fname))) {
 					exists = true;
-					item.extends = [
-						searchPaths[i],
-						fname
-					];
+					item.extends = [searchPaths[i], fname];
 					break;
 				}
 			}
@@ -191,11 +198,7 @@ ${value}
 				exists = true;
 				let lm = FileUtils.getLastModified(searchPaths[i], fname);
 				// Assuming include doesn't extend any other template
-				item.includes.push([
-					searchPaths[i],
-					fname,
-					lm
-				]);
+				item.includes.push([searchPaths[i], fname, lm]);
 				break;
 			}
 			if (!exists) {
@@ -222,7 +225,10 @@ ${value}
 	 * @private
 	 */
 	static readBlocks(item: CacheItem): void {
-		let regex = new RegExp("{%([-\\s]+)block\\s*(\\w*?)([-\\s]+)%}([^]*?){%([-\\s]+)endblock\\s*([-\\s]+)%}", "gim");
+		let regex = new RegExp(
+			"{%([-\\s]+)block\\s*(\\w*?)([-\\s]+)%}([^]*?){%([-\\s]+)endblock\\s*([-\\s]+)%}",
+			"gim"
+		);
 		// Global, case insensitive, multiline
 		let result = null;
 
@@ -263,7 +269,10 @@ ${value}
 	 * @private
 	 */
 	static readVariables(item: CacheItem): void {
-		let regex = new RegExp("{%([-\\s]+)set\\s*(\\w*?)\\s*=\\s*([^]*?)([-\\s]+)%}", "gim"); // Global, case insensitive, multiline
+		let regex = new RegExp(
+			"{%([-\\s]+)set\\s*(\\w*?)\\s*=\\s*([^]*?)([-\\s]+)%}",
+			"gim"
+		); // Global, case insensitive, multiline
 		// https://stackoverflow.com/questions/1979884/how-to-use-javascript-regex-over-multiple-lines
 		// https://stackoverflow.com/questions/1387116/matching-multiline-patterns
 		let result = null;
@@ -275,7 +284,8 @@ ${value}
 			// 2 variable name
 			// 3 variable value
 			// 4 "-" or empty string (trimming)
-			let val = result[3].substr(0, 1) == "{" ? JSON.parse(result[3]) : eval(result[3]);
+			let val =
+				result[3].substr(0, 1) == "{" ? JSON.parse(result[3]) : eval(result[3]);
 			item.variables.push([
 				result[2],
 				val,
@@ -292,7 +302,12 @@ ${value}
 	/**
 	 * Render a content file to a string
 	 */
-	static renderFile(dir: string, file: string, context: Object, templateDir: string): string {
+	static renderFile(
+		dir: string,
+		file: string,
+		context: Object,
+		templateDir: string
+	): string {
 		let log = Logger.getInstance();
 		let searchPaths = [];
 		if (templateDir) searchPaths.push(templateDir);
@@ -311,7 +326,12 @@ ${value}
 	/**
 	 * Get index of file in cache. If not in cache yet... cache the file
 	 */
-	getCacheIdx(dir: string, file: string, readIncludes: boolean = false, stripFoundTags: boolean = false): number {
+	getCacheIdx(
+		dir: string,
+		file: string,
+		readIncludes: boolean = false,
+		stripFoundTags: boolean = false
+	): number {
 		for (let i = 0; i < this.cache.length; i++) {
 			if (this.cache[i].template[1] == file) {
 				return i;

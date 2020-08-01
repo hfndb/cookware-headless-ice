@@ -61,7 +61,7 @@ export class AppConfig {
 		if (this.isProject && test("-d", dir)) {
 			paths.push(dir);
 		}
-		paths.push(join(this.dirMain, "node_modules"))
+		paths.push(join(this.dirMain, "node_modules"));
 		if (this.options.env.node_path && this.options.env.node_path.length > 0) {
 			paths = paths.concat(this.options.env.node_path);
 		}
@@ -111,7 +111,8 @@ export class AppConfig {
 	 */
 	static getInstance(name: string = "", dirProject: string = ""): AppConfig {
 		if (!AppConfig.instance) {
-			if (!name) console.log(new Error("AppConfig initialized without project name"));
+			if (!name)
+				console.log(new Error("AppConfig initialized without project name"));
 
 			let dirMain = normalize(process.cwd());
 			if (dirProject) {
@@ -149,8 +150,8 @@ export class AppConfig {
 	}
 
 	/**
-	* Log overridden config settings to console
-	*/
+	 * Log overridden config settings to console
+	 */
 	static showConfig(options: any = null): void {
 		const diff = require("deep-diff").diff;
 		let cfg = AppConfig.getInstance();
@@ -158,15 +159,13 @@ export class AppConfig {
 		let checkProjects = options ? false : true;
 
 		if (!options) options = Object.assign({}, DefaultConfig);
-		let project: any = FileUtils.readJsonFile(join(cfg.dirProject, "config.json"), false);
+		let project: any = FileUtils.readJsonFile(
+			join(cfg.dirProject, "config.json"),
+			false
+		);
 		let changes = diff(options, project);
 
-		let cols = [
-			10,
-			50,
-			50,
-			50
-		];
+		let cols = [10, 50, 50, 50];
 		let line = "".padEnd(cols[0] + cols[1] + cols[2] + cols[3], "-");
 
 		console.log(line);
@@ -238,11 +237,13 @@ export class AppConfig {
 		// While doing that, check version number
 		let projects: string[] = cfg.options.projects;
 		let saydHello = false;
-		projects.forEach((project) => {
+		projects.forEach(project => {
 			let opts: any = FileUtils.readJsonFile(project, true);
 			if (opts.version != undefined && opts.version != options.version) {
 				if (!saydHello) {
-					log.info(`Checking project config(s).Should be version ${options.version}`);
+					log.info(
+						`Checking project config(s).Should be version ${options.version}`
+					);
 					saydHello = true;
 				}
 				log.warn(`- Version number ${opts.version} in ${project}`);
@@ -272,7 +273,7 @@ export class AppConfig {
 		cfg.read();
 
 		let log = Logger.getInstance(cfg.options.logging);
-		process.on("uncaughtException", (err) => {
+		process.on("uncaughtException", err => {
 			if (!log.isShuttingDown) {
 				console.log(Logger.error2string(err));
 			}
@@ -371,19 +372,22 @@ export class AppMenu {
 			if (process.env.NODE_ENV == "production") break;
 			for (let toCheck = 0; toCheck < this.options.length; toCheck++) {
 				if (toCheck <= current) continue;
-				if (this.options[toCheck].alias && this.options[current].alias == this.options[toCheck].alias) {
+				if (
+					this.options[toCheck].alias &&
+					this.options[current].alias == this.options[toCheck].alias
+				) {
 					console.log(
-						`- Double shortcut ${this.options[toCheck].alias} in modules ${this.options[current].module} and ${this.options[
-							toCheck
-						].module}`
+						`- Double shortcut ${this.options[toCheck].alias} in modules ${
+							this.options[current].module
+						} and ${this.options[toCheck].module}`
 					);
 					delete this.options[toCheck].alias;
 				}
 				if (this.options[current].name == this.options[toCheck].name) {
 					console.log(
-						`- Double name ${this.options[toCheck].name} in modules ${this.options[current].module} and ${this.options[
-							toCheck
-						].module}`
+						`- Double name ${this.options[toCheck].name} in modules ${
+							this.options[current].module
+						} and ${this.options[toCheck].module}`
 					);
 				}
 			}

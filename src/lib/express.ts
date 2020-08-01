@@ -101,7 +101,11 @@ export class ExpressUtils {
 				name:  connect.sid
 		*/
 
-		if (!this.devMode && cfg.options.domain.url.startsWith("https") && process.env.NODE_ENV == "production") {
+		if (
+			!this.devMode &&
+			cfg.options.domain.url.startsWith("https") &&
+			process.env.NODE_ENV == "production"
+		) {
 			this.app.set("trust proxy", 1); // trust first proxy
 			sess.cookie.secure = true; // serve secure cookies
 		} else {
@@ -114,7 +118,9 @@ export class ExpressUtils {
 		switch (cfg.options.dependencies.express.memoryStore.type) {
 			case "memoryStore":
 				sess = Object.assign(sess, {
-					store: new MemoryStore(cfg.options.dependencies.express.memoryStore.memoryStore)
+					store: new MemoryStore(
+						cfg.options.dependencies.express.memoryStore.memoryStore
+					)
 				});
 				break;
 
@@ -194,7 +200,9 @@ export class ExpressUtils {
 
 		this.server.on("error", (e: any) => {
 			if (e.code === "EADDRINUSE") {
-				log.error("Whoops! Address in use, seems to be running already. Shutting down this server instance...");
+				log.error(
+					"Whoops! Address in use, seems to be running already. Shutting down this server instance..."
+				);
 				if (!cfg.options.logging.exitOnError) {
 					gracefulShutdown();
 				}
@@ -203,13 +211,17 @@ export class ExpressUtils {
 
 		setTimeout(() => {
 			// Take some time to know for sure the 'address in use' error didn't occur
-			log.info(`Initialization finalized - server running at port ${cfg.options.server.port}`);
+			log.info(
+				`Initialization finalized - server running at port ${
+					cfg.options.server.port
+				}`
+			);
 		}, 3000);
 	}
 
 	/**
-   * Smooth shutdown of server
-   */
+	 * Smooth shutdown of server
+	 */
 	static shutdown(): void {
 		let eu = ExpressUtils.getInstance();
 

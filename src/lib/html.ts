@@ -2,7 +2,13 @@ import { join } from "path";
 import { removeObsolete } from "./files";
 import { Formatter, StringUtils } from "./utils";
 import { test, touch } from "shelljs";
-import { getChangeList, AppConfig, FileStatus, FileUtils, Logger } from "../lib";
+import {
+	getChangeList,
+	AppConfig,
+	FileStatus,
+	FileUtils,
+	Logger
+} from "../lib";
 import { NunjucksUtils } from "./nunjucks";
 
 /**
@@ -18,7 +24,11 @@ class Stripper {
 		let retVal = "";
 
 		for (let i = 0; i < len; i++) {
-			if (cfg.options.html.stripper.empty && StringUtils.strip(tmp[i], true, true).length == 0) continue;
+			if (
+				cfg.options.html.stripper.empty &&
+				StringUtils.strip(tmp[i], true, true).length == 0
+			)
+				continue;
 			retVal += Stripper.parseLine(tmp[i]);
 		}
 
@@ -28,7 +38,11 @@ class Stripper {
 	static parseLine(line: string): string {
 		let cfg = AppConfig.getInstance();
 		if (cfg.options.html.stripper.begin || cfg.options.html.stripper.end) {
-			line = StringUtils.strip(line, cfg.options.html.stripper.begin, cfg.options.html.stripper.end);
+			line = StringUtils.strip(
+				line,
+				cfg.options.html.stripper.begin,
+				cfg.options.html.stripper.end
+			);
 		}
 
 		return line;
@@ -68,7 +82,11 @@ export class Content {
 		return outputDir;
 	}
 
-	private writeOutput(entry: FileStatus, data: string, verbose: boolean = true): void {
+	private writeOutput(
+		entry: FileStatus,
+		data: string,
+		verbose: boolean = true
+	): void {
 		if (data) {
 			let log = Logger.getInstance();
 			if (!this.saydHello && verbose) {
@@ -81,7 +99,12 @@ export class Content {
 
 	private getCustomContext(dir: string, url: string): Object {
 		let cfg = AppConfig.getInstance();
-		let file = join(cfg.dirProject, cfg.options.javascript.dirs.output, "local", "data-provider.js");
+		let file = join(
+			cfg.dirProject,
+			cfg.options.javascript.dirs.output,
+			"local",
+			"data-provider.js"
+		);
 		if (!test("-f", file)) return {};
 
 		const mw = require(file); // Dynamically load
@@ -136,10 +159,7 @@ export class Content {
 		let changeList = getChangeList({
 			sourcePath: join(cfg.dirProject, cfg.options.html.dirs.content),
 			targetPath: outputDir,
-			sourceExt: [
-				".html",
-				".njk"
-			],
+			sourceExt: [".html", ".njk"],
 			targetExt: ".html",
 			excludeList: cfg.options.html.caching.exclude
 		});
@@ -172,7 +192,12 @@ export class Content {
 
 		this.execHook(2); // Hook render-after
 
-		removeObsolete(cfg.options.html.caching.removeObsolete, processed, outputDir, ".html");
+		removeObsolete(
+			cfg.options.html.caching.removeObsolete,
+			processed,
+			outputDir,
+			".html"
+		);
 
 		if (this.saydHello && verbose) {
 			log.info("... HTML done");
@@ -191,7 +216,7 @@ export class Content {
 		const frmtr = Formatter.getInstance();
 		let retVal = "";
 
-		if (!opts) opts = {}
+		if (!opts) opts = {};
 		if (!opts.useProjectTemplates) opts.useProjectTemplates = true;
 
 		let templateDir;
@@ -199,8 +224,7 @@ export class Content {
 			templateDir = opts.templateDir;
 		} else if (opts.useProjectTemplates) {
 			templateDir = join(cfg.dirProject, cfg.options.html.dirs.templates[0]);
-		}
-		else {
+		} else {
 			templateDir = join(cfg.dirMain, "templates");
 		}
 
@@ -212,21 +236,21 @@ export class Content {
 		}
 
 		/**
-			* <p>
-			*   By default in context:
-			* </p>
-			* <ul>
-			*   <li>frmt - instance of Formatter in lib/utils.js</li>
-			*   <li>path and reqUrl - relative to root</li>
-			*   <li>level - relative to root</li>
-			*   <li>description - of website</li>
-			*   <li>url - Home URL of website</li>
-			*   <li>createdDate - formatted string</li>
-			*   <li>createdDateTime - formatted string</li>
-			*   <li>createdTime - formatted string</li>
-			*   <li>environment - Node.js environment</li>
-			* </ul>
-			*/
+		 * <p>
+		 *   By default in context:
+		 * </p>
+		 * <ul>
+		 *   <li>frmt - instance of Formatter in lib/utils.js</li>
+		 *   <li>path and reqUrl - relative to root</li>
+		 *   <li>level - relative to root</li>
+		 *   <li>description - of website</li>
+		 *   <li>url - Home URL of website</li>
+		 *   <li>createdDate - formatted string</li>
+		 *   <li>createdDateTime - formatted string</li>
+		 *   <li>createdTime - formatted string</li>
+		 *   <li>environment - Node.js environment</li>
+		 * </ul>
+		 */
 		let context = {
 			description: cfg.options.domain.description,
 			createdDate: frmtr.date(new Date()),

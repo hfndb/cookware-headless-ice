@@ -1,6 +1,12 @@
 import { join } from "path";
 import { cp, exec, rm, test } from "shelljs";
-import { getChangeList, AppConfig, FileStatus, FileUtils, Logger } from "../lib";
+import {
+	getChangeList,
+	AppConfig,
+	FileStatus,
+	FileUtils,
+	Logger
+} from "../lib";
 import { removeObsolete } from "../lib/files";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 import { JavascriptUtils } from "./javascript";
@@ -24,19 +30,18 @@ export function compileTypeScript(): void {
 	let changeList = getChangeList({
 		sourcePath: join(cfg.dirProject, cfg.options.javascript.dirs.source),
 		targetPath: join(cfg.dirProject, cfg.options.javascript.dirs.output),
-		sourceExt: [
-			".ts"
-		],
+		sourceExt: [".ts"],
 		targetExt: ".js"
 	});
 	let processed: string[] = [];
 
 	// Before removing obsolete JavaScript, look at plain js that belongs in output directory
-	FileUtils.getFileList(join(cfg.dirProject, cfg.options.javascript.dirs.source), {
-		allowedExtensions: [
-			".js"
-		]
-	}).forEach((file: string) => {
+	FileUtils.getFileList(
+		join(cfg.dirProject, cfg.options.javascript.dirs.source),
+		{
+			allowedExtensions: [".js"]
+		}
+	).forEach((file: string) => {
 		let path = join(cfg.dirProject, cfg.options.javascript.dirs.output, file);
 		if (!test("-f", path)) {
 			cp(join(cfg.dirProject, cfg.options.javascript.dirs.source, file), path);
@@ -130,9 +135,7 @@ export function generateTsDocs(): void {
 	try {
 		const typedoc = require("typedoc");
 		const app = new typedoc.Application(options);
-		const src = app.expandInputFiles([
-			join(cfg.dirProject, "src")
-		]);
+		const src = app.expandInputFiles([join(cfg.dirProject, "src")]);
 		log.info(`Generating API docs of TypeScript files, in ${dir}`);
 		// log.info("Might generate an error, see https://github.com/TypeStrong/typedoc/issues/438");
 		// log.info(
@@ -144,6 +147,9 @@ export function generateTsDocs(): void {
 			log.error("There were errors generating TypeDoc output, see above.");
 		}
 	} catch (err) {
-		log.error("Failed to generate load TypeDoc project.", Logger.error2string(err));
+		log.error(
+			"Failed to generate load TypeDoc project.",
+			Logger.error2string(err)
+		);
 	}
 }

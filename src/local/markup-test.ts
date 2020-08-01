@@ -29,9 +29,7 @@ describe("HTML rendering", function() {
 
 	it("should render 4 files, without exclude list", function() {
 		session.reset();
-		cfg.options.html.caching.exclude = [
-			"test-pages"
-		]; // Start playing with config.json
+		cfg.options.html.caching.exclude = ["test-pages"]; // Start playing with config.json
 		content.renderAll(false);
 		let expected = 4;
 		let qty = session.html.get("all");
@@ -53,9 +51,7 @@ describe("HTML rendering", function() {
 		content.renderAll(false);
 		let expected = 0;
 		let qty = FileUtils.getFileList(outputDir, {
-			allowedExtensions: [
-				".html"
-			]
+			allowedExtensions: [".html"]
 		}).length;
 		expect(qty).to.equal(expected, "actual files on disk");
 	});

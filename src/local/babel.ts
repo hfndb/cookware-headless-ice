@@ -1,7 +1,13 @@
 import { basename, dirname, join } from "path";
 import { grep, rm, test } from "shelljs";
 import { transformSync } from "@babel/core";
-import { getChangeList, AppConfig, FileStatus, FileUtils, Logger } from "../lib";
+import {
+	getChangeList,
+	AppConfig,
+	FileStatus,
+	FileUtils,
+	Logger
+} from "../lib";
 import { removeObsolete } from "../lib/files";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 import { JavascriptUtils } from "./javascript";
@@ -17,11 +23,16 @@ export function compile(verbose: boolean): void {
 	let outDir = JavascriptUtils.getOutputDir();
 	let saydHello = false;
 	let session = SessionVars.getInstance();
-	let sourceExt = cfg.options.javascript.compiler == ProcessingTypes.typescript ? ".ts" : ".js";
+	let sourceExt =
+		cfg.options.javascript.compiler == ProcessingTypes.typescript ? ".ts" : ".js";
 
 	let path = join(cfg.dirProject, cfg.options.javascript.dirs.source);
 	if (!test("-e", path)) {
-		log.warn(`Path ./${cfg.options.javascript.dirs.source} doesn't exist. Request to compile ignored`);
+		log.warn(
+			`Path ./${
+				cfg.options.javascript.dirs.source
+			} doesn't exist. Request to compile ignored`
+		);
 		return;
 	}
 
@@ -36,9 +47,7 @@ export function compile(verbose: boolean): void {
 	let changeList = getChangeList({
 		sourcePath: join(cfg.dirProject, cfg.options.javascript.dirs.source),
 		targetPath: outDir,
-		sourceExt: [
-			sourceExt
-		],
+		sourceExt: [sourceExt],
 		targetExt: ".js",
 		excludeList: cfg.options.javascript.removeObsolete.exclude
 	});
@@ -48,7 +57,9 @@ export function compile(verbose: boolean): void {
 		processed.push(entry.target);
 		if (entry.isNewOrModified()) {
 			session.add(
-				cfg.options.javascript.compiler == "flow" ? "javascript" : cfg.options.javascript.compiler,
+				cfg.options.javascript.compiler == "flow"
+					? "javascript"
+					: cfg.options.javascript.compiler,
 				entry.source
 			);
 			write(entry);
@@ -59,7 +70,12 @@ export function compile(verbose: boolean): void {
 		processed.push(file);
 	});
 
-	removeObsolete(cfg.options.javascript.removeObsolete, processed, outDir, ".js");
+	removeObsolete(
+		cfg.options.javascript.removeObsolete,
+		processed,
+		outDir,
+		".js"
+	);
 
 	if (saydHello && verbose) {
 		log.info(`... done`);
@@ -74,7 +90,10 @@ export function compile(verbose: boolean): void {
  * @returns success
  * @todo Decorators (such as for package json2typescript) don't work yet. Apparently due to bugs in this plugin
  */
-export function compileFile(entry: FileStatus, verbose: boolean = true): boolean {
+export function compileFile(
+	entry: FileStatus,
+	verbose: boolean = true
+): boolean {
 	let cfg = AppConfig.getInstance();
 	let log = Logger.getInstance(cfg.options.logging);
 	let fullPath = join(entry.dir, entry.source);
@@ -124,9 +143,7 @@ export function compileFile(entry: FileStatus, verbose: boolean = true): boolean
 				}
 			]);
 		} else {
-			presets.push([
-				"@babel/preset-env"
-			]);
+			presets.push(["@babel/preset-env"]);
 		}
 	} else {
 		presets.push([
@@ -160,13 +177,21 @@ export function compileFile(entry: FileStatus, verbose: boolean = true): boolean
 			if (test("-f", map)) rm(map);
 		} else if (cfg.options.javascript.sourceMapping) {
 			results.code += `\n//# sourceMappingURL=${basename(entry.target)}.map`;
-			FileUtils.writeFile(entry.targetDir, entry.target + ".map", JSON.stringify(results.map), false);
+			FileUtils.writeFile(
+				entry.targetDir,
+				entry.target + ".map",
+				JSON.stringify(results.map),
+				false
+			);
 		}
 
 		FileUtils.writeFile(entry.targetDir, entry.target, results.code, verbose);
 		// FileUtils.writeFile(entry.targetDir, entry.target + ".ast", results.ast, false); // object results.ast needs some work before usable
 	} catch (err) {
-		log.warn(`- Failed to compile file: ${entry.source}`, Logger.error2string(err));
+		log.warn(
+			`- Failed to compile file: ${entry.source}`,
+			Logger.error2string(err)
+		);
 		return false;
 	}
 

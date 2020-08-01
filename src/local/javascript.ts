@@ -36,7 +36,10 @@ export class JavascriptUtils {
 		let outDir = JavascriptUtils.getOutputDir();
 		let retVal: string[] = [];
 
-		if (cfg.options.javascript.bundles.length == 0 && cfg.options.javascript.apps.length == 0) {
+		if (
+			cfg.options.javascript.bundles.length == 0 &&
+			cfg.options.javascript.apps.length == 0
+		) {
 			return retVal;
 		}
 
@@ -63,7 +66,9 @@ export class JavascriptUtils {
 			retVal.push(bundle.output);
 			rm("-f", outfile);
 
-			let cmd = `${nodeExec} ${join(execPath, "create-app.js")} ${cfg.dirProject}` + ` ${i}`;
+			let cmd =
+				`${nodeExec} ${join(execPath, "create-app.js")} ${cfg.dirProject}` +
+				` ${i}`;
 			if (process.env.NODE_ENV == "production") {
 				cmd += " 1";
 			}

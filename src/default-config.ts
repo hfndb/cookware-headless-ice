@@ -46,19 +46,12 @@ let DefaultConfig = {
 	html: {
 		dirs: {
 			content: "content",
-			includes: [
-				"content/includes"
-			],
+			includes: ["content/includes"],
 			output: "dist",
-			templates: [
-				"templates"
-			]
+			templates: ["templates"]
 		},
 		caching: {
-			exclude: [
-				"includes",
-				"test-pages"
-			],
+			exclude: ["includes", "test-pages"],
 			engine: "nunjucks",
 			removeObsolete: {
 				active: true,
@@ -77,9 +70,7 @@ let DefaultConfig = {
 		}
 	},
 	javascript: {
-		browserTargets: [
-			"defaults"
-		],
+		browserTargets: ["defaults"],
 		compiler: "javascript",
 		nodeVersion: "current",
 		sourceMapping: true,
@@ -120,49 +111,25 @@ let DefaultConfig = {
 	},
 	newProject: {
 		dirStructure: {
-			dirs: [
-				"backups",
-				"notes",
-				"sass",
-				"templates"
-			],
+			dirs: ["backups", "notes", "sass", "templates"],
 			content: {
-				dirs: [
-					"includes"
-				]
+				dirs: ["includes"]
 			},
 			dist: {
 				static: {
-					dirs: [
-						"css",
-						"img"
-					],
+					dirs: ["css", "img"],
 					js: {
-						dirs: [
-							"browser",
-							"local",
-							"test"
-						],
+						dirs: ["browser", "local", "test"],
 						server: {
-							dirs: [
-								"controllers",
-								"views"
-							]
+							dirs: ["controllers", "views"]
 						}
 					}
 				}
 			},
 			src: {
-				dirs: [
-					"browser",
-					"local",
-					"test"
-				],
+				dirs: ["browser", "local", "test"],
 				server: {
-					dirs: [
-						"controllers",
-						"views"
-					]
+					dirs: ["controllers", "views"]
 				}
 			}
 		}
@@ -173,9 +140,7 @@ let DefaultConfig = {
 			output: "dist/downloads"
 		},
 		rendering: {
-			exclude: [
-				"downloads"
-			],
+			exclude: ["downloads"],
 			firstUpdateWeb: true,
 			marginLeft: 10,
 			marginRight: 10,
@@ -308,9 +273,7 @@ let DefaultConfig = {
 					minlen: 3
 				},
 				"no-hook-class": {
-					keys: [
-						"/[-_#](?:js|hook)[-_#]/"
-					]
+					keys: ["/[-_#](?:js|hook)[-_#]/"]
 				},
 				"no-bom": true,
 				"max-len": 500,
@@ -324,21 +287,13 @@ let DefaultConfig = {
 			config: {
 				tags: {
 					allowUnknownTags: true,
-					dictionaries: [
-						"jsdoc"
-					]
+					dictionaries: ["jsdoc"]
 				},
 				source: {
-					include: [
-						"src",
-						"package.json",
-						"README.md"
-					],
+					include: ["src", "package.json", "README.md"],
 					includePattern: ".js$"
 				},
-				plugins: [
-					"plugins/markdown"
-				],
+				plugins: ["plugins/markdown"],
 				templates: {
 					cleverLinks: false,
 					monospaceLinks: true,
@@ -356,9 +311,7 @@ let DefaultConfig = {
 		},
 		nodeSass: {
 			config: {
-				includePaths: [
-					"sass"
-				],
+				includePaths: ["sass"],
 				indentedSyntax: false,
 				indentType: "tabs",
 				indentWidth: 1,

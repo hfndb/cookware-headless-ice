@@ -41,7 +41,10 @@ describe("Sass transcompiling", function() {
 		SassUtils.compile(false); // will compile generic.scss and project.scss
 		let expected = 2;
 		let qty = session.sass.get("all");
-		expect(qty).to.equal(expected, "counter (see @todo item, weird behavior demonstrating tests to be imperfect)");
+		expect(qty).to.equal(
+			expected,
+			"counter (see @todo item, weird behavior demonstrating tests to be imperfect)"
+		);
 		session.reset();
 	});
 });

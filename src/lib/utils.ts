@@ -40,7 +40,7 @@ export class StringUtils {
 	 * Capitalize only the first character
 	 */
 	static initialCapitalized(str: string): string {
-		return str.charAt(0).toUpperCase() + str.slice(1)
+		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
 }
 
@@ -90,14 +90,25 @@ export class Formatter {
 
 	// Number type
 
-	decimal(nr: number, decimals: number, prefix: string = "", suffix: string = ""): string {
+	decimal(
+		nr: number,
+		decimals: number,
+		prefix: string = "",
+		suffix: string = ""
+	): string {
 		if (!nr) return "";
 		if (decimals == 0) return this.int(nr);
 
 		let beforeComma = Math.trunc(nr);
 		let behindComma = Math.round(Math.abs(nr % 1) * Math.pow(10, decimals));
 
-		return prefix + this.int(beforeComma) + this.decimalSeparator + behindComma.toString().padEnd(decimals, "0") + suffix;
+		return (
+			prefix +
+			this.int(beforeComma) +
+			this.decimalSeparator +
+			behindComma.toString().padEnd(decimals, "0") +
+			suffix
+		);
 	}
 
 	int(nr: number): string {
@@ -117,7 +128,9 @@ export class Formatter {
 			if (nr) nr /= 1000;
 		}
 
-		return (isNegative ? "-" : "") + thousands.reverse().join(this.thousandsSeparator);
+		return (
+			(isNegative ? "-" : "") + thousands.reverse().join(this.thousandsSeparator)
+		);
 	}
 
 	/**
@@ -132,7 +145,7 @@ export class Formatter {
 			.toString()
 			.toLowerCase()
 			.replace(/\s+/g, "-") // Replace spaces with -
-			.replace(p, (c) => b.charAt(a.indexOf(c))) // Replace special characters
+			.replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
 			.replace(/&/g, "-and-") // Replace & with 'and'
 			.replace(/[^\w\-]+/g, "") // Remove all non-word characters
 			.replace(/\-\-+/g, "-") // Replace multiple - with single -

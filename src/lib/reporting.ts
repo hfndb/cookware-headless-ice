@@ -15,7 +15,8 @@ export class Item {
 	isInitialized: boolean;
 
 	constructor(report: Report | string[], description: string) {
-		let nrColumns = report instanceof Report ? report.columns.length : report.length;
+		let nrColumns =
+			report instanceof Report ? report.columns.length : report.length;
 		this.columns = Report.createColumns(nrColumns);
 		this.description = description;
 		this.isInitialized = false;
@@ -36,7 +37,8 @@ export class Group extends Item {
 
 	constructor(report: Report | string[], description: string) {
 		super(report, description);
-		let nrColumns = report instanceof Report ? report.columns.length : report.length;
+		let nrColumns =
+			report instanceof Report ? report.columns.length : report.length;
 		this.averages = Report.createColumns(nrColumns);
 		this.itemCount = 0;
 		this.items = [];
@@ -104,7 +106,7 @@ export class Report extends Group {
 
 	/**
 	 * For internal use only
- 	 */
+	 */
 	update(item: Item, registrar: any): void {
 		// Update columns[] - horizontal operations first
 		let colTotal = registrar.columns.length - 1; // Index last column
@@ -142,13 +144,20 @@ export class Report extends Group {
 
 		// Registrar: Update last column
 		registrar.percentages[colTotal] = 100;
-		registrar.averages[colTotal] = registrar.columns[colTotal] / registrar.itemCount;
+		registrar.averages[colTotal] =
+			registrar.columns[colTotal] / registrar.itemCount;
 		if (registrar.min[colTotal] == Group.fakeMinumum) {
 			registrar.min[colTotal] = item.columns[colTotal];
 		} else {
-			registrar.min[colTotal] = Math.min(registrar.min[colTotal], item.columns[colTotal]);
+			registrar.min[colTotal] = Math.min(
+				registrar.min[colTotal],
+				item.columns[colTotal]
+			);
 		}
-		registrar.max[colTotal] = Math.max(registrar.max[colTotal], item.columns[colTotal]);
+		registrar.max[colTotal] = Math.max(
+			registrar.max[colTotal],
+			item.columns[colTotal]
+		);
 	}
 
 	addGroup(group: Group) {
@@ -175,7 +184,12 @@ export class SimpleASCII {
 	rowSeparator: string;
 	isFirst: boolean;
 
-	constructor(captions: string[], columns: number[], columnSeparator: string, rowSeparator: string) {
+	constructor(
+		captions: string[],
+		columns: number[],
+		columnSeparator: string,
+		rowSeparator: string
+	) {
 		this.captions = captions;
 		this.columns = columns;
 		this.columnSeparator = columnSeparator;

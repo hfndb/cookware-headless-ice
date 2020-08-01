@@ -135,7 +135,11 @@ export class ObjectUtils {
 	/**
 	 * Get object as colored structure, using package q-i
 	 */
-	static toString(obj: Object, color: boolean = false, maxNrOfItems: number = 30): string {
+	static toString(
+		obj: Object,
+		color: boolean = false,
+		maxNrOfItems: number = 30
+	): string {
 		if (color) {
 			return stringify(obj, { maxItems: maxNrOfItems });
 			// print(obj); (after import from q-i)

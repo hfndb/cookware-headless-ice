@@ -118,9 +118,6 @@ export class SessionVars {
 		let all: number = counter.get("all");
 		let specific = counter.size == 1 ? 0 : counter.size - 1;
 
-		return [
-			all,
-			specific
-		];
+		return [all, specific];
 	}
 }
