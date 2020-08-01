@@ -35,6 +35,13 @@ export class StringUtils {
 		let result = new RegExp(regex).exec(str);
 		return result ? result[1] : "";
 	}
+
+	/**
+	 * Capitalize only the first character
+	 */
+	static initialCapitalized(str: string): string {
+		return str.charAt(0).toUpperCase() + str.slice(1)
+	}
 }
 
 /**

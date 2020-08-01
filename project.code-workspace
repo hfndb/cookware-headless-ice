@@ -1,7 +1,7 @@
 {
 	"folders": [
 		{
-			"path": "./src"
+			"path": "."
 		}
 	],
 	"settings": {
@@ -16,23 +16,17 @@
 		"editor.tabSize": 2,
 		"editor.wrappingIndent": "same",
 		"files.autoSave": "off",
-		"files.exclude": {
-			"**/.git": true,
-			"**/*.js": {
-				"when": "$(basename).ts"
-			},
-		},
 		"files.trimTrailingWhitespace": true,
-		"files.watcherExclude": {
-			"**/.git/objects/**": true,
-			"**/.git/subtree-cache/**": true,
-			"**/api/*/**": true,
-			"**/backups/*/**": true,
-			"**/node_modules/*/**": true
-		},
-		"git.enabled": false,
 		"html.format.wrapLineLength": 120,
+		"outline.showArrays": false,
+		"outline.showBooleans": false,
+		"outline.showConstants": false,
+		"outline.showNull": false,
+		"outline.showNumbers": false,
+		"outline.showStrings": false,
+		"outline.showObjects": false,
 		"outline.showProperties": false,
+		"outline.showTypeParameters": false,
 		"outline.showVariables": false,
 		"prettier.semi": true,
 		"prettier.tabWidth": 1,
@@ -49,5 +43,6 @@
 		},
 		"workbench.editor.showTabs": true,
 		"workbench.editor.closeOnFileDelete": true
+		"workbench.quickOpen.closeOnFocusLost": false,
 	}
 }

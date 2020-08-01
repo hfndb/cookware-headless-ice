@@ -74,6 +74,11 @@ am.addOption({
 	description: "Touch files recursively, in order to force regeneration of output. Valid types: content, sass, src",
 	typeLabel: "<type>"
 });
+am.addOption({
+	name: "production",
+	type: Boolean,
+	description: "Flag to compile and compress for production use"
+});
 am.addOption(am.playgroundShortcutY);
 am.addOption(am.helpShortcutH);
 
@@ -81,86 +86,87 @@ let choice = am.getUserChoice();
 
 if (choice.init) {
 	AppConfig.initNewProject();
-} else {
-	let cfg = AppConfig.getInstance("cookware-headless-ice");
-	let log = Logger.getInstance(cfg.options.logging);
-	process.chdir(cfg.dirMain); // Always work from application directory
-	process.on("uncaughtException", (err) => {
-		if (!log.isShuttingDown) {
-			console.log(Logger.error2string(err));
-		}
+	process.exit(0);
+}
+
+let cfg = AppConfig.getInstance("cookware-headless-ice");
+let log = Logger.getInstance(cfg.options.logging);
+process.chdir(cfg.dirMain); // Always work from application directory
+process.on("uncaughtException", (err) => {
+	if (!log.isShuttingDown) {
+		console.log(Logger.error2string(err));
+	}
+});
+
+let stats = false;
+if (choice.beautify) {
+	beautify(choice.beautify);
+} else if (choice.docs && cfg.options.javascript.compiler == "typescript") {
+	generateTsDocs();
+} else if (choice.docs) {
+	generateJsDocs();
+} else if (choice.config) {
+	AppConfig.showConfig();
+} else if (choice.epub) {
+	renderEpub();
+} else if (choice.generate) {
+	if (choice.production) {
+		process.env.NODE_ENV = "production";
+	}
+	generateWeb(true);
+	stats = true;
+} else if (choice.lint) {
+	Lint.content();
+} else if (choice.pdf) {
+	renderPdf();
+} else if (choice.run) {
+	coatRack();
+} else if (choice.touch) {
+	let allow = [];
+	let dir = cfg.options.html.dirs.content;
+	switch (choice.touch) {
+		case "content":
+			allow.push(".html");
+			break;
+
+		case "sass":
+			dir = cfg.options.sass.dirs.source;
+			allow.push(".css", ".sass", ".scss");
+			break;
+
+		case "src":
+			dir = cfg.options.javascript.dirs.source;
+			allow.push(".js", ".ts");
+			break;
+
+		default:
+			log.error(`Unknown type ${choice.touch}`);
+			break;
+	}
+	FileUtils.touchRecursive(join(cfg.dirProject, dir), {
+		allowedExtensions: allow
 	});
-
-	let stats = false;
-	if (choice.beautify) {
-		beautify(choice.beautify);
-	} else if (choice.docs && cfg.options.javascript.compiler == "typescript") {
-		generateTsDocs();
-	} else if (choice.docs) {
-		generateJsDocs();
-	} else if (choice.config) {
-		AppConfig.showConfig();
-	} else if (choice.epub) {
-		renderEpub();
-	} else if (choice.generate) {
-		generateWeb(true);
-		stats = true;
-	} else if (choice.lint) {
-		Lint.content();
-	} else if (choice.pdf) {
-		renderPdf();
-	} else if (choice.run) {
-		coatRack();
-	} else if (choice.touch) {
-		let allow = [];
-		let dir = cfg.options.html.dirs.content;
-		switch (choice.touch) {
-			case "content":
-				allow.push(".html");
-				break;
-
-			case "sass":
-				dir = cfg.options.sass.dirs.source;
-				allow.push(".css");
-				allow.push(".sass");
-				allow.push(".scss");
-				break;
-
-			case "src":
-				dir = cfg.options.javascript.dirs.source;
-				allow.push(".js");
-				allow.push(".ts");
-				break;
-
-			default:
-				log.error(`Unknown type ${choice.touch}`);
-				break;
+} else if (choice.playground) {
+	playGround();
+} else {
+	am.showHelp([
+		{
+			header: "cookware-headless-ice",
+			content: "Utility functions"
+		},
+		{
+			header: "Options",
+			hide: [
+				"number"
+			],
+			optionList: am.options
+		},
+		{
+			content: "Project home: {underline https://github.com/hfndb/cookware-headless-ice}"
 		}
-		FileUtils.touchRecursive(join(cfg.dirProject, dir), {
-			allowedExtensions: allow
-		});
-	} else if (choice.playground) {
-		playGround();
-	} else {
-		am.showHelp([
-			{
-				header: "cookware-headless-ice",
-				content: "Utility functions"
-			},
-			{
-				header: "Options",
-				hide: [
-					"number"
-				],
-				optionList: am.options
-			},
-			{
-				content: "Project home: {underline https://github.com/hfndb/cookware-headless-ice}"
-			}
-		]);
-	}
-	if (stats) {
-		let session = SessionVars.getInstance();
-		log.info(session.toString());
-	}
+	]);
+}
+if (stats) {
+	let session = SessionVars.getInstance();
+	log.info(session.toString());
 }

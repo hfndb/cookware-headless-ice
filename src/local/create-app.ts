@@ -4,9 +4,10 @@ import { platform } from "os";
 import { cd, test } from "shelljs";
 import { AppConfig, Logger } from "../lib";
 
-// Usage: create-app.js <project dir> <index app>
+// Usage: create-app.js <project dir> <index app> <for production use>
 
 cd(process.argv[2]);
+if (process.argv[4]) process.env.NODE_ENV = "production";
 
 let cfg = AppConfig.getInstance("cookware-headless-ice");
 let log = Logger.getInstance(cfg.options.logging);
@@ -43,7 +44,7 @@ require("module").Module._initPaths();
 	bundle-collapser - When using the --no-flat option, bundle-collapser replaces file paths in require() calls with short module IDs
  */
 
-if (cfg.options.javascript.compress) {
+if (process.env.NODE_ENV == "production") {
 	// For production use
 	browserify(src)
 		.transform("unassertify", { global: true })
@@ -66,4 +67,4 @@ if (cfg.options.javascript.compress) {
 	);
 }
 
-log.info(`- Written Javascript app ${bundle.output} (${cfg.options.javascript.compress ? "compressed" : "plain"}) `);
+log.info(`- Written Javascript app ${bundle.output} (${process.env.NODE_ENV == "production" ? "compressed" : "plain"}) `);

@@ -44,8 +44,8 @@ export class AppConfig {
 		this.dirMain = normalize(__dirname);
 		this.dirMain = AppConfig.getProjectDir(this.dirMain);
 
-		// Special case for testing
 		if (process.env.NODE_ENV == "test") {
+			// Special case for testing
 			this.isProject = false;
 			this.dirProject = this.dirMain;
 		} else {
@@ -56,18 +56,18 @@ export class AppConfig {
 
 		// Add some paths to NODE_PATH
 		let dir = join(this.dirProject, "node_modules");
-		let paths = [
-			join(this.dirMain, "node_modules")
-		];
+		let paths = [];
 		let sep = platform() == "win32" ? ";" : ":";
 		if (this.isProject && test("-d", dir)) {
 			paths.push(dir);
 		}
+		paths.push(join(this.dirMain, "node_modules"))
 		if (this.options.env.node_path && this.options.env.node_path.length > 0) {
 			paths = paths.concat(this.options.env.node_path);
 		}
 		process.env.NODE_PATH = paths.join(sep);
 		require("module").Module._initPaths();
+		// To get the exact filename that will be loaded when require() is called, use the require.resolve() function.
 	}
 
 	/**
@@ -311,7 +311,7 @@ export function checkConfig() {
  * For list of available options
  */
 interface Option {
-	alias: string;
+	alias?: string;
 	name: string;
 	type: any;
 	description: string;

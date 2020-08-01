@@ -191,7 +191,6 @@ Entries:
 	"javascript": {
 		"browserTargets": ["defaults"],
 		"compiler": "typescript",
-		"compress": false,
 		"dirs": {
 			"output": "dist/static/js",
 			"source": "src"
@@ -212,7 +211,6 @@ Entries:
 Entries:
 + *browserTargets*: See [Babel documentation](https://babeljs.io/docs/en/presets). Presets are loaded based on the compiler setting. Browser targets can be set here.
 + *compiler*: Possible values: none, javascript, flow or typescript. The setting javascript will convert recent versions of JavaScript to a browser compatible version.
-+ *compress*: Compress output files
 + *dirs / output*: Where to put your JavaScript files.
 + *dirs / source*: Location of your TypeScript or JavaScript files.
 + *nodeVersion*: For Babel. Possible values: current or version number.

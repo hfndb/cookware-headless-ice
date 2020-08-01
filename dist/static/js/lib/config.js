@@ -57,12 +57,14 @@ class AppConfig {
 
     this.read();
     let dir = (0, _path.join)(this.dirProject, "node_modules");
-    let paths = [(0, _path.join)(this.dirMain, "node_modules")];
+    let paths = [];
     let sep = (0, _os.platform)() == "win32" ? ";" : ":";
 
     if (this.isProject && (0, _shelljs.test)("-d", dir)) {
       paths.push(dir);
     }
+
+    paths.push((0, _path.join)(this.dirMain, "node_modules"));
 
     if (this.options.env.node_path && this.options.env.node_path.length > 0) {
       paths = paths.concat(this.options.env.node_path);

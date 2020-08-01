@@ -85,10 +85,15 @@ function compileFile(entry, verbose = true) {
 
   let log = _lib.Logger.getInstance(cfg.options.logging);
 
+  let fullPath = (0, _path.join)(entry.dir, entry.source);
   let plugins = ["@babel/plugin-proposal-class-properties", "@babel/proposal-object-rest-spread"];
   let presets = [];
 
-  if (cfg.options.javascript.compress) {
+  if ((0, _shelljs.grep)('from "react"', fullPath).trim()) {
+    presets.push(["@babel/preset-react"]);
+  }
+
+  if (process.env.NODE_ENV == "production") {
     presets.push("minify");
   } else if (cfg.options.javascript.sourceMapping) {
     plugins.push("source-map-support");
@@ -118,13 +123,13 @@ function compileFile(entry, verbose = true) {
     }]);
   }
 
-  let source = _lib.FileUtils.readFile((0, _path.join)(entry.dir, entry.source));
+  let source = _lib.FileUtils.readFile(fullPath);
 
   try {
     let results = (0, _core.transformSync)(source, {
       ast: true,
       comments: false,
-      filename: (0, _path.join)(entry.dir, entry.source),
+      filename: fullPath,
       plugins: plugins,
       presets: presets,
       sourceMaps: true
@@ -134,7 +139,7 @@ function compileFile(entry, verbose = true) {
       throw new Error("");
     }
 
-    if (cfg.options.javascript.compress) {
+    if (process.env.NODE_ENV == "production") {
       let map = (0, _path.join)(entry.targetDir, entry.target + ".map");
       if ((0, _shelljs.test)("-f", map)) (0, _shelljs.rm)(map);
     } else if (cfg.options.javascript.sourceMapping) {

@@ -13,6 +13,7 @@ var _shelljs = require("shelljs");
 var _lib = require("../lib");
 
 (0, _shelljs.cd)(process.argv[2]);
+if (process.argv[4]) process.env.NODE_ENV = "production";
 
 let cfg = _lib.AppConfig.getInstance("cookware-headless-ice");
 
@@ -43,7 +44,7 @@ process.env.NODE_PATH = paths.join(sep);
 
 require("module").Module._initPaths();
 
-if (cfg.options.javascript.compress) {
+if (process.env.NODE_ENV == "production") {
   browserify(src).transform("unassertify", {
     global: true
   }).transform("envify", {
@@ -59,5 +60,5 @@ if (cfg.options.javascript.compress) {
   }));
 }
 
-log.info(`- Written Javascript app ${bundle.output} (${cfg.options.javascript.compress ? "compressed" : "plain"}) `);
+log.info(`- Written Javascript app ${bundle.output} (${process.env.NODE_ENV == "production" ? "compressed" : "plain"}) `);
 //# sourceMappingURL=create-app.js.map

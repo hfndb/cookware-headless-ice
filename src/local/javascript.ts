@@ -29,7 +29,6 @@ export class JavascriptUtils {
 	 * @returns array with output files
 	 */
 	static bundle(): string[] {
-		const minifyStream = require("minify-stream");
 		let cfg = AppConfig.getInstance();
 		let log = Logger.getInstance(cfg.options.logging);
 		let nodeExec = join(cfg.dirMain, "node_modules", "node", "bin", "node");
@@ -65,6 +64,9 @@ export class JavascriptUtils {
 			rm("-f", outfile);
 
 			let cmd = `${nodeExec} ${join(execPath, "create-app.js")} ${cfg.dirProject}` + ` ${i}`;
+			if (process.env.NODE_ENV == "production") {
+				cmd += " 1";
+			}
 			exec(cmd);
 
 			// Cleanup obsolete directories and files

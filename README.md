@@ -138,7 +138,7 @@ Sass:
 + [node-sass](https://www.npmjs.com/package/node-sass) transpiler (Sass to CSS)
 
 JavaScript:
-[babel](https://www.npmjs.com/package/@babel/core) with [Flow preset](https://www.npmjs.com/package/@babel/preset-flow) and [TypeScript preset](https://www.npmjs.com/package/@babel/preset-typescript) to transcompile Flow, TypeScript or JavaScript to backwards compatible version of JavaScript
+[babel](https://www.npmjs.com/package/@babel/core) with [Flow preset](https://www.npmjs.com/package/@babel/preset-flow), [preset-react](https://www.npmjs.com/package/@babel/preset-react) and [TypeScript preset](https://www.npmjs.com/package/@babel/preset-typescript) to transcompile Flow, TypeScript or JavaScript to backwards compatible version of JavaScript
 + [babel-plugin-source-map-support](https://www.npmjs.com/package/babel-plugin-source-map-support) and [source-map-support](https://www.npmjs.com/package/source-map-support) for debugging transcompiled code
 + [babel-preset-minify](https://www.npmjs.com/package/babel-preset-minify) to compress generated code (single files)
 + [browserify](https://www.npmjs.com/package/browserify) with [tinyify](https://www.npmjs.com/package/tinyify) to generate compressed JavaScript browser bundles

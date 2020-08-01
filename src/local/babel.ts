@@ -1,5 +1,5 @@
 import { basename, dirname, join } from "path";
-import { rm, test } from "shelljs";
+import { grep, rm, test } from "shelljs";
 import { transformSync } from "@babel/core";
 import { getChangeList, AppConfig, FileStatus, FileUtils, Logger } from "../lib";
 import { removeObsolete } from "../lib/files";
@@ -77,14 +77,20 @@ export function compile(verbose: boolean): void {
 export function compileFile(entry: FileStatus, verbose: boolean = true): boolean {
 	let cfg = AppConfig.getInstance();
 	let log = Logger.getInstance(cfg.options.logging);
+	let fullPath = join(entry.dir, entry.source);
 	let plugins: any[] = [
 		"@babel/plugin-proposal-class-properties",
 		"@babel/proposal-object-rest-spread"
 	];
 	let presets: any[] = [];
 
-	if (cfg.options.javascript.compress) {
-		// True if for production use
+	if (grep('from "react"', fullPath).trim()) {
+		// Import of react found in source file
+		presets.push(["@babel/preset-react"]); // Using default settings
+	}
+
+	if (process.env.NODE_ENV == "production") {
+		// For production use
 		presets.push("minify");
 	} else if (cfg.options.javascript.sourceMapping) {
 		// https://www.mattzeunert.com/2016/02/14/how-do-source-maps-work.html
@@ -133,13 +139,13 @@ export function compileFile(entry: FileStatus, verbose: boolean = true): boolean
 		]);
 	}
 
-	let source = FileUtils.readFile(join(entry.dir, entry.source));
+	let source = FileUtils.readFile(fullPath);
 
 	try {
 		let results: any = transformSync(source, {
 			ast: true,
 			comments: false,
-			filename: join(entry.dir, entry.source),
+			filename: fullPath,
 			plugins: plugins,
 			presets: presets,
 			sourceMaps: true
@@ -148,7 +154,7 @@ export function compileFile(entry: FileStatus, verbose: boolean = true): boolean
 			throw new Error("");
 		}
 
-		if (cfg.options.javascript.compress) {
+		if (process.env.NODE_ENV == "production") {
 			// For production use
 			let map = join(entry.targetDir, entry.target + ".map");
 			if (test("-f", map)) rm(map);

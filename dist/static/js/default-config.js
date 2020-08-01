@@ -80,7 +80,6 @@ let DefaultConfig = {
   },
   javascript: {
     browserTargets: ["defaults"],
-    compress: false,
     compiler: "javascript",
     nodeVersion: "current",
     sourceMapping: true,

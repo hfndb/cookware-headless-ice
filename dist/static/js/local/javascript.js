@@ -34,8 +34,6 @@ class JavascriptUtils {
   }
 
   static bundle() {
-    const minifyStream = require("minify-stream");
-
     let cfg = _lib.AppConfig.getInstance();
 
     let log = _lib.Logger.getInstance(cfg.options.logging);
@@ -68,6 +66,11 @@ class JavascriptUtils {
       retVal.push(bundle.output);
       (0, _shelljs.rm)("-f", outfile);
       let cmd = `${nodeExec} ${(0, _path.join)(execPath, "create-app.js")} ${cfg.dirProject}` + ` ${i}`;
+
+      if (process.env.NODE_ENV == "production") {
+        cmd += " 1";
+      }
+
       (0, _shelljs.exec)(cmd);
 
       for (let i = 0; bundle.cleanup && i < bundle.cleanup.length; i++) {

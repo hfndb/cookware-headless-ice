@@ -41,6 +41,10 @@ class StringUtils {
     return result ? result[1] : "";
   }
 
+  static initialCapitalized(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
 }
 
 exports.StringUtils = StringUtils;
