@@ -1,5 +1,5 @@
 import { basename, extname, join } from "path";
-import { cp } from "shelljs";
+import { cp, grep } from "shelljs";
 import { FileWatcher, FileStatus, Logger } from "../lib";
 import { AppConfig } from "../lib/config";
 import { compileFile } from "../local/babel";
@@ -7,6 +7,26 @@ import { JavascriptUtils } from "../local/javascript";
 import { beautify } from "../local/misc";
 import { SassUtils } from "../local/styling";
 import { ProcessingTypes, SessionVars } from "../sys/session";
+
+/**
+ * Safety for beautifying files. Block files just beautified
+ */
+class Double {
+	static _instance: Double;
+	static reg: { [key: string]: number } = {};
+
+	static is(file: string): boolean {
+		let interval = 1 * 2000; // Assume max. 2 sec. to beautify
+		let now = new Date().getTime();
+		let last = Double.reg[file] || now - interval - 10;
+
+		if (now - last > interval) {
+			Double.reg[file] = now;
+			return false;
+		}
+		return true;
+	}
+}
 
 export class ConfigWatch extends FileWatcher {
 	static instance: ConfigWatch;
@@ -49,8 +69,11 @@ export class SassWatch extends FileWatcher {
 		if (extname(file) != ".scss") {
 			return;
 		}
+		if (Double.is(file)) return;
 		log.info(`- ${file} changed`);
-		if (cfg.options.server.beautify.includes("sass")) beautify(file);
+		if (cfg.options.server.beautify.includes("sass")) {
+			beautify(file);
+		}
 
 		let session = SessionVars.getInstance();
 		session.add(ProcessingTypes.sass, file);
@@ -77,16 +100,18 @@ export class JsWatch extends FileWatcher {
 		if (extname(file) != ".js" && extname(file) != ".ts") {
 			return;
 		}
+		if (Double.is(file)) return;
 		let cfg = AppConfig.getInstance();
 		let log = Logger.getInstance();
 		log.info(`- ${file} changed`);
+		let dir = join(cfg.dirProject, cfg.options.javascript.dirs.source);
 
-		if (cfg.options.server.beautify.includes("src")) beautify(file);
+		if (cfg.options.server.beautify.includes("src")) {
+			beautify(join(cfg.options.javascript.dirs.source, file));
+		}
 
 		let isTypescript = extname(file) == ".ts";
-		let status = new FileStatus(
-			join(cfg.dirProject, cfg.options.javascript.dirs.source)
-		);
+		let status = new FileStatus(dir);
 		status.setSoure(file, isTypescript ? ".ts" : ".js");
 		status.setTarget(
 			join(cfg.dirProject, cfg.options.javascript.dirs.output),
@@ -96,7 +121,7 @@ export class JsWatch extends FileWatcher {
 		switch (cfg.options.javascript.compiler) {
 			case "":
 				cp(
-					join(cfg.dirProject, cfg.options.javascript.dirs.source, file),
+					join(dir, file),
 					join(cfg.dirProject, cfg.options.javascript.dirs.output, file)
 				);
 			default:

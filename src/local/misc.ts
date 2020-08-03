@@ -47,7 +47,7 @@ export function beautify(path: string): void {
 				parser = "html";
 				break;
 			case ".js":
-				parser = "babylon";
+				parser = "babel";
 				break;
 			case ".ts":
 				parser = "typescript";
@@ -85,7 +85,7 @@ export function generateWeb(verbose: boolean): void {
 	let log = Logger.getInstance();
 	let session = SessionVars.getInstance();
 
-	compileJs(verbose);
+	compileJs(verbose, beautify);
 	SassUtils.compile(verbose);
 
 	let dir = join(cfg.dirProject, cfg.options.html.dirs.content);

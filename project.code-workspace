@@ -13,7 +13,7 @@
 		"editor.insertSpaces": false,
 		//"editor.wrappingColumn": 80,
 		"editor.semanticHighlighting.enabled": true,
-		"editor.tabSize": 2,
+		"editor.tabSize": 3,
 		"editor.wrappingIndent": "same",
 		"files.autoSave": "off",
 		"files.trimTrailingWhitespace": true,

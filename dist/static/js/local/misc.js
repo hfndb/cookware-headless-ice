@@ -68,7 +68,7 @@ function beautify(path) {
         break;
 
       case ".js":
-        parser = "babylon";
+        parser = "babel";
         break;
 
       case ".ts":
@@ -104,7 +104,7 @@ function generateWeb(verbose) {
 
   let session = _session.SessionVars.getInstance();
 
-  (0, _babel.compile)(verbose);
+  (0, _babel.compile)(verbose, beautify);
 
   _styling.SassUtils.compile(verbose);
 

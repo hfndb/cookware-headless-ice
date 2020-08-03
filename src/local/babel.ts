@@ -17,7 +17,7 @@ import { JavascriptUtils } from "./javascript";
 /**
  * Compile changed or new files, create browser bundles
  */
-export function compile(verbose: boolean): void {
+export function compile(verbose: boolean, beautify: Function): void {
 	let cfg = AppConfig.getInstance();
 	let log = Logger.getInstance(cfg.options.logging);
 	let outDir = JavascriptUtils.getOutputDir();
@@ -40,6 +40,9 @@ export function compile(verbose: boolean): void {
 		if (!saydHello && verbose) {
 			saydHello = true;
 			log.info(`Transcompiling ${cfg.options.javascript.compiler}`);
+		}
+		if (cfg.options.server.beautify.includes("src")) {
+			beautify(join(cfg.options.javascript.dirs.source, entry.source));
 		}
 		compileFile(entry, true);
 	}

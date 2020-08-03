@@ -27,6 +27,26 @@ var _session = require("../sys/session");
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+class Double {
+  static is(file) {
+    let interval = 1 * 2000;
+    let now = new Date().getTime();
+    let last = Double.reg[file] || now - interval - 10;
+
+    if (now - last > interval) {
+      Double.reg[file] = now;
+      return false;
+    }
+
+    return true;
+  }
+
+}
+
+_defineProperty(Double, "_instance", void 0);
+
+_defineProperty(Double, "reg", {});
+
 class ConfigWatch extends _lib.FileWatcher {
   change(event, file) {
     let cfg = _config.AppConfig.getInstance();
@@ -79,8 +99,12 @@ class SassWatch extends _lib.FileWatcher {
       return;
     }
 
+    if (Double.is(file)) return;
     log.info(`- ${file} changed`);
-    if (cfg.options.server.beautify.includes("sass")) (0, _misc.beautify)(file);
+
+    if (cfg.options.server.beautify.includes("sass")) {
+      (0, _misc.beautify)(file);
+    }
 
     let session = _session.SessionVars.getInstance();
 
@@ -111,20 +135,27 @@ class JsWatch extends _lib.FileWatcher {
       return;
     }
 
+    if (Double.is(file)) return;
+
     let cfg = _config.AppConfig.getInstance();
 
     let log = _lib.Logger.getInstance();
 
     log.info(`- ${file} changed`);
-    if (cfg.options.server.beautify.includes("src")) (0, _misc.beautify)(file);
+    let dir = (0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.source);
+
+    if (cfg.options.server.beautify.includes("src")) {
+      (0, _misc.beautify)((0, _path.join)(cfg.options.javascript.dirs.source, file));
+    }
+
     let isTypescript = (0, _path.extname)(file) == ".ts";
-    let status = new _lib.FileStatus((0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.source));
+    let status = new _lib.FileStatus(dir);
     status.setSoure(file, isTypescript ? ".ts" : ".js");
     status.setTarget((0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.output), ".js");
 
     switch (cfg.options.javascript.compiler) {
       case "":
-        (0, _shelljs.cp)((0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.source, file), (0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.output, file));
+        (0, _shelljs.cp)((0, _path.join)(dir, file), (0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.output, file));
 
       default:
         let session = _session.SessionVars.getInstance();

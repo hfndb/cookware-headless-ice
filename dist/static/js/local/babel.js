@@ -22,7 +22,7 @@ var _session = require("../sys/session");
 
 var _javascript = require("./javascript");
 
-function compile(verbose) {
+function compile(verbose, beautify) {
   let cfg = _lib.AppConfig.getInstance();
 
   let log = _lib.Logger.getInstance(cfg.options.logging);
@@ -45,6 +45,10 @@ function compile(verbose) {
     if (!saydHello && verbose) {
       saydHello = true;
       log.info(`Transcompiling ${cfg.options.javascript.compiler}`);
+    }
+
+    if (cfg.options.server.beautify.includes("src")) {
+      beautify((0, _path.join)(cfg.options.javascript.dirs.source, entry.source));
     }
 
     compileFile(entry, true);
