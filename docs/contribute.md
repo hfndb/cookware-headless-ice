@@ -35,7 +35,7 @@ Windows:
 + [Notepad++](https://notepad-plus-plus.org/) with [TypeScript plugin](https://github.com/chai2010/notepadplus-TypeScript)
 
 Suitable for both:
-+ [vim](https://en.wikipedia.org/wiki/Vim_(text_editor)) with extension [YouCompleteMe](https://awesomeopensource.com/project/ycm-core/YouCompleteMe?categoryPage=3) and [Gruvbox theme](https://github.com/morhetz/gruvbox). See [here](./installation-vim-linux.md) for installation and configuration details towards a **lightning fast experience** while writing code
++ [vim](https://en.wikipedia.org/wiki/Vim_(text_editor)) with an extension and some plugins. See [here](https://github.com/hfndb/tools/tree/master/vim) for installation and configuration details towards a **lightning fast experience** while writing code
 + [VS Code](https://code.visualstudio.com/)
 + [Brackets](http://brackets.io/) with extension [Nunjucks syntax highlighter](https://github.com/axelboc/nunjucks-brackets/)
 + [Komodo Edit](https://www.activestate.com/products/komodo-edit/)
