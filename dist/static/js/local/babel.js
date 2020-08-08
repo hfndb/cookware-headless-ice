@@ -77,6 +77,12 @@ function compile(verbose, beautify) {
 
   (0, _files.removeObsolete)(cfg.options.javascript.removeObsolete, processed, outDir, ".js");
 
+  if (cfg.options.javascript.generateTags) {
+    (0, _shelljs.exec)(`ctags-exuberant -R  ${(0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.source)}`, {
+      async: true
+    });
+  }
+
   if (saydHello && verbose) {
     log.info(`... done`);
   } else if (verbose) {

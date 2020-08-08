@@ -1,5 +1,5 @@
 import { basename, dirname, join } from "path";
-import { grep, rm, test } from "shelljs";
+import { exec, grep, rm, test } from "shelljs";
 import { transformSync } from "@babel/core";
 import {
 	getChangeList,
@@ -79,6 +79,16 @@ export function compile(verbose: boolean, beautify: Function): void {
 		outDir,
 		".js"
 	);
+
+	if (cfg.options.javascript.generateTags) {
+		exec(
+			`ctags-exuberant -R  ${join(
+				cfg.dirProject,
+				cfg.options.javascript.dirs.source
+			)}`,
+			{ async: true }
+		);
+	}
 
 	if (saydHello && verbose) {
 		log.info(`... done`);

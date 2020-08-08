@@ -165,7 +165,12 @@ class JsWatch extends _lib.FileWatcher {
 
         _javascript.JavascriptUtils.bundle();
 
-        break;
+        if (cfg.options.javascript.generateTags) {
+          (0, _shelljs.exec)(`ctags-exuberant -R  ${(0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.source)}`, {
+            async: true
+          });
+        }
+
     }
   }
 

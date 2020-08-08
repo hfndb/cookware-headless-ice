@@ -1,5 +1,5 @@
 import { basename, extname, join } from "path";
-import { cp, grep } from "shelljs";
+import { cp, exec, grep } from "shelljs";
 import { FileWatcher, FileStatus, Logger } from "../lib";
 import { AppConfig } from "../lib/config";
 import { compileFile } from "../local/babel";
@@ -132,7 +132,15 @@ export class JsWatch extends FileWatcher {
 				);
 				compileFile(status, true);
 				JavascriptUtils.bundle();
-				break;
+				if (cfg.options.javascript.generateTags) {
+					exec(
+						`ctags-exuberant -R  ${join(
+							cfg.dirProject,
+							cfg.options.javascript.dirs.source
+						)}`,
+						{ async: true }
+					);
+				}
 		}
 	}
 }

@@ -72,6 +72,7 @@ let DefaultConfig = {
 	javascript: {
 		browserTargets: ["defaults"],
 		compiler: "javascript",
+		generateTags: false,
 		nodeVersion: "current",
 		sourceMapping: true,
 		sourceVersion: "es2017",
