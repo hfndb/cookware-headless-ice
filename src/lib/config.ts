@@ -56,7 +56,7 @@ export class AppConfig {
 
 		// Add some paths to NODE_PATH
 		let dir = join(this.dirProject, "node_modules");
-		let paths = [];
+		let paths: string[] = [];
 		let sep = platform() == "win32" ? ";" : ":";
 		if (this.isProject && test("-d", dir)) {
 			paths.push(dir);

@@ -38,12 +38,12 @@ class Logger {
     _defineProperty(this, "udfLogging", null);
 
     this.shutdown = null;
+    this.opts = options;
 
     if (options == null) {
       return;
     }
 
-    this.opts = options;
     this.fileAll = "combined.log";
     this.fileDatabase = "database.log";
     this.fileError = "error.log";
@@ -55,9 +55,9 @@ class Logger {
 
   static getInstance(options) {
     if (!Logger.instance) {
-      Logger.instance = new Logger(options || null);
-
-      if (!options) {
+      if (options) {
+        Logger.instance = new Logger(options);
+      } else {
         console.log("Programming error? Logger.getInstance() called without options");
       }
     }
@@ -210,14 +210,14 @@ class Logger {
     }
   }
 
-  separatorLine() {
-    this.writeConsole(null, null, true);
-    this.writeFile(this.fileAll, null, null, true);
+  separatorLine(file, level) {
+    this.writeConsole(level, "", true);
+    this.writeFile(file, level, "", true);
   }
 
 }
 
 exports.Logger = Logger;
 
-_defineProperty(Logger, "instance", null);
+_defineProperty(Logger, "instance", void 0);
 //# sourceMappingURL=log.js.map

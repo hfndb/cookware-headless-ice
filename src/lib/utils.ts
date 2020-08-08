@@ -119,7 +119,7 @@ export class Formatter {
 
 		let isNegative = nr < 0;
 		let portion: number;
-		let thousands = [];
+		let thousands: number[] = [];
 		nr = Math.abs(nr);
 		while (nr) {
 			portion = nr % 1000;

@@ -122,9 +122,10 @@ ${value}
     let log = _log.Logger.getInstance();
 
     let regex = new RegExp('{%([-\\s]+)extends\\s*"(.*)"([-\\s]+)%}', "gim");
-    let result = null;
+    let result = regex.exec(item.rawData) || [];
+    let found = result.length > 0;
 
-    while ((result = regex.exec(item.rawData)) !== null) {
+    while (found) {
       let exists = false;
       let fname = result[2];
 
@@ -139,6 +140,9 @@ ${value}
       if (!exists) {
         log.warn(`File ${item.template[1]} extends non-existing file ${fname}`);
       }
+
+      result = regex.exec(item.rawData) || [];
+      found = result.length > 0;
     }
 
     if (item.stripFoundTags) {
@@ -150,9 +154,10 @@ ${value}
     let log = _log.Logger.getInstance();
 
     let regex = new RegExp('{%([-\\s]+)include\\s*"(.*)"([-\\s]+)%}', "gim");
-    let result = null;
+    let result = regex.exec(item.rawData) || [];
+    let found = result.length > 0;
 
-    while ((result = regex.exec(item.rawData)) !== null) {
+    while (found) {
       let exists = false;
       let fname = result[2];
 
@@ -169,6 +174,9 @@ ${value}
       if (!exists) {
         log.warn(`File ${item.template[1]} contains non-existing include ${fname}`);
       }
+
+      result = regex.exec(item.rawData) || [];
+      found = result.length > 0;
     }
 
     if (item.stripFoundTags) {
@@ -178,10 +186,13 @@ ${value}
 
   static readBlocks(item) {
     let regex = new RegExp("{%([-\\s]+)block\\s*(\\w*?)([-\\s]+)%}([^]*?){%([-\\s]+)endblock\\s*([-\\s]+)%}", "gim");
-    let result = null;
+    let result = regex.exec(item.rawData) || [];
+    let found = result.length > 0;
 
-    while ((result = regex.exec(item.rawData)) !== null) {
+    while (found) {
       item.blocks.push([result[2], result[4].trim(), result[1].trim().length > 0, result[3].trim().length > 0, result[5].trim().length > 0, result[6].trim().length > 0]);
+      result = regex.exec(item.rawData) || [];
+      found = result.length > 0;
     }
 
     if (item.stripFoundTags) {
@@ -191,11 +202,14 @@ ${value}
 
   static readVariables(item) {
     let regex = new RegExp("{%([-\\s]+)set\\s*(\\w*?)\\s*=\\s*([^]*?)([-\\s]+)%}", "gim");
-    let result = null;
+    let result = regex.exec(item.rawData) || [];
+    let found = result.length > 0;
 
-    while ((result = regex.exec(item.rawData)) !== null) {
+    while (found) {
       let val = result[3].substr(0, 1) == "{" ? JSON.parse(result[3]) : eval(result[3]);
       item.variables.push([result[2], val, result[1].trim().length > 0, result[4].trim().length > 0]);
+      result = regex.exec(item.rawData) || [];
+      found = result.length > 0;
     }
 
     if (item.stripFoundTags) {

@@ -11,7 +11,7 @@ interface PlaySound {
 
 interface Transport {
 	active: boolean;
-	dir?: string;
+	dir: string;
 	format: string;
 }
 
@@ -50,10 +50,11 @@ export class Logger {
 	 */
 	udfLogging: Function | null = null;
 
-	static instance: Logger | null = null;
+	static instance: Logger;
 
-	constructor(options: LogConfig | null) {
+	constructor(options: LogConfig) {
 		this.shutdown = null;
+		this.opts = options;
 		if (options == null) {
 			return;
 		}
@@ -70,7 +71,6 @@ export class Logger {
 		 * Log levels acoording to ./docs/configuration.md:
 		 * debug, error, verbose
 		 */
-		this.opts = options;
 		this.fileAll = "combined.log";
 		this.fileDatabase = "database.log";
 		this.fileError = "error.log";
@@ -85,8 +85,9 @@ export class Logger {
 	 */
 	static getInstance(options?: LogConfig): Logger {
 		if (!Logger.instance) {
-			Logger.instance = new Logger(options || null);
-			if (!options) {
+			if (options) {
+				Logger.instance = new Logger(options);
+			} else {
 				console.log(
 					"Programming error? Logger.getInstance() called without options"
 				);
@@ -256,8 +257,8 @@ export class Logger {
 	/**
 	 * Write a line to separate groups of log entries
 	 */
-	public separatorLine() {
-		this.writeConsole(null, null, true);
-		this.writeFile(this.fileAll, null, null, true);
+	public separatorLine(file: string, level: string) {
+		this.writeConsole(level, "", true);
+		this.writeFile(file, level, "", true);
 	}
 }

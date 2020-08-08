@@ -283,7 +283,7 @@ The structure of this file is invalid, meaning, messed up.
 
 		let lr = new LineReader(path);
 		let lineNr = 0;
-		let retVal = [];
+		let retVal: any = [];
 		do {
 			let line = lr.next();
 			if (line === false) break; // End of file

@@ -171,7 +171,7 @@ export class Dataset {
 	 */
 	static extractFields(data: any[], fields: any[]): any[] {
 		let log = Logger.getInstance();
-		let retVal = [];
+		let retVal: Object[] = [];
 
 		for (let rec = 0; rec < data.length; rec++) {
 			let record = {};

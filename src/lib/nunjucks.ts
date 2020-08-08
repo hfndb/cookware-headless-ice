@@ -148,8 +148,9 @@ ${value}
 	static readExtends(item: CacheItem, searchPaths: string[]): void {
 		let log = Logger.getInstance();
 		let regex = new RegExp('{%([-\\s]+)extends\\s*"(.*)"([-\\s]+)%}', "gim"); // Global, case insensitive, multiline
-		let result = null;
-		while ((result = regex.exec(item.rawData)) !== null) {
+		let result: string[] = regex.exec(item.rawData) || [];
+		let found = result.length > 0;
+		while (found) {
 			let exists = false;
 			// result: idx 0 full string, 1 "-" or empty string, 2 file name, 3 "-" or empty string
 			let fname = result[2];
@@ -163,6 +164,8 @@ ${value}
 			if (!exists) {
 				log.warn(`File ${item.template[1]} extends non-existing file ${fname}`);
 			}
+			result = regex.exec(item.rawData) || [];
+			found = result.length > 0;
 		}
 
 		if (item.stripFoundTags) {
@@ -183,9 +186,9 @@ ${value}
 	static readIncludes(item: CacheItem, searchPaths: string[]): void {
 		let log = Logger.getInstance();
 		let regex = new RegExp('{%([-\\s]+)include\\s*"(.*)"([-\\s]+)%}', "gim"); // Global, case insensitive, multiline
-		let result = null;
-
-		while ((result = regex.exec(item.rawData)) !== null) {
+		let result: string[] = regex.exec(item.rawData) || [];
+		let found = result.length > 0;
+		while (found) {
 			let exists = false;
 			// result:
 			// 0 full string
@@ -204,6 +207,8 @@ ${value}
 			if (!exists) {
 				log.warn(`File ${item.template[1]} contains non-existing include ${fname}`);
 			}
+			result = regex.exec(item.rawData) || [];
+			found = result.length > 0;
 		}
 
 		if (item.stripFoundTags) {
@@ -230,9 +235,9 @@ ${value}
 			"gim"
 		);
 		// Global, case insensitive, multiline
-		let result = null;
-
-		while ((result = regex.exec(item.rawData)) !== null) {
+		let result: string[] = regex.exec(item.rawData) || [];
+		let found = result.length > 0;
+		while (found) {
 			// result:
 			// 0 full string
 			// 1 "-" or empty string (start block, trimming begin)
@@ -250,6 +255,8 @@ ${value}
 				result[5].trim().length > 0,
 				result[6].trim().length > 0
 			]);
+			result = regex.exec(item.rawData) || [];
+			found = result.length > 0;
 		}
 
 		if (item.stripFoundTags) {
@@ -275,9 +282,9 @@ ${value}
 		); // Global, case insensitive, multiline
 		// https://stackoverflow.com/questions/1979884/how-to-use-javascript-regex-over-multiple-lines
 		// https://stackoverflow.com/questions/1387116/matching-multiline-patterns
-		let result = null;
-
-		while ((result = regex.exec(item.rawData)) !== null) {
+		let result: string[] = regex.exec(item.rawData) || [];
+		let found = result.length > 0;
+		while (found) {
 			// result:
 			// 0 full string
 			// 1 "-" or empty string (trimming)
@@ -292,6 +299,8 @@ ${value}
 				result[1].trim().length > 0,
 				result[4].trim().length > 0
 			]);
+			result = regex.exec(item.rawData) || [];
+			found = result.length > 0;
 		}
 
 		if (item.stripFoundTags) {
@@ -309,7 +318,7 @@ ${value}
 		templateDir: string
 	): string {
 		let log = Logger.getInstance();
-		let searchPaths = [];
+		let searchPaths: string[] = [];
 		if (templateDir) searchPaths.push(templateDir);
 		searchPaths = searchPaths.concat(NunjucksUtils.getSearchPaths());
 
