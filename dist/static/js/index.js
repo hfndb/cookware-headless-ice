@@ -12,6 +12,8 @@ var _lib = require("./lib");
 
 var _config = require("./lib/config");
 
+var _beautify = require("./lib/beautify");
+
 var _javascript = require("./local/javascript");
 
 var _misc = require("./local/misc");
@@ -52,7 +54,7 @@ am.addOption({
   alias: "g",
   name: "generate",
   type: Boolean,
-  description: "Transcompile changed js, ts and scss, render changed .html using template engine, \
+  description: "Transompile changed js, ts and scss, render changed .html using template engine, \
 			generate Google sitemap."
 });
 am.addOption(am.initializeNewProjectShortcutI);
@@ -109,7 +111,7 @@ process.on("uncaughtException", err => {
 let stats = false;
 
 if (choice.beautify) {
-  (0, _misc.beautify)(choice.beautify);
+  _beautify.Beautify.standAlone(choice.beautify);
 } else if (choice.docs && cfg.options.javascript.compiler == "typescript") {
   (0, _typescript.generateTsDocs)();
 } else if (choice.docs) {

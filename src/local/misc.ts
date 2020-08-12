@@ -11,67 +11,8 @@ import { SassUtils } from "./styling";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 // import { compileTypeScript } from "./typescript";
 
-/**
- * Beautify html, js, ts or scss file(s)
- * Uses configuration in config.json
- *
- * @param path to directory or file
- */
-export function beautify(path: string): void {
-	if (path.endsWith("/")) path = path.substr(0, path.length - 1);
-
-	let cfg = AppConfig.getInstance();
-	let pathIsDir = test("-d", join(cfg.dirProject, path));
-	let log = Logger.getInstance(cfg.options.logging);
-	let files = pathIsDir
-		? FileUtils.getFileList(join(cfg.dirProject, path))
-		: [path];
-	let options = cfg.options.dependencies.prettier.config;
-	const prettier = require("prettier");
-
-	if (!pathIsDir) path = "";
-	for (let i = 0; i < files.length; i++) {
-		let file = files[i];
-		let content = FileUtils.readFile(join(cfg.dirProject, path, file));
-		let ext = extname(file);
-		let parser = ""; // See https://prettier.io/docs/en/options.html#parser
-
-		switch (ext) {
-			case ".css":
-				parser = "css";
-				break;
-			case ".scss":
-				parser = "css"; // postcss is deprecated
-				break;
-			case ".html":
-				parser = "html";
-				break;
-			case ".js":
-				parser = "babel";
-				break;
-			case ".ts":
-				parser = "typescript";
-				break;
-			default:
-				return;
-		}
-
-		Object.assign(options, {
-			filepath: file,
-			parser: parser
-		});
-
-		try {
-			let data = prettier.format(content, options || undefined);
-			if (FileUtils.writeFile(cfg.dirProject, join(path, file), data, false)) {
-				log.info(`- Beautyfied ${file}`);
-			}
-		} catch (err) {
-			log.error(`- Failed to render file ${file} `, Logger.error2string(err));
-			throw new Error(err);
-		}
-	}
-}
+let cfg = AppConfig.getInstance();
+let log = Logger.getInstance(cfg.options.logging);
 
 /**
  * Create local website:
@@ -85,7 +26,7 @@ export function generateWeb(verbose: boolean): void {
 	let log = Logger.getInstance();
 	let session = SessionVars.getInstance();
 
-	compileJs(verbose, beautify);
+	compileJs(verbose);
 	SassUtils.compile(verbose);
 
 	let dir = join(cfg.dirProject, cfg.options.html.dirs.content);

@@ -360,7 +360,7 @@ Entries:
 		"documentation": true,
 		"goodies": true,
 		"exclude": [
-			"docs/integrated"
+			"api"
 			]
 	}
 }

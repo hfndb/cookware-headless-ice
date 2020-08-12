@@ -7,6 +7,7 @@ import {
 	FileUtils,
 	Logger
 } from "../lib";
+import { Beautify } from "../lib/beautify"
 import { removeObsolete } from "../lib/files";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 
@@ -159,6 +160,13 @@ export class SassUtils {
 			return false;
 		}
 
+		let fullPath = join(entry.dir, entry.source);
+		let source = FileUtils.readFile(fullPath);
+		
+		if (cfg.options.server.beautify.includes("sass")) {
+			source = Beautify.content(entry.source, source);
+			FileUtils.writeFile(entry.dir, entry.source, source, false);
+		}
 		Object.assign(options, {
 			file: join(entry.dir, entry.source),
 			outFile: join(entry.targetDir, entry.target),

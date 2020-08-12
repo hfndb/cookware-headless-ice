@@ -10,7 +10,7 @@
 		],
 		"module": "commonjs",
 		"moduleResolution": "Node",
-		"noEmit": true,
+		"noEmit": false,
 		"noImplicitAny": false,
 		"noUnusedLocals": false,
 		"noUnusedParameters": false,

@@ -3,8 +3,9 @@ import { Lint } from "./local/markup";
 import { renderEpub } from "./local/epub";
 import { FileUtils, Logger } from "./lib";
 import { AppConfig, AppMenu } from "./lib/config";
+import { Beautify } from "./lib/beautify";
 import { generateJsDocs } from "./local/javascript";
-import { beautify, generateWeb } from "./local/misc";
+import { generateWeb } from "./local/misc";
 import { renderPdf } from "./local/pdf";
 import { generateTsDocs } from "./local/typescript";
 import { playGround } from "./dev/playground";
@@ -46,7 +47,7 @@ am.addOption({
 	name: "generate",
 	type: Boolean,
 	description:
-		"Transcompile changed js, ts and scss, render changed .html using template engine, \
+		"Transompile changed js, ts and scss, render changed .html using template engine, \
 			generate Google sitemap."
 });
 am.addOption(am.initializeNewProjectShortcutI);
@@ -102,7 +103,7 @@ process.on("uncaughtException", err => {
 
 let stats = false;
 if (choice.beautify) {
-	beautify(choice.beautify);
+	Beautify.standAlone(choice.beautify);
 } else if (choice.docs && cfg.options.javascript.compiler == "typescript") {
 	generateTsDocs();
 } else if (choice.docs) {
@@ -124,7 +125,7 @@ if (choice.beautify) {
 } else if (choice.run) {
 	coatRack();
 } else if (choice.touch) {
-	let allow = [];
+	let allow: string[] = [];
 	let dir = cfg.options.html.dirs.content;
 	switch (choice.touch) {
 		case "content":

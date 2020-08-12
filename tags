@@ -13,6 +13,7 @@ AppConfig	/opt/projects/weblib/src/local/typescript.ts	/^	AppConfig,$/;"	V
 AppMenu	/opt/projects/weblib/src/lib/config.ts	/^export class AppMenu {$/;"	C
 ArrayUtils	/opt/projects/weblib/src/lib/object.ts	/^export class ArrayUtils {$/;"	C
 AudioUtils	/opt/projects/weblib/src/lib/audio.ts	/^export class AudioUtils {$/;"	C
+Beautify	/opt/projects/weblib/src/lib/beautify.ts	/^export class Beautify {$/;"	C
 CacheItem	/opt/projects/weblib/src/lib/nunjucks.ts	/^class CacheItem {$/;"	C
 ConfigWatch	/opt/projects/weblib/src/server/watches.ts	/^export class ConfigWatch extends FileWatcher {$/;"	C
 Content	/opt/projects/weblib/src/lib/html.ts	/^export class Content {$/;"	C
@@ -93,7 +94,6 @@ alias	/opt/projects/weblib/src/lib/config.ts	/^		alias: "c",$/;"	P
 alias	/opt/projects/weblib/src/lib/config.ts	/^		alias: "h",$/;"	P
 alias	/opt/projects/weblib/src/lib/config.ts	/^		alias: "i",$/;"	P
 alias	/opt/projects/weblib/src/lib/config.ts	/^		alias: "y",$/;"	P
-allow	/opt/projects/weblib/src/index.ts	/^	let allow = [];$/;"	A
 allowUnknownTags	/opt/projects/weblib/src/default-config.ts	/^					allowUnknownTags: true,$/;"	P
 allowedExtensions	/opt/projects/weblib/src/index.ts	/^		allowedExtensions: allow$/;"	P
 allowedExtensions	/opt/projects/weblib/src/lib/files.ts	/^		allowedExtensions: [ext]$/;"	P
@@ -119,12 +119,11 @@ backupChangedSource	/opt/projects/weblib/src/local/misc.ts	/^export function bac
 backupChangedSource	/opt/projects/weblib/src/server/index.ts	/^			backupChangedSource,$/;"	V
 backupInterval	/opt/projects/weblib/src/default-config.ts	/^		backupInterval: 0,$/;"	P
 beautify	/opt/projects/weblib/src/default-config.ts	/^		beautify: ["src"],$/;"	P
-beautify	/opt/projects/weblib/src/local/misc.ts	/^export function beautify(path: string): void {$/;"	E
-beautify	/opt/projects/weblib/src/local/misc.ts	/^export function beautify(path: string): void {$/;"	F
 begin	/opt/projects/weblib/src/default-config.ts	/^			begin: true,$/;"	P
 bracketSpacing	/opt/projects/weblib/src/default-config.ts	/^				bracketSpacing: true,$/;"	P
 breaks	/opt/projects/weblib/src/local/markdown.ts	/^		breaks: true,$/;"	P
 browserTargets	/opt/projects/weblib/src/default-config.ts	/^		browserTargets: ["defaults"],$/;"	P
+browserify	/opt/projects/weblib/src/default-config.ts	/^		browserify: {$/;"	P
 bundle	/opt/projects/weblib/src/local/javascript.ts	/^	static bundle(): string[] {$/;"	M
 bundles	/opt/projects/weblib/src/default-config.ts	/^		bundles: [],$/;"	P
 caching	/opt/projects/weblib/src/default-config.ts	/^		caching: {$/;"	P
@@ -145,8 +144,8 @@ color	/opt/projects/weblib/src/default-config.ts	/^				color: false,$/;"	P
 cols	/opt/projects/weblib/src/lib/config.ts	/^		let cols = [10, 50, 50, 50];$/;"	A
 columnSeparator	/opt/projects/weblib/src/lib/reporting.ts	/^		columnSeparator: string,$/;"	P
 comments	/opt/projects/weblib/src/local/babel.ts	/^			comments: false,$/;"	P
-compile	/opt/projects/weblib/src/local/babel.ts	/^export function compile(verbose: boolean, beautify: Function): void {$/;"	E
-compile	/opt/projects/weblib/src/local/babel.ts	/^export function compile(verbose: boolean, beautify: Function): void {$/;"	F
+compile	/opt/projects/weblib/src/local/babel.ts	/^export function compile(verbose: boolean): void {$/;"	E
+compile	/opt/projects/weblib/src/local/babel.ts	/^export function compile(verbose: boolean): void {$/;"	F
 compile	/opt/projects/weblib/src/local/styling.ts	/^	static compile(verbose: boolean): void {$/;"	M
 compileFile	/opt/projects/weblib/src/local/babel.ts	/^export function compileFile($/;"	E
 compileFile	/opt/projects/weblib/src/local/babel.ts	/^export function compileFile($/;"	F
@@ -179,6 +178,7 @@ content	/opt/projects/weblib/src/default-config.ts	/^			content: "dist",$/;"	P
 content	/opt/projects/weblib/src/default-config.ts	/^			content: {$/;"	P
 content	/opt/projects/weblib/src/default-config.ts	/^		content: true,$/;"	P
 content	/opt/projects/weblib/src/index.ts	/^			content: "Utility functions"$/;"	P
+content	/opt/projects/weblib/src/lib/beautify.ts	/^	static content(file: string, content: string): string {$/;"	M
 content	/opt/projects/weblib/src/lib/files.ts	/^		content: object,$/;"	P
 content	/opt/projects/weblib/src/lib/files.ts	/^		content: string,$/;"	P
 content	/opt/projects/weblib/src/local/markup-test.ts	/^let content = new Content();$/;"	V
@@ -284,7 +284,7 @@ exclude	/opt/projects/weblib/src/default-config.ts	/^			exclude: ["downloads"],$
 exclude	/opt/projects/weblib/src/default-config.ts	/^			exclude: ["includes", "test-pages"],$/;"	P
 exclude	/opt/projects/weblib/src/default-config.ts	/^			exclude: []$/;"	P
 exclude	/opt/projects/weblib/src/default-config.ts	/^			exclude: [],$/;"	P
-exclude	/opt/projects/weblib/src/default-config.ts	/^		exclude: [$/;"	P
+exclude	/opt/projects/weblib/src/default-config.ts	/^		exclude: ["api"]$/;"	P
 excludeExternals	/opt/projects/weblib/src/default-config.ts	/^				excludeExternals: true,$/;"	P
 excludeList	/opt/projects/weblib/src/default-config.ts	/^	excludeList: {$/;"	P
 excludeList	/opt/projects/weblib/src/local/overview.ts	/^		excludeList: ["dist", "node_modules"],$/;"	P
@@ -305,6 +305,7 @@ experimentalDecorators	/opt/projects/weblib/src/default-config.ts	/^				experime
 express	/opt/projects/weblib/src/default-config.ts	/^		express: {$/;"	P
 ext	/opt/projects/weblib/src/lib/files.ts	/^	ext: string$/;"	P
 extended	/opt/projects/weblib/src/lib/express.ts	/^				extended: true$/;"	P
+external	/opt/projects/weblib/src/default-config.ts	/^			external: []$/;"	P
 extractFields	/opt/projects/weblib/src/lib/object.ts	/^	static extractFields(data: any[], fields: any[]): any[] {$/;"	M
 false	/opt/projects/weblib/src/lib/config.ts	/^			false$/;"	V
 false	/opt/projects/weblib/src/lib/log.ts	/^			false,$/;"	V
@@ -323,7 +324,7 @@ file	/opt/projects/weblib/src/local/markup.ts	/^	static file(path: string, clean
 file	/opt/projects/weblib/src/server/controllers.ts	/^							file: url,$/;"	P
 file	/opt/projects/weblib/src/server/watches.ts	/^					file$/;"	V
 filename	/opt/projects/weblib/src/local/babel.ts	/^			filename: fullPath,$/;"	P
-filepath	/opt/projects/weblib/src/local/misc.ts	/^			filepath: file,$/;"	P
+filepath	/opt/projects/weblib/src/lib/beautify.ts	/^			filepath: file,$/;"	P
 files	/opt/projects/weblib/src/lib/nunjucks.ts	/^	let files = [$/;"	A
 files	/opt/projects/weblib/src/local/misc.ts	/^			files: []$/;"	P
 files	/opt/projects/weblib/src/server/controllers.ts	/^					files: [$/;"	P
@@ -520,8 +521,8 @@ p	/opt/projects/weblib/src/lib/utils.ts	/^		const p = new RegExp(a.split("").joi
 parseLine	/opt/projects/weblib/src/lib/html.ts	/^	static parseLine(line: string): string {$/;"	M
 parseLine	/opt/projects/weblib/src/local/overview.ts	/^function parseLine(line: string, item: Item, isInComment: boolean): boolean {$/;"	F
 parsed	/opt/projects/weblib/src/lib/files.ts	/^		let parsed = {};$/;"	O
-parser	/opt/projects/weblib/src/local/misc.ts	/^			parser: parser$/;"	P
-parser	/opt/projects/weblib/src/local/misc.ts	/^		let parser = ""; \/\/ See https:\/\/prettier.io\/docs\/en\/options.html#parser$/;"	V
+parser	/opt/projects/weblib/src/lib/beautify.ts	/^			parser: parser$/;"	P
+parser	/opt/projects/weblib/src/lib/beautify.ts	/^		let parser = ""; \/\/ See https:\/\/prettier.io\/docs\/en\/options.html#parser$/;"	V
 path	/opt/projects/weblib/src/default-config.ts	/^					path: "\/",$/;"	P
 path	/opt/projects/weblib/src/lib/files.ts	/^		path: string,$/;"	P
 path	/opt/projects/weblib/src/lib/html.ts	/^			path: file,$/;"	P
@@ -657,6 +658,7 @@ src	/opt/projects/weblib/src/default-config.ts	/^			src: {$/;"	P
 stack	/opt/projects/weblib/src/lib/log.ts	/^			stack: [""]$/;"	P
 stackReg	/opt/projects/weblib/src/lib/log.ts	/^		let stackReg = \/at\\s+(.*)\\s+\\((.*):(\\d*):(\\d*)\\)\/i;$/;"	V
 stackReg2	/opt/projects/weblib/src/lib/log.ts	/^		let stackReg2 = \/at\\s+()(.*):(\\d*):(\\d*)\/i;$/;"	V
+standAlone	/opt/projects/weblib/src/lib/beautify.ts	/^	static standAlone(path: string): void {$/;"	M
 startDevServer	/opt/projects/weblib/src/server/server-test.ts	/^	coatRack as startDevServer$/;"	I
 startsWith	/opt/projects/weblib/src/default-config.ts	/^		startsWith: true,$/;"	P
 startsWith	/opt/projects/weblib/src/lib/object.ts	/^	static startsWith(str: string, searchIn: string[]): boolean {$/;"	M

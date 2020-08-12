@@ -1,74 +1,17 @@
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "AppConfig", {
-  enumerable: true,
-  get: function () {
-    return _config.AppConfig;
-  }
-});
-Object.defineProperty(exports, "createDirTree", {
-  enumerable: true,
-  get: function () {
-    return _dirs.createDirTree;
-  }
-});
-Object.defineProperty(exports, "fileListOptions", {
-  enumerable: true,
-  get: function () {
-    return _files.fileListOptions;
-  }
-});
-Object.defineProperty(exports, "FileUtils", {
-  enumerable: true,
-  get: function () {
-    return _files.FileUtils;
-  }
-});
-Object.defineProperty(exports, "FileWatcher", {
-  enumerable: true,
-  get: function () {
-    return _files.FileWatcher;
-  }
-});
-Object.defineProperty(exports, "getChangeList", {
-  enumerable: true,
-  get: function () {
-    return _fileDiff.getChangeList;
-  }
-});
-Object.defineProperty(exports, "FileStatus", {
-  enumerable: true,
-  get: function () {
-    return _fileDiff.FileStatus;
-  }
-});
-Object.defineProperty(exports, "Logger", {
-  enumerable: true,
-  get: function () {
-    return _log.Logger;
-  }
-});
-Object.defineProperty(exports, "StringUtils", {
-  enumerable: true,
-  get: function () {
-    return _utils.StringUtils;
-  }
-});
-
-require("source-map-support/register");
-
-var _config = require("./config");
-
-var _dirs = require("./dirs");
-
-var _files = require("./files");
-
-var _fileDiff = require("./file-diff");
-
-var _log = require("./log");
-
-var _utils = require("./utils");
+Object.defineProperty(exports, "__esModule", { value: true });
+var config_1 = require("./config");
+exports.AppConfig = config_1.AppConfig;
+var dirs_1 = require("./dirs");
+exports.createDirTree = dirs_1.createDirTree;
+var files_1 = require("./files");
+exports.FileUtils = files_1.FileUtils;
+exports.FileWatcher = files_1.FileWatcher;
+var file_diff_1 = require("./file-diff");
+exports.getChangeList = file_diff_1.getChangeList;
+exports.FileStatus = file_diff_1.FileStatus;
+var log_1 = require("./log");
+exports.Logger = log_1.Logger;
+var utils_1 = require("./utils");
+exports.StringUtils = utils_1.StringUtils;
 //# sourceMappingURL=index.js.map

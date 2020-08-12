@@ -1,5 +1,5 @@
 import { basename, dirname, join } from "path";
-import { exec, grep, rm, test } from "shelljs";
+import { exec, rm, test } from "shelljs";
 import { transformSync } from "@babel/core";
 import {
 	getChangeList,
@@ -9,6 +9,7 @@ import {
 	Logger
 } from "../lib";
 import { removeObsolete } from "../lib/files";
+import { Beautify } from "../lib/beautify";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 import { JavascriptUtils } from "./javascript";
 
@@ -17,7 +18,7 @@ import { JavascriptUtils } from "./javascript";
 /**
  * Compile changed or new files, create browser bundles
  */
-export function compile(verbose: boolean, beautify: Function): void {
+export function compile(verbose: boolean): void {
 	let cfg = AppConfig.getInstance();
 	let log = Logger.getInstance(cfg.options.logging);
 	let outDir = JavascriptUtils.getOutputDir();
@@ -40,9 +41,6 @@ export function compile(verbose: boolean, beautify: Function): void {
 		if (!saydHello && verbose) {
 			saydHello = true;
 			log.info(`Transcompiling ${cfg.options.javascript.compiler}`);
-		}
-		if (cfg.options.server.beautify.includes("src")) {
-			beautify(join(cfg.options.javascript.dirs.source, entry.source));
 		}
 		compileFile(entry, true);
 	}
@@ -80,17 +78,16 @@ export function compile(verbose: boolean, beautify: Function): void {
 		".js"
 	);
 
-	if (cfg.options.javascript.generateTags) {
-		exec(
-			`ctags-exuberant -R  ${join(
-				cfg.dirProject,
-				cfg.options.javascript.dirs.source
-			)}`,
-			{ async: true }
-		);
-	}
-
 	if (saydHello && verbose) {
+		if (cfg.options.javascript.generateTags) {
+			exec(
+				`ctags-exuberant -R  ${join(
+					cfg.dirProject,
+					cfg.options.javascript.dirs.source
+				)}`,
+				{ async: true }
+			);
+		}
 		log.info(`... done`);
 	} else if (verbose) {
 		log.info(`No changed ${cfg.options.javascript.compiler} files found`);
@@ -115,16 +112,30 @@ export function compileFile(
 		"@babel/proposal-object-rest-spread"
 	];
 	let presets: any[] = [];
+	let source = FileUtils.readFile(fullPath);
 
-	if (grep('from "react"', fullPath).trim()) {
-		// Import of react found in source file
+	if (cfg.options.server.beautify.includes("src")) {
+		source = Beautify.content(entry.source, source);
+		FileUtils.writeFile(entry.dir, entry.source, source, false);
+	}
+
+	// In case of certain import statements...
+	if (source.includes("antd")) {
+		// In case of not using the full, minified antd files:
+		// babel-plugin-import could be used to decrease size of browser bundle.
+		// @dee antd docs, gettng started
+		presets.push(["@babel/preset-react"]); // Using default settings
+	} else if (source.includes('"react')) {
 		presets.push(["@babel/preset-react"]); // Using default settings
 	}
 
 	if (process.env.NODE_ENV == "production") {
 		// For production use
 		presets.push("minify");
-	} else if (cfg.options.javascript.sourceMapping) {
+	} else if (
+		!dirname(entry.source).includes("browser") &&
+		cfg.options.javascript.sourceMapping
+	) {
 		// https://www.mattzeunert.com/2016/02/14/how-do-source-maps-work.html
 		plugins.push("source-map-support");
 	}
@@ -148,16 +159,12 @@ export function compileFile(
 	}
 
 	if (dirname(entry.source).includes("browser")) {
-		if (Object.keys(cfg.options.javascript.browserTargets).length > 0) {
-			presets.push([
-				"@babel/preset-env",
-				{
-					targets: cfg.options.javascript.browserTargets
-				}
-			]);
-		} else {
-			presets.push(["@babel/preset-env"]);
-		}
+		presets.push([
+			"@babel/preset-env",
+			{
+				targets: cfg.options.javascript.browserTargets
+			}
+		]);
 	} else {
 		presets.push([
 			"@babel/preset-env",
@@ -168,8 +175,6 @@ export function compileFile(
 			}
 		]);
 	}
-
-	let source = FileUtils.readFile(fullPath);
 
 	try {
 		let results: any = transformSync(source, {
@@ -188,7 +193,10 @@ export function compileFile(
 			// For production use
 			let map = join(entry.targetDir, entry.target + ".map");
 			if (test("-f", map)) rm(map);
-		} else if (cfg.options.javascript.sourceMapping) {
+		} else if (
+			!dirname(entry.source).includes("browser") &&
+			cfg.options.javascript.sourceMapping
+		) {
 			results.code += `\n//# sourceMappingURL=${basename(entry.target)}.map`;
 			FileUtils.writeFile(
 				entry.targetDir,

@@ -45,6 +45,11 @@ require("module").Module._initPaths();
 if (process.env.NODE_ENV == "production") {
 	// For production use
 	browserify(src)
+		// https://browserify.readthedocs.io/en/latest/readme/
+		// https://www.npmjs.com/package/glob
+		// .exclude(file).
+		// .ignore(file)
+		.external(cfg.options.dependencies.browserify.external)
 		.transform("unassertify", { global: true })
 		.transform("envify", { global: true })
 		.transform("uglifyify", { global: true })
@@ -59,6 +64,7 @@ if (process.env.NODE_ENV == "production") {
 } else {
 	// For dev purposes
 	browserify(src)
+		.external(cfg.options.dependencies.browserify.external)
 		.bundle()
 		.pipe(
 			createWriteStream(outfile, {

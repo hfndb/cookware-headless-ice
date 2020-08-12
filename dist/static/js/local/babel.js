@@ -18,11 +18,13 @@ var _lib = require("../lib");
 
 var _files = require("../lib/files");
 
+var _beautify = require("../lib/beautify");
+
 var _session = require("../sys/session");
 
 var _javascript = require("./javascript");
 
-function compile(verbose, beautify) {
+function compile(verbose) {
   let cfg = _lib.AppConfig.getInstance();
 
   let log = _lib.Logger.getInstance(cfg.options.logging);
@@ -45,10 +47,6 @@ function compile(verbose, beautify) {
     if (!saydHello && verbose) {
       saydHello = true;
       log.info(`Transcompiling ${cfg.options.javascript.compiler}`);
-    }
-
-    if (cfg.options.server.beautify.includes("src")) {
-      beautify((0, _path.join)(cfg.options.javascript.dirs.source, entry.source));
     }
 
     compileFile(entry, true);
@@ -77,13 +75,13 @@ function compile(verbose, beautify) {
 
   (0, _files.removeObsolete)(cfg.options.javascript.removeObsolete, processed, outDir, ".js");
 
-  if (cfg.options.javascript.generateTags) {
-    (0, _shelljs.exec)(`ctags-exuberant -R  ${(0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.source)}`, {
-      async: true
-    });
-  }
-
   if (saydHello && verbose) {
+    if (cfg.options.javascript.generateTags) {
+      (0, _shelljs.exec)(`ctags-exuberant -R  ${(0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.source)}`, {
+        async: true
+      });
+    }
+
     log.info(`... done`);
   } else if (verbose) {
     log.info(`No changed ${cfg.options.javascript.compiler} files found`);
@@ -99,13 +97,23 @@ function compileFile(entry, verbose = true) {
   let plugins = ["@babel/plugin-proposal-class-properties", "@babel/proposal-object-rest-spread"];
   let presets = [];
 
-  if ((0, _shelljs.grep)('from "react"', fullPath).trim()) {
+  let source = _lib.FileUtils.readFile(fullPath);
+
+  if (cfg.options.server.beautify.includes("src")) {
+    source = _beautify.Beautify.content(entry.source, source);
+
+    _lib.FileUtils.writeFile(entry.dir, entry.source, source, false);
+  }
+
+  if (source.includes("antd")) {
+    presets.push(["@babel/preset-react"]);
+  } else if (source.includes('"react')) {
     presets.push(["@babel/preset-react"]);
   }
 
   if (process.env.NODE_ENV == "production") {
     presets.push("minify");
-  } else if (cfg.options.javascript.sourceMapping) {
+  } else if (!(0, _path.dirname)(entry.source).includes("browser") && cfg.options.javascript.sourceMapping) {
     plugins.push("source-map-support");
   }
 
@@ -118,13 +126,9 @@ function compileFile(entry, verbose = true) {
   }
 
   if ((0, _path.dirname)(entry.source).includes("browser")) {
-    if (Object.keys(cfg.options.javascript.browserTargets).length > 0) {
-      presets.push(["@babel/preset-env", {
-        targets: cfg.options.javascript.browserTargets
-      }]);
-    } else {
-      presets.push(["@babel/preset-env"]);
-    }
+    presets.push(["@babel/preset-env", {
+      targets: cfg.options.javascript.browserTargets
+    }]);
   } else {
     presets.push(["@babel/preset-env", {
       targets: {
@@ -132,8 +136,6 @@ function compileFile(entry, verbose = true) {
       }
     }]);
   }
-
-  let source = _lib.FileUtils.readFile(fullPath);
 
   try {
     let results = (0, _core.transformSync)(source, {
@@ -152,7 +154,7 @@ function compileFile(entry, verbose = true) {
     if (process.env.NODE_ENV == "production") {
       let map = (0, _path.join)(entry.targetDir, entry.target + ".map");
       if ((0, _shelljs.test)("-f", map)) (0, _shelljs.rm)(map);
-    } else if (cfg.options.javascript.sourceMapping) {
+    } else if (!(0, _path.dirname)(entry.source).includes("browser") && cfg.options.javascript.sourceMapping) {
       results.code += `\n//# sourceMappingURL=${(0, _path.basename)(entry.target)}.map`;
 
       _lib.FileUtils.writeFile(entry.targetDir, entry.target + ".map", JSON.stringify(results.map), false);

@@ -161,16 +161,7 @@ let DefaultConfig = {
 		templates: true,
 		documentation: true,
 		goodies: true,
-		exclude: [
-			"api",
-			"tools/commit.sh",
-			"tools/compress.sh",
-			"tools/config-open-all.sh",
-			"tools/count-lines.sh",
-			"tools/donate-lib.sh",
-			"tools/distrib",
-			"tools/init-kate.sh"
-		]
+		exclude: ["api"]
 	},
 	sass: {
 		dirs: {
@@ -192,6 +183,9 @@ let DefaultConfig = {
 		watchTimeout: 100
 	},
 	dependencies: {
+		browserify: {
+			external: []
+		},
 		express: {
 			activate: {
 				sessions: false
