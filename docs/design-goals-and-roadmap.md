@@ -11,7 +11,7 @@ Project specific:
 + File and language processing should be independent of text editors and code editors, which are designed and built for... editing.
 + Switching to another editor shouldn't imply installing a bunch of extensions and extensive configuring before you are up and running. Individual independence rocks!
 
-To those who know about the philosophical debate about [strong vs. loose typing](https://en.wikipedia.org/wiki/Strong_and_weak_typing):
+To those who know about the philosophical debate about [strong vs. loose typing](https://en.wikipedia.org/wiki/Strong_and_weak_typing), like in [this article](https://medium.freecodecamp.org/stop-bringing-strong-typing-to-javascript-4da0666cba6e):
 
 I've worked with strong typing, like in [Java](https://en.wikipedia.org/wiki/Java_(programming_language)) (Sun Microsystems), but prefer to write socalled 'loosely typed' code.
 Comparing [type systems](https://en.wikipedia.org/wiki/Type_system#DYNAMIC) with psycho-logic, 'dynamic typing' feels more natural than rigid approaches.

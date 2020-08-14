@@ -67,6 +67,18 @@ alias cookware=/opt/cookware/bin/starter.sh
 You might want to change the default configuration. Details about configuration [here](./docs/configuration.md).
 
 
+## Update
+
+Some packages might complain after some time, that they are outdated. In that case run:
+
+
+```
+npm run-script update # To update package browserlist postcss node-sass
+
+npm run-script rebuild-sass # To only update the sass binary
+```
+
+
 ## Usage
 
 + Start development server:

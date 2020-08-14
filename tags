@@ -4,750 +4,1147 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-AppConfig	/opt/projects/weblib/src/lib/config.ts	/^export class AppConfig {$/;"	C
-AppConfig	/opt/projects/weblib/src/lib/html.ts	/^	AppConfig,$/;"	V
-AppConfig	/opt/projects/weblib/src/local/babel.ts	/^	AppConfig,$/;"	V
-AppConfig	/opt/projects/weblib/src/local/pdf.ts	/^	AppConfig,$/;"	V
-AppConfig	/opt/projects/weblib/src/local/styling.ts	/^	AppConfig,$/;"	V
-AppConfig	/opt/projects/weblib/src/local/typescript.ts	/^	AppConfig,$/;"	V
-AppMenu	/opt/projects/weblib/src/lib/config.ts	/^export class AppMenu {$/;"	C
-ArrayUtils	/opt/projects/weblib/src/lib/object.ts	/^export class ArrayUtils {$/;"	C
-AudioUtils	/opt/projects/weblib/src/lib/audio.ts	/^export class AudioUtils {$/;"	C
-Beautify	/opt/projects/weblib/src/lib/beautify.ts	/^export class Beautify {$/;"	C
-CacheItem	/opt/projects/weblib/src/lib/nunjucks.ts	/^class CacheItem {$/;"	C
-ConfigWatch	/opt/projects/weblib/src/server/watches.ts	/^export class ConfigWatch extends FileWatcher {$/;"	C
-Content	/opt/projects/weblib/src/lib/html.ts	/^export class Content {$/;"	C
-CssWatch	/opt/projects/weblib/src/server/watches.ts	/^export class CssWatch extends FileWatcher {$/;"	C
-Dataset	/opt/projects/weblib/src/lib/object.ts	/^export class Dataset {$/;"	C
-DefaultConfig	/opt/projects/weblib/src/default-config.ts	/^let DefaultConfig = {$/;"	O
-Double	/opt/projects/weblib/src/server/watches.ts	/^class Double {$/;"	C
-Expires	/opt/projects/weblib/src/server/controllers.ts	/^					Expires: "Mon, 26 Jul 1997 05:00:00 GMT",$/;"	P
-ExpressUtils	/opt/projects/weblib/src/lib/express.ts	/^export class ExpressUtils {$/;"	C
-FSWatcher	/opt/projects/weblib/src/lib/files.ts	/^	FSWatcher$/;"	V
-FileStatus	/opt/projects/weblib/src/lib/file-diff.ts	/^export class FileStatus {$/;"	C
-FileStatus	/opt/projects/weblib/src/lib/html.ts	/^	FileStatus,$/;"	V
-FileStatus	/opt/projects/weblib/src/local/babel.ts	/^	FileStatus,$/;"	V
-FileStatus	/opt/projects/weblib/src/local/pdf.ts	/^	FileStatus,$/;"	V
-FileStatus	/opt/projects/weblib/src/local/styling.ts	/^	FileStatus,$/;"	V
-FileStatus	/opt/projects/weblib/src/local/typescript.ts	/^	FileStatus,$/;"	V
-FileUtils	/opt/projects/weblib/src/lib/files.ts	/^export class FileUtils {$/;"	C
-FileUtils	/opt/projects/weblib/src/lib/html.ts	/^	FileUtils,$/;"	V
-FileUtils	/opt/projects/weblib/src/local/babel.ts	/^	FileUtils,$/;"	V
-FileUtils	/opt/projects/weblib/src/local/pdf.ts	/^	FileUtils,$/;"	V
-FileUtils	/opt/projects/weblib/src/local/styling.ts	/^	FileUtils,$/;"	V
-FileUtils	/opt/projects/weblib/src/local/typescript.ts	/^	FileUtils,$/;"	V
-FileWatcher	/opt/projects/weblib/src/lib/files.ts	/^export class FileWatcher {$/;"	C
-Formatter	/opt/projects/weblib/src/lib/utils.ts	/^export class Formatter {$/;"	C
-Group	/opt/projects/weblib/src/lib/reporting.ts	/^export class Group extends Item {$/;"	C
-Html	/opt/projects/weblib/src/local/markup.ts	/^export class Html {$/;"	C
-Item	/opt/projects/weblib/src/lib/reporting.ts	/^export class Item {$/;"	C
-JavascriptUtils	/opt/projects/weblib/src/local/javascript.ts	/^export class JavascriptUtils {$/;"	C
-JsWatch	/opt/projects/weblib/src/server/watches.ts	/^export class JsWatch extends FileWatcher {$/;"	C
-LineReader	/opt/projects/weblib/src/lib/files.ts	/^export class LineReader {$/;"	C
-Lint	/opt/projects/weblib/src/local/markup.ts	/^export class Lint {$/;"	C
-Logger	/opt/projects/weblib/src/lib/html.ts	/^	Logger$/;"	V
-Logger	/opt/projects/weblib/src/lib/log.ts	/^export class Logger {$/;"	C
-Logger	/opt/projects/weblib/src/local/babel.ts	/^	Logger$/;"	V
-Logger	/opt/projects/weblib/src/local/pdf.ts	/^	Logger$/;"	V
-Logger	/opt/projects/weblib/src/local/styling.ts	/^	Logger$/;"	V
-Logger	/opt/projects/weblib/src/local/typescript.ts	/^	Logger$/;"	V
-NunjucksUtils	/opt/projects/weblib/src/lib/nunjucks.ts	/^export class NunjucksUtils {$/;"	C
-ObjectUtils	/opt/projects/weblib/src/lib/object.ts	/^export class ObjectUtils {$/;"	C
-Pragma	/opt/projects/weblib/src/server/controllers.ts	/^					Pragma: "public",$/;"	P
-Report	/opt/projects/weblib/src/lib/reporting.ts	/^export class Report extends Group {$/;"	C
-SassUtils	/opt/projects/weblib/src/local/styling.ts	/^export class SassUtils {$/;"	C
-SassWatch	/opt/projects/weblib/src/server/watches.ts	/^export class SassWatch extends FileWatcher {$/;"	C
-SessionVars	/opt/projects/weblib/src/sys/session.ts	/^export class SessionVars {$/;"	C
-SimpleASCII	/opt/projects/weblib/src/lib/reporting.ts	/^export class SimpleASCII {$/;"	C
-Sitemap	/opt/projects/weblib/src/lib/sitemap.ts	/^export class Sitemap {$/;"	C
-StringUtils	/opt/projects/weblib/src/lib/utils.ts	/^export class StringUtils {$/;"	C
-Stripper	/opt/projects/weblib/src/lib/html.ts	/^class Stripper {$/;"	C
-a	/opt/projects/weblib/src/lib/utils.ts	/^		const a = "àáäâãåăæçèéëêǵḧìíïîḿńǹñòóöôœṕŕßśșțùúüûǘẃẍÿź'·\/_,:;";$/;"	V
-activate	/opt/projects/weblib/src/default-config.ts	/^			activate: {$/;"	P
-active	/opt/projects/weblib/src/default-config.ts	/^				active: false$/;"	P
-active	/opt/projects/weblib/src/default-config.ts	/^				active: true,$/;"	P
-active	/opt/projects/weblib/src/default-config.ts	/^			active: false,$/;"	P
-active	/opt/projects/weblib/src/default-config.ts	/^			active: true,$/;"	P
-add	/opt/projects/weblib/src/sys/session.ts	/^	add(type: ProcessingTypes, file: string, increment: number = 1) {$/;"	M
-add2retval	/opt/projects/weblib/src/sys/session.ts	/^		function add2retval(mp: Map<string, number>, txt: string) {$/;"	F
-addFile	/opt/projects/weblib/src/lib/files.ts	/^		function addFile(file: string) {$/;"	F
-addGroup	/opt/projects/weblib/src/lib/reporting.ts	/^	addGroup(group: Group) {$/;"	M
-addGroup	/opt/projects/weblib/src/local/overview.ts	/^	function addGroup($/;"	F
-addItem	/opt/projects/weblib/src/lib/reporting.ts	/^	addItem(item: Item) {$/;"	M
-addItem	/opt/projects/weblib/src/lib/reporting.ts	/^	addItem(report: Report, item: Item) {$/;"	M
-addOption	/opt/projects/weblib/src/lib/config.ts	/^	addOption(opt: Option) {$/;"	M
-addPath	/opt/projects/weblib/src/lib/dirs.ts	/^	function addPath(dirname: string) {$/;"	F
-addPath	/opt/projects/weblib/src/lib/files.ts	/^		function addPath(dirname: string) {$/;"	F
-addPrefixes	/opt/projects/weblib/src/local/styling.ts	/^	static addPrefixes(content: string): string {$/;"	M
-additionalContext	/opt/projects/weblib/src/local/markup.ts	/^			additionalContext: { files: output },$/;"	P
-additionalContext	/opt/projects/weblib/src/server/controllers.ts	/^					additionalContext: context,$/;"	P
-additionalContext	/opt/projects/weblib/src/server/controllers.ts	/^		additionalContext: context,$/;"	P
-alias	/opt/projects/weblib/src/index.ts	/^	alias: "b",$/;"	P
-alias	/opt/projects/weblib/src/index.ts	/^	alias: "d",$/;"	P
-alias	/opt/projects/weblib/src/index.ts	/^	alias: "e",$/;"	P
-alias	/opt/projects/weblib/src/index.ts	/^	alias: "g",$/;"	P
-alias	/opt/projects/weblib/src/index.ts	/^	alias: "l",$/;"	P
-alias	/opt/projects/weblib/src/index.ts	/^	alias: "p",$/;"	P
-alias	/opt/projects/weblib/src/index.ts	/^	alias: "r",$/;"	P
-alias	/opt/projects/weblib/src/index.ts	/^	alias: "t",$/;"	P
-alias	/opt/projects/weblib/src/lib/config.ts	/^		alias: "c",$/;"	P
-alias	/opt/projects/weblib/src/lib/config.ts	/^		alias: "h",$/;"	P
-alias	/opt/projects/weblib/src/lib/config.ts	/^		alias: "i",$/;"	P
-alias	/opt/projects/weblib/src/lib/config.ts	/^		alias: "y",$/;"	P
-allowUnknownTags	/opt/projects/weblib/src/default-config.ts	/^					allowUnknownTags: true,$/;"	P
-allowedExtensions	/opt/projects/weblib/src/index.ts	/^		allowedExtensions: allow$/;"	P
-allowedExtensions	/opt/projects/weblib/src/lib/files.ts	/^		allowedExtensions: [ext]$/;"	P
-allowedExtensions	/opt/projects/weblib/src/lib/package-json.ts	/^			allowedExtensions: [".md"],$/;"	P
-allowedExtensions	/opt/projects/weblib/src/lib/sitemap.ts	/^			allowedExtensions: [".html"]$/;"	P
-allowedExtensions	/opt/projects/weblib/src/local/markup-test.ts	/^			allowedExtensions: [".html"]$/;"	P
-allowedExtensions	/opt/projects/weblib/src/local/markup.ts	/^			allowedExtensions: [".html", ".njk"]$/;"	P
-allowedExtensions	/opt/projects/weblib/src/local/misc.ts	/^			allowedExtensions: [$/;"	P
-allowedExtensions	/opt/projects/weblib/src/local/overview.ts	/^		allowedExtensions: [""],$/;"	P
-allowedExtensions	/opt/projects/weblib/src/local/styling.ts	/^			allowedExtensions: [".css"]$/;"	P
-allowedExtensions	/opt/projects/weblib/src/local/typescript.ts	/^			allowedExtensions: [".js"]$/;"	P
-app	/opt/projects/weblib/src/local/typescript.ts	/^		const app = new typedoc.Application(options);$/;"	V
-apps	/opt/projects/weblib/src/default-config.ts	/^		apps: [],$/;"	P
-args	/opt/projects/weblib/src/lib/log.ts	/^		args: string,$/;"	P
-args2string	/opt/projects/weblib/src/lib/log.ts	/^	static args2string(arg: any[]): string {$/;"	M
-arrayExpand	/opt/projects/weblib/src/default-config.ts	/^				arrayExpand: true,$/;"	P
-ast	/opt/projects/weblib/src/local/babel.ts	/^			ast: true,$/;"	P
-async	/opt/projects/weblib/src/lib/audio.ts	/^				async: true,$/;"	P
-audio	/opt/projects/weblib/src/default-config.ts	/^	audio: {$/;"	P
-b	/opt/projects/weblib/src/lib/utils.ts	/^		const b = "aaaaaaaaceeeeghiiiimnnnoooooprssstuuuuuwxyz-------";$/;"	V
-backupChangedSource	/opt/projects/weblib/src/local/misc.ts	/^export function backupChangedSource(isFirst: boolean = false): void {$/;"	E
-backupChangedSource	/opt/projects/weblib/src/local/misc.ts	/^export function backupChangedSource(isFirst: boolean = false): void {$/;"	F
-backupChangedSource	/opt/projects/weblib/src/server/index.ts	/^			backupChangedSource,$/;"	V
-backupInterval	/opt/projects/weblib/src/default-config.ts	/^		backupInterval: 0,$/;"	P
-beautify	/opt/projects/weblib/src/default-config.ts	/^		beautify: ["src"],$/;"	P
-begin	/opt/projects/weblib/src/default-config.ts	/^			begin: true,$/;"	P
-bracketSpacing	/opt/projects/weblib/src/default-config.ts	/^				bracketSpacing: true,$/;"	P
-breaks	/opt/projects/weblib/src/local/markdown.ts	/^		breaks: true,$/;"	P
-browserTargets	/opt/projects/weblib/src/default-config.ts	/^		browserTargets: ["defaults"],$/;"	P
-browserify	/opt/projects/weblib/src/default-config.ts	/^		browserify: {$/;"	P
-bundle	/opt/projects/weblib/src/local/javascript.ts	/^	static bundle(): string[] {$/;"	M
-bundles	/opt/projects/weblib/src/default-config.ts	/^		bundles: [],$/;"	P
-caching	/opt/projects/weblib/src/default-config.ts	/^		caching: {$/;"	P
-cfg	/opt/projects/weblib/src/local/data-provider.ts	/^	cfg: any$/;"	P
-chai	/opt/projects/weblib/src/server/server-test.ts	/^		chai$/;"	V
-charset	/opt/projects/weblib/src/default-config.ts	/^				charset: true,$/;"	P
-checkConfig	/opt/projects/weblib/src/lib/config.ts	/^export function checkConfig() {$/;"	E
-checkConfig	/opt/projects/weblib/src/lib/config.ts	/^export function checkConfig() {$/;"	F
-checkPeriod	/opt/projects/weblib/src/default-config.ts	/^					checkPeriod: 86400000$/;"	P
-chosen	/opt/projects/weblib/src/lib/config.ts	/^		let chosen = {};$/;"	O
-cleverLinks	/opt/projects/weblib/src/default-config.ts	/^					cleverLinks: false,$/;"	P
-cmd	/opt/projects/weblib/src/local/misc.ts	/^	let cmd = "";$/;"	V
-cmd	/opt/projects/weblib/src/local/pdf.ts	/^	let cmd = "wkhtmltopdf -q -s A4 -L "$/;"	V
-coatRack	/opt/projects/weblib/src/server/index.ts	/^export function coatRack(): void {$/;"	E
-coatRack	/opt/projects/weblib/src/server/index.ts	/^export function coatRack(): void {$/;"	F
-code	/opt/projects/weblib/src/default-config.ts	/^		code: true,$/;"	P
-color	/opt/projects/weblib/src/default-config.ts	/^				color: false,$/;"	P
-cols	/opt/projects/weblib/src/lib/config.ts	/^		let cols = [10, 50, 50, 50];$/;"	A
-columnSeparator	/opt/projects/weblib/src/lib/reporting.ts	/^		columnSeparator: string,$/;"	P
-comments	/opt/projects/weblib/src/local/babel.ts	/^			comments: false,$/;"	P
-compile	/opt/projects/weblib/src/local/babel.ts	/^export function compile(verbose: boolean): void {$/;"	E
-compile	/opt/projects/weblib/src/local/babel.ts	/^export function compile(verbose: boolean): void {$/;"	F
-compile	/opt/projects/weblib/src/local/styling.ts	/^	static compile(verbose: boolean): void {$/;"	M
-compileFile	/opt/projects/weblib/src/local/babel.ts	/^export function compileFile($/;"	E
-compileFile	/opt/projects/weblib/src/local/babel.ts	/^export function compileFile($/;"	F
-compileFile	/opt/projects/weblib/src/local/styling.ts	/^	static compileFile(entry: FileStatus, verbose: boolean = true): boolean {$/;"	M
-compileJs	/opt/projects/weblib/src/local/misc.ts	/^import { compile as compileJs } from ".\/babel";$/;"	I
-compileJs	/opt/projects/weblib/src/local/pdf.ts	/^import { compile as compileJs } from ".\/babel";$/;"	I
-compileJs	/opt/projects/weblib/src/server/index.ts	/^import { compile as compileJs } from "..\/local\/babel";$/;"	I
-compileTypeScript	/opt/projects/weblib/src/local/typescript.ts	/^export function compileTypeScript(): void {$/;"	E
-compileTypeScript	/opt/projects/weblib/src/local/typescript.ts	/^export function compileTypeScript(): void {$/;"	F
-compiler	/opt/projects/weblib/src/default-config.ts	/^		compiler: "javascript",$/;"	P
-config	/opt/projects/weblib/src/default-config.ts	/^			config: {$/;"	P
-configuration	/opt/projects/weblib/src/default-config.ts	/^		configuration: true,$/;"	P
-console	/opt/projects/weblib/src/default-config.ts	/^			console: {$/;"	P
-constructor	/opt/projects/weblib/src/lib/config.ts	/^	constructor(name: string) {$/;"	M
-constructor	/opt/projects/weblib/src/lib/express.ts	/^	constructor(devMode: boolean) {$/;"	M
-constructor	/opt/projects/weblib/src/lib/file-diff.ts	/^	constructor(path: string) {$/;"	M
-constructor	/opt/projects/weblib/src/lib/files.ts	/^	constructor(file: string | null = null, encoding: string = "utf8") {$/;"	M
-constructor	/opt/projects/weblib/src/lib/log.ts	/^	constructor(options: LogConfig) {$/;"	M
-constructor	/opt/projects/weblib/src/lib/nunjucks.ts	/^	constructor(dir: string, file: string, stripFoundTags: boolean) {$/;"	M
-constructor	/opt/projects/weblib/src/lib/reporting.ts	/^	constructor(columnHeaders: string[]) {$/;"	M
-constructor	/opt/projects/weblib/src/lib/reporting.ts	/^	constructor(report: Report | string[], description: string) {$/;"	M
-constructor	/opt/projects/weblib/src/lib/sitemap.ts	/^	constructor(dir: string, file: string, baseUrl: string) {$/;"	M
-constructor	/opt/projects/weblib/src/lib/utils.ts	/^	constructor() {$/;"	M
-constructor	/opt/projects/weblib/src/sys/session.ts	/^	constructor() {$/;"	M
-contains	/opt/projects/weblib/src/default-config.ts	/^		contains: true,$/;"	P
-contains	/opt/projects/weblib/src/lib/object.ts	/^	static contains(str: string, searchIn: string[]): boolean {$/;"	M
-containsChange	/opt/projects/weblib/src/lib/file-diff.ts	/^	static containsChange(list: FileStatus[]): boolean {$/;"	M
-content	/opt/projects/weblib/src/default-config.ts	/^			content: "content",$/;"	P
-content	/opt/projects/weblib/src/default-config.ts	/^			content: "dist",$/;"	P
-content	/opt/projects/weblib/src/default-config.ts	/^			content: {$/;"	P
-content	/opt/projects/weblib/src/default-config.ts	/^		content: true,$/;"	P
-content	/opt/projects/weblib/src/index.ts	/^			content: "Utility functions"$/;"	P
-content	/opt/projects/weblib/src/lib/beautify.ts	/^	static content(file: string, content: string): string {$/;"	M
-content	/opt/projects/weblib/src/lib/files.ts	/^		content: object,$/;"	P
-content	/opt/projects/weblib/src/lib/files.ts	/^		content: string,$/;"	P
-content	/opt/projects/weblib/src/local/markup-test.ts	/^let content = new Content();$/;"	V
-content	/opt/projects/weblib/src/local/markup.ts	/^		let content = new Content();$/;"	V
-content	/opt/projects/weblib/src/local/markup.ts	/^	static content(write2disk: boolean = true): string {$/;"	M
-content	/opt/projects/weblib/src/local/misc.ts	/^		let content = new Content();$/;"	V
-content	/opt/projects/weblib/src/local/pdf.ts	/^		let content = new Content();$/;"	V
-content	/opt/projects/weblib/src/server/controllers.ts	/^	let content = new Content();$/;"	V
-context	/opt/projects/weblib/src/lib/html.ts	/^		let context = {$/;"	O
-context	/opt/projects/weblib/src/lib/nunjucks.ts	/^		context: Object,$/;"	P
-context	/opt/projects/weblib/src/server/controllers.ts	/^			let context = {$/;"	O
-controllerContent	/opt/projects/weblib/src/server/controllers.ts	/^export function controllerContent(req: Request, res: Response, next: Function) {$/;"	E
-controllerContent	/opt/projects/weblib/src/server/controllers.ts	/^export function controllerContent(req: Request, res: Response, next: Function) {$/;"	F
-controllerContent	/opt/projects/weblib/src/server/index.ts	/^	controllerContent,$/;"	V
-controllerGeneric	/opt/projects/weblib/src/server/controllers.ts	/^async function controllerGeneric($/;"	F
-controllerStatic	/opt/projects/weblib/src/server/controllers.ts	/^export function controllerStatic(req: Request, res: Response, next: Function) {$/;"	E
-controllerStatic	/opt/projects/weblib/src/server/controllers.ts	/^export function controllerStatic(req: Request, res: Response, next: Function) {$/;"	F
-controllerStatic	/opt/projects/weblib/src/server/index.ts	/^			controllerStatic$/;"	V
-controllerStatic	/opt/projects/weblib/src/server/index.ts	/^	controllerStatic,$/;"	V
-controllerSys	/opt/projects/weblib/src/server/controllers.ts	/^export function controllerSys(req: Request, res: Response, next: Function) {$/;"	E
-controllerSys	/opt/projects/weblib/src/server/controllers.ts	/^export function controllerSys(req: Request, res: Response, next: Function) {$/;"	F
-controllerSys	/opt/projects/weblib/src/server/index.ts	/^	controllerSys$/;"	V
-convert	/opt/projects/weblib/src/lib/config.ts	/^			function convert(value: any) {$/;"	F
-cookie	/opt/projects/weblib/src/default-config.ts	/^				cookie: {$/;"	P
-createColumns	/opt/projects/weblib/src/lib/reporting.ts	/^	static createColumns(nrColumns: number, initialValue: number = 0): number[] {$/;"	M
-createDirTree	/opt/projects/weblib/src/lib/dirs.ts	/^export function createDirTree($/;"	E
-createDirTree	/opt/projects/weblib/src/lib/dirs.ts	/^export function createDirTree($/;"	F
-data	/opt/projects/weblib/src/lib/files.ts	/^		let data = "";$/;"	V
-data	/opt/projects/weblib/src/lib/html.ts	/^		data: string,$/;"	P
-data	/opt/projects/weblib/src/lib/log.ts	/^		let data = {$/;"	O
-data	/opt/projects/weblib/src/server/controllers.ts	/^			let data = "";$/;"	V
-date	/opt/projects/weblib/src/default-config.ts	/^			date: "%d-%m-%Y",$/;"	P
-date	/opt/projects/weblib/src/default-config.ts	/^		date: "DD-MM-YYYY",$/;"	P
-datetime	/opt/projects/weblib/src/default-config.ts	/^			datetime: "%d-%m-%Y %H:%i",$/;"	P
-datetime	/opt/projects/weblib/src/default-config.ts	/^		datetime: "DD-MM-YYYY HH:mm",$/;"	P
-decimalSeparator	/opt/projects/weblib/src/default-config.ts	/^		decimalSeparator: ",",$/;"	P
-decimals	/opt/projects/weblib/src/lib/utils.ts	/^		decimals: number,$/;"	P
-default	/opt/projects/weblib/src/default-config.ts	/^				default: true$/;"	P
-dependencies	/opt/projects/weblib/src/default-config.ts	/^	dependencies: {$/;"	P
-describe	/opt/projects/weblib/src/lib/nunjucks-test.ts	/^describe("Reading Nunjucks file", function() {$/;"	M
-describe	/opt/projects/weblib/src/local/markup-test.ts	/^describe("HTML rendering", function() {$/;"	M
-describe	/opt/projects/weblib/src/local/styling-test.ts	/^describe("Sass transcompiling", function() {$/;"	M
-describe	/opt/projects/weblib/src/server/server-test.ts	/^describe("Local development server", function() {$/;"	M
-description	/opt/projects/weblib/src/default-config.ts	/^		description: "Website name",$/;"	P
-description	/opt/projects/weblib/src/index.ts	/^	description: "Convert changed html files to signed ePub"$/;"	P
-description	/opt/projects/weblib/src/index.ts	/^	description: "Flag to compile and compress for production use"$/;"	P
-description	/opt/projects/weblib/src/index.ts	/^	description: "Generate API docs for (JavaScript or TypeScript) source files"$/;"	P
-description	/opt/projects/weblib/src/index.ts	/^	description: "Generate pdf's based on changed html"$/;"	P
-description	/opt/projects/weblib/src/index.ts	/^	description: "Lint html"$/;"	P
-description	/opt/projects/weblib/src/index.ts	/^	description: "Run local development server"$/;"	P
-description	/opt/projects/weblib/src/lib/config.ts	/^		description: "Check your project config.json; default and overridden settings"$/;"	P
-description	/opt/projects/weblib/src/lib/config.ts	/^		description: "Display this usage guide."$/;"	P
-description	/opt/projects/weblib/src/lib/config.ts	/^		description: "Initalize new project in current working directory"$/;"	P
-description	/opt/projects/weblib/src/lib/files.ts	/^		description: string,$/;"	P
-description	/opt/projects/weblib/src/local/overview.ts	/^		description: string,$/;"	P
-destination	/opt/projects/weblib/src/default-config.ts	/^					destination: "api\/",$/;"	P
-destroy	/opt/projects/weblib/src/lib/express.ts	/^		this.server.destroy = function(cb: any) {$/;"	M
-dictionaries	/opt/projects/weblib/src/default-config.ts	/^					dictionaries: ["jsdoc"]$/;"	P
-dir	/opt/projects/weblib/src/default-config.ts	/^				dir: "\/tmp\/cookware-headless-ice",$/;"	P
-dir	/opt/projects/weblib/src/lib/files.ts	/^		dir: string,$/;"	P
-dir	/opt/projects/weblib/src/lib/files.ts	/^	static dir(path: string, recursive: boolean = false): Map<string, fileEntry> {$/;"	M
-dir	/opt/projects/weblib/src/lib/log.ts	/^			dir: "",$/;"	P
-dir	/opt/projects/weblib/src/lib/nunjucks.ts	/^		dir: string,$/;"	P
-dir	/opt/projects/weblib/src/local/data-provider.ts	/^	dir: string,$/;"	P
-dir	/opt/projects/weblib/src/local/overview.ts	/^		dir: string,$/;"	P
-dir	/opt/projects/weblib/src/server/controllers.ts	/^	dir: string,$/;"	P
-dirStructure	/opt/projects/weblib/src/default-config.ts	/^		dirStructure: {$/;"	P
-dirs	/opt/projects/weblib/src/default-config.ts	/^							dirs: ["controllers", "views"]$/;"	P
-dirs	/opt/projects/weblib/src/default-config.ts	/^						dirs: ["browser", "local", "test"],$/;"	P
-dirs	/opt/projects/weblib/src/default-config.ts	/^					dirs: ["controllers", "views"]$/;"	P
-dirs	/opt/projects/weblib/src/default-config.ts	/^					dirs: ["css", "img"],$/;"	P
-dirs	/opt/projects/weblib/src/default-config.ts	/^				dirs: ["browser", "local", "test"],$/;"	P
-dirs	/opt/projects/weblib/src/default-config.ts	/^				dirs: ["includes"]$/;"	P
-dirs	/opt/projects/weblib/src/default-config.ts	/^			dirs: ["backups", "notes", "sass", "templates"],$/;"	P
-dirs	/opt/projects/weblib/src/default-config.ts	/^		dirs: {$/;"	P
-dirs	/opt/projects/weblib/src/local/misc.ts	/^	const dirs = [$/;"	A
-dist	/opt/projects/weblib/src/default-config.ts	/^			dist: {$/;"	P
-doctype	/opt/projects/weblib/src/default-config.ts	/^				doctype: "",$/;"	P
-documentation	/opt/projects/weblib/src/default-config.ts	/^		documentation: true,$/;"	P
-domain	/opt/projects/weblib/src/default-config.ts	/^					domain: "localhost",$/;"	P
-domain	/opt/projects/weblib/src/default-config.ts	/^	domain: {$/;"	P
-emitDecoratorMetadata	/opt/projects/weblib/src/default-config.ts	/^				emitDecoratorMetadata: true,$/;"	P
-empty	/opt/projects/weblib/src/default-config.ts	/^			empty: true$/;"	P
-encoding	/opt/projects/weblib/src/default-config.ts	/^					encoding: "utf8",$/;"	P
-encoding	/opt/projects/weblib/src/local/create-app.ts	/^				encoding: "utf8"$/;"	P
-end	/opt/projects/weblib/src/default-config.ts	/^			end: true,$/;"	P
-endsWith	/opt/projects/weblib/src/default-config.ts	/^		endsWith: true$/;"	P
-endsWith	/opt/projects/weblib/src/lib/object.ts	/^	static endsWith(str: string, searchIn: string[]): boolean {$/;"	M
-engine	/opt/projects/weblib/src/default-config.ts	/^			engine: "nunjucks",$/;"	P
-entry	/opt/projects/weblib/src/lib/html.ts	/^		entry: FileStatus,$/;"	P
-entry	/opt/projects/weblib/src/local/babel.ts	/^	entry: FileStatus,$/;"	P
-entry	/opt/projects/weblib/src/local/markup.ts	/^		let entry = new FileStatus(join(cfg.dirMain, "content"));$/;"	V
-entry	/opt/projects/weblib/src/server/controllers.ts	/^	let entry = new FileStatus(join(cfg.dirMain, "content"));$/;"	V
-env	/opt/projects/weblib/src/default-config.ts	/^	env: {$/;"	P
-epub	/opt/projects/weblib/src/default-config.ts	/^	epub: {$/;"	P
-err	/opt/projects/weblib/src/lib/log.ts	/^		let err = new Error("");$/;"	V
-error	/opt/projects/weblib/src/default-config.ts	/^			error: false,$/;"	P
-error2string	/opt/projects/weblib/src/lib/log.ts	/^	static error2string(err: Error): string {$/;"	M
-exactMatch	/opt/projects/weblib/src/default-config.ts	/^		exactMatch: true,$/;"	P
-exactMatch	/opt/projects/weblib/src/lib/object.ts	/^	static exactMatch(str: string, searchIn: string[]): boolean {$/;"	M
-exclude	/opt/projects/weblib/src/default-config.ts	/^				exclude: []$/;"	P
-exclude	/opt/projects/weblib/src/default-config.ts	/^			exclude: ["downloads"],$/;"	P
-exclude	/opt/projects/weblib/src/default-config.ts	/^			exclude: ["includes", "test-pages"],$/;"	P
-exclude	/opt/projects/weblib/src/default-config.ts	/^			exclude: []$/;"	P
-exclude	/opt/projects/weblib/src/default-config.ts	/^			exclude: [],$/;"	P
-exclude	/opt/projects/weblib/src/default-config.ts	/^		exclude: ["api"]$/;"	P
-excludeExternals	/opt/projects/weblib/src/default-config.ts	/^				excludeExternals: true,$/;"	P
-excludeList	/opt/projects/weblib/src/default-config.ts	/^	excludeList: {$/;"	P
-excludeList	/opt/projects/weblib/src/local/overview.ts	/^		excludeList: ["dist", "node_modules"],$/;"	P
-excludePrivate	/opt/projects/weblib/src/default-config.ts	/^				excludePrivate: true,$/;"	P
-exec	/opt/projects/weblib/src/local/typescript.ts	/^	exec(`cd ${cfg.dirProject}; tsc -b -w`, function(code, stdout, stderr) {$/;"	M
-exitOnError	/opt/projects/weblib/src/default-config.ts	/^		exitOnError: true,$/;"	P
-expected	/opt/projects/weblib/src/lib/nunjucks-test.ts	/^		let expected = "page_en.njk";$/;"	V
-expected	/opt/projects/weblib/src/lib/nunjucks-test.ts	/^		let expected = 1;$/;"	V
-expected	/opt/projects/weblib/src/lib/nunjucks-test.ts	/^		let expected = 2;$/;"	V
-expected	/opt/projects/weblib/src/lib/nunjucks-test.ts	/^		let expected = 5;$/;"	V
-expected	/opt/projects/weblib/src/local/markup-test.ts	/^		let expected = 0;$/;"	V
-expected	/opt/projects/weblib/src/local/markup-test.ts	/^		let expected = 4;$/;"	V
-expected	/opt/projects/weblib/src/local/styling-test.ts	/^			expected,$/;"	V
-expected	/opt/projects/weblib/src/local/styling-test.ts	/^		let expected = 0;$/;"	V
-expected	/opt/projects/weblib/src/local/styling-test.ts	/^		let expected = 1;$/;"	V
-expected	/opt/projects/weblib/src/local/styling-test.ts	/^		let expected = 2;$/;"	V
-experimentalDecorators	/opt/projects/weblib/src/default-config.ts	/^				experimentalDecorators: true,$/;"	P
-express	/opt/projects/weblib/src/default-config.ts	/^		express: {$/;"	P
-ext	/opt/projects/weblib/src/lib/files.ts	/^	ext: string$/;"	P
-extended	/opt/projects/weblib/src/lib/express.ts	/^				extended: true$/;"	P
-external	/opt/projects/weblib/src/default-config.ts	/^			external: []$/;"	P
-extractFields	/opt/projects/weblib/src/lib/object.ts	/^	static extractFields(data: any[], fields: any[]): any[] {$/;"	M
-false	/opt/projects/weblib/src/lib/config.ts	/^			false$/;"	V
-false	/opt/projects/weblib/src/lib/log.ts	/^			false,$/;"	V
-false	/opt/projects/weblib/src/local/babel.ts	/^				false$/;"	V
-false	/opt/projects/weblib/src/local/markup.ts	/^				false$/;"	V
-file	/opt/projects/weblib/src/default-config.ts	/^			file: {$/;"	P
-file	/opt/projects/weblib/src/lib/files.ts	/^		file: string,$/;"	P
-file	/opt/projects/weblib/src/lib/html.ts	/^		let file = "";$/;"	V
-file	/opt/projects/weblib/src/lib/log.ts	/^			file: "",$/;"	P
-file	/opt/projects/weblib/src/lib/log.ts	/^		file: string,$/;"	P
-file	/opt/projects/weblib/src/lib/nunjucks.ts	/^		file: string,$/;"	P
-file	/opt/projects/weblib/src/lib/package-json.ts	/^					file: file$/;"	P
-file	/opt/projects/weblib/src/local/data-provider.ts	/^	file: string,$/;"	P
-file	/opt/projects/weblib/src/local/markup.ts	/^				file: file,$/;"	P
-file	/opt/projects/weblib/src/local/markup.ts	/^	static file(path: string, cleanup: boolean = false): lintResult[] {$/;"	M
-file	/opt/projects/weblib/src/server/controllers.ts	/^							file: url,$/;"	P
-file	/opt/projects/weblib/src/server/watches.ts	/^					file$/;"	V
-filename	/opt/projects/weblib/src/local/babel.ts	/^			filename: fullPath,$/;"	P
-filepath	/opt/projects/weblib/src/lib/beautify.ts	/^			filepath: file,$/;"	P
-files	/opt/projects/weblib/src/lib/nunjucks.ts	/^	let files = [$/;"	A
-files	/opt/projects/weblib/src/local/misc.ts	/^			files: []$/;"	P
-files	/opt/projects/weblib/src/server/controllers.ts	/^					files: [$/;"	P
-firstUpdateSources	/opt/projects/weblib/src/default-config.ts	/^		firstUpdateSources: true,$/;"	P
-firstUpdateWeb	/opt/projects/weblib/src/default-config.ts	/^			firstUpdateWeb: true,$/;"	P
-flag	/opt/projects/weblib/src/lib/files.ts	/^				flag: flag$/;"	P
-flags	/opt/projects/weblib/src/default-config.ts	/^				flags: null,$/;"	P
-flatten	/opt/projects/weblib/src/local/pdf.ts	/^		flatten: true$/;"	P
-forceFake	/opt/projects/weblib/src/default-config.ts	/^				forceFake: true,$/;"	P
-format	/opt/projects/weblib/src/default-config.ts	/^				format: "DD-MM-YYYY HH:mm:ss"$/;"	P
-format	/opt/projects/weblib/src/default-config.ts	/^				format: "HH:mm:ss"$/;"	P
-format	/opt/projects/weblib/src/default-config.ts	/^				format: {},$/;"	P
-formats	/opt/projects/weblib/src/default-config.ts	/^	formats: {$/;"	P
-frmt	/opt/projects/weblib/src/lib/html.ts	/^			frmt: frmtr,$/;"	P
-fullPath	/opt/projects/weblib/src/lib/files.ts	/^				fullPath,$/;"	V
-fullPath	/opt/projects/weblib/src/lib/files.ts	/^				fullPath: fullPath,$/;"	P
-generate	/opt/projects/weblib/src/default-config.ts	/^			generate: true,$/;"	P
-generate	/opt/projects/weblib/src/lib/sitemap.ts	/^	static generate(verbose: boolean) {$/;"	M
-generateJsDocs	/opt/projects/weblib/src/local/javascript.ts	/^export function generateJsDocs(): void {$/;"	E
-generateJsDocs	/opt/projects/weblib/src/local/javascript.ts	/^export function generateJsDocs(): void {$/;"	F
-generateStats	/opt/projects/weblib/src/local/overview.ts	/^export function generateStats(): Report {$/;"	E
-generateStats	/opt/projects/weblib/src/local/overview.ts	/^export function generateStats(): Report {$/;"	F
-generateTags	/opt/projects/weblib/src/default-config.ts	/^		generateTags: false,$/;"	P
-generateTsDocs	/opt/projects/weblib/src/local/typescript.ts	/^export function generateTsDocs(): void {$/;"	E
-generateTsDocs	/opt/projects/weblib/src/local/typescript.ts	/^export function generateTsDocs(): void {$/;"	F
-generateWeb	/opt/projects/weblib/src/local/misc.ts	/^export function generateWeb(verbose: boolean): void {$/;"	E
-generateWeb	/opt/projects/weblib/src/local/misc.ts	/^export function generateWeb(verbose: boolean): void {$/;"	F
-getAdditionalContext	/opt/projects/weblib/src/local/data-provider.ts	/^export function getAdditionalContext($/;"	E
-getAdditionalContext	/opt/projects/weblib/src/local/data-provider.ts	/^export function getAdditionalContext($/;"	F
-getChangeList	/opt/projects/weblib/src/lib/file-diff.ts	/^export function getChangeList(opts: ChangeList): FileStatus[] {$/;"	E
-getChangeList	/opt/projects/weblib/src/lib/file-diff.ts	/^export function getChangeList(opts: ChangeList): FileStatus[] {$/;"	F
-getChangeList	/opt/projects/weblib/src/lib/html.ts	/^	getChangeList,$/;"	V
-getChangeList	/opt/projects/weblib/src/local/babel.ts	/^	getChangeList,$/;"	V
-getChangeList	/opt/projects/weblib/src/local/pdf.ts	/^	getChangeList,$/;"	V
-getChangeList	/opt/projects/weblib/src/local/styling.ts	/^	getChangeList,$/;"	V
-getChangeList	/opt/projects/weblib/src/local/typescript.ts	/^	getChangeList,$/;"	V
-getCustomContext	/opt/projects/weblib/src/server/controllers.ts	/^async function getCustomContext($/;"	F
-getDirList	/opt/projects/weblib/src/lib/dirs.ts	/^export function getDirList(path: string, recursive: boolean = true): string[] {$/;"	E
-getDirList	/opt/projects/weblib/src/lib/dirs.ts	/^export function getDirList(path: string, recursive: boolean = true): string[] {$/;"	F
-getEnvironment	/opt/projects/weblib/src/lib/nunjucks.ts	/^	static getEnvironment(searchPaths: string[]): any {$/;"	M
-getFileList	/opt/projects/weblib/src/lib/files.ts	/^	static getFileList(path: string, opts: fileListOptions = {}): string[] {$/;"	M
-getInstance	/opt/projects/weblib/src/lib/config.ts	/^	static getInstance(): AppMenu {$/;"	M
-getInstance	/opt/projects/weblib/src/lib/config.ts	/^	static getInstance(name: string = "", dirProject: string = ""): AppConfig {$/;"	M
-getInstance	/opt/projects/weblib/src/lib/express.ts	/^	static getInstance(devMode: boolean = true): ExpressUtils {$/;"	M
-getInstance	/opt/projects/weblib/src/lib/log.ts	/^	static getInstance(options?: LogConfig): Logger {$/;"	M
-getInstance	/opt/projects/weblib/src/lib/utils.ts	/^	static getInstance(): Formatter {$/;"	M
-getInstance	/opt/projects/weblib/src/sys/session.ts	/^	static getInstance() {$/;"	M
-getLastChangeInDirectory	/opt/projects/weblib/src/lib/files.ts	/^	static getLastChangeInDirectory($/;"	M
-getLastModified	/opt/projects/weblib/src/lib/files.ts	/^	static getLastModified(path: string, file: string): number {$/;"	M
-getOutputDir	/opt/projects/weblib/src/lib/html.ts	/^	static getOutputDir(): string {$/;"	M
-getOutputDir	/opt/projects/weblib/src/local/javascript.ts	/^	static getOutputDir(): string {$/;"	M
-getOutputDir	/opt/projects/weblib/src/local/styling.ts	/^	static getOutputDir(): string {$/;"	M
-getPackageReadmeFiles	/opt/projects/weblib/src/lib/package-json.ts	/^export function getPackageReadmeFiles(sys: boolean): object[] {$/;"	E
-getPackageReadmeFiles	/opt/projects/weblib/src/lib/package-json.ts	/^export function getPackageReadmeFiles(sys: boolean): object[] {$/;"	F
-getPackages	/opt/projects/weblib/src/lib/package-json.ts	/^export function getPackages(dir: string): string[] {$/;"	E
-getPackages	/opt/projects/weblib/src/lib/package-json.ts	/^export function getPackages(dir: string): string[] {$/;"	F
-getProjectDir	/opt/projects/weblib/src/lib/config.ts	/^	static getProjectDir(dir: string): string {$/;"	M
-getSearchPaths	/opt/projects/weblib/src/lib/nunjucks.ts	/^	static getSearchPaths(): string[] {$/;"	M
-getTagContent	/opt/projects/weblib/src/local/markup.ts	/^	static getTagContent(data: string, tag: string): string[] {$/;"	M
-getUniqueFileName	/opt/projects/weblib/src/lib/files.ts	/^	static getUniqueFileName(dir: string, file: string, ext: string): string {$/;"	M
-gfm	/opt/projects/weblib/src/local/markdown.ts	/^		gfm: true,$/;"	P
-gitDiff	/opt/projects/weblib/src/default-config.ts	/^		gitDiff: {$/;"	P
-goodies	/opt/projects/weblib/src/default-config.ts	/^		goodies: true,$/;"	P
-gracefulShutdown	/opt/projects/weblib/src/server/index.ts	/^export function gracefulShutdown(): void {$/;"	E
-gracefulShutdown	/opt/projects/weblib/src/server/index.ts	/^export function gracefulShutdown(): void {$/;"	F
-group	/opt/projects/weblib/src/local/overview.ts	/^		let group = new Group(report, description);$/;"	V
-header	/opt/projects/weblib/src/index.ts	/^			header: "Options",$/;"	P
-header	/opt/projects/weblib/src/index.ts	/^			header: "cookware-headless-ice",$/;"	P
-hide	/opt/projects/weblib/src/index.ts	/^			hide: ["number"],$/;"	P
-html	/opt/projects/weblib/src/default-config.ts	/^	html: {$/;"	P
-htmlcs	/opt/projects/weblib/src/default-config.ts	/^		htmlcs: {$/;"	P
-httpOnly	/opt/projects/weblib/src/default-config.ts	/^					httpOnly: true,$/;"	P
-i	/opt/projects/weblib/src/lib/files.ts	/^		let i = 1;$/;"	V
-idx	/opt/projects/weblib/src/lib/log.ts	/^		let idx = 1;$/;"	V
-if	/opt/projects/weblib/src/lib/files.ts	/^ * if (lr.initialize(path)) {$/;"	G
-ignoreCase	/opt/projects/weblib/src/local/misc.ts	/^						ignoreCase: true,$/;"	P
-ignoreCompilerErrors	/opt/projects/weblib/src/default-config.ts	/^				ignoreCompilerErrors: true,$/;"	P
-inExcludeList	/opt/projects/weblib/src/lib/object.ts	/^	static inExcludeList(list: any, search: string): boolean {$/;"	M
-inclIncludes	/opt/projects/weblib/src/lib/nunjucks-test.ts	/^			inclIncludes: true$/;"	P
-inclIncludes	/opt/projects/weblib/src/lib/nunjucks-test.ts	/^			inclIncludes: true,$/;"	P
-include	/opt/projects/weblib/src/default-config.ts	/^					include: ["src", "package.json", "README.md"],$/;"	P
-includeDeclarations	/opt/projects/weblib/src/default-config.ts	/^				includeDeclarations: true,$/;"	P
-includePaths	/opt/projects/weblib/src/default-config.ts	/^				includePaths: ["sass"],$/;"	P
-includePattern	/opt/projects/weblib/src/default-config.ts	/^					includePattern: ".js$"$/;"	P
-includes	/opt/projects/weblib/src/default-config.ts	/^			includes: ["content\/includes"],$/;"	P
-indentType	/opt/projects/weblib/src/default-config.ts	/^				indentType: "tabs",$/;"	P
-indentWidth	/opt/projects/weblib/src/default-config.ts	/^				indentWidth: 1,$/;"	P
-indentedSyntax	/opt/projects/weblib/src/default-config.ts	/^				indentedSyntax: false,$/;"	P
-initNewProject	/opt/projects/weblib/src/lib/config.ts	/^	static initNewProject(): void {$/;"	M
-initialCapitalized	/opt/projects/weblib/src/lib/utils.ts	/^	static initialCapitalized(str: string): string {$/;"	M
-interval	/opt/projects/weblib/src/server/watches.ts	/^		let interval = 1 * 2000; \/\/ Assume max. 2 sec. to beautify$/;"	V
-inverse	/opt/projects/weblib/src/local/misc.ts	/^						inverse: false,$/;"	P
-is	/opt/projects/weblib/src/server/watches.ts	/^	static is(file: string): boolean {$/;"	M
-it	/opt/projects/weblib/src/lib/nunjucks-test.ts	/^	it("extract blocks", function() {$/;"	M
-it	/opt/projects/weblib/src/lib/nunjucks-test.ts	/^	it("extract includes", function() {$/;"	M
-it	/opt/projects/weblib/src/lib/nunjucks-test.ts	/^	it("extract other data", function() {$/;"	M
-it	/opt/projects/weblib/src/lib/nunjucks-test.ts	/^	it("extract variables", function() {$/;"	M
-it	/opt/projects/weblib/src/lib/nunjucks-test.ts	/^	it("recognize parent", function() {$/;"	M
-it	/opt/projects/weblib/src/local/markup-test.ts	/^	it("should lint all HTML output files", function() {$/;"	M
-it	/opt/projects/weblib/src/local/markup-test.ts	/^	it("should remove 4 obsolete output files", function() {$/;"	M
-it	/opt/projects/weblib/src/local/markup-test.ts	/^	it("should render 4 files, after changing a template", function() {$/;"	M
-it	/opt/projects/weblib/src/local/markup-test.ts	/^	it("should render 4 files, without exclude list", function() {$/;"	M
-it	/opt/projects/weblib/src/local/markup-test.ts	/^	it("should render nothing", function() {$/;"	M
-it	/opt/projects/weblib/src/local/styling-test.ts	/^	it("should compile 1 changed file", function() {$/;"	M
-it	/opt/projects/weblib/src/local/styling-test.ts	/^	it("should compile 2 files, after changing a mixin", function() {$/;"	M
-it	/opt/projects/weblib/src/local/styling-test.ts	/^	it("should compile nothing", function() {$/;"	M
-item	/opt/projects/weblib/src/lib/nunjucks.ts	/^		let item = new CacheItem(dir, file, stripFoundTags);$/;"	V
-javascript	/opt/projects/weblib/src/default-config.ts	/^	javascript: {$/;"	P
-js	/opt/projects/weblib/src/default-config.ts	/^					js: {$/;"	P
-jsdoc	/opt/projects/weblib/src/default-config.ts	/^		jsdoc: {$/;"	P
-keys	/opt/projects/weblib/src/default-config.ts	/^					keys: ["\/[-_#](?:js|hook)[-_#]\/"]$/;"	P
-level	/opt/projects/weblib/src/default-config.ts	/^		level: "debug",$/;"	P
-level	/opt/projects/weblib/src/lib/html.ts	/^			level: levelStr,$/;"	P
-level	/opt/projects/weblib/src/lib/log.ts	/^		level: string,$/;"	P
-levelStr	/opt/projects/weblib/src/lib/html.ts	/^		let levelStr = "";$/;"	V
-line	/opt/projects/weblib/src/lib/config.ts	/^		let line = "".padEnd(cols[0] + cols[1] + cols[2] + cols[3], "-");$/;"	V
-line	/opt/projects/weblib/src/lib/html.ts	/^				line,$/;"	V
-line	/opt/projects/weblib/src/lib/log.ts	/^			line: "",$/;"	P
-lineNr	/opt/projects/weblib/src/lib/files.ts	/^		let lineNr = 0;$/;"	V
-linters	/opt/projects/weblib/src/default-config.ts	/^				linters: {},$/;"	P
-logRequest	/opt/projects/weblib/src/lib/express.ts	/^	static logRequest(req: Request, res: Response): void {$/;"	M
-logStatic	/opt/projects/weblib/src/default-config.ts	/^		logStatic: false,$/;"	P
-logger	/opt/projects/weblib/src/default-config.ts	/^				logger: "none",$/;"	P
-logging	/opt/projects/weblib/src/default-config.ts	/^	logging: {$/;"	P
-lr	/opt/projects/weblib/src/lib/files.ts	/^		let lr = new LineReader(path);$/;"	V
-lr	/opt/projects/weblib/src/local/overview.ts	/^	let lr = new LineReader(join(cfg.dirProject, dir, file));$/;"	V
-lst	/opt/projects/weblib/src/lib/files.ts	/^		let lst = new Map();$/;"	V
-marginLeft	/opt/projects/weblib/src/default-config.ts	/^			marginLeft: 10,$/;"	P
-marginRight	/opt/projects/weblib/src/default-config.ts	/^			marginRight: 10,$/;"	P
-maxAge	/opt/projects/weblib/src/default-config.ts	/^					maxAge: 86400000,$/;"	P
-maxHtml	/opt/projects/weblib/src/lib/html.ts	/^			let maxHtml = 0; \/\/ to get the latest modified HTML content$/;"	V
-maxMixin	/opt/projects/weblib/src/local/styling.ts	/^		let maxMixin = 0; \/\/ to get the latest modified mixin$/;"	V
-maxSass	/opt/projects/weblib/src/local/styling.ts	/^		let maxSass = 0; \/\/ to get the latest modified other sass file$/;"	V
-memoryStore	/opt/projects/weblib/src/default-config.ts	/^				memoryStore: {$/;"	P
-memoryStore	/opt/projects/weblib/src/default-config.ts	/^			memoryStore: {$/;"	P
-mergeDeep	/opt/projects/weblib/src/lib/object.ts	/^	static mergeDeep(target: any, src: any): void {$/;"	M
-method	/opt/projects/weblib/src/lib/log.ts	/^			method: "",$/;"	P
-minlen	/opt/projects/weblib/src/default-config.ts	/^					minlen: 3$/;"	P
-mkdir	/opt/projects/weblib/src/lib/files.ts	/^	static mkdir(path: string) {$/;"	M
-module	/opt/projects/weblib/src/default-config.ts	/^				module: "commonjs",$/;"	P
-monospaceLinks	/opt/projects/weblib/src/default-config.ts	/^					monospaceLinks: true,$/;"	P
-msg	/opt/projects/weblib/src/lib/log.ts	/^			msg,$/;"	V
-mysql	/opt/projects/weblib/src/default-config.ts	/^		mysql: {$/;"	P
-name	/opt/projects/weblib/src/default-config.ts	/^				name: "cookware-headless-ice API documentation",$/;"	P
-name	/opt/projects/weblib/src/default-config.ts	/^				name: "cookware-headless-ice",$/;"	P
-name	/opt/projects/weblib/src/index.ts	/^	name: "beautify",$/;"	P
-name	/opt/projects/weblib/src/index.ts	/^	name: "docs",$/;"	P
-name	/opt/projects/weblib/src/index.ts	/^	name: "epub",$/;"	P
-name	/opt/projects/weblib/src/index.ts	/^	name: "generate",$/;"	P
-name	/opt/projects/weblib/src/index.ts	/^	name: "lint",$/;"	P
-name	/opt/projects/weblib/src/index.ts	/^	name: "pdf",$/;"	P
-name	/opt/projects/weblib/src/index.ts	/^	name: "production",$/;"	P
-name	/opt/projects/weblib/src/index.ts	/^	name: "run",$/;"	P
-name	/opt/projects/weblib/src/index.ts	/^	name: "touch",$/;"	P
-name	/opt/projects/weblib/src/lib/config.ts	/^		name: "config",$/;"	P
-name	/opt/projects/weblib/src/lib/config.ts	/^		name: "help",$/;"	P
-name	/opt/projects/weblib/src/lib/config.ts	/^		name: "init",$/;"	P
-name	/opt/projects/weblib/src/lib/config.ts	/^		name: "playground",$/;"	P
-name	/opt/projects/weblib/src/lib/nunjucks.ts	/^		name: string,$/;"	P
-name	/opt/projects/weblib/src/lib/package-json.ts	/^					name: pkg,$/;"	P
-name	/opt/projects/weblib/src/local/misc.ts	/^				name: file,$/;"	P
-name	/opt/projects/weblib/src/local/misc.ts	/^			name: dir,$/;"	P
-needsAction	/opt/projects/weblib/src/lib/files.ts	/^				needsAction: false$/;"	P
-nest	/opt/projects/weblib/src/default-config.ts	/^				nest: true,$/;"	P
-newProject	/opt/projects/weblib/src/default-config.ts	/^	newProject: {$/;"	P
-next	/opt/projects/weblib/src/server/controllers.ts	/^	next: Function,$/;"	P
-nj	/opt/projects/weblib/src/lib/nunjucks-test.ts	/^		let nj = new NunjucksUtils();$/;"	V
-nj	/opt/projects/weblib/src/lib/nunjucks.ts	/^	let nj = new NunjucksUtils();$/;"	V
-noHeaders	/opt/projects/weblib/src/default-config.ts	/^				noHeaders: false,$/;"	P
-nodeSass	/opt/projects/weblib/src/default-config.ts	/^		nodeSass: {$/;"	P
-nodeVersion	/opt/projects/weblib/src/default-config.ts	/^		nodeVersion: "current",$/;"	P
-node_path	/opt/projects/weblib/src/default-config.ts	/^		node_path: []$/;"	P
-now	/opt/projects/weblib/src/server/watches.ts	/^		let now = new Date().getTime();$/;"	V
-nr	/opt/projects/weblib/src/lib/utils.ts	/^		nr: number,$/;"	P
-nunjucks	/opt/projects/weblib/src/default-config.ts	/^		nunjucks: {$/;"	P
-obj	/opt/projects/weblib/src/lib/object.ts	/^		obj: Object,$/;"	P
-occurrences	/opt/projects/weblib/src/lib/utils.ts	/^	static occurrences(str: string, searchFor: string): number {$/;"	M
-opts	/opt/projects/weblib/src/default-config.ts	/^				opts: {$/;"	P
-opts	/opt/projects/weblib/src/lib/files.ts	/^		opts: searchOptions$/;"	P
-outDir	/opt/projects/weblib/src/local/babel.ts	/^		outDir,$/;"	V
-output	/opt/projects/weblib/src/default-config.ts	/^			output: "api",$/;"	P
-output	/opt/projects/weblib/src/default-config.ts	/^			output: "dist",$/;"	P
-output	/opt/projects/weblib/src/default-config.ts	/^			output: "dist\/downloads"$/;"	P
-output	/opt/projects/weblib/src/default-config.ts	/^			output: "dist\/static\/css"$/;"	P
-output	/opt/projects/weblib/src/default-config.ts	/^			output: "dist\/static\/js",$/;"	P
-output	/opt/projects/weblib/src/lib/config.ts	/^		let output = "Kind".padEnd(cols[0], " ");$/;"	V
-outputDir	/opt/projects/weblib/src/lib/files.ts	/^	outputDir: string,$/;"	P
-outputDir	/opt/projects/weblib/src/lib/html.ts	/^			outputDir,$/;"	V
-outputDir	/opt/projects/weblib/src/lib/html.ts	/^		let outputDir = "";$/;"	V
-outputDir	/opt/projects/weblib/src/local/javascript.ts	/^		let outputDir = "";$/;"	V
-outputDir	/opt/projects/weblib/src/local/styling.ts	/^		let outputDir = "";$/;"	V
-outputStyle	/opt/projects/weblib/src/default-config.ts	/^				outputStyle: "compressed"$/;"	P
-p	/opt/projects/weblib/src/lib/utils.ts	/^		const p = new RegExp(a.split("").join("|"), "g");$/;"	V
-parseLine	/opt/projects/weblib/src/lib/html.ts	/^	static parseLine(line: string): string {$/;"	M
-parseLine	/opt/projects/weblib/src/local/overview.ts	/^function parseLine(line: string, item: Item, isInComment: boolean): boolean {$/;"	F
-parsed	/opt/projects/weblib/src/lib/files.ts	/^		let parsed = {};$/;"	O
-parser	/opt/projects/weblib/src/lib/beautify.ts	/^			parser: parser$/;"	P
-parser	/opt/projects/weblib/src/lib/beautify.ts	/^		let parser = ""; \/\/ See https:\/\/prettier.io\/docs\/en\/options.html#parser$/;"	V
-path	/opt/projects/weblib/src/default-config.ts	/^					path: "\/",$/;"	P
-path	/opt/projects/weblib/src/lib/files.ts	/^		path: string,$/;"	P
-path	/opt/projects/weblib/src/lib/html.ts	/^			path: file,$/;"	P
-path	/opt/projects/weblib/src/lib/log.ts	/^			path: "",$/;"	P
-paths	/opt/projects/weblib/src/local/create-app.ts	/^let paths = [join(cfg.dirMain, "node_modules")];$/;"	A
-pdf	/opt/projects/weblib/src/default-config.ts	/^	pdf: {$/;"	P
-persistent	/opt/projects/weblib/src/lib/files.ts	/^					persistent: true,$/;"	P
-playGround	/opt/projects/weblib/src/dev/playground.ts	/^export function playGround(): void {$/;"	E
-playGround	/opt/projects/weblib/src/dev/playground.ts	/^export function playGround(): void {$/;"	F
-playSoundOn	/opt/projects/weblib/src/default-config.ts	/^		playSoundOn: {$/;"	P
-player	/opt/projects/weblib/src/default-config.ts	/^		player: "mplayer"$/;"	P
-plugins	/opt/projects/weblib/src/default-config.ts	/^				plugins: ["plugins\/markdown"],$/;"	P
-plugins	/opt/projects/weblib/src/local/babel.ts	/^			plugins: plugins,$/;"	P
-port	/opt/projects/weblib/src/default-config.ts	/^		port: 8000,$/;"	P
-pos	/opt/projects/weblib/src/lib/log.ts	/^			pos: "",$/;"	P
-prefix	/opt/projects/weblib/src/server/controllers.ts	/^	prefix: string$/;"	P
-presets	/opt/projects/weblib/src/local/babel.ts	/^			presets: presets,$/;"	P
-prettier	/opt/projects/weblib/src/default-config.ts	/^		prettier: {$/;"	P
-private	/opt/projects/weblib/src/default-config.ts	/^					private: true,$/;"	P
-process	/opt/projects/weblib/src/lib/html.ts	/^	static process(content: string): string {$/;"	M
-processed	/opt/projects/weblib/src/lib/html.ts	/^			processed,$/;"	V
-processed	/opt/projects/weblib/src/local/babel.ts	/^		processed,$/;"	V
-processed	/opt/projects/weblib/src/local/pdf.ts	/^		processed,$/;"	V
-processed	/opt/projects/weblib/src/local/typescript.ts	/^			processed,$/;"	V
-processor	/opt/projects/weblib/src/local/misc.ts	/^						processor: stripHeaders$/;"	P
-projectDir	/opt/projects/weblib/src/lib/files.ts	/^		projectDir: string,$/;"	P
-projectOverview	/opt/projects/weblib/src/default-config.ts	/^	projectOverview: {$/;"	P
-projects	/opt/projects/weblib/src/default-config.ts	/^	projects: [],$/;"	P
-ratio	/opt/projects/weblib/src/lib/reporting.ts	/^			let ratio = 0;$/;"	V
-readBlocks	/opt/projects/weblib/src/lib/nunjucks.ts	/^	static readBlocks(item: CacheItem): void {$/;"	M
-readExtends	/opt/projects/weblib/src/lib/nunjucks.ts	/^	static readExtends(item: CacheItem, searchPaths: string[]): void {$/;"	M
-readFile	/opt/projects/weblib/src/lib/files.ts	/^	static readFile(path: string): string {$/;"	M
-readFile	/opt/projects/weblib/src/local/overview.ts	/^function readFile(dir: string, file: string, group: Group, report: Report) {$/;"	F
-readFileSync	/opt/projects/weblib/src/lib/files.ts	/^	readFileSync,$/;"	V
-readIncludes	/opt/projects/weblib/src/lib/nunjucks.ts	/^	static readIncludes(item: CacheItem, searchPaths: string[]): void {$/;"	M
-readJsonFile	/opt/projects/weblib/src/lib/files.ts	/^	static readJsonFile(path: string, ignoreErrors: boolean = true): object {$/;"	M
-readVariables	/opt/projects/weblib/src/lib/nunjucks.ts	/^	static readVariables(item: CacheItem): void {$/;"	M
-readdirSync	/opt/projects/weblib/src/lib/files.ts	/^	readdirSync,$/;"	V
-readme	/opt/projects/weblib/src/default-config.ts	/^				readme: "none",$/;"	P
-record	/opt/projects/weblib/src/lib/object.ts	/^			let record = {};$/;"	O
-recurse	/opt/projects/weblib/src/default-config.ts	/^					recurse: true,$/;"	P
-recursive	/opt/projects/weblib/src/lib/files.ts	/^					recursive: false,$/;"	P
-recursive	/opt/projects/weblib/src/lib/package-json.ts	/^			recursive: false$/;"	P
-recursive	/opt/projects/weblib/src/local/overview.ts	/^		recursive: true$/;"	P
-regex	/opt/projects/weblib/src/lib/files.ts	/^		const regex = new RegExp(searchFor, opts.ignoreCase ? "i" : undefined);$/;"	V
-regex	/opt/projects/weblib/src/lib/nunjucks.ts	/^		let regex = new RegExp($/;"	V
-regex	/opt/projects/weblib/src/lib/nunjucks.ts	/^		let regex = new RegExp('{%([-\\\\s]+)extends\\\\s*"(.*)"([-\\\\s]+)%}', "gim"); \/\/ Global, case insensitive, multiline$/;"	V
-regex	/opt/projects/weblib/src/lib/nunjucks.ts	/^		let regex = new RegExp('{%([-\\\\s]+)include\\\\s*"(.*)"([-\\\\s]+)%}', "gim"); \/\/ Global, case insensitive, multiline$/;"	V
-regex	/opt/projects/weblib/src/local/markup.ts	/^			let regex = new RegExp(`<${tag}.*?>(.*?)<\/${tag}>`, "gim");$/;"	V
-removeObsolete	/opt/projects/weblib/src/default-config.ts	/^			removeObsolete: {$/;"	P
-removeObsolete	/opt/projects/weblib/src/default-config.ts	/^		removeObsolete: {$/;"	P
-removeObsolete	/opt/projects/weblib/src/lib/files.ts	/^	removeObsolete: any,$/;"	P
-removeObsolete	/opt/projects/weblib/src/lib/files.ts	/^export function removeObsolete($/;"	E
-removeObsolete	/opt/projects/weblib/src/lib/files.ts	/^export function removeObsolete($/;"	F
-renderEpub	/opt/projects/weblib/src/local/epub.ts	/^export function renderEpub(verbose: boolean = true): number {$/;"	E
-renderEpub	/opt/projects/weblib/src/local/epub.ts	/^export function renderEpub(verbose: boolean = true): number {$/;"	F
-renderFile	/opt/projects/weblib/src/lib/nunjucks.ts	/^	static renderFile($/;"	M
-renderMarkdownFile	/opt/projects/weblib/src/local/markdown.ts	/^export function renderMarkdownFile(dir: string, path: string): string[] {$/;"	E
-renderMarkdownFile	/opt/projects/weblib/src/local/markdown.ts	/^export function renderMarkdownFile(dir: string, path: string): string[] {$/;"	F
-renderPdf	/opt/projects/weblib/src/local/pdf.ts	/^export function renderPdf(): void {$/;"	E
-renderPdf	/opt/projects/weblib/src/local/pdf.ts	/^export function renderPdf(): void {$/;"	F
-renderPdfFile	/opt/projects/weblib/src/local/pdf.ts	/^function renderPdfFile(fileStatus: FileStatus): boolean {$/;"	F
-renderSysTemplate	/opt/projects/weblib/src/server/controllers.ts	/^function renderSysTemplate(res: Response, path: string, context: object) {$/;"	F
-rendering	/opt/projects/weblib/src/default-config.ts	/^		rendering: {$/;"	P
-report	/opt/projects/weblib/src/local/overview.ts	/^			report,$/;"	V
-report	/opt/projects/weblib/src/local/overview.ts	/^		report: Report,$/;"	P
-report	/opt/projects/weblib/src/local/overview.ts	/^	let report = new Report(["File", "Code", "Comments", "Empty lines"]);$/;"	V
-req	/opt/projects/weblib/src/server/controllers.ts	/^	req: Request,$/;"	P
-requestLogger	/opt/projects/weblib/src/lib/express.ts	/^	static requestLogger(req: Request, res: Response, next: Function) {$/;"	M
-res	/opt/projects/weblib/src/server/controllers.ts	/^	res: Response,$/;"	P
-resave	/opt/projects/weblib/src/default-config.ts	/^				resave: false,$/;"	P
-resetMap	/opt/projects/weblib/src/sys/session.ts	/^		function resetMap(mp: Map<string, number>) {$/;"	F
-result	/opt/projects/weblib/src/lib/utils.ts	/^		let result = new RegExp(regex).exec(str);$/;"	V
-retVal	/opt/projects/weblib/src/lib/html.ts	/^		let retVal = "";$/;"	V
-retVal	/opt/projects/weblib/src/lib/log.ts	/^		let retVal = "";$/;"	V
-retVal	/opt/projects/weblib/src/lib/reporting.ts	/^		let retVal = "";$/;"	V
-retVal	/opt/projects/weblib/src/lib/utils.ts	/^		let retVal = 0;$/;"	V
-retVal	/opt/projects/weblib/src/sys/session.ts	/^		let retVal = "";$/;"	V
-rolling	/opt/projects/weblib/src/default-config.ts	/^				rolling: true,$/;"	P
-rootDir	/opt/projects/weblib/src/lib/dirs.ts	/^	rootDir: string,$/;"	P
-rowLine	/opt/projects/weblib/src/lib/reporting.ts	/^			let rowLine = "";$/;"	V
-rowSeparator	/opt/projects/weblib/src/lib/reporting.ts	/^		rowSeparator: string$/;"	P
-sameSite	/opt/projects/weblib/src/default-config.ts	/^					sameSite: true$/;"	P
-sanitize	/opt/projects/weblib/src/local/markdown.ts	/^		sanitize: false,$/;"	P
-sass	/opt/projects/weblib/src/default-config.ts	/^	sass: {$/;"	P
-save	/opt/projects/weblib/src/default-config.ts	/^				save: false,$/;"	P
-saveUninitialized	/opt/projects/weblib/src/default-config.ts	/^				saveUninitialized: true,$/;"	P
-searchFor	/opt/projects/weblib/src/lib/files.ts	/^		searchFor: string,$/;"	P
-searchFor	/opt/projects/weblib/src/local/misc.ts	/^					searchFor,$/;"	V
-searchFrom	/opt/projects/weblib/src/lib/utils.ts	/^		let searchFrom = 0;$/;"	V
-searchInFile	/opt/projects/weblib/src/lib/files.ts	/^	static searchInFile($/;"	M
-searchProject	/opt/projects/weblib/src/local/misc.ts	/^export function searchProject(searchFor: string, html: boolean): object {$/;"	E
-searchProject	/opt/projects/weblib/src/local/misc.ts	/^export function searchProject(searchFor: string, html: boolean): object {$/;"	F
-secret	/opt/projects/weblib/src/default-config.ts	/^				secret: "someSecretPhrase"$/;"	P
-semi	/opt/projects/weblib/src/default-config.ts	/^				semi: true,$/;"	P
-server	/opt/projects/weblib/src/default-config.ts	/^						server: {$/;"	P
-server	/opt/projects/weblib/src/default-config.ts	/^				server: {$/;"	P
-server	/opt/projects/weblib/src/default-config.ts	/^	server: {$/;"	P
-session	/opt/projects/weblib/src/default-config.ts	/^			session: {$/;"	P
-sessions	/opt/projects/weblib/src/default-config.ts	/^				sessions: false$/;"	P
-setBlock	/opt/projects/weblib/src/lib/nunjucks.ts	/^	static setBlock($/;"	M
-setExtends	/opt/projects/weblib/src/lib/nunjucks.ts	/^	static setExtends($/;"	M
-setImmediate	/opt/projects/weblib/src/lib/express.ts	/^		setImmediate(function() {$/;"	M
-setVariable	/opt/projects/weblib/src/lib/nunjucks.ts	/^	static setVariable($/;"	M
-showConfig	/opt/projects/weblib/src/lib/config.ts	/^	static showConfig(options: any = null): void {$/;"	M
-showHelp	/opt/projects/weblib/src/lib/config.ts	/^	showHelp(opts: any) {$/;"	M
-showInheritedInNav	/opt/projects/weblib/src/default-config.ts	/^					showInheritedInNav: true$/;"	P
-showPackages	/opt/projects/weblib/src/default-config.ts	/^		showPackages: false,$/;"	P
-shutdown	/opt/projects/weblib/src/lib/express.ts	/^	static shutdown(): void {$/;"	M
-sign	/opt/projects/weblib/src/default-config.ts	/^			sign: false$/;"	P
-signFile	/opt/projects/weblib/src/lib/pgp.ts	/^export function signFile(file: string) {$/;"	E
-signFile	/opt/projects/weblib/src/lib/pgp.ts	/^export function signFile(file: string) {$/;"	F
-silent	/opt/projects/weblib/src/lib/audio.ts	/^				silent: true$/;"	P
-singleQuote	/opt/projects/weblib/src/default-config.ts	/^				singleQuote: false,$/;"	P
-sitemap	/opt/projects/weblib/src/default-config.ts	/^		sitemap: {$/;"	P
-sitemap	/opt/projects/weblib/src/lib/sitemap.ts	/^		let sitemap = new Sitemap(cfg.dirProject, outputFile, cfg.options.domain.url);$/;"	V
-slugify	/opt/projects/weblib/src/lib/utils.ts	/^	static slugify(string: string): string {$/;"	M
-sort	/opt/projects/weblib/src/lib/object.ts	/^	static sort(data: any[], fields: any[]): any[] {$/;"	M
-source	/opt/projects/weblib/src/default-config.ts	/^				source: {$/;"	P
-source	/opt/projects/weblib/src/default-config.ts	/^			source: "sass",$/;"	P
-source	/opt/projects/weblib/src/default-config.ts	/^			source: "src"$/;"	P
-sourceExt	/opt/projects/weblib/src/lib/html.ts	/^			sourceExt: [".html", ".njk"],$/;"	P
-sourceExt	/opt/projects/weblib/src/local/babel.ts	/^		sourceExt: [sourceExt],$/;"	P
-sourceExt	/opt/projects/weblib/src/local/pdf.ts	/^		sourceExt: [".html"],$/;"	P
-sourceExt	/opt/projects/weblib/src/local/styling.ts	/^			sourceExt: [".scss"],$/;"	P
-sourceExt	/opt/projects/weblib/src/local/typescript.ts	/^		sourceExt: [".ts"],$/;"	P
-sourceMap	/opt/projects/weblib/src/default-config.ts	/^				sourceMap: true,$/;"	P
-sourceMapping	/opt/projects/weblib/src/default-config.ts	/^		sourceMapping: true,$/;"	P
-sourceMaps	/opt/projects/weblib/src/local/babel.ts	/^			sourceMaps: true$/;"	P
-sourceRoot	/opt/projects/weblib/src/default-config.ts	/^				sourceRoot: ".\/src",$/;"	P
-sourceVersion	/opt/projects/weblib/src/default-config.ts	/^		sourceVersion: "es2017",$/;"	P
-src	/opt/projects/weblib/src/default-config.ts	/^			src: {$/;"	P
-stack	/opt/projects/weblib/src/lib/log.ts	/^			stack: [""]$/;"	P
-stackReg	/opt/projects/weblib/src/lib/log.ts	/^		let stackReg = \/at\\s+(.*)\\s+\\((.*):(\\d*):(\\d*)\\)\/i;$/;"	V
-stackReg2	/opt/projects/weblib/src/lib/log.ts	/^		let stackReg2 = \/at\\s+()(.*):(\\d*):(\\d*)\/i;$/;"	V
-standAlone	/opt/projects/weblib/src/lib/beautify.ts	/^	static standAlone(path: string): void {$/;"	M
-startDevServer	/opt/projects/weblib/src/server/server-test.ts	/^	coatRack as startDevServer$/;"	I
-startsWith	/opt/projects/weblib/src/default-config.ts	/^		startsWith: true,$/;"	P
-startsWith	/opt/projects/weblib/src/lib/object.ts	/^	static startsWith(str: string, searchIn: string[]): boolean {$/;"	M
-statSync	/opt/projects/weblib/src/lib/files.ts	/^	statSync,$/;"	V
-static	/opt/projects/weblib/src/default-config.ts	/^				static: {$/;"	P
-staticUrl	/opt/projects/weblib/src/default-config.ts	/^		staticUrl: "static",$/;"	P
-status	/opt/projects/weblib/src/lib/file-diff.ts	/^		let status = new FileStatus(opts.sourcePath);$/;"	V
-status	/opt/projects/weblib/src/server/watches.ts	/^			let status = new FileStatus($/;"	V
-status	/opt/projects/weblib/src/server/watches.ts	/^		let status = new FileStatus(dir);$/;"	V
-stopDevServer	/opt/projects/weblib/src/server/server-test.ts	/^	gracefulShutdown as stopDevServer,$/;"	I
-stringify	/opt/projects/weblib/src/lib/object.ts	/^const { stringify } = require("q-i");$/;"	V
-strip	/opt/projects/weblib/src/lib/utils.ts	/^	static strip(str: string, begin: boolean, end: boolean): string {$/;"	M
-strip	/opt/projects/weblib/src/local/markup.ts	/^					let strip = new RegExp(`<\/?${tag}.*?>`, "gi");$/;"	V
-stripFoundTags	/opt/projects/weblib/src/lib/nunjucks-test.ts	/^			stripFoundTags: true$/;"	P
-stripHeaders	/opt/projects/weblib/src/local/misc.ts	/^	function stripHeaders(data: string): string {$/;"	F
-stripper	/opt/projects/weblib/src/default-config.ts	/^		stripper: {$/;"	P
-styling	/opt/projects/weblib/src/default-config.ts	/^		styling: true,$/;"	P
-suffix	/opt/projects/weblib/src/lib/utils.ts	/^			suffix$/;"	V
-sum	/opt/projects/weblib/src/lib/reporting.ts	/^		let sum = 0;$/;"	V
-tabWidth	/opt/projects/weblib/src/default-config.ts	/^				tabWidth: 1$/;"	P
-tables	/opt/projects/weblib/src/local/markdown.ts	/^		tables: true,$/;"	P
-tags	/opt/projects/weblib/src/default-config.ts	/^				tags: {$/;"	P
-target	/opt/projects/weblib/src/default-config.ts	/^				target: "es5"$/;"	P
-targetExt	/opt/projects/weblib/src/lib/html.ts	/^			targetExt: ".html",$/;"	P
-targetExt	/opt/projects/weblib/src/local/babel.ts	/^		targetExt: ".js",$/;"	P
-targetExt	/opt/projects/weblib/src/local/pdf.ts	/^		targetExt: ".pdf",$/;"	P
-targetExt	/opt/projects/weblib/src/local/styling.ts	/^			targetExt: ".css"$/;"	P
-targetExt	/opt/projects/weblib/src/local/typescript.ts	/^		targetExt: ".js"$/;"	P
-targetPath	/opt/projects/weblib/src/lib/html.ts	/^			targetPath: outputDir,$/;"	P
-targetPath	/opt/projects/weblib/src/local/babel.ts	/^		targetPath: outDir,$/;"	P
-targetPath	/opt/projects/weblib/src/local/styling.ts	/^			targetPath: outDir,$/;"	P
-targets	/opt/projects/weblib/src/local/babel.ts	/^				targets: {$/;"	P
-template	/opt/projects/weblib/src/default-config.ts	/^					template: ".\/node_modules\/minami"$/;"	P
-template	/opt/projects/weblib/src/lib/nunjucks.ts	/^		template: string,$/;"	P
-templateDir	/opt/projects/weblib/src/lib/html.ts	/^		let templateDir;$/;"	V
-templateDir	/opt/projects/weblib/src/lib/nunjucks.ts	/^		templateDir: string$/;"	P
-templates	/opt/projects/weblib/src/default-config.ts	/^				templates: {$/;"	P
-templates	/opt/projects/weblib/src/default-config.ts	/^			templates: ["templates"]$/;"	P
-templates	/opt/projects/weblib/src/default-config.ts	/^		templates: true,$/;"	P
-thousandsSeparator	/opt/projects/weblib/src/default-config.ts	/^		thousandsSeparator: ".",$/;"	P
-threshold	/opt/projects/weblib/src/default-config.ts	/^					threshold: 3,$/;"	P
-throwOnUndefined	/opt/projects/weblib/src/default-config.ts	/^				throwOnUndefined: false$/;"	P
-time	/opt/projects/weblib/src/default-config.ts	/^			time: "%H:%i"$/;"	P
-time	/opt/projects/weblib/src/default-config.ts	/^		time: "HH:mm",$/;"	P
-timeOut	/opt/projects/weblib/src/local/typescript.ts	/^	let timeOut = setTimeout(() => {$/;"	F
-timeout	/opt/projects/weblib/src/lib/files.ts	/^		timeout: number,$/;"	P
-toString	/opt/projects/weblib/src/lib/object.ts	/^	static toString($/;"	M
-touchRecursive	/opt/projects/weblib/src/lib/files.ts	/^	static touchRecursive(path: string, opts: fileListOptions) {$/;"	M
-transports	/opt/projects/weblib/src/default-config.ts	/^		transports: {$/;"	P
-transports	/opt/projects/weblib/src/lib/log.ts	/^	transports: { [key: string]: Transport };$/;"	P
-tree	/opt/projects/weblib/src/lib/dirs.ts	/^	tree: object,$/;"	P
-true	/opt/projects/weblib/src/server/controllers.ts	/^								true$/;"	V
-tsconfig	/opt/projects/weblib/src/local/typescript.ts	/^		tsconfig: "tsconfig.json"$/;"	P
-type	/opt/projects/weblib/src/default-config.ts	/^				type: "memoryStore",$/;"	P
-type	/opt/projects/weblib/src/index.ts	/^	type: Boolean,$/;"	P
-type	/opt/projects/weblib/src/index.ts	/^	type: String,$/;"	P
-type	/opt/projects/weblib/src/lib/config.ts	/^		type: Boolean,$/;"	P
-type	/opt/projects/weblib/src/lib/nunjucks.ts	/^		type: string,$/;"	P
-type	/opt/projects/weblib/src/server/index.ts	/^		let type = "JavaScript";$/;"	V
-typeLabel	/opt/projects/weblib/src/index.ts	/^	typeLabel: "<path>"$/;"	P
-typeLabel	/opt/projects/weblib/src/index.ts	/^	typeLabel: "<type>"$/;"	P
-typedoc	/opt/projects/weblib/src/default-config.ts	/^		typedoc: {$/;"	P
-udf	/opt/projects/weblib/src/default-config.ts	/^			udf: {$/;"	P
-upgrade	/opt/projects/weblib/src/sys/upgrades.ts	/^export function upgrade(cfg: AppConfig, system: boolean = false): boolean {$/;"	E
-upgrade	/opt/projects/weblib/src/sys/upgrades.ts	/^export function upgrade(cfg: AppConfig, system: boolean = false): boolean {$/;"	F
-url	/opt/projects/weblib/src/default-config.ts	/^		url: "http:\/\/www.yourdomain.com"$/;"	P
-url	/opt/projects/weblib/src/server/controllers.ts	/^	url: string$/;"	P
-useLongnameInNav	/opt/projects/weblib/src/default-config.ts	/^					useLongnameInNav: false,$/;"	P
-useProjectTemplates	/opt/projects/weblib/src/local/markup.ts	/^			useProjectTemplates: false$/;"	P
-useProjectTemplates	/opt/projects/weblib/src/server/controllers.ts	/^		useProjectTemplates: false$/;"	P
-useTabs	/opt/projects/weblib/src/default-config.ts	/^				useTabs: true,$/;"	P
-useWatch	/opt/projects/weblib/src/default-config.ts	/^		useWatch: true,$/;"	P
-val	/opt/projects/weblib/src/lib/nunjucks.ts	/^				val,$/;"	V
-value	/opt/projects/weblib/src/lib/nunjucks.ts	/^		value: any,$/;"	P
-value	/opt/projects/weblib/src/lib/nunjucks.ts	/^		value: string,$/;"	P
-verbose	/opt/projects/weblib/src/lib/files.ts	/^		verbose: boolean,$/;"	P
-version	/opt/projects/weblib/src/default-config.ts	/^	version: "0.0.1",$/;"	P
-versionTarget	/opt/projects/weblib/src/sys/upgrades.ts	/^	let versionTarget = "0.0.1";$/;"	V
-viewport	/opt/projects/weblib/src/default-config.ts	/^				viewport: true,$/;"	P
-warning	/opt/projects/weblib/src/default-config.ts	/^			warning: true$/;"	P
-watch	/opt/projects/weblib/src/lib/files.ts	/^	watch,$/;"	V
-watchTimeout	/opt/projects/weblib/src/default-config.ts	/^		watchTimeout: 100$/;"	P
-watchTypeScript	/opt/projects/weblib/src/local/typescript.ts	/^export function watchTypeScript(): void {$/;"	E
-watchTypeScript	/opt/projects/weblib/src/local/typescript.ts	/^export function watchTypeScript(): void {$/;"	F
-wordDiff	/opt/projects/weblib/src/default-config.ts	/^				wordDiff: false$/;"	P
-workingDir	/opt/projects/weblib/src/lib/files.ts	/^		workingDir: string,$/;"	P
-write	/opt/projects/weblib/src/local/babel.ts	/^	function write(entry: FileStatus) {$/;"	F
-write	/opt/projects/weblib/src/local/styling.ts	/^		function write(entry: FileStatus) {$/;"	F
-writeFile	/opt/projects/weblib/src/lib/files.ts	/^	static writeFile($/;"	M
-writeFileSync	/opt/projects/weblib/src/lib/files.ts	/^	writeFileSync,$/;"	V
-writeJsonFile	/opt/projects/weblib/src/lib/files.ts	/^	static writeJsonFile($/;"	M
-xhtml	/opt/projects/weblib/src/local/markdown.ts	/^		xhtml: false$/;"	P
+$	/opt/projects/webtools/src/modules/website/browser/generic.js	/^	$("#menu-1 div").click(function() {$/;"	M
+$	/opt/projects/webtools/src/modules/website/browser/generic.js	/^	$("#menu-open").click(function() {$/;"	M
+$	/opt/projects/webtools/src/modules/website/browser/generic.js	/^$(document).ready(function() {$/;"	M
+$	/opt/projects/webtools/src/modules/website/browser/page/index.js	/^$(document).ready(function() {$/;"	M
+$	/opt/projects/webtools/src/snippets/cookies.js	/^			$("#cookie-warning.accept").click(function() {$/;"	M
+$	/opt/projects/webtools/src/snippets/cookies.js	/^			$("#cookie-warning.decline").click(function() {$/;"	M
+0	/opt/projects/webtools/src/modules/index-sample.js	/^		0: website$/;"	P
+0	/opt/projects/webtools/src/modules/website/local/pages-test.js	/^			0,$/;"	V
+AppConfig	/opt/projects/webtools/src/lib/config.js	/^class AppConfig {$/;"	C
+AppMenu	/opt/projects/webtools/src/lib/config.js	/^class AppMenu {$/;"	C
+ArrayUtils	/opt/projects/webtools/src/lib/object.js	/^class ArrayUtils {$/;"	C
+ArticleWriter	/opt/projects/webtools/src/modules/shop/local/pages.js	/^export class ArticleWriter extends Shop {$/;"	C
+Articles	/opt/projects/webtools/src/modules/shop/local/data-provider.js	/^export class Articles {$/;"	C
+Articles	/opt/projects/webtools/src/modules/shop/server/index.js	/^export class Articles {$/;"	C
+Articles	/opt/projects/webtools/src/modules/shop/server/sql.js	/^export class Articles {$/;"	C
+AudioUtils	/opt/projects/webtools/src/lib/audio.js	/^class AudioUtils {$/;"	C
+Browser	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^export class Browser {$/;"	C
+Browser	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^export class Browser {$/;"	C
+CacheItem	/opt/projects/webtools/src/lib/nunjucks.js	/^class CacheItem {$/;"	C
+Connection	/opt/projects/webtools/src/modules/weblogs/local/connection.js	/^export class Connection {$/;"	C
+Connection	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^export class Connection {$/;"	C
+Content	/opt/projects/webtools/src/lib/html.js	/^class Content {$/;"	C
+Cookies	/opt/projects/webtools/src/snippets/cookies.js	/^export class Cookies {$/;"	C
+Country	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^export class Country {$/;"	C
+Database	/opt/projects/webtools/src/lib/database/index.js	/^export class Database {$/;"	C
+Dataset	/opt/projects/webtools/src/lib/object.js	/^class Dataset {$/;"	C
+DefaultConfig	/opt/projects/webtools/src/default-config.js	/^let DefaultConfig = {$/;"	O
+DefaultConfig	/opt/projects/webtools/src/sys/utils.js	/^			DefaultConfig,$/;"	V
+Dependencies	/opt/projects/webtools/src/dev/dependencies-lib.js	/^let Dependencies = {$/;"	O
+Dispatcher	/opt/projects/webtools/src/modules/base/index.js	/^export class Dispatcher {$/;"	C
+Dispatcher	/opt/projects/webtools/src/modules/contact-form/index.js	/^export class Dispatcher {$/;"	C
+Dispatcher	/opt/projects/webtools/src/modules/downloads/index.js	/^export class Dispatcher {$/;"	C
+Dispatcher	/opt/projects/webtools/src/modules/index-sample.js	/^export class Dispatcher {$/;"	C
+Dispatcher	/opt/projects/webtools/src/modules/rss/index.js	/^export class Dispatcher {$/;"	C
+Dispatcher	/opt/projects/webtools/src/modules/shop/index.js	/^export class Dispatcher {$/;"	C
+Dispatcher	/opt/projects/webtools/src/modules/weblogs/index.js	/^export class Dispatcher {$/;"	C
+Dispatcher	/opt/projects/webtools/src/modules/website/index.js	/^export class Dispatcher {$/;"	C
+DropDown	/opt/projects/webtools/src/lib/webform.js	/^export class DropDown {$/;"	C
+Entry	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^export class Entry {$/;"	C
+ExpressUtils	/opt/projects/webtools/src/lib/express.js	/^class ExpressUtils {$/;"	C
+FileStatus	/opt/projects/webtools/src/lib/file-diff.js	/^class FileStatus {$/;"	C
+FileUtils	/opt/projects/webtools/src/lib/files.js	/^class FileUtils {$/;"	C
+FileWatcher	/opt/projects/webtools/src/lib/files.js	/^class FileWatcher {$/;"	C
+Form	/opt/projects/webtools/src/lib/webform.js	/^export class Form {$/;"	C
+Formatter	/opt/projects/webtools/src/lib/utils.js	/^class Formatter {$/;"	C
+GroupWriter	/opt/projects/webtools/src/modules/shop/local/pages.js	/^export class GroupWriter extends Shop {$/;"	C
+Groups	/opt/projects/webtools/src/modules/shop/local/data-provider.js	/^export class Groups {$/;"	C
+Groups	/opt/projects/webtools/src/modules/shop/server/index.js	/^export class Groups {$/;"	C
+Groups	/opt/projects/webtools/src/modules/shop/server/sql.js	/^export class Groups {$/;"	C
+Input	/opt/projects/webtools/src/lib/webform.js	/^export class Input {$/;"	C
+JsonUtils	/opt/projects/webtools/src/lib/json.js	/^export class JsonUtils {$/;"	C
+LineReader	/opt/projects/webtools/src/lib/files.js	/^class LineReader {$/;"	C
+Logger	/opt/projects/webtools/src/lib/log.js	/^class Logger {$/;"	C
+MailUtils	/opt/projects/webtools/src/lib/email/index.js	/^export class MailUtils {$/;"	C
+Modules	/opt/projects/webtools/src/sys/utils.js	/^export class Modules {$/;"	C
+MySqlUtils	/opt/projects/webtools/src/lib/database/mysql.js	/^export class MySqlUtils {$/;"	C
+Network	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^export class Network {$/;"	C
+NunjucksUtils	/opt/projects/webtools/src/lib/nunjucks.js	/^class NunjucksUtils {$/;"	C
+ObjectUtils	/opt/projects/webtools/src/lib/object.js	/^class ObjectUtils {$/;"	C
+Page	/opt/projects/webtools/src/modules/website/local/pages.js	/^export class Page {$/;"	C
+PageRegistry	/opt/projects/webtools/src/modules/website/local/registry.js	/^export class PageRegistry {$/;"	C
+Paging	/opt/projects/webtools/src/lib/webform.js	/^export class Paging {$/;"	C
+Prepare	/opt/projects/webtools/src/modules/deploy/local/utils.js	/^export class Prepare {$/;"	C
+Referer	/opt/projects/webtools/src/modules/weblogs/local/referer.js	/^export class Referer {$/;"	C
+Referer	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^export class Referer {$/;"	C
+Request	/opt/projects/webtools/src/modules/weblogs/local/request.js	/^export class Request {$/;"	C
+Request	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^export class Request {$/;"	C
+Rss	/opt/projects/webtools/src/modules/rss/local/rss.js	/^export class Rss {$/;"	C
+ServerUtils	/opt/projects/webtools/src/modules/website/server/utils.js	/^export class ServerUtils {$/;"	C
+SessionVars	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^export class SessionVars {$/;"	C
+Shop	/opt/projects/webtools/src/modules/shop/local/pages.js	/^class Shop {$/;"	C
+ShopUtils	/opt/projects/webtools/src/modules/shop/browser/utils.js	/^export class ShopUtils {$/;"	C
+Sitemap	/opt/projects/webtools/src/lib/sitemap.js	/^class Sitemap {$/;"	C
+StringUtils	/opt/projects/webtools/src/lib/utils.js	/^class StringUtils {$/;"	C
+StringUtils	/opt/projects/webtools/src/modules/website/browser/generic.js	/^class StringUtils {$/;"	C
+Stripper	/opt/projects/webtools/src/lib/html.js	/^class Stripper {$/;"	C
+TaskSequence	/opt/projects/webtools/src/sys/sequence.js	/^export class TaskSequence {$/;"	C
+Utils	/opt/projects/webtools/src/modules/shop/local/utils.js	/^export class Utils {$/;"	C
+Utils	/opt/projects/webtools/src/modules/website/browser/generic.js	/^export class Utils {$/;"	C
+Whois	/opt/projects/webtools/src/lib/whois.js	/^export class Whois {$/;"	C
+_addNew	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^	async _addNew(userAgent) {$/;"	M
+_addNew	/opt/projects/webtools/src/modules/weblogs/local/connection.js	/^	async _addNew(userAgent) {$/;"	M
+_addNew	/opt/projects/webtools/src/modules/weblogs/local/referer.js	/^	async _addNew(path) {$/;"	M
+_addNew	/opt/projects/webtools/src/modules/weblogs/local/request.js	/^	async _addNew(path) {$/;"	M
+_getCached	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^	_getCached(userAgent) {$/;"	M
+_getCached	/opt/projects/webtools/src/modules/weblogs/local/connection.js	/^	_getCached(ip) {$/;"	M
+_getCached	/opt/projects/webtools/src/modules/weblogs/local/referer.js	/^	_getCached(path) {$/;"	M
+_getCached	/opt/projects/webtools/src/modules/weblogs/local/request.js	/^	_getCached(path) {$/;"	M
+_getFromDatabase	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^	async _getFromDatabase(userAgent) {$/;"	M
+_getFromDatabase	/opt/projects/webtools/src/modules/weblogs/local/connection.js	/^	async _getFromDatabase(ip) {$/;"	M
+_getFromDatabase	/opt/projects/webtools/src/modules/weblogs/local/referer.js	/^	async _getFromDatabase(path) {$/;"	M
+_getFromDatabase	/opt/projects/webtools/src/modules/weblogs/local/request.js	/^	async _getFromDatabase(path) {$/;"	M
+_getGmailTransporter	/opt/projects/webtools/src/lib/email/index.js	/^	async _getGmailTransporter() {$/;"	M
+_getSendmailTransporter	/opt/projects/webtools/src/lib/email/index.js	/^	async _getSendmailTransporter() {$/;"	M
+_getSmtpTransporter	/opt/projects/webtools/src/lib/email/index.js	/^	async _getSmtpTransporter() {$/;"	M
+_pe	/opt/projects/webtools/src/modules/shop/index.js	/^				_pe: {$/;"	P
+_pp	/opt/projects/webtools/src/modules/shop/index.js	/^				_pp: {$/;"	P
+a	/opt/projects/webtools/src/lib/utils.js	/^        const a = "àáäâãåăæçèéëêǵḧìíïîḿńǹñòóöôœṕŕßśșțùúüûǘẃẍÿź'·\/_,:;";$/;"	V
+a	/opt/projects/webtools/src/modules/shop/local/pages.js	/^		let a = new ArticleWriter(force, isImport);$/;"	V
+accessToken	/opt/projects/webtools/src/lib/email/index.js	/^				accessToken: accessToken$/;"	P
+activate	/opt/projects/webtools/src/default-config.js	/^			activate: {$/;"	P
+activateMiddleware	/opt/projects/webtools/src/lib/express.js	/^    activateMiddleware() {$/;"	M
+activateSessions	/opt/projects/webtools/src/lib/express.js	/^    activateSessions() {$/;"	M
+active	/opt/projects/webtools/src/default-config.js	/^				active: false$/;"	P
+active	/opt/projects/webtools/src/default-config.js	/^				active: true,$/;"	P
+active	/opt/projects/webtools/src/default-config.js	/^			active: false,$/;"	P
+active	/opt/projects/webtools/src/default-config.js	/^			active: true$/;"	P
+active	/opt/projects/webtools/src/default-config.js	/^		active: ["base"]$/;"	P
+active	/opt/projects/webtools/src/modules/index-sample.js	/^					active: false,$/;"	P
+active	/opt/projects/webtools/src/modules/index-sample.js	/^			active: false,$/;"	P
+active	/opt/projects/webtools/src/modules/shop/index.js	/^					active: true,$/;"	P
+active	/opt/projects/webtools/src/modules/shop/index.js	/^				active: true,$/;"	P
+active	/opt/projects/webtools/src/modules/website/index.js	/^			active: false,$/;"	P
+add	/opt/projects/webtools/src/modules/website/local/registry.js	/^	add(mod, page, language, title) {$/;"	M
+add2botNetworkCache	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^	add2botNetworkCache(id) {$/;"	M
+add2browserCache	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^	add2browserCache(userAgent, id, bot) {$/;"	M
+add2connectionCache	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^	add2connectionCache(ip, networkId, bot, id, host) {$/;"	M
+add2retval	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^		function add2retval(val, txt) {$/;"	F
+addControllers	/opt/projects/webtools/src/modules/base/index.js	/^	addControllers(app) {}$/;"	M
+addControllers	/opt/projects/webtools/src/modules/contact-form/index.js	/^	addControllers(app) {$/;"	M
+addControllers	/opt/projects/webtools/src/modules/downloads/index.js	/^	addControllers(app) {$/;"	M
+addControllers	/opt/projects/webtools/src/modules/index-sample.js	/^	addControllers(app) {$/;"	M
+addControllers	/opt/projects/webtools/src/modules/rss/index.js	/^	addControllers(app) {$/;"	M
+addControllers	/opt/projects/webtools/src/modules/shop/index.js	/^	addControllers(app) {$/;"	M
+addControllers	/opt/projects/webtools/src/modules/weblogs/index.js	/^	addControllers(app) {$/;"	M
+addControllers	/opt/projects/webtools/src/modules/website/index.js	/^	addControllers(app) {$/;"	M
+addControllers	/opt/projects/webtools/src/sys/utils.js	/^	addControllers(app) {$/;"	M
+addEntry	/opt/projects/webtools/src/lib/sitemap.js	/^    addEntry(entry, lastMod) {$/;"	M
+addFile	/opt/projects/webtools/src/lib/files.js	/^        function addFile(file) {$/;"	F
+addMenuOptions	/opt/projects/webtools/src/modules/base/index.js	/^	addMenuOptions(menu) {$/;"	M
+addMenuOptions	/opt/projects/webtools/src/modules/contact-form/index.js	/^	addMenuOptions(menu) {$/;"	M
+addMenuOptions	/opt/projects/webtools/src/modules/downloads/index.js	/^	addMenuOptions(menu) {$/;"	M
+addMenuOptions	/opt/projects/webtools/src/modules/index-sample.js	/^	addMenuOptions(menu) {$/;"	M
+addMenuOptions	/opt/projects/webtools/src/modules/rss/index.js	/^	addMenuOptions(menu) {$/;"	M
+addMenuOptions	/opt/projects/webtools/src/modules/shop/index.js	/^	addMenuOptions(menu) {$/;"	M
+addMenuOptions	/opt/projects/webtools/src/modules/weblogs/index.js	/^	addMenuOptions(menu) {$/;"	M
+addMenuOptions	/opt/projects/webtools/src/modules/website/index.js	/^	addMenuOptions(menu) {$/;"	M
+addMenuOptions	/opt/projects/webtools/src/sys/utils.js	/^	addMenuOptions(menu) {$/;"	M
+addModuleFiles	/opt/projects/webtools/src/modules/website/local/registry.js	/^		function addModuleFiles(list) {$/;"	F
+addOption	/opt/projects/webtools/src/lib/config.js	/^    addOption(opt) {$/;"	M
+addPage2Registry	/opt/projects/webtools/src/modules/shop/local/pages.js	/^	static addPage2Registry(dir, file, parent) {$/;"	M
+addPath	/opt/projects/webtools/src/lib/dirs.js	/^    function addPath(dirname) {$/;"	F
+addPath	/opt/projects/webtools/src/lib/files.js	/^        function addPath(dirname) {$/;"	F
+addWatch	/opt/projects/webtools/src/lib/files.js	/^    addWatch(workingDir, projectDir, path, verbose = true) {$/;"	M
+alias	/opt/projects/webtools/src/index.js	/^	alias: "t",$/;"	P
+alias	/opt/projects/webtools/src/lib/config.js	/^            alias: "c",$/;"	P
+alias	/opt/projects/webtools/src/lib/config.js	/^            alias: "h",$/;"	P
+alias	/opt/projects/webtools/src/lib/config.js	/^            alias: "i",$/;"	P
+alias	/opt/projects/webtools/src/lib/config.js	/^            alias: "y",$/;"	P
+alias	/opt/projects/webtools/src/modules/weblogs/index.js	/^			alias: "b",$/;"	P
+alias	/opt/projects/webtools/src/modules/weblogs/index.js	/^			alias: "p",$/;"	P
+alias	/opt/projects/webtools/src/modules/weblogs/index.js	/^			alias: "w",$/;"	P
+alias	/opt/projects/webtools/src/modules/website/index.js	/^			alias: "g",$/;"	P
+alias	/opt/projects/webtools/src/modules/website/index.js	/^			alias: "i",$/;"	P
+alias	/opt/projects/webtools/src/modules/website/index.js	/^			alias: "r",$/;"	P
+allowed	/opt/projects/webtools/src/modules/weblogs/index.js	/^				allowed: {$/;"	P
+allowed	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^				allowed: {},$/;"	P
+allowedExtensions	/opt/projects/webtools/src/lib/files.js	/^        allowedExtensions: [ext]$/;"	P
+allowedExtensions	/opt/projects/webtools/src/lib/sitemap.js	/^            allowedExtensions: [".html"]$/;"	P
+allowedExtensions	/opt/projects/webtools/src/modules/website/local/registry.js	/^			allowedExtensions: [".html", ".njk"],$/;"	P
+appDir	/opt/projects/webtools/src/default-config.js	/^		appDir: "q"$/;"	P
+area	/opt/projects/webtools/src/lib/whois.js	/^			area: 0,$/;"	P
+args2string	/opt/projects/webtools/src/lib/log.js	/^    static args2string(arg) {$/;"	M
+articles	/opt/projects/webtools/src/modules/shop/index.js	/^			articles: {$/;"	P
+async	/opt/projects/webtools/src/lib/audio.js	/^                async: true,$/;"	P
+async	/opt/projects/webtools/src/modules/website/browser/generic.js	/^			async: async,$/;"	P
+atom	/opt/projects/webtools/src/modules/rss/index.js	/^						atom: "atom-en.xml",$/;"	P
+attachments	/opt/projects/webtools/src/default-config.js	/^			attachments: "dist",$/;"	P
+audio	/opt/projects/webtools/src/default-config.js	/^	audio: {$/;"	P
+audio	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	audio: {$/;"	P
+auth	/opt/projects/webtools/src/default-config.js	/^			auth: {$/;"	P
+auth	/opt/projects/webtools/src/lib/email/index.js	/^				auth: {$/;"	P
+auth	/opt/projects/webtools/src/lib/email/index.js	/^			auth: {$/;"	P
+authMethod	/opt/projects/webtools/src/default-config.js	/^			authMethod: "PLAIN"$/;"	P
+author	/opt/projects/webtools/src/modules/rss/index.js	/^			author: "Me",$/;"	P
+author	/opt/projects/webtools/src/modules/rss/local/rss.js	/^					author: [$/;"	P
+author	/opt/projects/webtools/src/modules/rss/local/rss.js	/^			author: {$/;"	P
+b	/opt/projects/webtools/src/lib/utils.js	/^        const b = "aaaaaaaaceeeeghiiiimnnnoooooprssstuuuuuwxyz-------";$/;"	V
+backup	/opt/projects/webtools/src/modules/website/local/pages.js	/^	backup(force = false, dir = undefined, file = undefined) {$/;"	M
+backupDir	/opt/projects/webtools/src/modules/website/local/pages.js	/^			backupDir,$/;"	V
+bcc	/opt/projects/webtools/src/modules/contact-form/index.js	/^			bcc: ["Me <info@yourdomain.info>"],$/;"	P
+begin	/opt/projects/webtools/src/default-config.js	/^			begin: true,$/;"	P
+beginswith	/opt/projects/webtools/src/default-config.js	/^		beginswith: true,$/;"	P
+blacklist	/opt/projects/webtools/src/modules/downloads/index.js	/^				blacklist: [],$/;"	P
+blacklist	/opt/projects/webtools/src/modules/weblogs/index.js	/^				blacklist: [],$/;"	P
+blocks	/opt/projects/webtools/src/modules/shop/index.js	/^				blocks: ["content", "teaser"],$/;"	P
+blocks	/opt/projects/webtools/src/modules/shop/index.js	/^			blocks: {},$/;"	P
+blocks	/opt/projects/webtools/src/modules/website/index.js	/^				blocks: {$/;"	P
+blocks	/opt/projects/webtools/src/modules/website/index.js	/^			blocks: {$/;"	P
+bodyClass	/opt/projects/webtools/src/modules/website/server/controllers.js	/^				bodyClass: "index",$/;"	P
+bots	/opt/projects/webtools/src/modules/weblogs/index.js	/^				bots: {$/;"	P
+bots	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^				bots: []$/;"	P
+browser	/opt/projects/webtools/src/modules/weblogs/index.js	/^					browser: 100,$/;"	P
+browser	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^			browser: {$/;"	P
+cache	/opt/projects/webtools/src/modules/weblogs/index.js	/^			cache: {$/;"	P
+cache	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^		this.cache = {$/;"	P
+cache	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^	static cache() {$/;"	M
+cache	/opt/projects/webtools/src/modules/website/index.js	/^				cache: "data-cache",$/;"	P
+cacheBots	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^	static cacheBots() {$/;"	M
+caching	/opt/projects/webtools/src/default-config.js	/^		caching: {$/;"	P
+caption	/opt/projects/webtools/src/modules/index-sample.js	/^					caption: "Test",$/;"	P
+caption	/opt/projects/webtools/src/modules/index-sample.js	/^			caption: "Test",$/;"	P
+caption	/opt/projects/webtools/src/modules/website/index.js	/^					caption: "Start",$/;"	P
+caption	/opt/projects/webtools/src/modules/website/index.js	/^					caption: "Upload changes",$/;"	P
+cc	/opt/projects/webtools/src/modules/contact-form/index.js	/^			cc: [],$/;"	P
+chai	/opt/projects/webtools/src/modules/base/index.js	/^				chai: "^4.2.0",$/;"	P
+change	/opt/projects/webtools/src/lib/files.js	/^    change(event, file) {$/;"	M
+changes	/opt/projects/webtools/src/lib/file-diff.js	/^    let changes = [];$/;"	A
+check	/opt/projects/webtools/src/modules/website/local/registry.js	/^	check(mod, language, message) {$/;"	M
+checkOverridesShortcutC	/opt/projects/webtools/src/lib/config.js	/^        this.checkOverridesShortcutC = {$/;"	P
+checkPeriod	/opt/projects/webtools/src/default-config.js	/^					checkPeriod: 86400000$/;"	P
+chosen	/opt/projects/webtools/src/lib/config.js	/^        let chosen = {};$/;"	O
+city	/opt/projects/webtools/src/lib/whois.js	/^			city: "",$/;"	P
+cleanup	/opt/projects/webtools/src/lib/database/index.js	/^	cleanup() {$/;"	M
+cleanup	/opt/projects/webtools/src/lib/database/mysql.js	/^	cleanup() {$/;"	M
+cleanup	/opt/projects/webtools/src/modules/shop/local/pages-test.js	/^function cleanup() {$/;"	F
+clientId	/opt/projects/webtools/src/default-config.js	/^			clientId: "Your client id",$/;"	P
+clientSecret	/opt/projects/webtools/src/default-config.js	/^			clientSecret: "Your client secret",$/;"	P
+cnt	/opt/projects/webtools/src/modules/shop/local/pages.js	/^			cnt,$/;"	V
+colors	/opt/projects/webtools/src/modules/base/index.js	/^				colors: "^1.3.3",$/;"	P
+cols	/opt/projects/webtools/src/lib/config.js	/^        let cols = [10, 50, 50, 50];$/;"	A
+commands	/opt/projects/webtools/src/sys/sequence.js	/^				commands: 0,$/;"	P
+config	/opt/projects/webtools/src/default-config.js	/^			config: {$/;"	P
+config	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	config: {$/;"	P
+configOption	/opt/projects/webtools/src/modules/index-sample.js	/^			configOption: ""$/;"	P
+connect	/opt/projects/webtools/src/lib/database/mysql.js	/^	connect() {$/;"	M
+connectPool	/opt/projects/webtools/src/lib/database/mysql.js	/^	async connectPool() {$/;"	M
+connection	/opt/projects/webtools/src/modules/weblogs/index.js	/^					connection: 100,$/;"	P
+connection	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^			connection: {$/;"	P
+connectionLimit	/opt/projects/webtools/src/default-config.js	/^		connectionLimit: 10,$/;"	P
+console	/opt/projects/webtools/src/default-config.js	/^			console: {$/;"	P
+constructor	/opt/projects/webtools/src/lib/config.js	/^    constructor() {$/;"	M
+constructor	/opt/projects/webtools/src/lib/config.js	/^    constructor(name) {$/;"	M
+constructor	/opt/projects/webtools/src/lib/database/index.js	/^	constructor() {$/;"	M
+constructor	/opt/projects/webtools/src/lib/database/mysql.js	/^	constructor(opts) {$/;"	M
+constructor	/opt/projects/webtools/src/lib/email/index.js	/^	constructor(sender, transportType, subject = "") {$/;"	M
+constructor	/opt/projects/webtools/src/lib/express.js	/^    constructor(devMode) {$/;"	M
+constructor	/opt/projects/webtools/src/lib/file-diff.js	/^    constructor(path) {$/;"	M
+constructor	/opt/projects/webtools/src/lib/files.js	/^    constructor(file = null, encoding = "utf8") {$/;"	M
+constructor	/opt/projects/webtools/src/lib/files.js	/^    constructor(workingDir, projectDir, path, timeout, description, verbose = true) {$/;"	M
+constructor	/opt/projects/webtools/src/lib/html.js	/^    constructor() {$/;"	M
+constructor	/opt/projects/webtools/src/lib/json.js	/^	constructor(path, key) {$/;"	M
+constructor	/opt/projects/webtools/src/lib/log.js	/^    constructor(options) {$/;"	M
+constructor	/opt/projects/webtools/src/lib/nunjucks.js	/^    constructor() {$/;"	M
+constructor	/opt/projects/webtools/src/lib/nunjucks.js	/^    constructor(dir, file, stripFoundTags) {$/;"	M
+constructor	/opt/projects/webtools/src/lib/sitemap.js	/^    constructor(dir, file, baseUrl) {$/;"	M
+constructor	/opt/projects/webtools/src/lib/utils.js	/^    constructor() {$/;"	M
+constructor	/opt/projects/webtools/src/modules/shop/local/pages.js	/^	constructor(force = false, isImport = false) {$/;"	M
+constructor	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^	constructor() {$/;"	M
+constructor	/opt/projects/webtools/src/modules/website/local/pages.js	/^	constructor(file, dir) {$/;"	M
+constructor	/opt/projects/webtools/src/sys/utils.js	/^	constructor() {$/;"	M
+contains	/opt/projects/webtools/src/default-config.js	/^		contains: true$/;"	P
+contains	/opt/projects/webtools/src/lib/object.js	/^    static contains(str, searchIn) {$/;"	M
+containsChange	/opt/projects/webtools/src/lib/file-diff.js	/^    static containsChange(list) {$/;"	M
+content	/opt/projects/webtools/src/default-config.js	/^			content: "content",$/;"	P
+content	/opt/projects/webtools/src/index.js	/^			content: "Collects information and serves"$/;"	P
+content	/opt/projects/webtools/src/index.js	/^			content: "Project home: {underline https:\/\/github.com\/hfndb\/butler}"$/;"	P
+content	/opt/projects/webtools/src/lib/html.js	/^            let content;$/;"	V
+content	/opt/projects/webtools/src/modules/website/index.js	/^				content: {},$/;"	P
+content	/opt/projects/webtools/src/modules/website/local/pages.js	/^		let content = new Content();$/;"	V
+context	/opt/projects/webtools/src/lib/html.js	/^        let context = {$/;"	O
+controller404	/opt/projects/webtools/src/modules/website/index.js	/^	controller404$/;"	V
+controllerHome	/opt/projects/webtools/src/modules/website/index.js	/^	controllerHome,$/;"	V
+controllerHome	/opt/projects/webtools/src/modules/website/server/controllers.js	/^export function controllerHome(req, res, next) {$/;"	E
+controllerHome	/opt/projects/webtools/src/modules/website/server/controllers.js	/^export function controllerHome(req, res, next) {$/;"	F
+controllerModule	/opt/projects/webtools/src/modules/website/index.js	/^			controllerModule$/;"	V
+controllerModule	/opt/projects/webtools/src/modules/website/index.js	/^	controllerModule,$/;"	V
+controllerModule	/opt/projects/webtools/src/modules/website/server/controllers.js	/^export function controllerModule(req, res, next) {$/;"	E
+controllerModule	/opt/projects/webtools/src/modules/website/server/controllers.js	/^export function controllerModule(req, res, next) {$/;"	F
+convert	/opt/projects/webtools/src/lib/config.js	/^            function convert(value) {$/;"	F
+cookie	/opt/projects/webtools/src/default-config.js	/^				cookie: {$/;"	P
+copyright	/opt/projects/webtools/src/modules/rss/index.js	/^			copyright: "All rights reserved 2020, John Doe",$/;"	P
+countersReset	/opt/projects/webtools/src/lib/database/index.js	/^	countersReset() {$/;"	M
+countries	/opt/projects/webtools/src/modules/downloads/index.js	/^			countries: {$/;"	P
+countries	/opt/projects/webtools/src/modules/weblogs/index.js	/^			countries: {$/;"	P
+country	/opt/projects/webtools/src/lib/whois.js	/^			country: "",$/;"	P
+country	/opt/projects/webtools/src/modules/weblogs/index.js	/^				country: 100,$/;"	P
+country	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^			country: {},$/;"	P
+createDirTree	/opt/projects/webtools/src/lib/dirs.js	/^function createDirTree(rootDir, tree, sourceControl = false) {$/;"	F
+created	/opt/projects/webtools/src/lib/whois.js	/^			created: "",$/;"	P
+critical	/opt/projects/webtools/src/modules/website/index.js	/^						critical: 160$/;"	P
+critical	/opt/projects/webtools/src/modules/website/index.js	/^						critical: 60$/;"	P
+critical	/opt/projects/webtools/src/modules/website/index.js	/^						critical: null,$/;"	P
+current	/opt/projects/webtools/src/sys/sequence.js	/^				current: 0,$/;"	P
+data	/opt/projects/webtools/src/lib/files.js	/^        let data = "";$/;"	V
+data	/opt/projects/webtools/src/lib/log.js	/^        let data = {$/;"	O
+data	/opt/projects/webtools/src/lib/webform.js	/^				data$/;"	V
+data	/opt/projects/webtools/src/modules/rss/local/rss.js	/^		let data = {};$/;"	O
+data	/opt/projects/webtools/src/modules/website/index.js	/^			data: {$/;"	P
+dataArticles	/opt/projects/webtools/src/modules/shop/index.js	/^				dataArticles: {$/;"	P
+dataType	/opt/projects/webtools/src/modules/website/browser/generic.js	/^			dataType: "json",$/;"	P
+database	/opt/projects/webtools/src/default-config.js	/^		database: "database name",$/;"	P
+database	/opt/projects/webtools/src/default-config.js	/^	database: {$/;"	P
+database	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	database: {$/;"	P
+date	/opt/projects/webtools/src/default-config.js	/^		date: "DD-MM-YYYY",$/;"	P
+date	/opt/projects/webtools/src/lib/utils.js	/^    date(dt, format = "") {$/;"	M
+date	/opt/projects/webtools/src/modules/shop/server/sql.js	/^	date: "${formats.date}",$/;"	P
+date	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^	date: "${formats.date}",$/;"	P
+datetime	/opt/projects/webtools/src/default-config.js	/^		datetime: "DD-MM-YYYY HH:mm",$/;"	P
+datetime	/opt/projects/webtools/src/lib/utils.js	/^    datetime(dt, format = "") {$/;"	M
+datetime	/opt/projects/webtools/src/modules/shop/server/sql.js	/^	datetime: "${formats.datetime}",$/;"	P
+datetime	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^	datetime: "${formats.datetime}",$/;"	P
+debug	/opt/projects/webtools/src/lib/email/index.js	/^				debug: true,$/;"	P
+debug	/opt/projects/webtools/src/lib/log.js	/^    debug(...args) {$/;"	M
+decimal	/opt/projects/webtools/src/lib/utils.js	/^    decimal(nr, decimals, prefix = "", suffix = "") {$/;"	M
+decimalSeparator	/opt/projects/webtools/src/default-config.js	/^		decimalSeparator: ",",$/;"	P
+declined	/opt/projects/webtools/src/snippets/cookies.js	/^	static declined() {$/;"	M
+default	/opt/projects/webtools/src/modules/contact-form/index.js	/^				default: "en",$/;"	P
+default	/opt/projects/webtools/src/modules/shop/index.js	/^					default: 1,$/;"	P
+default	/opt/projects/webtools/src/modules/website/index.js	/^					default: "",$/;"	P
+default	/opt/projects/webtools/src/modules/website/index.js	/^					default: "en"$/;"	P
+default	/opt/projects/webtools/src/modules/website/index.js	/^					default: "favicon.ico"$/;"	P
+default	/opt/projects/webtools/src/modules/website/index.js	/^					default: "index, follow"$/;"	P
+defaultLanguage	/opt/projects/webtools/src/modules/rss/index.js	/^			defaultLanguage: "en",$/;"	P
+defaultValue	/opt/projects/webtools/src/modules/website/index.js	/^					defaultValue: "",$/;"	P
+defaultValue	/opt/projects/webtools/src/modules/website/local/pages.js	/^			defaultValue,$/;"	V
+defaultValues	/opt/projects/webtools/src/modules/website/index.js	/^			defaultValues: {$/;"	P
+delete	/opt/projects/webtools/src/lib/database/index.js	/^	async delete(opts, params) {$/;"	M
+delete	/opt/projects/webtools/src/lib/database/mysql.js	/^	async delete(opts, params) {$/;"	M
+deletes	/opt/projects/webtools/src/lib/database/index.js	/^		deletes: 0,$/;"	P
+dependencies	/opt/projects/webtools/src/default-config.js	/^	dependencies: {$/;"	P
+dependencies	/opt/projects/webtools/src/modules/base/index.js	/^			dependencies: {$/;"	P
+dependencies	/opt/projects/webtools/src/modules/index-sample.js	/^			dependencies: {$/;"	P
+dependencies	/opt/projects/webtools/src/modules/rss/index.js	/^			dependencies: {$/;"	P
+dependencies	/opt/projects/webtools/src/modules/shop/index.js	/^			dependencies: {$/;"	P
+dependencies	/opt/projects/webtools/src/modules/weblogs/index.js	/^			dependencies: {$/;"	P
+dependencies	/opt/projects/webtools/src/modules/website/index.js	/^			dependencies: {$/;"	P
+describe	/opt/projects/webtools/src/modules/shop/local/pages-test.js	/^describe("Working with GroupWriter object", function() {$/;"	M
+describe	/opt/projects/webtools/src/modules/website/local/pages-test.js	/^describe("Working with basic Page object", function() {$/;"	M
+description	/opt/projects/webtools/src/default-config.js	/^		description: "Website name",$/;"	P
+description	/opt/projects/webtools/src/lib/config.js	/^            description: "Check your project config.json; default and overridden settings"$/;"	P
+description	/opt/projects/webtools/src/lib/config.js	/^            description: "Display this usage guide."$/;"	P
+description	/opt/projects/webtools/src/lib/config.js	/^            description: "For developement purposes: Play with functionality. Shortcut y for Y-incison during autopsy (from Greek for 'seeing with your own eyes') 😀"$/;"	P
+description	/opt/projects/webtools/src/lib/config.js	/^            description: "Initalize new project in current working directory"$/;"	P
+description	/opt/projects/webtools/src/modules/rss/index.js	/^					description: "Keep yourself informed",$/;"	P
+description	/opt/projects/webtools/src/modules/rss/index.js	/^			description: "Keep yourself informed",$/;"	P
+description	/opt/projects/webtools/src/modules/shop/index.js	/^			description: "Import articles and article groups from json files"$/;"	P
+description	/opt/projects/webtools/src/modules/weblogs/index.js	/^			description: "Parse new log entries"$/;"	P
+description	/opt/projects/webtools/src/modules/weblogs/index.js	/^			description: "Retry failed browser profiling"$/;"	P
+description	/opt/projects/webtools/src/modules/weblogs/index.js	/^			description: "Retry failed whois lookups"$/;"	P
+description	/opt/projects/webtools/src/modules/website/index.js	/^			description: "Import content files"$/;"	P
+description	/opt/projects/webtools/src/modules/website/index.js	/^			description: "Render changed HTML, generate Google sitemap"$/;"	P
+description	/opt/projects/webtools/src/modules/website/index.js	/^			description: "Run web server"$/;"	P
+destroy	/opt/projects/webtools/src/lib/express.js	/^        this.server.destroy = function (cb) {$/;"	M
+devDependencies	/opt/projects/webtools/src/modules/base/index.js	/^			devDependencies: {$/;"	P
+devDependencies	/opt/projects/webtools/src/modules/index-sample.js	/^			devDependencies: {$/;"	P
+devDependencies	/opt/projects/webtools/src/modules/weblogs/index.js	/^			devDependencies: {$/;"	P
+devDependencies	/opt/projects/webtools/src/modules/website/index.js	/^			devDependencies: {$/;"	P
+dir	/opt/projects/webtools/src/default-config.js	/^				dir: "\/tmp\/butler",$/;"	P
+dir	/opt/projects/webtools/src/lib/files.js	/^    static dir(path, recursive = false) {$/;"	M
+dir	/opt/projects/webtools/src/lib/log.js	/^            dir: "",$/;"	P
+dir	/opt/projects/webtools/src/modules/downloads/index.js	/^			dir: "\/opt\/downloads",$/;"	P
+dirs	/opt/projects/webtools/src/default-config.js	/^		dirs: {$/;"	P
+dirs	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	dirs: {$/;"	P
+dirs	/opt/projects/webtools/src/lib/dirs.js	/^    let dirs = [];$/;"	A
+domain	/opt/projects/webtools/src/default-config.js	/^					domain: "localhost",$/;"	P
+domain	/opt/projects/webtools/src/default-config.js	/^	domain: {$/;"	P
+dsp	/opt/projects/webtools/src/sys/utils.js	/^			let dsp = new (require(resolved)).Dispatcher();$/;"	V
+email	/opt/projects/webtools/src/default-config.js	/^	email: {$/;"	P
+email	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	email: {$/;"	P
+emlDrop	/opt/projects/webtools/src/default-config.js	/^		emlDrop: {$/;"	P
+empty	/opt/projects/webtools/src/default-config.js	/^			empty: true$/;"	P
+en	/opt/projects/webtools/src/modules/base/index.js	/^			en: "Home"$/;"	P
+en	/opt/projects/webtools/src/modules/contact-form/index.js	/^				en: {$/;"	P
+en	/opt/projects/webtools/src/modules/shop/index.js	/^			en: "Shop"$/;"	P
+en	/opt/projects/webtools/src/modules/weblogs/index.js	/^			en: "Webserver logs"$/;"	P
+en	/opt/projects/webtools/src/modules/website/index.js	/^			en: "Website"$/;"	P
+en	/opt/projects/webtools/src/modules/website/server/controllers.js	/^		en: "Butler"$/;"	P
+en	/opt/projects/webtools/src/modules/website/server/controllers.js	/^		en: "Close menu"$/;"	P
+en	/opt/projects/webtools/src/modules/website/server/controllers.js	/^		en: "Open menu"$/;"	P
+en	/opt/projects/webtools/src/modules/website/server/controllers.js	/^		en: "Website"$/;"	P
+end	/opt/projects/webtools/src/default-config.js	/^			end: true,$/;"	P
+endsWith	/opt/projects/webtools/src/lib/object.js	/^    static endsWith(str, searchIn) {$/;"	M
+engine	/opt/projects/webtools/src/default-config.js	/^			engine: "nunjucks",$/;"	P
+enrich	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^	async enrich(id, agent) {$/;"	M
+entry	/opt/projects/webtools/src/lib/files.js	/^            let entry = {$/;"	O
+env	/opt/projects/webtools/src/default-config.js	/^	env: {$/;"	P
+err	/opt/projects/webtools/src/lib/log.js	/^        let err = new Error("");$/;"	V
+error	/opt/projects/webtools/src/default-config.js	/^			error: false,$/;"	P
+error	/opt/projects/webtools/src/lib/log.js	/^    error(...args) {$/;"	M
+error2string	/opt/projects/webtools/src/lib/log.js	/^    static error2string(err) {$/;"	M
+eu	/opt/projects/webtools/src/lib/whois.js	/^			eu: false,$/;"	P
+exactMatch	/opt/projects/webtools/src/default-config.js	/^		exactMatch: true,$/;"	P
+exactMatch	/opt/projects/webtools/src/lib/object.js	/^    static exactMatch(str, searchIn) {$/;"	M
+exclude	/opt/projects/webtools/src/default-config.js	/^				exclude: []$/;"	P
+exclude	/opt/projects/webtools/src/default-config.js	/^			exclude: ["includes", "test-pages"],$/;"	P
+exclude	/opt/projects/webtools/src/default-config.js	/^			exclude: []$/;"	P
+excludeList	/opt/projects/webtools/src/default-config.js	/^	excludeList: {$/;"	P
+excludeList	/opt/projects/webtools/src/modules/downloads/index.js	/^			excludeList: {$/;"	P
+excludeList	/opt/projects/webtools/src/modules/weblogs/index.js	/^			excludeList: {$/;"	P
+execHook	/opt/projects/webtools/src/lib/html.js	/^    execHook(type) {$/;"	M
+executed	/opt/projects/webtools/src/sys/sequence.js	/^	executed(mod, cmd) {$/;"	M
+exitOnError	/opt/projects/webtools/src/default-config.js	/^		exitOnError: true,$/;"	P
+express	/opt/projects/webtools/src/default-config.js	/^		express: {$/;"	P
+express	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	express: {$/;"	P
+express	/opt/projects/webtools/src/modules/website/index.js	/^				express: "^4.16.4",$/;"	P
+extended	/opt/projects/webtools/src/lib/express.js	/^            extended: true$/;"	P
+extractFields	/opt/projects/webtools/src/lib/json.js	/^	extractFields(fields) {$/;"	M
+extractFields	/opt/projects/webtools/src/lib/object.js	/^    static extractFields(data, fields) {$/;"	M
+extractFields	/opt/projects/webtools/src/modules/shop/local/data-provider.js	/^			extractFields: false,$/;"	P
+false	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^				false,$/;"	V
+false	/opt/projects/webtools/src/modules/website/local/pages.js	/^			false$/;"	V
+fav_icon	/opt/projects/webtools/src/modules/website/index.js	/^				fav_icon: {$/;"	P
+favicon	/opt/projects/webtools/src/modules/rss/index.js	/^			favicon: "favicon.ico",$/;"	P
+fd	/opt/projects/webtools/src/modules/rss/local/rss.js	/^			let fd = {$/;"	O
+feed	/opt/projects/webtools/src/modules/rss/index.js	/^				feed: "^4.1.0",$/;"	P
+feedLinks	/opt/projects/webtools/src/modules/rss/index.js	/^					feedLinks: {$/;"	P
+feedLinks	/opt/projects/webtools/src/modules/rss/local/rss.js	/^			feedLinks: {$/;"	P
+feeds	/opt/projects/webtools/src/modules/rss/index.js	/^			feeds: [$/;"	P
+feeds	/opt/projects/webtools/src/modules/rss/local/rss.js	/^		let feeds = {};$/;"	O
+fields	/opt/projects/webtools/src/modules/shop/index.js	/^					fields: ["id", "teaser", "file", "picture_thumbnail"],$/;"	P
+file	/opt/projects/webtools/src/default-config.js	/^			file: {$/;"	P
+file	/opt/projects/webtools/src/lib/html.js	/^        let file = "";$/;"	V
+file	/opt/projects/webtools/src/lib/log.js	/^            file: "",$/;"	P
+file	/opt/projects/webtools/src/modules/deploy/local/utils.js	/^		let file;$/;"	V
+files	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	files: {$/;"	P
+files	/opt/projects/webtools/src/lib/files.js	/^        let files = [];$/;"	A
+files	/opt/projects/webtools/src/lib/nunjucks.js	/^    let files = [$/;"	A
+final	/opt/projects/webtools/src/modules/website/local/registry.js	/^		let final = [];$/;"	A
+finalize	/opt/projects/webtools/src/modules/website/local/pages.js	/^	static finalize() {$/;"	M
+finalize	/opt/projects/webtools/src/sys/sequence.js	/^				finalize: null,$/;"	P
+finish	/opt/projects/webtools/src/lib/sitemap.js	/^    finish() {$/;"	M
+flag	/opt/projects/webtools/src/lib/files.js	/^                flag: flag$/;"	P
+fls	/opt/projects/webtools/src/modules/website/local/registry.js	/^			let fls = {};$/;"	O
+format	/opt/projects/webtools/src/default-config.js	/^				format: "DD-MM-YYYY HH:mm:ss"$/;"	P
+format	/opt/projects/webtools/src/default-config.js	/^				format: "HH:mm:ss"$/;"	P
+formats	/opt/projects/webtools/src/default-config.js	/^	formats: {$/;"	P
+formats	/opt/projects/webtools/src/modules/shop/server/sql.js	/^let formats = {$/;"	O
+formats	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^let formats = {$/;"	O
+found	/opt/projects/webtools/src/lib/whois.js	/^		let found = {};$/;"	O
+frmt	/opt/projects/webtools/src/lib/html.js	/^            frmt: frmtr,$/;"	P
+fullPath	/opt/projects/webtools/src/lib/files.js	/^                fullPath: fullPath,$/;"	P
+generate	/opt/projects/webtools/src/lib/sitemap.js	/^    static generate(verbose) {$/;"	M
+get	/opt/projects/webtools/src/lib/database/index.js	/^	async get(opts, params) {$/;"	M
+get	/opt/projects/webtools/src/lib/database/mysql.js	/^	async get(opts, params) {$/;"	M
+get	/opt/projects/webtools/src/lib/json.js	/^	get() {$/;"	M
+get	/opt/projects/webtools/src/lib/webform.js	/^	static get(items, includeBlank = true) {$/;"	M
+get	/opt/projects/webtools/src/lib/webform.js	/^	static get(req) {$/;"	M
+get	/opt/projects/webtools/src/modules/shop/local/data-provider.js	/^	static get(grpId, name, page, opts) {$/;"	M
+get	/opt/projects/webtools/src/modules/shop/local/data-provider.js	/^	static get(page, opts) {$/;"	M
+get	/opt/projects/webtools/src/modules/shop/server/index.js	/^	static get(grpId, page) {$/;"	M
+get	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^	async get(userAgent) {$/;"	M
+get	/opt/projects/webtools/src/modules/weblogs/local/connection.js	/^	async get(ip) {$/;"	M
+get	/opt/projects/webtools/src/modules/weblogs/local/referer.js	/^	async get(path) {$/;"	M
+get	/opt/projects/webtools/src/modules/weblogs/local/request.js	/^	async get(path) {$/;"	M
+get2enrich	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^	static get2enrich() {$/;"	M
+getActiveModules	/opt/projects/webtools/src/sys/utils.js	/^	getActiveModules() {$/;"	M
+getAdditionalContext	/opt/projects/webtools/src/modules/shop/local/data-provider.js	/^export function getAdditionalContext(dir, file, cfg) {$/;"	E
+getAdditionalContext	/opt/projects/webtools/src/modules/shop/local/data-provider.js	/^export function getAdditionalContext(dir, file, cfg) {$/;"	F
+getAgent	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^	static getAgent(userAgent) {$/;"	M
+getAppConfig	/opt/projects/webtools/src/sys/utils.js	/^export function getAppConfig() {$/;"	E
+getAppConfig	/opt/projects/webtools/src/sys/utils.js	/^export function getAppConfig() {$/;"	F
+getBlock	/opt/projects/webtools/src/modules/website/local/pages.js	/^	getBlock(name) {$/;"	M
+getBrowserData	/opt/projects/webtools/src/lib/browser.js	/^export function getBrowserData(userAgent) {$/;"	E
+getBrowserData	/opt/projects/webtools/src/lib/browser.js	/^export function getBrowserData(userAgent) {$/;"	F
+getCacheIdx	/opt/projects/webtools/src/lib/nunjucks.js	/^    getCacheIdx(dir, file, readIncludes = false, stripFoundTags = false) {$/;"	M
+getChangeList	/opt/projects/webtools/src/lib/file-diff.js	/^function getChangeList(opts) {$/;"	F
+getConfig	/opt/projects/webtools/src/modules/shop/browser/utils.js	/^	getConfig(utls, currentGroup = false) {$/;"	M
+getCount	/opt/projects/webtools/src/lib/json.js	/^	getCount(key) {$/;"	M
+getCount	/opt/projects/webtools/src/modules/shop/server/sql.js	/^	getCount() {$/;"	M
+getCount	/opt/projects/webtools/src/modules/shop/server/sql.js	/^	getCount(grpId) {$/;"	M
+getCreateSql	/opt/projects/webtools/src/sys/utils.js	/^	getCreateSql() {$/;"	M
+getCustomContext	/opt/projects/webtools/src/lib/html.js	/^    getCustomContext(dir, url) {$/;"	M
+getDate	/opt/projects/webtools/src/modules/weblogs/local/log.js	/^function getDate(str, format) {$/;"	F
+getDefaultConfig	/opt/projects/webtools/src/sys/utils.js	/^	getDefaultConfig() {$/;"	M
+getDefaultModuleConfig	/opt/projects/webtools/src/modules/base/index.js	/^	getDefaultModuleConfig() {}$/;"	M
+getDefaultModuleConfig	/opt/projects/webtools/src/modules/contact-form/index.js	/^	getDefaultModuleConfig() {$/;"	M
+getDefaultModuleConfig	/opt/projects/webtools/src/modules/downloads/index.js	/^	getDefaultModuleConfig() {$/;"	M
+getDefaultModuleConfig	/opt/projects/webtools/src/modules/index-sample.js	/^	getDefaultModuleConfig() {$/;"	M
+getDefaultModuleConfig	/opt/projects/webtools/src/modules/rss/index.js	/^	getDefaultModuleConfig() {$/;"	M
+getDefaultModuleConfig	/opt/projects/webtools/src/modules/shop/index.js	/^	getDefaultModuleConfig() {$/;"	M
+getDefaultModuleConfig	/opt/projects/webtools/src/modules/weblogs/index.js	/^	getDefaultModuleConfig() {$/;"	M
+getDefaultModuleConfig	/opt/projects/webtools/src/modules/website/index.js	/^	getDefaultModuleConfig() {$/;"	M
+getDirList	/opt/projects/webtools/src/lib/dirs.js	/^function getDirList(path, recursive = true) {$/;"	F
+getEnvironment	/opt/projects/webtools/src/lib/nunjucks.js	/^    static getEnvironment(searchPaths) {$/;"	M
+getFeed	/opt/projects/webtools/src/modules/rss/local/rss.js	/^	static getFeed(item) {$/;"	M
+getFieldValue	/opt/projects/webtools/src/lib/database/index.js	/^	async getFieldValue(table, keyField, keyValue, valueField) {$/;"	M
+getFieldValue	/opt/projects/webtools/src/lib/database/mysql.js	/^	async getFieldValue(table, keyField, keyValue, valueField) {$/;"	M
+getFileList	/opt/projects/webtools/src/lib/files.js	/^    static getFileList(path, opts = {}) {$/;"	M
+getFileName	/opt/projects/webtools/src/modules/shop/local/data-provider.js	/^	static getFileName() {$/;"	M
+getFileName	/opt/projects/webtools/src/modules/shop/local/data-provider.js	/^	static getFileName(name) {$/;"	M
+getFiles	/opt/projects/webtools/src/modules/website/local/registry.js	/^	getFiles(mod, language) {$/;"	M
+getInitialContext	/opt/projects/webtools/src/modules/website/server/controllers.js	/^function getInitialContext(url) {$/;"	F
+getInstance	/opt/projects/webtools/src/lib/config.js	/^    static getInstance() {$/;"	M
+getInstance	/opt/projects/webtools/src/lib/config.js	/^    static getInstance(name = "", dirProject = "") {$/;"	M
+getInstance	/opt/projects/webtools/src/lib/database/index.js	/^	static getInstance(opts) {$/;"	M
+getInstance	/opt/projects/webtools/src/lib/express.js	/^    static getInstance(devMode = true) {$/;"	M
+getInstance	/opt/projects/webtools/src/lib/log.js	/^    static getInstance(options) {$/;"	M
+getInstance	/opt/projects/webtools/src/lib/utils.js	/^    static getInstance() {$/;"	M
+getInstance	/opt/projects/webtools/src/modules/rss/local/rss.js	/^	static getInstance(mod, reset = false) {$/;"	M
+getInstance	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^	static getInstance() {$/;"	M
+getInstance	/opt/projects/webtools/src/modules/weblogs/local/connection.js	/^	static getInstance() {$/;"	M
+getInstance	/opt/projects/webtools/src/modules/weblogs/local/referer.js	/^	static getInstance() {$/;"	M
+getInstance	/opt/projects/webtools/src/modules/weblogs/local/request.js	/^	static getInstance() {$/;"	M
+getInstance	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^	static getInstance() {$/;"	M
+getInstance	/opt/projects/webtools/src/modules/website/browser/generic.js	/^	static getInstance() {$/;"	M
+getInstance	/opt/projects/webtools/src/modules/website/local/registry.js	/^	static getInstance() {$/;"	M
+getInstance	/opt/projects/webtools/src/sys/sequence.js	/^	static getInstance() {$/;"	M
+getInstance	/opt/projects/webtools/src/sys/utils.js	/^	static getInstance() {$/;"	M
+getLastChangeInDirectory	/opt/projects/webtools/src/lib/files.js	/^    static getLastChangeInDirectory(path, extensions, startAt = 0) {$/;"	M
+getLastModified	/opt/projects/webtools/src/lib/files.js	/^    static getLastModified(path, file) {$/;"	M
+getLookupTable	/opt/projects/webtools/src/lib/database/index.js	/^	async getLookupTable(table, keyField, descriptionField, sortBy = null) {$/;"	M
+getMenu	/opt/projects/webtools/src/modules/base/index.js	/^	getMenu(mod, page) {$/;"	M
+getMenu	/opt/projects/webtools/src/modules/index-sample.js	/^	getMenu(mod, page) {$/;"	M
+getMenu	/opt/projects/webtools/src/modules/shop/index.js	/^	getMenu(mod, page) {$/;"	M
+getMenu	/opt/projects/webtools/src/modules/weblogs/index.js	/^	getMenu(mod, page) {$/;"	M
+getMenu	/opt/projects/webtools/src/modules/website/index.js	/^	getMenu(mod, page) {$/;"	M
+getMenu	/opt/projects/webtools/src/sys/utils.js	/^	getMenu(mod, page) {$/;"	M
+getModuleRoot	/opt/projects/webtools/src/modules/website/server/utils.js	/^	static getModuleRoot(module) {$/;"	M
+getModules	/opt/projects/webtools/src/sys/utils.js	/^	getModules() {$/;"	M
+getNpmData	/opt/projects/webtools/src/modules/base/index.js	/^	getNpmData() {$/;"	M
+getNpmData	/opt/projects/webtools/src/modules/contact-form/index.js	/^	getNpmData() {$/;"	M
+getNpmData	/opt/projects/webtools/src/modules/downloads/index.js	/^	getNpmData() {$/;"	M
+getNpmData	/opt/projects/webtools/src/modules/index-sample.js	/^	getNpmData() {$/;"	M
+getNpmData	/opt/projects/webtools/src/modules/rss/index.js	/^	getNpmData() {$/;"	M
+getNpmData	/opt/projects/webtools/src/modules/shop/index.js	/^	getNpmData() {$/;"	M
+getNpmData	/opt/projects/webtools/src/modules/weblogs/index.js	/^	getNpmData() {$/;"	M
+getNpmData	/opt/projects/webtools/src/modules/website/index.js	/^	getNpmData() {$/;"	M
+getOne	/opt/projects/webtools/src/lib/database/index.js	/^	async getOne(table, keyField, keyValue) {$/;"	M
+getOne	/opt/projects/webtools/src/lib/database/mysql.js	/^	async getOne(table, keyField, keyValue) {$/;"	M
+getOne	/opt/projects/webtools/src/modules/shop/local/data-provider.js	/^	static getOne(grpId) {$/;"	M
+getOutputDir	/opt/projects/webtools/src/lib/html.js	/^    static getOutputDir() {$/;"	M
+getOverview	/opt/projects/webtools/src/modules/shop/local/pages.js	/^	getOverview() {$/;"	M
+getPageLanguage	/opt/projects/webtools/src/modules/website/local/registry.js	/^	static getPageLanguage(parent) {$/;"	M
+getPosted	/opt/projects/webtools/src/lib/webform.js	/^	static getPosted(req, name, type, emptyNull = true, format = "") {$/;"	M
+getProjectDir	/opt/projects/webtools/src/lib/config.js	/^    static getProjectDir(dir) {$/;"	M
+getQty	/opt/projects/webtools/src/modules/shop/local/data-provider.js	/^	static getQty() {$/;"	M
+getQty	/opt/projects/webtools/src/modules/shop/local/data-provider.js	/^	static getQty(grpId, name) {$/;"	M
+getQty	/opt/projects/webtools/src/modules/shop/server/index.js	/^	static getQty() {$/;"	M
+getQty	/opt/projects/webtools/src/modules/shop/server/index.js	/^	static getQty(grpId, page, name) {$/;"	M
+getQtyPages	/opt/projects/webtools/src/lib/webform.js	/^	static getQtyPages(qtyItems, maxItems, pagingOn = true) {$/;"	M
+getSearchPaths	/opt/projects/webtools/src/lib/nunjucks.js	/^    static getSearchPaths() {$/;"	M
+getSqlField	/opt/projects/webtools/src/lib/database/mysql.js	/^export function getSqlField(name) {$/;"	E
+getSqlField	/opt/projects/webtools/src/lib/database/mysql.js	/^export function getSqlField(name) {$/;"	F
+getStackInfo	/opt/projects/webtools/src/lib/log.js	/^    getStackInfo() {$/;"	M
+getUniqueFileName	/opt/projects/webtools/src/lib/files.js	/^    static getUniqueFileName(dir, file, ext) {$/;"	M
+getUserChoice	/opt/projects/webtools/src/lib/config.js	/^    getUserChoice() {$/;"	M
+getUserData	/opt/projects/webtools/src/lib/nunjucks.js	/^    getUserData(dir, file, opts) {$/;"	M
+getValue	/opt/projects/webtools/src/modules/weblogs/local/log.js	/^function getValue(row, key, isNumeric = false, isDate = false) {$/;"	F
+getVariable	/opt/projects/webtools/src/modules/website/local/pages.js	/^	getVariable(name) {$/;"	M
+gmail	/opt/projects/webtools/src/default-config.js	/^		gmail: {$/;"	P
+google	/opt/projects/webtools/src/lib/email/index.js	/^		const { google } = require("googleapis");$/;"	V
+gracefulShutdown	/opt/projects/webtools/src/modules/weblogs/local/index.js	/^function gracefulShutdown() {$/;"	F
+gracefulShutdown	/opt/projects/webtools/src/modules/website/index.js	/^function gracefulShutdown() {$/;"	F
+groups	/opt/projects/webtools/src/modules/shop/index.js	/^			groups: {$/;"	P
+grp	/opt/projects/webtools/src/modules/shop/server/index.js	/^		let grp;$/;"	V
+gw	/opt/projects/webtools/src/modules/shop/local/pages.js	/^		let gw = new GroupWriter(force, isImport);$/;"	V
+hack	/opt/projects/webtools/src/lib/email/index.js	/^		let hack;$/;"	V
+header	/opt/projects/webtools/src/index.js	/^			header: "Butler",$/;"	P
+header	/opt/projects/webtools/src/index.js	/^			header: "Options",$/;"	P
+height	/opt/projects/webtools/src/modules/website/index.js	/^					height: null,$/;"	P
+helpShortcutH	/opt/projects/webtools/src/lib/config.js	/^        this.helpShortcutH = {$/;"	P
+hidden	/opt/projects/webtools/src/sys/utils.js	/^		let hidden = [];$/;"	A
+hide	/opt/projects/webtools/src/index.js	/^			hide: hidden$/;"	P
+highest	/opt/projects/webtools/src/sys/utils.js	/^			highest: 0,$/;"	P
+home	/opt/projects/webtools/src/modules/website/server/controllers.js	/^	home: {$/;"	P
+host	/opt/projects/webtools/src/default-config.js	/^			host: "smtp.yourdomain.info",$/;"	P
+host	/opt/projects/webtools/src/default-config.js	/^		host: "localhost",$/;"	P
+html	/opt/projects/webtools/src/default-config.js	/^	html: {$/;"	P
+html	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	html: {$/;"	P
+httpOnly	/opt/projects/webtools/src/default-config.js	/^					httpOnly: true,$/;"	P
+https	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^		https:\/\/faisalman.github.io\/ua-parser-js$/;"	P
+https	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^	https:\/\/gist.github.com\/2107\/5529665$/;"	P
+https	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^	https:\/\/github.com\/faisalman\/ua-parser-js$/;"	P
+https	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^	https:\/\/www.npmjs.com\/package\/detect-browser$/;"	P
+i	/opt/projects/webtools/src/lib/files.js	/^        let i = 1;$/;"	V
+i	/opt/projects/webtools/src/modules/shop/local/pages.js	/^			let i = 2;$/;"	V
+id	/opt/projects/webtools/src/modules/shop/index.js	/^				id: {$/;"	P
+id	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^				id: id,$/;"	P
+id2where	/opt/projects/webtools/src/lib/database/mysql.js	/^export function id2where(id) {$/;"	E
+id2where	/opt/projects/webtools/src/lib/database/mysql.js	/^export function id2where(id) {$/;"	F
+idx	/opt/projects/webtools/src/lib/log.js	/^        let idx = 1;$/;"	V
+if	/opt/projects/webtools/src/lib/files.js	/^ * if (lr.initialize(path)) {$/;"	G
+image	/opt/projects/webtools/src/modules/rss/index.js	/^			image: "feed-image.jpg",$/;"	P
+image_url	/opt/projects/webtools/src/modules/website/index.js	/^			image_url: "static\/img", \/\/ relative to html.dirs.output$/;"	P
+import	/opt/projects/webtools/src/modules/shop/index.js	/^			import: {$/;"	P
+import	/opt/projects/webtools/src/modules/website/local/registry.js	/^	static import(mod = "website") {$/;"	M
+inExcludeList	/opt/projects/webtools/src/lib/object.js	/^    static inExcludeList(list, search) {$/;"	M
+inclIncludes	/opt/projects/webtools/src/modules/website/local/pages.js	/^			inclIncludes: true,$/;"	P
+includes	/opt/projects/webtools/src/default-config.js	/^			includes: ["content\/includes"],$/;"	P
+index	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	index: {$/;"	P
+info	/opt/projects/webtools/src/lib/log.js	/^    info(...args) {$/;"	M
+init	/opt/projects/webtools/src/lib/express.js	/^    init(gracefulShutdown) {$/;"	M
+init	/opt/projects/webtools/src/snippets/cookies.js	/^	static init(domain = null) {$/;"	M
+initDatabase	/opt/projects/webtools/src/modules/weblogs/local/index.js	/^export function initDatabase(cfg) {$/;"	E
+initDatabase	/opt/projects/webtools/src/modules/weblogs/local/index.js	/^export function initDatabase(cfg) {$/;"	F
+initEditor	/opt/projects/webtools/src/modules/website/browser/generic.js	/^	initEditor(nr) {$/;"	M
+initNewProject	/opt/projects/webtools/src/lib/config.js	/^    static initNewProject() {$/;"	M
+initialCapitalized	/opt/projects/webtools/src/lib/utils.js	/^    static initialCapitalized(str) {$/;"	M
+initialize	/opt/projects/webtools/src/lib/files.js	/^    initialize(file) {$/;"	M
+initialize	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^	async initialize() {$/;"	M
+initializeNewProjectShortcutI	/opt/projects/webtools/src/lib/config.js	/^        this.initializeNewProjectShortcutI = {$/;"	P
+inputs	/opt/projects/webtools/src/modules/website/index.js	/^				inputs: {$/;"	P
+inputs	/opt/projects/webtools/src/modules/website/index.js	/^			inputs: [$/;"	P
+insert	/opt/projects/webtools/src/lib/database/index.js	/^	async insert(table, fields) {$/;"	M
+insert	/opt/projects/webtools/src/lib/database/mysql.js	/^	async insert(table, fields) {$/;"	M
+inserts	/opt/projects/webtools/src/lib/database/index.js	/^		inserts: 0,$/;"	P
+int	/opt/projects/webtools/src/lib/utils.js	/^    int(nr) {$/;"	M
+isChanged	/opt/projects/webtools/src/lib/nunjucks.js	/^    isChanged(dir, file, lastModified) {$/;"	M
+isNew	/opt/projects/webtools/src/modules/website/local/pages.js	/^	isNew() {$/;"	M
+isNewOrModified	/opt/projects/webtools/src/lib/file-diff.js	/^    isNewOrModified() {$/;"	M
+it	/opt/projects/webtools/src/modules/shop/local/pages-test.js	/^	it("render pages", function() {$/;"	M
+it	/opt/projects/webtools/src/modules/shop/local/pages-test.js	/^	it(`import data from json files`, function() {$/;"	M
+it	/opt/projects/webtools/src/modules/website/local/pages-test.js	/^	it("read page test-pages\/nunjucks\/index.html", function() {$/;"	M
+it	/opt/projects/webtools/src/modules/website/local/pages-test.js	/^	it(`backup file "index.html`, function() {$/;"	M
+it	/opt/projects/webtools/src/modules/website/local/pages-test.js	/^	it(`write to ${join(cfg.dirTemp, "index.html")}`, function() {$/;"	M
+item	/opt/projects/webtools/src/lib/nunjucks.js	/^        let item = new CacheItem(dir, file, stripFoundTags);$/;"	V
+javascript	/opt/projects/webtools/src/default-config.js	/^	javascript: {$/;"	P
+jquery	/opt/projects/webtools/src/modules/website/index.js	/^				jquery: "^3.5.1",$/;"	P
+json	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	json: {$/;"	P
+json	/opt/projects/webtools/src/modules/rss/index.js	/^						json: "feed-en.json",$/;"	P
+json	/opt/projects/webtools/src/modules/shop/local/data-provider.js	/^				let json = new JsonUtils(Articles.getFileName(name), "articles");$/;"	V
+json	/opt/projects/webtools/src/modules/shop/local/data-provider.js	/^				let json = new JsonUtils(Groups.getFileName(), "groups");$/;"	V
+json	/opt/projects/webtools/src/modules/website/local/registry.js	/^			let json = new JsonUtils(path, "pages");$/;"	V
+keyField	/opt/projects/webtools/src/lib/database/index.js	/^			keyField,$/;"	V
+keyValue	/opt/projects/webtools/src/lib/database/index.js	/^			keyValue,$/;"	V
+label	/opt/projects/webtools/src/modules/website/index.js	/^					label: "",$/;"	P
+label	/opt/projects/webtools/src/modules/website/index.js	/^					label: "Author name",$/;"	P
+label	/opt/projects/webtools/src/modules/website/index.js	/^					label: "Content - next paragraphs",$/;"	P
+label	/opt/projects/webtools/src/modules/website/index.js	/^					label: "Description for search engines",$/;"	P
+label	/opt/projects/webtools/src/modules/website/index.js	/^					label: "Indexing instructions for search engines",$/;"	P
+label	/opt/projects/webtools/src/modules/website/index.js	/^					label: "Keywords for search engines - comma separated list",$/;"	P
+label	/opt/projects/webtools/src/modules/website/index.js	/^					label: "Teaser - first paragraph of page (complete intro, short summary)",$/;"	P
+label	/opt/projects/webtools/src/modules/website/index.js	/^					label: "Title",$/;"	P
+lang	/opt/projects/webtools/src/modules/contact-form/index.js	/^			lang: {$/;"	P
+language	/opt/projects/webtools/src/modules/rss/index.js	/^					language: "en",$/;"	P
+language	/opt/projects/webtools/src/modules/website/browser/generic.js	/^		language: "en",$/;"	P
+language	/opt/projects/webtools/src/modules/website/index.js	/^				language: "en"$/;"	P
+language	/opt/projects/webtools/src/modules/website/index.js	/^				language: {$/;"	P
+languages	/opt/projects/webtools/src/modules/shop/index.js	/^			languages: ["en"],$/;"	P
+last	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^	static last() {$/;"	M
+lastModifed	/opt/projects/webtools/src/lib/whois.js	/^			lastModifed: "",$/;"	P
+length	/opt/projects/webtools/src/modules/website/index.js	/^					length: {$/;"	P
+level	/opt/projects/webtools/src/default-config.js	/^		level: "debug",$/;"	P
+level	/opt/projects/webtools/src/lib/html.js	/^            level: levelStr,$/;"	P
+level	/opt/projects/webtools/src/modules/website/browser/generic.js	/^		level: "",$/;"	P
+level	/opt/projects/webtools/src/modules/website/browser/generic.js	/^		level: levelStr,$/;"	P
+levelStr	/opt/projects/webtools/src/lib/html.js	/^        let levelStr = "";$/;"	V
+levelStr	/opt/projects/webtools/src/modules/website/browser/generic.js	/^	let levelStr = "";$/;"	V
+lib	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		lib: ["audio.js", "files.js", "utils.js"],$/;"	P
+lib	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		lib: ["config.js", "dirs.js", "log.js", "object.js", "utils.js"],$/;"	P
+lib	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		lib: ["config.js", "eml-drop.js", "files.js", "log.js"],$/;"	P
+lib	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		lib: ["config.js", "files.js", "log.js"],$/;"	P
+lib	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		lib: ["config.js", "log.js", "files.js"],$/;"	P
+lib	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		lib: ["config.js", "log.js", "mysql.js"],$/;"	P
+lib	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		lib: ["config.js", "log.js"],$/;"	P
+lib	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		lib: ["database", "log.js"],$/;"	P
+lib	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		lib: ["dirs.js", "files.js", "log.js", "object.js"],$/;"	P
+lib	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		lib: ["files.js", "index.js", "utils.js"],$/;"	P
+lib	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		lib: ["files.js", "log.js", "object.js"],$/;"	P
+lib	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		lib: ["files.js"],$/;"	P
+lib	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		lib: ["index.js", "object.js", "utils.js"],$/;"	P
+lib	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		lib: ["log.js"],$/;"	P
+lib	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		lib: [$/;"	P
+lib	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		lib: [],$/;"	P
+line	/opt/projects/webtools/src/lib/config.js	/^        let line = "".padEnd(cols[0] + cols[1] + cols[2] + cols[3], "-");$/;"	V
+line	/opt/projects/webtools/src/lib/log.js	/^            line: "",$/;"	P
+lineNr	/opt/projects/webtools/src/lib/files.js	/^        let lineNr = 0;$/;"	V
+lines	/opt/projects/webtools/src/lib/whois.js	/^		let lines = [""];$/;"	A
+linesPerRun	/opt/projects/webtools/src/modules/weblogs/index.js	/^			linesPerRun: 100,$/;"	P
+ll	/opt/projects/webtools/src/lib/whois.js	/^			ll: [],$/;"	P
+log	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	log: {$/;"	P
+log	/opt/projects/webtools/src/lib/email/index.js	/^				log: true,$/;"	P
+log	/opt/projects/webtools/src/modules/website/browser/generic.js	/^	log(str, level = "info") {$/;"	M
+logRequest	/opt/projects/webtools/src/lib/express.js	/^    static logRequest(req, res) {$/;"	M
+logStatic	/opt/projects/webtools/src/default-config.js	/^		logStatic: false,$/;"	P
+logging	/opt/projects/webtools/src/default-config.js	/^	logging: {$/;"	P
+lr	/opt/projects/webtools/src/lib/files.js	/^        let lr = new LineReader(path);$/;"	V
+lr	/opt/projects/webtools/src/modules/weblogs/local/log.js	/^	let lr = new LineReader(file);$/;"	V
+lst	/opt/projects/webtools/src/lib/files.js	/^        let lst = new Map();$/;"	V
+mailOutput	/opt/projects/webtools/src/default-config.js	/^			mailOutput: "mail"$/;"	P
+mails_sent	/opt/projects/webtools/src/lib/email/index.js	/^		let mails_sent = []; \/\/ Contains promises$/;"	A
+main	/opt/projects/webtools/src/modules/weblogs/local/index.js	/^export function main() {$/;"	E
+main	/opt/projects/webtools/src/modules/weblogs/local/index.js	/^export function main() {$/;"	F
+maxAge	/opt/projects/webtools/src/default-config.js	/^					maxAge: 86400000,$/;"	P
+maxHtml	/opt/projects/webtools/src/lib/html.js	/^            let maxHtml = 0; \/\/ to get the latest modified HTML content$/;"	V
+max_items	/opt/projects/webtools/src/modules/rss/index.js	/^					max_items: 10$/;"	P
+max_items	/opt/projects/webtools/src/modules/shop/index.js	/^				max_items: 10,$/;"	P
+memoryStore	/opt/projects/webtools/src/default-config.js	/^				memoryStore: {$/;"	P
+memoryStore	/opt/projects/webtools/src/default-config.js	/^			memoryStore: {$/;"	P
+memorystore	/opt/projects/webtools/src/modules/website/index.js	/^				memorystore: "^1.6.2"$/;"	P
+menu	/opt/projects/webtools/src/sys/utils.js	/^		let menu = [];$/;"	A
+menuChoice	/opt/projects/webtools/src/modules/base/index.js	/^	menuChoice(opts) {$/;"	M
+menuChoice	/opt/projects/webtools/src/modules/contact-form/index.js	/^	menuChoice(opts) {$/;"	M
+menuChoice	/opt/projects/webtools/src/modules/downloads/index.js	/^	menuChoice(opts) {$/;"	M
+menuChoice	/opt/projects/webtools/src/modules/index-sample.js	/^	menuChoice(opts) {$/;"	M
+menuChoice	/opt/projects/webtools/src/modules/rss/index.js	/^	menuChoice(opts) {$/;"	M
+menuChoice	/opt/projects/webtools/src/modules/shop/index.js	/^	menuChoice(opts) {$/;"	M
+menuChoice	/opt/projects/webtools/src/modules/weblogs/index.js	/^	menuChoice(opts) {$/;"	M
+menuChoice	/opt/projects/webtools/src/modules/website/index.js	/^	menuChoice(opts) {$/;"	M
+menuChoice	/opt/projects/webtools/src/sys/utils.js	/^	menuChoice(opts) {$/;"	M
+menuClose	/opt/projects/webtools/src/modules/website/server/controllers.js	/^	menuClose: {$/;"	P
+menuOpen	/opt/projects/webtools/src/modules/website/server/controllers.js	/^	menuOpen: {$/;"	P
+menuWidth	/opt/projects/webtools/src/modules/website/browser/generic.js	/^		menuWidth: "",$/;"	P
+mergeDeep	/opt/projects/webtools/src/lib/object.js	/^    static mergeDeep(target, src) {$/;"	M
+mergeInto	/opt/projects/webtools/src/lib/config.js	/^    mergeInto(additional) {$/;"	M
+mergeSettings	/opt/projects/webtools/src/modules/website/local/pages.js	/^	static mergeSettings(user, defaults) {$/;"	M
+messageId	/opt/projects/webtools/src/lib/email/eml-drop.js	/^					messageId,$/;"	V
+meta_author	/opt/projects/webtools/src/modules/website/index.js	/^				meta_author: {},$/;"	P
+meta_copyright	/opt/projects/webtools/src/modules/website/index.js	/^				meta_copyright: {},$/;"	P
+meta_description	/opt/projects/webtools/src/modules/website/index.js	/^				meta_description: {},$/;"	P
+meta_keywords	/opt/projects/webtools/src/modules/website/index.js	/^				meta_keywords: {},$/;"	P
+method	/opt/projects/webtools/src/lib/log.js	/^            method: "",$/;"	P
+mkdir	/opt/projects/webtools/src/lib/files.js	/^    static mkdir(path) {$/;"	M
+mocha	/opt/projects/webtools/src/modules/base/index.js	/^				mocha: "^7.0.1",$/;"	P
+mod	/opt/projects/webtools/src/modules/website/local/registry.js	/^			mod,$/;"	V
+module	/opt/projects/webtools/src/modules/shop/index.js	/^			module: "shop",$/;"	P
+module	/opt/projects/webtools/src/modules/weblogs/index.js	/^			module: "weblogs",$/;"	P
+module	/opt/projects/webtools/src/modules/website/index.js	/^			module: "website",$/;"	P
+module	/opt/projects/webtools/src/modules/website/server/controllers.js	/^		module: "",$/;"	P
+module	/opt/projects/webtools/src/modules/website/server/controllers.js	/^		module: "website",$/;"	P
+moduleHome	/opt/projects/webtools/src/modules/website/server/controllers.js	/^	moduleHome: {$/;"	P
+modules	/opt/projects/webtools/src/default-config.js	/^	modules: {$/;"	P
+modules	/opt/projects/webtools/src/sys/sequence.js	/^				modules: []$/;"	P
+name	/opt/projects/webtools/src/default-config.js	/^				name: "butler",$/;"	P
+name	/opt/projects/webtools/src/index.js	/^	name: "touch",$/;"	P
+name	/opt/projects/webtools/src/lib/config.js	/^            name: "config",$/;"	P
+name	/opt/projects/webtools/src/lib/config.js	/^            name: "help",$/;"	P
+name	/opt/projects/webtools/src/lib/config.js	/^            name: "init",$/;"	P
+name	/opt/projects/webtools/src/lib/config.js	/^            name: "playground",$/;"	P
+name	/opt/projects/webtools/src/lib/whois.js	/^			name: "",$/;"	P
+name	/opt/projects/webtools/src/modules/shop/index.js	/^			name: "import-shop",$/;"	P
+name	/opt/projects/webtools/src/modules/weblogs/index.js	/^			name: "browser",$/;"	P
+name	/opt/projects/webtools/src/modules/weblogs/index.js	/^			name: "parse",$/;"	P
+name	/opt/projects/webtools/src/modules/weblogs/index.js	/^			name: "whois",$/;"	P
+name	/opt/projects/webtools/src/modules/website/index.js	/^			name: "generate",$/;"	P
+name	/opt/projects/webtools/src/modules/website/index.js	/^			name: "import",$/;"	P
+name	/opt/projects/webtools/src/modules/website/index.js	/^			name: "run",$/;"	P
+name	/opt/projects/webtools/src/modules/website/local/pages.js	/^			name,$/;"	V
+need2skip	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^	need2skip(userAgent) {$/;"	M
+need2skip	/opt/projects/webtools/src/modules/weblogs/local/connection.js	/^	need2skip(country) {$/;"	M
+needsAction	/opt/projects/webtools/src/lib/files.js	/^                needsAction: false$/;"	P
+needsRendering	/opt/projects/webtools/src/modules/website/local/pages.js	/^	static needsRendering(dir, file) {$/;"	M
+network	/opt/projects/webtools/src/modules/weblogs/index.js	/^					network: 100$/;"	P
+network	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^			network: {$/;"	P
+network_id	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^				network_id: networkId$/;"	P
+newline	/opt/projects/webtools/src/lib/email/index.js	/^			newline: "windows", \/\/ or unix$/;"	P
+next	/opt/projects/webtools/src/lib/files.js	/^    next() {$/;"	M
+nj	/opt/projects/webtools/src/lib/html.js	/^        let nj;$/;"	V
+nj	/opt/projects/webtools/src/lib/nunjucks.js	/^    let nj = new NunjucksUtils();$/;"	V
+nj	/opt/projects/webtools/src/modules/website/local/pages.js	/^			let nj = new NunjucksUtils();$/;"	V
+nj	/opt/projects/webtools/src/modules/website/local/pages.js	/^		let nj = new NunjucksUtils();$/;"	V
+node	/opt/projects/webtools/src/modules/base/index.js	/^				node: "^12.10.0",$/;"	P
+node_path	/opt/projects/webtools/src/default-config.js	/^		node_path: []$/;"	P
+npm	/opt/projects/webtools/src/modules/base/index.js	/^				npm: "^6.13.6",$/;"	P
+nrs	/opt/projects/webtools/src/sys/utils.js	/^		let nrs = {$/;"	O
+nunjucks	/opt/projects/webtools/src/default-config.js	/^		nunjucks: {$/;"	P
+nunjucks	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	nunjucks: {$/;"	P
+nunjucks	/opt/projects/webtools/src/modules/website/index.js	/^				nunjucks: "^3.2.2", \/\/ For lib\/html.js$/;"	P
+oauth2Client	/opt/projects/webtools/src/lib/email/index.js	/^		const oauth2Client = new OAuth2($/;"	V
+object	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	object: {$/;"	P
+occurrences	/opt/projects/webtools/src/lib/utils.js	/^    static occurrences(str, searchFor) {$/;"	M
+occurrences	/opt/projects/webtools/src/modules/website/browser/generic.js	/^	static occurrences(str, searchFor) {$/;"	M
+opts	/opt/projects/webtools/src/lib/database/mysql.js	/^		let opts = {$/;"	O
+optsMysql	/opt/projects/webtools/src/lib/database/mysql.js	/^		let optsMysql = {$/;"	O
+other	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		other: ["array-sort", "q-i"]$/;"	P
+other	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		other: ["body-parser", "express", "express-session", "memorystore"]$/;"	P
+other	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		other: ["colors"]$/;"	P
+other	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		other: ["command-line-args", "command-line-usage", "deep-diff", "shelljs"]$/;"	P
+other	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		other: ["date-and-time", "play-sound", "shelljs"]$/;"	P
+other	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		other: ["date-and-time"]$/;"	P
+other	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		other: ["geoip-lite"]$/;"	P
+other	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		other: ["mysql", "shelljs"]$/;"	P
+other	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		other: ["n-readlines", "shelljs"]$/;"	P
+other	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		other: ["nunjucks"]$/;"	P
+other	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		other: ["shelljs"]$/;"	P
+other	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		other: [$/;"	P
+other	/opt/projects/webtools/src/dev/dependencies-lib.js	/^		other: []$/;"	P
+output	/opt/projects/webtools/src/default-config.js	/^			output: "dist",$/;"	P
+output	/opt/projects/webtools/src/default-config.js	/^			output: "dist\/static\/css"$/;"	P
+output	/opt/projects/webtools/src/default-config.js	/^			output: "dist\/static\/js"$/;"	P
+output	/opt/projects/webtools/src/lib/config.js	/^        let output = "Kind".padEnd(cols[0], " ");$/;"	V
+outputDir	/opt/projects/webtools/src/lib/html.js	/^        let outputDir = "";$/;"	V
+overview	/opt/projects/webtools/src/modules/shop/index.js	/^				overview: {$/;"	P
+overwriteEntries	/opt/projects/webtools/src/modules/shop/local/pages.js	/^	static overwriteEntries(pg, data) {$/;"	M
+p	/opt/projects/webtools/src/lib/utils.js	/^        const p = new RegExp(a.split("").join("|"), "g");$/;"	V
+page	/opt/projects/webtools/src/modules/shop/index.js	/^				page: "index.html", \/\/ Page with groups overview (home page of website)$/;"	P
+pageContext	/opt/projects/webtools/src/modules/shop/server/index.js	/^export function pageContext(dir, file, cfg) {$/;"	E
+pageContext	/opt/projects/webtools/src/modules/shop/server/index.js	/^export function pageContext(dir, file, cfg) {$/;"	F
+pageJs	/opt/projects/webtools/src/modules/website/server/controllers.js	/^				pageJs: "index",$/;"	P
+page_created	/opt/projects/webtools/src/modules/website/index.js	/^				page_created: {},$/;"	P
+page_updated	/opt/projects/webtools/src/modules/rss/local/rss.js	/^				page_updated: dt,$/;"	P
+page_updated	/opt/projects/webtools/src/modules/website/index.js	/^				page_updated: {},$/;"	P
+pages	/opt/projects/webtools/src/lib/webform.js	/^		let pages = 1;$/;"	V
+pages	/opt/projects/webtools/src/modules/website/local/registry.js	/^		let pages = {};$/;"	O
+paging	/opt/projects/webtools/src/modules/shop/index.js	/^					paging: true$/;"	P
+pair	/opt/projects/webtools/src/lib/whois.js	/^			let pair = [$/;"	A
+params	/opt/projects/webtools/src/lib/database/mysql.js	/^				params$/;"	V
+parseLine	/opt/projects/webtools/src/lib/html.js	/^    static parseLine(line) {$/;"	M
+parsed	/opt/projects/webtools/src/lib/files.js	/^        let parsed = {};$/;"	O
+password	/opt/projects/webtools/src/default-config.js	/^				password: "smtp password"$/;"	P
+password	/opt/projects/webtools/src/default-config.js	/^		password: "database password",$/;"	P
+path	/opt/projects/webtools/src/default-config.js	/^					path: "\/",$/;"	P
+path	/opt/projects/webtools/src/default-config.js	/^			path: "\/var\/spool\/butler"$/;"	P
+path	/opt/projects/webtools/src/lib/email/index.js	/^			path: "\/usr\/sbin\/sendmail"$/;"	P
+path	/opt/projects/webtools/src/lib/html.js	/^            path: file,$/;"	P
+path	/opt/projects/webtools/src/lib/log.js	/^            path: "",$/;"	P
+path	/opt/projects/webtools/src/modules/weblogs/local/referer.js	/^			path: path$/;"	P
+path	/opt/projects/webtools/src/modules/weblogs/local/request.js	/^			path: path$/;"	P
+paths	/opt/projects/webtools/src/default-config.js	/^		paths: {$/;"	P
+paths	/opt/projects/webtools/src/lib/config.js	/^        let paths = [];$/;"	A
+paths	/opt/projects/webtools/src/modules/website/browser/generic.js	/^			paths: {$/;"	P
+persistent	/opt/projects/webtools/src/lib/files.js	/^            persistent: true,$/;"	P
+pg	/opt/projects/webtools/src/modules/rss/local/rss.js	/^			let pg = new Page(file);$/;"	V
+pg	/opt/projects/webtools/src/modules/shop/local/pages.js	/^		let pg = new Page(file);$/;"	V
+pg	/opt/projects/webtools/src/modules/shop/local/pages.js	/^		let pg = new Page(join(grp.dir, file));$/;"	V
+pg	/opt/projects/webtools/src/modules/website/local/pages-test.js	/^		let pg = new Page(file);$/;"	V
+pg	/opt/projects/webtools/src/modules/website/local/pages.js	/^			let pg = new Page(files[i]);$/;"	V
+pg	/opt/projects/webtools/src/modules/website/local/registry.js	/^			let pg = new Page(files[i]);$/;"	V
+pgp	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	pgp: {$/;"	P
+picture	/opt/projects/webtools/src/modules/website/index.js	/^				picture: {},$/;"	P
+picture_alt	/opt/projects/webtools/src/modules/website/index.js	/^				picture_alt: {}$/;"	P
+picture_medium	/opt/projects/webtools/src/modules/website/index.js	/^				picture_medium: {},$/;"	P
+picture_thumbnail	/opt/projects/webtools/src/modules/website/index.js	/^				picture_thumbnail: {},$/;"	P
+playGround	/opt/projects/webtools/src/dev/playground.js	/^export function playGround(cfg) {$/;"	E
+playGround	/opt/projects/webtools/src/dev/playground.js	/^export function playGround(cfg) {$/;"	F
+playSoundOn	/opt/projects/webtools/src/default-config.js	/^		playSoundOn: {$/;"	P
+player	/opt/projects/webtools/src/default-config.js	/^		player: "mplayer"$/;"	P
+playgroundShortcutY	/opt/projects/webtools/src/lib/config.js	/^        this.playgroundShortcutY = {$/;"	P
+port	/opt/projects/webtools/src/default-config.js	/^			port: 587,$/;"	P
+port	/opt/projects/webtools/src/default-config.js	/^		port: 3306,$/;"	P
+port	/opt/projects/webtools/src/default-config.js	/^		port: 8000,$/;"	P
+portion	/opt/projects/webtools/src/lib/utils.js	/^        let portion;$/;"	V
+pos	/opt/projects/webtools/src/lib/log.js	/^            pos: "",$/;"	P
+postInstall	/opt/projects/webtools/src/sys/utils.js	/^	postInstall() {$/;"	M
+postUpdate	/opt/projects/webtools/src/sys/utils.js	/^	postUpdate() {$/;"	M
+preInstall	/opt/projects/webtools/src/sys/utils.js	/^	preInstall() {$/;"	M
+preUpdate	/opt/projects/webtools/src/sys/utils.js	/^	preUpdate() {$/;"	M
+process	/opt/projects/webtools/src/lib/html.js	/^    static process(content) {$/;"	M
+processGroup	/opt/projects/webtools/src/modules/shop/local/pages.js	/^	processGroup(grp) {$/;"	M
+processed	/opt/projects/webtools/src/lib/html.js	/^        let processed = [];$/;"	A
+promise	/opt/projects/webtools/src/lib/email/eml-drop.js	/^	let promise = new Promise((resolve, reject) => {$/;"	F
+promise	/opt/projects/webtools/src/lib/email/eml-drop.js	/^	let promise = new Promise((resolve, reject) => {$/;"	V
+provider	/opt/projects/webtools/src/modules/website/index.js	/^				provider: "json" \/\/ Possible values: local, json or remote (REST service)$/;"	P
+prsr	/opt/projects/webtools/src/lib/browser.js	/^	let prsr = new parser.UAParser(userAgent);$/;"	V
+qty	/opt/projects/webtools/src/modules/shop/server/index.js	/^		let qty;$/;"	V
+query	/opt/projects/webtools/src/lib/database/mysql.js	/^	async query(opts, params) {$/;"	M
+r	/opt/projects/webtools/src/modules/rss/local/rss.js	/^		let r = new Rss();$/;"	V
+range	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^			range: [0, cfg.options.weblogs.cache.allowed.browser],$/;"	P
+range	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^			range: [0, cfg.options.weblogs.cache.allowed.connection],$/;"	P
+range	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^			range: [0, cfg.options.weblogs.cache.bots.browser],$/;"	P
+range	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^			range: [0, cfg.options.weblogs.cache.bots.connection],$/;"	P
+range	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^			range: [0, cfg.options.weblogs.cache.bots.network],$/;"	P
+range	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^			range: [0, cfg.options.weblogs.cache.country],$/;"	P
+range	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^			range: [0, cfg.options.weblogs.cache.referer],$/;"	P
+range	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^			range: [0, cfg.options.weblogs.cache.request],$/;"	P
+re	/opt/projects/webtools/src/modules/weblogs/local/log.js	/^	let re = new RegExp(cfg.options.weblogs.domain.lineFormat, "i");$/;"	V
+read	/opt/projects/webtools/src/lib/config.js	/^    read() {$/;"	M
+read	/opt/projects/webtools/src/modules/website/local/pages.js	/^	read(additional, isImport = false) {$/;"	M
+read	/opt/projects/webtools/src/modules/website/local/registry.js	/^	read(mod, verbose = true) {$/;"	M
+readBlocks	/opt/projects/webtools/src/lib/nunjucks.js	/^    static readBlocks(item) {$/;"	M
+readConfig	/opt/projects/webtools/src/modules/shop/local/utils.js	/^	static readConfig(file) {$/;"	M
+readExtends	/opt/projects/webtools/src/lib/nunjucks.js	/^    static readExtends(item, searchPaths) {$/;"	M
+readFile	/opt/projects/webtools/src/lib/files.js	/^    static readFile(path) {$/;"	M
+readIncludes	/opt/projects/webtools/src/lib/nunjucks.js	/^    static readIncludes(item, searchPaths) {$/;"	M
+readJson	/opt/projects/webtools/src/modules/website/browser/generic.js	/^	readJson(path, async = false) {$/;"	M
+readJsonFile	/opt/projects/webtools/src/lib/files.js	/^    static readJsonFile(path, ignoreErrors = true) {$/;"	M
+readVariables	/opt/projects/webtools/src/lib/nunjucks.js	/^    static readVariables(item) {$/;"	M
+record	/opt/projects/webtools/src/lib/object.js	/^            let record = {};$/;"	O
+recursive	/opt/projects/webtools/src/lib/files.js	/^            recursive: false,$/;"	P
+recursive	/opt/projects/webtools/src/modules/website/local/pages.js	/^				recursive: false$/;"	P
+recursive	/opt/projects/webtools/src/modules/website/local/registry.js	/^			recursive: true$/;"	P
+reference	/opt/projects/webtools/src/modules/website/index.js	/^					reference: "https:\/\/developer.mozilla.org\/en\/docs\/Web\/HTML\/Element\/meta",$/;"	P
+referer	/opt/projects/webtools/src/modules/weblogs/index.js	/^				referer: 100,$/;"	P
+referer	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^			referer: {},$/;"	P
+refreshToken	/opt/projects/webtools/src/default-config.js	/^			refreshToken: "Your refresh token"$/;"	P
+reg	/opt/projects/webtools/src/modules/website/local/registry.js	/^		let reg = new PageRegistry();$/;"	V
+regex	/opt/projects/webtools/src/lib/email/eml-drop.js	/^		let regex = new RegExp("<(.*)>", "im");$/;"	V
+regex	/opt/projects/webtools/src/lib/files.js	/^        const regex = new RegExp(searchFor, opts.ignoreCase ? "i" : undefined);$/;"	V
+regex	/opt/projects/webtools/src/lib/nunjucks.js	/^        let regex = new RegExp("{%([-\\\\s]+)block\\\\s*(\\\\w*?)([-\\\\s]+)%}([^]*?){%([-\\\\s]+)endblock\\\\s*([-\\\\s]+)%}", "gim");$/;"	V
+regex	/opt/projects/webtools/src/lib/nunjucks.js	/^        let regex = new RegExp("{%([-\\\\s]+)set\\\\s*(\\\\w*?)\\\\s*=\\\\s*([^]*?)([-\\\\s]+)%}", "gim"); \/\/ Global, case insensitive, multiline$/;"	V
+regex	/opt/projects/webtools/src/lib/nunjucks.js	/^        let regex = new RegExp('{%([-\\\\s]+)extends\\\\s*"(.*)"([-\\\\s]+)%}', "gim"); \/\/ Global, case insensitive, multiline$/;"	V
+regex	/opt/projects/webtools/src/lib/nunjucks.js	/^        let regex = new RegExp('{%([-\\\\s]+)include\\\\s*"(.*)"([-\\\\s]+)%}', "gim"); \/\/ Global, case insensitive, multiline$/;"	V
+regex	/opt/projects/webtools/src/lib/utils.js	/^        let regex = "";$/;"	V
+register	/opt/projects/webtools/src/sys/sequence.js	/^	register(mod, cmd, finalize) {$/;"	M
+registerBotRequests	/opt/projects/webtools/src/modules/weblogs/index.js	/^			registerBotRequests: false,$/;"	P
+registerFiles	/opt/projects/webtools/src/modules/rss/local/rss.js	/^	registerFiles(feeds, files) {$/;"	M
+remove	/opt/projects/webtools/src/modules/website/local/registry.js	/^	remove(mod, page, language) {$/;"	M
+removeObsolete	/opt/projects/webtools/src/default-config.js	/^			removeObsolete: {$/;"	P
+removeObsolete	/opt/projects/webtools/src/default-config.js	/^		removeObsolete: {$/;"	P
+removeObsolete	/opt/projects/webtools/src/lib/files.js	/^function removeObsolete(removeObsolete, processed, outputDir, ext) {$/;"	F
+removePlugins	/opt/projects/webtools/src/modules/website/browser/generic.js	/^			removePlugins: ["Heading", "Link"],$/;"	P
+render	/opt/projects/webtools/src/lib/html.js	/^    render(dir, file, opts) {$/;"	M
+render	/opt/projects/webtools/src/modules/shop/local/pages.js	/^	static render(force, isImport = false) {$/;"	M
+render	/opt/projects/webtools/src/modules/website/local/pages.js	/^	static render() {$/;"	M
+renderAll	/opt/projects/webtools/src/lib/html.js	/^    renderAll(verbose = true) {$/;"	M
+renderFile	/opt/projects/webtools/src/lib/nunjucks.js	/^    static renderFile(dir, file, context, templateDir) {$/;"	M
+renderPage	/opt/projects/webtools/src/modules/website/server/utils.js	/^	static renderPage(req, res, next, mod, file, context) {$/;"	M
+reporting	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	reporting: {$/;"	P
+request	/opt/projects/webtools/src/modules/weblogs/index.js	/^				request: 100$/;"	P
+request	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^			request: {}$/;"	P
+requestLogger	/opt/projects/webtools/src/lib/express.js	/^    static requestLogger(req, res, next) {$/;"	M
+resave	/opt/projects/webtools/src/default-config.js	/^				resave: false,$/;"	P
+resetCache	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^	resetCache() {$/;"	M
+result	/opt/projects/webtools/src/lib/utils.js	/^        let result = new RegExp(regex).exec(str);$/;"	V
+result	/opt/projects/webtools/src/lib/whois.js	/^		let result = {$/;"	O
+result	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^		let result;$/;"	V
+result	/opt/projects/webtools/src/modules/weblogs/local/log.js	/^		let result = {$/;"	O
+retVal	/opt/projects/webtools/src/lib/database/index.js	/^		let retVal = [];$/;"	A
+retVal	/opt/projects/webtools/src/lib/files.js	/^        let retVal = [];$/;"	A
+retVal	/opt/projects/webtools/src/lib/html.js	/^        let retVal = "";$/;"	V
+retVal	/opt/projects/webtools/src/lib/log.js	/^        let retVal = "";$/;"	V
+retVal	/opt/projects/webtools/src/lib/object.js	/^        let retVal = [];$/;"	A
+retVal	/opt/projects/webtools/src/lib/utils.js	/^        let retVal = 0;$/;"	V
+retVal	/opt/projects/webtools/src/lib/webform.js	/^		let retVal = [];$/;"	A
+retVal	/opt/projects/webtools/src/modules/shop/browser/utils.js	/^		let retVal = [];$/;"	A
+retVal	/opt/projects/webtools/src/modules/shop/local/utils.js	/^		let retVal = {};$/;"	O
+retVal	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^		let retVal = "";$/;"	V
+retVal	/opt/projects/webtools/src/modules/website/browser/generic.js	/^		let retVal = 0;$/;"	V
+retVal	/opt/projects/webtools/src/modules/website/browser/generic.js	/^		let retVal = {};$/;"	O
+retVal	/opt/projects/webtools/src/sys/utils.js	/^		let retVal = "";$/;"	V
+retryWhois	/opt/projects/webtools/src/modules/weblogs/local/connection.js	/^	static retryWhois() {$/;"	M
+robot_crawler	/opt/projects/webtools/src/modules/website/index.js	/^				robot_crawler: {$/;"	P
+rolling	/opt/projects/webtools/src/default-config.js	/^				rolling: true,$/;"	P
+rows	/opt/projects/webtools/src/lib/webform.js	/^		let rows;$/;"	V
+rss	/opt/projects/webtools/src/modules/rss/index.js	/^						rss: "rss2-en.xml"$/;"	P
+sameSite	/opt/projects/webtools/src/default-config.js	/^					sameSite: true$/;"	P
+sass	/opt/projects/webtools/src/default-config.js	/^	sass: {$/;"	P
+sass	/opt/projects/webtools/src/modules/deploy/local/utils.js	/^	static sass() {$/;"	M
+saveUninitialized	/opt/projects/webtools/src/default-config.js	/^				saveUninitialized: true,$/;"	P
+scripts	/opt/projects/webtools/src/modules/base/index.js	/^			scripts: {}$/;"	P
+scripts	/opt/projects/webtools/src/modules/index-sample.js	/^			scripts: {$/;"	P
+scripts	/opt/projects/webtools/src/modules/rss/index.js	/^			scripts: {}$/;"	P
+scripts	/opt/projects/webtools/src/modules/shop/index.js	/^			scripts: {}$/;"	P
+scripts	/opt/projects/webtools/src/modules/weblogs/index.js	/^			scripts: {$/;"	P
+scripts	/opt/projects/webtools/src/modules/website/index.js	/^			scripts: {}$/;"	P
+searchFrom	/opt/projects/webtools/src/lib/utils.js	/^        let searchFrom = 0;$/;"	V
+searchFrom	/opt/projects/webtools/src/modules/website/browser/generic.js	/^		let searchFrom = 0;$/;"	V
+searchInFile	/opt/projects/webtools/src/lib/files.js	/^    static searchInFile(path, searchFor, opts) {$/;"	M
+searchPaths	/opt/projects/webtools/src/lib/nunjucks.js	/^        let searchPaths = [];$/;"	A
+searchPaths	/opt/projects/webtools/src/modules/website/server/utils.js	/^		let searchPaths = [];$/;"	A
+secret	/opt/projects/webtools/src/default-config.js	/^				secret: "someSecretPhrase"$/;"	P
+secure	/opt/projects/webtools/src/default-config.js	/^			secure: true,$/;"	P
+selects	/opt/projects/webtools/src/lib/database/index.js	/^		selects: 0,$/;"	P
+send	/opt/projects/webtools/src/lib/email/index.js	/^	async send(emails) {$/;"	M
+sendMethod	/opt/projects/webtools/src/default-config.js	/^		sendMethod: "smtp",$/;"	P
+sender	/opt/projects/webtools/src/default-config.js	/^		sender: "Me <info@yourdomain.info>",$/;"	P
+sendmail	/opt/projects/webtools/src/lib/email/index.js	/^			sendmail: true,$/;"	P
+separatorLine	/opt/projects/webtools/src/lib/log.js	/^    separatorLine(file, level) {$/;"	M
+server	/opt/projects/webtools/src/default-config.js	/^	server: {$/;"	P
+service	/opt/projects/webtools/src/lib/email/index.js	/^			service: "gmail",$/;"	P
+session	/opt/projects/webtools/src/default-config.js	/^			session: {$/;"	P
+sessions	/opt/projects/webtools/src/default-config.js	/^				sessions: false$/;"	P
+setBlock	/opt/projects/webtools/src/lib/nunjucks.js	/^    static setBlock(name, value, trimBegin = false, trimEnd = false, closingTrimBegin = false, closingTrimEnd = false) {$/;"	M
+setBlock	/opt/projects/webtools/src/modules/website/local/pages.js	/^	setBlock(name, value, trimming) {$/;"	M
+setExtends	/opt/projects/webtools/src/lib/nunjucks.js	/^    static setExtends(template, trimBegin = false, trimEnd = false) {$/;"	M
+setFormats	/opt/projects/webtools/src/modules/shop/server/sql.js	/^export function setFormats(frmt) {$/;"	E
+setFormats	/opt/projects/webtools/src/modules/shop/server/sql.js	/^export function setFormats(frmt) {$/;"	F
+setFormats	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^export function setFormats(frmt) {$/;"	E
+setFormats	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^export function setFormats(frmt) {$/;"	F
+setFormattedDateTime	/opt/projects/webtools/src/modules/website/local/pages.js	/^	setFormattedDateTime(name, val) {$/;"	M
+setImmediate	/opt/projects/webtools/src/lib/express.js	/^        setImmediate(function () {$/;"	M
+setItems	/opt/projects/webtools/src/modules/website/local/pages.js	/^		function setItems(basic, add, defaults, isVar) {$/;"	F
+setLogModus	/opt/projects/webtools/src/lib/database/index.js	/^	setLogModus(modus = Database.EDITS_IGNORE) {$/;"	M
+setPaging	/opt/projects/webtools/src/lib/json.js	/^	setPaging(page, max) {$/;"	M
+setSoure	/opt/projects/webtools/src/lib/file-diff.js	/^    setSoure(file, ext) {$/;"	M
+setTarget	/opt/projects/webtools/src/lib/file-diff.js	/^    setTarget(path, ext, flatten = false) {$/;"	M
+setVariable	/opt/projects/webtools/src/lib/nunjucks.js	/^    static setVariable(name, value, type, trimBegin = false, trimEnd = false) {$/;"	M
+setVariable	/opt/projects/webtools/src/modules/website/local/pages.js	/^	setVariable(name, value, defaultValue, trimming, type = "string") {$/;"	M
+shelljs	/opt/projects/webtools/src/modules/base/index.js	/^				shelljs: "^0.8.3"$/;"	P
+showConfig	/opt/projects/webtools/src/lib/config.js	/^    static showConfig(options = null) {$/;"	M
+showHelp	/opt/projects/webtools/src/lib/config.js	/^    showHelp(opts) {$/;"	M
+shutdown	/opt/projects/webtools/src/lib/express.js	/^    static shutdown() {$/;"	M
+silent	/opt/projects/webtools/src/lib/audio.js	/^                silent: true$/;"	P
+sitemap	/opt/projects/webtools/src/default-config.js	/^		sitemap: {$/;"	P
+sitemap	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	sitemap: {$/;"	P
+sitemap	/opt/projects/webtools/src/lib/sitemap.js	/^        let sitemap = new Sitemap(cfg.dirProject, outputFile, cfg.options.domain.url);$/;"	V
+skip	/opt/projects/webtools/src/modules/shop/index.js	/^				skip: ["dir", "file", "language"]$/;"	P
+skipUrl	/opt/projects/webtools/src/modules/weblogs/local/store.js	/^function skipUrl(url) {$/;"	F
+slugify	/opt/projects/webtools/src/lib/utils.js	/^    static slugify(string) {$/;"	M
+smtp	/opt/projects/webtools/src/default-config.js	/^		smtp: {$/;"	P
+sort	/opt/projects/webtools/src/lib/json.js	/^	sort(fields) {$/;"	M
+sort	/opt/projects/webtools/src/lib/object.js	/^    static sort(data, fields) {$/;"	M
+sort	/opt/projects/webtools/src/modules/shop/local/data-provider.js	/^			sort: false$/;"	P
+sortOrder	/opt/projects/webtools/src/modules/shop/index.js	/^				sortOrder: ["title"]$/;"	P
+source	/opt/projects/webtools/src/default-config.js	/^			source: "sass",$/;"	P
+sourceExt	/opt/projects/webtools/src/lib/html.js	/^            sourceExt: [".html", ".njk"],$/;"	P
+sourceStream	/opt/projects/webtools/src/lib/email/eml-drop.js	/^					sourceStream,$/;"	V
+sql	/opt/projects/webtools/src/lib/log.js	/^    sql(...args) {$/;"	M
+sql	/opt/projects/webtools/src/lib/webform.js	/^			sql: sql$/;"	P
+stack	/opt/projects/webtools/src/lib/log.js	/^            stack: [""]$/;"	P
+stackReg	/opt/projects/webtools/src/lib/log.js	/^        let stackReg = \/at\\s+(.*)\\s+\\((.*):(\\d*):(\\d*)\\)\/i;$/;"	V
+stackReg2	/opt/projects/webtools/src/lib/log.js	/^        let stackReg2 = \/at\\s+()(.*):(\\d*):(\\d*)\/i;$/;"	V
+startsWith	/opt/projects/webtools/src/lib/object.js	/^    static startsWith(str, searchIn) {$/;"	M
+staticUrl	/opt/projects/webtools/src/default-config.js	/^		staticUrl: "static"$/;"	P
+status	/opt/projects/webtools/src/lib/file-diff.js	/^        let status = new FileStatus(opts.sourcePath);$/;"	V
+stop	/opt/projects/webtools/src/lib/files.js	/^    stop() {$/;"	M
+string2date	/opt/projects/webtools/src/lib/database/index.js	/^	string2date(str) {$/;"	M
+string2date	/opt/projects/webtools/src/lib/database/mysql.js	/^	string2date(str) {$/;"	M
+stringify	/opt/projects/webtools/src/lib/object.js	/^const { stringify } = require("q-i");$/;"	V
+strip	/opt/projects/webtools/src/lib/utils.js	/^    static strip(str, begin, end) {$/;"	M
+stripPrefix	/opt/projects/webtools/src/modules/website/server/utils.js	/^	static stripPrefix(url, module) {$/;"	M
+stripper	/opt/projects/webtools/src/default-config.js	/^		stripper: {$/;"	P
+sub	/opt/projects/webtools/src/modules/base/index.js	/^			sub: [],$/;"	P
+sub	/opt/projects/webtools/src/modules/index-sample.js	/^			sub: [$/;"	P
+sub	/opt/projects/webtools/src/modules/shop/index.js	/^			sub: [],$/;"	P
+sub	/opt/projects/webtools/src/modules/weblogs/index.js	/^			sub: [],$/;"	P
+sub	/opt/projects/webtools/src/modules/website/index.js	/^			sub: [$/;"	P
+subject	/opt/projects/webtools/src/modules/contact-form/index.js	/^					subject: "Message from website"$/;"	P
+succes	/opt/projects/webtools/src/lib/whois.js	/^			succes: false$/;"	P
+succes	/opt/projects/webtools/src/lib/whois.js	/^			succes: true$/;"	P
+success	/opt/projects/webtools/src/modules/website/browser/generic.js	/^			success: function(data) {$/;"	M
+table	/opt/projects/webtools/src/lib/database/index.js	/^			table,$/;"	V
+table	/opt/projects/webtools/src/lib/webform.js	/^					table: table,$/;"	P
+table	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^						table: "weblogs_browser",$/;"	P
+targetExt	/opt/projects/webtools/src/lib/html.js	/^            targetExt: ".html",$/;"	P
+targetPath	/opt/projects/webtools/src/lib/html.js	/^            targetPath: outputDir,$/;"	P
+teaser	/opt/projects/webtools/src/modules/website/index.js	/^				teaser: {}$/;"	P
+templateDir	/opt/projects/webtools/src/lib/html.js	/^        let templateDir;$/;"	V
+templates	/opt/projects/webtools/src/default-config.js	/^			templates: ["templates"]$/;"	P
+text	/opt/projects/webtools/src/modules/website/index.js	/^						text: "Should not be longer than 160 characters"$/;"	P
+text	/opt/projects/webtools/src/modules/website/index.js	/^						text: "Should not be longer than 60 characters"$/;"	P
+text	/opt/projects/webtools/src/modules/website/index.js	/^						text: null$/;"	P
+texts	/opt/projects/webtools/src/modules/base/index.js	/^		let texts = {$/;"	O
+texts	/opt/projects/webtools/src/modules/shop/index.js	/^		let texts = {$/;"	O
+texts	/opt/projects/webtools/src/modules/weblogs/index.js	/^		let texts = {$/;"	O
+texts	/opt/projects/webtools/src/modules/website/index.js	/^		let texts = {$/;"	O
+texts	/opt/projects/webtools/src/modules/website/server/controllers.js	/^let texts = {$/;"	O
+this	/opt/projects/webtools/src/modules/website/local/registry.js	/^				this$/;"	V
+thousands	/opt/projects/webtools/src/lib/utils.js	/^        let thousands = [];$/;"	A
+thousandsSeparator	/opt/projects/webtools/src/default-config.js	/^		thousandsSeparator: "."$/;"	P
+throwOnUndefined	/opt/projects/webtools/src/default-config.js	/^				throwOnUndefined: false$/;"	P
+thumbnail	/opt/projects/webtools/src/modules/shop/index.js	/^				thumbnail: {},$/;"	P
+time	/opt/projects/webtools/src/default-config.js	/^		time: "HH:mm",$/;"	P
+time	/opt/projects/webtools/src/lib/utils.js	/^    time(dt, format = "") {$/;"	M
+time	/opt/projects/webtools/src/modules/shop/server/sql.js	/^	time: "%H:%i"$/;"	P
+time	/opt/projects/webtools/src/modules/weblogs/local/sql.js	/^	time: "%H:%i"$/;"	P
+timeout	/opt/projects/webtools/src/lib/database/mysql.js	/^			timeout: 1000$/;"	P
+timezone	/opt/projects/webtools/src/lib/whois.js	/^			timezone: "",$/;"	P
+title	/opt/projects/webtools/src/modules/rss/index.js	/^					title: "New articles for www.example.com",$/;"	P
+title	/opt/projects/webtools/src/modules/rss/index.js	/^			title: "New articles for www.example.com",$/;"	P
+title	/opt/projects/webtools/src/modules/website/index.js	/^				title: {},$/;"	P
+title	/opt/projects/webtools/src/modules/website/server/controllers.js	/^		title: ""$/;"	P
+tls	/opt/projects/webtools/src/lib/email/index.js	/^				tls: { rejectUnauthorized: false }$/;"	P
+tmp	/opt/projects/webtools/src/sys/utils.js	/^				let tmp = {};$/;"	O
+to	/opt/projects/webtools/src/modules/contact-form/index.js	/^			to: ["recipient"],$/;"	P
+toInsert	/opt/projects/webtools/src/modules/weblogs/local/store.js	/^	let toInsert = {$/;"	O
+toProcess	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^		let toProcess = [];$/;"	A
+toString	/opt/projects/webtools/src/lib/object.js	/^    static toString(obj, color = false, maxNrOfItems = 30) {$/;"	M
+toString	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^	toString() {$/;"	M
+toString	/opt/projects/webtools/src/sys/sequence.js	/^	toString() {$/;"	M
+toWrite	/opt/projects/webtools/src/modules/deploy/local/utils.js	/^			toWrite,$/;"	V
+toWrite	/opt/projects/webtools/src/modules/deploy/local/utils.js	/^		let toWrite = "";$/;"	V
+toolbar	/opt/projects/webtools/src/modules/website/browser/generic.js	/^			toolbar: [$/;"	P
+touchRecursive	/opt/projects/webtools/src/lib/files.js	/^    static touchRecursive(path, opts) {$/;"	M
+transform	/opt/projects/webtools/src/lib/email/eml-drop.js	/^					transform$/;"	V
+transporter	/opt/projects/webtools/src/lib/email/index.js	/^		let transporter;$/;"	V
+transports	/opt/projects/webtools/src/default-config.js	/^		transports: {$/;"	P
+trimming	/opt/projects/webtools/src/modules/website/index.js	/^					trimming: [false, false, false, false],$/;"	P
+trimming	/opt/projects/webtools/src/modules/website/index.js	/^					trimming: [false, false],$/;"	P
+true	/opt/projects/webtools/src/modules/deploy/local/utils.js	/^			true$/;"	V
+true	/opt/projects/webtools/src/modules/weblogs/local/session.js	/^				true,$/;"	V
+true	/opt/projects/webtools/src/modules/website/local/pages.js	/^			true$/;"	V
+true	/opt/projects/webtools/src/sys/utils.js	/^			true$/;"	V
+type	/opt/projects/webtools/src/default-config.js	/^				type: "login",$/;"	P
+type	/opt/projects/webtools/src/default-config.js	/^				type: "memoryStore",$/;"	P
+type	/opt/projects/webtools/src/default-config.js	/^		type: "mysql"$/;"	P
+type	/opt/projects/webtools/src/index.js	/^	type: Boolean,$/;"	P
+type	/opt/projects/webtools/src/lib/config.js	/^            type: Boolean,$/;"	P
+type	/opt/projects/webtools/src/lib/email/index.js	/^				type: "OAuth2",$/;"	P
+type	/opt/projects/webtools/src/modules/shop/index.js	/^					type: "number"$/;"	P
+type	/opt/projects/webtools/src/modules/shop/index.js	/^			type: Boolean,$/;"	P
+type	/opt/projects/webtools/src/modules/weblogs/index.js	/^			type: Boolean,$/;"	P
+type	/opt/projects/webtools/src/modules/website/browser/generic.js	/^			type: "GET",$/;"	P
+type	/opt/projects/webtools/src/modules/website/index.js	/^					type: "html",$/;"	P
+type	/opt/projects/webtools/src/modules/website/index.js	/^					type: "input text",$/;"	P
+type	/opt/projects/webtools/src/modules/website/index.js	/^					type: "string",$/;"	P
+type	/opt/projects/webtools/src/modules/website/index.js	/^			type: Boolean,$/;"	P
+type	/opt/projects/webtools/src/modules/website/local/pages.js	/^			type,$/;"	V
+udf	/opt/projects/webtools/src/default-config.js	/^			udf: {$/;"	P
+ui	/opt/projects/webtools/src/modules/website/index.js	/^			ui: {$/;"	P
+unsorted	/opt/projects/webtools/src/sys/utils.js	/^			unsorted: []$/;"	P
+update	/opt/projects/webtools/src/lib/database/index.js	/^	async update(opts, params) {$/;"	M
+update	/opt/projects/webtools/src/lib/database/mysql.js	/^	async update(opts, params) {$/;"	M
+updateConfig	/opt/projects/webtools/src/sys/utils.js	/^	updateConfig(cfg) {$/;"	M
+updateDefaultConfig	/opt/projects/webtools/src/sys/utils.js	/^	updateDefaultConfig() {$/;"	M
+updatePackageConfig	/opt/projects/webtools/src/sys/utils.js	/^	updatePackageConfig() {$/;"	M
+updatedb	/opt/projects/webtools/src/modules/weblogs/index.js	/^				updatedb: "node .\/node_modules\/geoip-lite\/scripts\/updatedb.js"$/;"	P
+updates	/opt/projects/webtools/src/lib/database/index.js	/^		updates: 0$/;"	P
+url	/opt/projects/webtools/src/default-config.js	/^		url: "http:\/\/www.yourdomain.com",$/;"	P
+url	/opt/projects/webtools/src/modules/base/index.js	/^			url: "\/"$/;"	P
+url	/opt/projects/webtools/src/modules/downloads/index.js	/^				url: ["sitemap", "static", ".php", "wp-", "xmlrpc"]$/;"	P
+url	/opt/projects/webtools/src/modules/index-sample.js	/^					url: "\/test"$/;"	P
+url	/opt/projects/webtools/src/modules/index-sample.js	/^			url: "\/test"$/;"	P
+url	/opt/projects/webtools/src/modules/shop/index.js	/^			url: "\/shop\/"$/;"	P
+url	/opt/projects/webtools/src/modules/weblogs/index.js	/^				url: ["sitemap", "static", ".php", "wp-", "xmlrpc"]$/;"	P
+url	/opt/projects/webtools/src/modules/weblogs/index.js	/^			url: "\/weblogs\/"$/;"	P
+url	/opt/projects/webtools/src/modules/website/browser/generic.js	/^			url: path,$/;"	P
+url	/opt/projects/webtools/src/modules/website/browser/generic.js	/^		url: ""$/;"	P
+url	/opt/projects/webtools/src/modules/website/index.js	/^					url: "\/website\/"$/;"	P
+url	/opt/projects/webtools/src/modules/website/index.js	/^					url: "\/website\/upload.html"$/;"	P
+url	/opt/projects/webtools/src/modules/website/index.js	/^			url: "\/website\/"$/;"	P
+url_page	/opt/projects/webtools/src/modules/website/index.js	/^				url_page: {},$/;"	P
+url_website	/opt/projects/webtools/src/modules/website/index.js	/^				url_website: {},$/;"	P
+useConsole	/opt/projects/webtools/src/modules/weblogs/index.js	/^			useConsole: false$/;"	P
+user	/opt/projects/webtools/src/default-config.js	/^			user: "info@yourdomain.info",$/;"	P
+user	/opt/projects/webtools/src/default-config.js	/^		user: "database user",$/;"	P
+userAgent	/opt/projects/webtools/src/modules/downloads/index.js	/^				userAgent: ["archive.org", "crawler", "spider"],$/;"	P
+userAgent	/opt/projects/webtools/src/modules/weblogs/index.js	/^				userAgent: ["archive.org", "crawler", "spider"],$/;"	P
+userAgent	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^			userAgent$/;"	V
+user_agent	/opt/projects/webtools/src/modules/weblogs/local/browser.js	/^			user_agent: userAgent$/;"	P
+username	/opt/projects/webtools/src/default-config.js	/^				username: "smtp username",$/;"	P
+utils	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	utils: {$/;"	P
+uuid	/opt/projects/webtools/src/modules/rss/index.js	/^				uuid: "^7.0.0"$/;"	P
+uuidv4	/opt/projects/webtools/src/modules/rss/local/rss.js	/^import { v4 as uuidv4 } from "uuid";$/;"	I
+val	/opt/projects/webtools/src/lib/nunjucks.js	/^                val,$/;"	V
+validation	/opt/projects/webtools/src/modules/website/index.js	/^					validation: {$/;"	P
+value	/opt/projects/webtools/src/modules/website/index.js	/^					value: null$/;"	P
+value	/opt/projects/webtools/src/modules/website/local/pages.js	/^			value,$/;"	V
+valueField	/opt/projects/webtools/src/lib/database/index.js	/^			valueField$/;"	V
+variable	/opt/projects/webtools/src/modules/website/index.js	/^					variable: "content"$/;"	P
+variable	/opt/projects/webtools/src/modules/website/index.js	/^					variable: "meta_author"$/;"	P
+variable	/opt/projects/webtools/src/modules/website/index.js	/^					variable: "meta_description"$/;"	P
+variable	/opt/projects/webtools/src/modules/website/index.js	/^					variable: "meta_keywords"$/;"	P
+variable	/opt/projects/webtools/src/modules/website/index.js	/^					variable: "robot_crawler"$/;"	P
+variable	/opt/projects/webtools/src/modules/website/index.js	/^					variable: "teaser"$/;"	P
+variable	/opt/projects/webtools/src/modules/website/index.js	/^					variable: "title"$/;"	P
+vars	/opt/projects/webtools/src/modules/shop/index.js	/^			vars: {$/;"	P
+vars	/opt/projects/webtools/src/modules/website/index.js	/^				vars: {$/;"	P
+vars	/opt/projects/webtools/src/modules/website/index.js	/^			vars: {$/;"	P
+version	/opt/projects/webtools/src/default-config.js	/^	version: "0.0.1",$/;"	P
+warn	/opt/projects/webtools/src/lib/log.js	/^    warn(...args) {$/;"	M
+warning	/opt/projects/webtools/src/default-config.js	/^			warning: true$/;"	P
+warning	/opt/projects/webtools/src/modules/website/index.js	/^						warning: null$/;"	P
+webform	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	webform: {$/;"	P
+website_name	/opt/projects/webtools/src/modules/website/index.js	/^				website_name: {},$/;"	P
+whitelist	/opt/projects/webtools/src/modules/downloads/index.js	/^				whitelist: []$/;"	P
+whitelist	/opt/projects/webtools/src/modules/weblogs/index.js	/^				whitelist: []$/;"	P
+whois	/opt/projects/webtools/src/dev/dependencies-lib.js	/^	whois: {$/;"	P
+width	/opt/projects/webtools/src/modules/website/index.js	/^					width: null$/;"	P
+write	/opt/projects/webtools/src/lib/sitemap.js	/^    write(entry) {$/;"	M
+write	/opt/projects/webtools/src/modules/rss/local/rss.js	/^	static write() {$/;"	M
+write	/opt/projects/webtools/src/modules/website/local/pages.js	/^	write() {$/;"	M
+write	/opt/projects/webtools/src/modules/website/local/registry.js	/^	write(mod = "website") {$/;"	M
+writeConsole	/opt/projects/webtools/src/lib/log.js	/^    writeConsole(level, pars, line = false) {$/;"	M
+writeDefaultConfig	/opt/projects/webtools/src/sys/utils.js	/^	writeDefaultConfig() {$/;"	M
+writeFile	/opt/projects/webtools/src/lib/files.js	/^    static writeFile(dir, file, content, verbose, flag = "w") {$/;"	M
+writeFile	/opt/projects/webtools/src/lib/log.js	/^    writeFile(file, level, args, line = false) {$/;"	M
+writeGroup	/opt/projects/webtools/src/modules/shop/local/pages.js	/^	writeGroup(id, name) {$/;"	M
+writeJsonFile	/opt/projects/webtools/src/lib/files.js	/^    static writeJsonFile(content, dir, file, verbose = true) {$/;"	M
+writeOutput	/opt/projects/webtools/src/lib/html.js	/^    writeOutput(entry, data, verbose = true) {$/;"	M
+writePage	/opt/projects/webtools/src/modules/shop/local/pages.js	/^	writePage(art, dir) {$/;"	M
+writePage	/opt/projects/webtools/src/modules/shop/local/pages.js	/^	writePage(grp, page) {$/;"	M
+writeUdf	/opt/projects/webtools/src/lib/log.js	/^    writeUdf(level, args) {$/;"	M
