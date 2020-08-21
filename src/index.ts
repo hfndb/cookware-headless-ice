@@ -1,4 +1,5 @@
 import { join } from "path";
+import { DefaultConfig } from "./default-config";
 import { Lint } from "./local/markup";
 import { renderEpub } from "./local/epub";
 import { FileUtils, Logger } from "./lib";
@@ -78,6 +79,12 @@ am.addOption({
 	typeLabel: "<type>"
 });
 am.addOption({
+	alias: "w",
+	name: "write",
+	type: Boolean,
+	description: "Write default config settings to config-default.json"
+});
+am.addOption({
 	name: "production",
 	type: Boolean,
 	description: "Flag to compile and compress for production use"
@@ -151,6 +158,8 @@ if (choice.beautify) {
 	});
 } else if (choice.playground) {
 	playGround();
+} else if (choice.write) {
+	FileUtils.writeJsonFile(DefaultConfig, cfg.dirProject, "config-default.json");
 } else {
 	am.showHelp([
 		{

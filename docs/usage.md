@@ -47,6 +47,15 @@ $ cookware --epub
 Shortcut -e. Not implemented yet. See [roadmap](./design-goals-and-roadmap.md).
 
 
+## Generate website
+
+```
+$ cookware --generate
+```
+
+Shortcut -g. Transcompile changed ts and scss, render changed .html using template engine, generate Google sitemap.
+
+
 ## Init
 
 Initalize new project in current working directory
@@ -106,13 +115,13 @@ $ cookware --touch sass
 ```
 
 
-## Web
+## Write default config
 
 ```
-$ cookware --web
+$ cookware --write
 ```
 
-Shortcut -w. Transcompile changed ts and scss, render changed .html using template engine, generate Google sitemap.
+Shortcut -w. Write default config settings to config-default.json in project directory
 
 
 ## Playground

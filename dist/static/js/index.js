@@ -4,6 +4,8 @@ require("source-map-support/register");
 
 var _path = require("path");
 
+var _defaultConfig = require("./default-config");
+
 var _markup = require("./local/markup");
 
 var _epub = require("./local/epub");
@@ -84,6 +86,12 @@ am.addOption({
   typeLabel: "<type>"
 });
 am.addOption({
+  alias: "w",
+  name: "write",
+  type: Boolean,
+  description: "Write default config settings to config-default.json"
+});
+am.addOption({
   name: "production",
   type: Boolean,
   description: "Flag to compile and compress for production use"
@@ -162,6 +170,8 @@ if (choice.beautify) {
   });
 } else if (choice.playground) {
   (0, _playground.playGround)();
+} else if (choice.write) {
+  _lib.FileUtils.writeJsonFile(_defaultConfig.DefaultConfig, cfg.dirProject, "config-default.json");
 } else {
   am.showHelp([{
     header: "cookware-headless-ice",
