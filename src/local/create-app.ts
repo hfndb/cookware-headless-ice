@@ -74,7 +74,7 @@ if (process.env.NODE_ENV == "production") {
 }
 
 log.info(
-	`- Written Javascript app ${bundle.output} (${
+	`- written Javascript app ${bundle.output} (${
 		process.env.NODE_ENV == "production" ? "compressed" : "plain"
 	}) `
 );

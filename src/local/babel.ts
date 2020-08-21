@@ -116,7 +116,11 @@ export function compileFile(
 
 	if (cfg.options.server.beautify.includes("src")) {
 		source = Beautify.content(entry.source, source);
-		FileUtils.writeFile(entry.dir, entry.source, source, false);
+		if (source) {
+			FileUtils.writeFile(entry.dir, entry.source, source, false);
+		} else {
+			return;
+		}
 	}
 
 	// In case of certain import statements...

@@ -102,7 +102,11 @@ function compileFile(entry, verbose = true) {
   if (cfg.options.server.beautify.includes("src")) {
     source = _beautify.Beautify.content(entry.source, source);
 
-    _lib.FileUtils.writeFile(entry.dir, entry.source, source, false);
+    if (source) {
+      _lib.FileUtils.writeFile(entry.dir, entry.source, source, false);
+    } else {
+      return;
+    }
   }
 
   if (source.includes("antd")) {

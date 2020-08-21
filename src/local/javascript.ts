@@ -2,6 +2,9 @@ import { join } from "path";
 import { cat, exec, rm, test } from "shelljs";
 import { AppConfig, FileUtils, Logger } from "../lib";
 
+let cfg = AppConfig.getInstance();
+let log = Logger.getInstance(cfg.options.logging);
+
 export class JavascriptUtils {
 	/**
 	 * Get HTML output directory
@@ -29,41 +32,30 @@ export class JavascriptUtils {
 	 * @returns array with output files
 	 */
 	static bundle(): string[] {
-		let cfg = AppConfig.getInstance();
-		let log = Logger.getInstance(cfg.options.logging);
+		let outDir = JavascriptUtils.getOutputDir();
 		let nodeExec = join(cfg.dirMain, "node_modules", "node", "bin", "node");
 		let execPath = join(cfg.dirMain, "dist", "static", "js", "local");
-		let outDir = JavascriptUtils.getOutputDir();
-		let retVal: string[] = [];
+		let lst: string[] = [];
 
 		if (
 			cfg.options.javascript.bundles.length == 0 &&
 			cfg.options.javascript.apps.length == 0
 		) {
-			return retVal;
+			return lst;
 		}
 
 		// Generate bundles
 		for (let i = 0; i < cfg.options.javascript.bundles.length; i++) {
-			let bundle = cfg.options.javascript.apps[i];
-			let items: string[] = [];
-			let outfile = join(outDir, bundle.output);
-			retVal.push(bundle.output);
-			rm("-f", outfile);
-
-			bundle.source.forEach((item: string) => {
-				items.push(join(outDir, item));
-			});
-			cat(items).to(outfile);
-
-			log.info(`Written Javascript bundle ${bundle.output}`);
+			let bundle = cfg.options.javascript.bundles[i];
+			Bundle.create(bundle);
+			lst.push(bundle.output);
 		}
 
 		// Generate apps
 		for (let i = 0; i < cfg.options.javascript.apps.length; i++) {
 			let bundle = cfg.options.javascript.apps[i];
 			let outfile = join(outDir, bundle.output);
-			retVal.push(bundle.output);
+			lst.push(bundle.output);
 			rm("-f", outfile);
 
 			let cmd =
@@ -83,7 +75,53 @@ export class JavascriptUtils {
 			}
 		}
 
-		return retVal;
+		return lst;
+	}
+}
+
+/**
+ * Class to handle JavaScript bundles
+ */
+class Bundle {
+	/**
+	 * Internal method to check need for writing bundle
+	 */
+	static isChanged(bundle: any, outDir: string): boolean {
+		if (!test("-f", join(outDir, bundle.output))) return true;
+
+		let path = join(cfg.dirProject, cfg.options.javascript.dirs.source);
+		let last = FileUtils.getLastModified(outDir, bundle.output);
+
+		bundle.source.forEach((item: string) => {
+			let srcFile = join(path, item);
+			let ths = FileUtils.getLastModified(path, item);
+			if (ths > last) {
+				return true;
+			}
+		});
+
+		return false;
+	}
+
+	/**
+	 * If necessary, write bundle
+	 */
+	static create(bundle: any): void {
+		let outDir = JavascriptUtils.getOutputDir();
+		if (!Bundle.isChanged(bundle, outDir)) return;
+
+		let items: string[] = [];
+		let outfile = join(outDir, bundle.output);
+		rm("-f", outfile);
+
+		bundle.source.forEach((item: string) => {
+			items.push(join(outDir, item));
+		});
+		cat(items).to(outfile);
+
+		log.info(`- written Javascript bundle ${bundle.output}`);
+
+		return;
 	}
 }
 
@@ -92,9 +130,6 @@ export class JavascriptUtils {
  * Uses configuration in config.json
  */
 export function generateJsDocs(): void {
-	let cfg = AppConfig.getInstance();
-	let log = Logger.getInstance(cfg.options.logging);
-
 	// Make paths relative to project directory
 	let options: any = cfg.options.dependencies.jsdoc.config;
 	let dir = options.opts.destination;

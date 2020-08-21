@@ -31,7 +31,9 @@ class Beautify {
 
       let data = Beautify.content(file, content);
 
-      _lib.FileUtils.writeFile(cfg.dirProject, (0, _path.join)(path, file), data, false);
+      if (data) {
+        _lib.FileUtils.writeFile(cfg.dirProject, (0, _path.join)(path, file), data, false);
+      }
     }
   }
 
@@ -79,8 +81,8 @@ class Beautify {
       log.info(`- Beautyfied ${file}`);
       return data;
     } catch (err) {
-      log.error(`- Failed to render file ${file} `, _lib.Logger.error2string(err));
-      throw new Error(err);
+      log.warn(`- Failed to render file ${file} `, _lib.Logger.error2string(err));
+      return "";
     }
   }
 

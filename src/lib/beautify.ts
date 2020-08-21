@@ -22,7 +22,9 @@ export class Beautify {
 			let file = files[i];
 			let content = FileUtils.readFile(join(cfg.dirProject, path, file));
 			let data = Beautify.content(file, content);
-			FileUtils.writeFile(cfg.dirProject, join(path, file), data, false);
+			if (data) {
+				FileUtils.writeFile(cfg.dirProject, join(path, file), data, false);
+			}
 		}
 	}
 
@@ -70,8 +72,8 @@ export class Beautify {
 			log.info(`- Beautyfied ${file}`);
 			return data;
 		} catch (err) {
-			log.error(`- Failed to render file ${file} `, Logger.error2string(err));
-			throw new Error(err);
+			log.warn(`- Failed to render file ${file} `, Logger.error2string(err));
+			return "";
 		}
 	}
 }
