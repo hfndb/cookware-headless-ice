@@ -28,6 +28,7 @@ export class AppConfig {
 	dirProject: string;
 	dirTemp: string;
 	isProject: boolean;
+	defaults: any;
 	options: any;
 	static instance: AppConfig | null = null;
 
@@ -134,7 +135,10 @@ export class AppConfig {
 	 * Read src/default-config.js and then project config.json
 	 */
 	read(): void {
-		this.options = Object.assign({}, DefaultConfig);
+		// Make sure that this.defaults and this.options are 2 seperate objects
+		let defaults = JSON.stringify(DefaultConfig);
+		this.defaults = JSON.parse(defaults);
+		this.options = JSON.parse(defaults);
 
 		if (process.env.isNew != undefined) {
 			// // Hack for new project, to prevent passing a var through the call stack
@@ -158,12 +162,8 @@ export class AppConfig {
 		let log = Logger.getInstance();
 		let checkProjects = options ? false : true;
 
-		if (!options) options = Object.assign({}, DefaultConfig);
-		let project: any = FileUtils.readJsonFile(
-			join(cfg.dirProject, "config.json"),
-			false
-		);
-		let changes = diff(options, project);
+		if (!options) options = cfg.defaults;
+		let changes = diff(cfg.defaults, cfg.options);
 
 		let cols = [10, 50, 50, 50];
 		let line = "".padEnd(cols[0] + cols[1] + cols[2] + cols[3], "-");
