@@ -14,7 +14,7 @@ import { NunjucksUtils } from "./nunjucks";
 /**
  * Striptease class, to strip HTML and tease those who want to read the code
  */
-class Stripper {
+export class Stripper {
 	static process(content: string): string {
 		let cfg = AppConfig.getInstance();
 		if (!cfg.options.html.stripper.active) return content;

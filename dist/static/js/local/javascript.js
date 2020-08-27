@@ -84,6 +84,7 @@ exports.JavascriptUtils = JavascriptUtils;
 class Bundle {
   static isChanged(bundle, outDir) {
     if (!(0, _shelljs.test)("-f", (0, _path.join)(outDir, bundle.output))) return true;
+    let changed = false;
     let path = (0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.source);
 
     let last = _lib.FileUtils.getLastModified(outDir, bundle.output);
@@ -94,10 +95,10 @@ class Bundle {
       let ths = _lib.FileUtils.getLastModified(path, item);
 
       if (ths > last) {
-        return true;
+        changed = true;
       }
     });
-    return false;
+    return changed;
   }
 
   static create(bundle) {

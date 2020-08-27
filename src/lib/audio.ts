@@ -6,11 +6,13 @@ import { Logger } from "./log";
 export class AudioUtils {
 	/**
 	 * Play an audio file
+	 *
+	 * @param file Relative to program dir
 	 * @todo Bug, package cannot find mplayer
 	 */
 	static async playFile(file: string) {
 		let cfg = AppConfig.getInstance();
-		let fullPath = join(process.cwd(), file);
+		let fullPath = join(cfg.dirMain, file);
 		if (!test("-f", fullPath)) {
 			throw new Error(
 				`File ${file} doesn't exist. Current working directory: ${process.cwd()}`

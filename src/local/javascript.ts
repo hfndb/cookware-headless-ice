@@ -89,6 +89,7 @@ class Bundle {
 	static isChanged(bundle: any, outDir: string): boolean {
 		if (!test("-f", join(outDir, bundle.output))) return true;
 
+		let changed = false;
 		let path = join(cfg.dirProject, cfg.options.javascript.dirs.source);
 		let last = FileUtils.getLastModified(outDir, bundle.output);
 
@@ -96,11 +97,11 @@ class Bundle {
 			let srcFile = join(path, item);
 			let ths = FileUtils.getLastModified(path, item);
 			if (ths > last) {
-				return true;
+				changed = true;
 			}
 		});
 
-		return false;
+		return changed;
 	}
 
 	/**
