@@ -217,7 +217,6 @@ export class Content {
 		let retVal = "";
 
 		if (!opts) opts = {};
-		if (!opts.useProjectTemplates) opts.useProjectTemplates = true;
 
 		let templateDir;
 		if (opts.templateDir) {

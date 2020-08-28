@@ -21,7 +21,7 @@ export function controllerSys(req: Request, res: Response, next: Function) {
 	let cfg = AppConfig.getInstance();
 	let root =
 		extname(req.path) == ".md" ? cfg.dirMain : join(cfg.dirMain, "content");
-	controllerGeneric(req, res, next, root, "/sys");
+	controllerGeneric(req, res, next, root, false, "/sys");
 }
 
 /**
@@ -34,7 +34,7 @@ export function controllerContent(req: Request, res: Response, next: Function) {
 			? cfg.dirProject
 			: join(cfg.dirProject, cfg.options.html.dirs.content);
 	(async () => {
-		controllerGeneric(req, res, next, root, "");
+		controllerGeneric(req, res, next, root, true, "");
 	})();
 }
 
@@ -116,7 +116,8 @@ async function controllerGeneric(
 	req: Request,
 	res: Response,
 	next: Function,
-	dir: string,
+	contentDir: string,
+	useProjectTemplates: boolean,
 	prefix: string
 ) {
 	let cfg = AppConfig.getInstance();
@@ -133,17 +134,14 @@ async function controllerGeneric(
 	}
 	url = url.substr(1); // strip leading "/" from URL path
 
-	if (prefix == "/sys" && ext == ".html") {
-		dir = join(cfg.dirMain, "content");
-	}
-	if (!test("-e", join(dir, url))) {
+	if (!test("-e", join(contentDir, url))) {
 		next();
 		return;
 	}
 
 	if (prefix == "/sys" && url == "index.html") {
 		additionalContext = Object.assign(additionalContext, {
-			isProject: cfg.isProject,
+			isProject: false,
 			systemPackages: getPackageReadmeFiles(true),
 			projectPackages: getPackageReadmeFiles(false)
 		});
@@ -151,14 +149,13 @@ async function controllerGeneric(
 
 	switch (ext) {
 		case ".md":
-			let md = renderMarkdownFile(dir, url);
+			let md = renderMarkdownFile(contentDir, url);
 
 			additionalContext = Object.assign(additionalContext, {
 				extractedTitle: md[1],
 				rendered: md[0]
 			});
 			// Render retrieved content in a HTML template, so no break here
-			dir = join(cfg.dirMain, "content");
 			url = "markdown.html";
 		case ".html":
 			let data = "";
@@ -189,7 +186,8 @@ async function controllerGeneric(
 				context = Object.assign(context, { report: generateStats() });
 				renderSysTemplate(res, "project-overview.html", context);
 			} else {
-				let tmp = await getCustomContext(req, res, dir, url);
+				let tmp = await getCustomContext(req, res, contentDir, url);
+
 				if (tmp == null) {
 					ExpressUtils.logRequest(req, res);
 					return;
@@ -209,11 +207,11 @@ async function controllerGeneric(
 						"no-cache, no-store, must-revalidate, post-check=0, pre-check=0, private"
 				});
 
-				entry = new FileStatus(dir);
+				entry = new FileStatus(contentDir);
 				entry.setSoure(url, ".html");
 				data = content.render(entry.dir, entry.source, {
 					additionalContext: context,
-					useProjectTemplates: ext != ".md" && prefix != "/sys"
+					useProjectTemplates: useProjectTemplates
 				});
 				content.rendered.forEach(file => {
 					session.add(ProcessingTypes.html, file);

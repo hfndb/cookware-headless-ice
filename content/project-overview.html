@@ -58,10 +58,18 @@
 	</tr>
 	{%- endfor %}			{#- for loop group in groups #}
 	<tr>
-		<td colspan="5">&nbsp;</td>
+		<th colspan="5" class="summary">Groups summary</th>
 	</tr>
+	{%- for group in report.groups %}
 	<tr>
-		<th colspan="5"><hr>Summary <span class="plain"> - {{ report.itemCount }} files in {{ report.groups.length }} groups</span></th>
+		<td>{{ group.description }}</td>
+		{%- for cell in group.columns %}
+		<td>{{ frmt.int(cell) }}</td>
+		{%- endfor %}		{#- for loop cell in group.columns #}
+	</tr>
+	{%- endfor %}			{#- for loop group in groups #}
+	<tr>
+		<th colspan="5" class="summary">Report summary <span class="plain"> - {{ report.itemCount }} files in {{ report.groups.length }} groups</span></th>
 	</tr>
 	<tr>
 		<td>Totals</td>
