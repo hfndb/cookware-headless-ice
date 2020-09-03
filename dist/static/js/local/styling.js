@@ -160,7 +160,7 @@ class SassUtils {
       if (source) {
         _lib.FileUtils.writeFile(entry.dir, entry.source, source, false);
       } else {
-        return;
+        return false;
       }
     }
 

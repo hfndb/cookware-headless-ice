@@ -1,18 +1,26 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const shelljs_1 = require("shelljs");
-const log_1 = require("./log");
-function signFile(file) {
-    let log = log_1.Logger.getInstance();
-    try {
-        shelljs_1.exec(`gpg --clearsign ${file}`, {});
-        log.info(`File signed: ${file}`);
-        shelljs_1.rm(file);
-        shelljs_1.mv(file.concat(".asc"), file);
-    }
-    catch (err) {
-        log.error(`- Failed to sign file ${file}`, log_1.Logger.error2string(err));
-    }
-}
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.signFile = signFile;
+
+require("source-map-support/register");
+
+var _shelljs = require("shelljs");
+
+var _log = require("./log");
+
+function signFile(file) {
+  let log = _log.Logger.getInstance();
+
+  try {
+    (0, _shelljs.exec)(`gpg --clearsign ${file}`, {});
+    log.info(`File signed: ${file}`);
+    (0, _shelljs.rm)(file);
+    (0, _shelljs.mv)(file.concat(".asc"), file);
+  } catch (err) {
+    log.error(`- Failed to sign file ${file}`, _log.Logger.error2string(err));
+  }
+}
 //# sourceMappingURL=pgp.js.map

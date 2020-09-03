@@ -81,7 +81,7 @@ export function compile(verbose: boolean): void {
 	if (saydHello && verbose) {
 		if (cfg.options.javascript.generateTags) {
 			exec(
-				`ctags-exuberant -R  ${join(
+				`ctags-exuberant --fields=nksSaf --file-scope=yes -R  ${join(
 					cfg.dirProject,
 					cfg.options.javascript.dirs.source
 				)}`,
@@ -119,7 +119,7 @@ export function compileFile(
 		if (source) {
 			FileUtils.writeFile(entry.dir, entry.source, source, false);
 		} else {
-			return;
+			return false;
 		}
 	}
 

@@ -110,6 +110,13 @@ export class ArrayUtils {
 
 export class ObjectUtils {
 	/**
+	 * Safely clone an object
+	 */
+	static clone(obj: Object): Object {
+		return JSON.parse(JSON.stringify(obj));
+	}
+
+	/**
 	 * Merge src object into target, like .json
 	 *
 	 * @param target {Object}

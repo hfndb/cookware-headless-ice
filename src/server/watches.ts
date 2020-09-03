@@ -126,7 +126,7 @@ export class JsWatch extends FileWatcher {
 				JavascriptUtils.bundle();
 				if (cfg.options.javascript.generateTags) {
 					exec(
-						`ctags-exuberant -R  ${join(
+						`ctags-exuberant --fields=nksSaf --file-scope=yes -R  ${join(
 							cfg.dirProject,
 							cfg.options.javascript.dirs.source
 						)}`,

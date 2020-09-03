@@ -77,7 +77,7 @@ function compile(verbose) {
 
   if (saydHello && verbose) {
     if (cfg.options.javascript.generateTags) {
-      (0, _shelljs.exec)(`ctags-exuberant -R  ${(0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.source)}`, {
+      (0, _shelljs.exec)(`ctags-exuberant --fields=nksSaf --file-scope=yes -R  ${(0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.source)}`, {
         async: true
       });
     }
@@ -105,7 +105,7 @@ function compileFile(entry, verbose = true) {
     if (source) {
       _lib.FileUtils.writeFile(entry.dir, entry.source, source, false);
     } else {
-      return;
+      return false;
     }
   }
 

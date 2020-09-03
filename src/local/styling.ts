@@ -168,7 +168,7 @@ export class SassUtils {
 			if (source) {
 				FileUtils.writeFile(entry.dir, entry.source, source, false);
 			} else {
-				return;
+				return false;
 			}
 		}
 		Object.assign(options, {
