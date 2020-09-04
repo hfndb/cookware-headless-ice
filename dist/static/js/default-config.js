@@ -194,6 +194,7 @@ let DefaultConfig = {
   tags: {
     active: false,
     generator: "exuberant",
+    ignore: [],
     style: "all",
     styles: {
       all: ["C", "F", "M", "P", "V", "E", "I", "G", "A", "O", "S", "T"],

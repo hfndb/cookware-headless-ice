@@ -9,14 +9,21 @@ export class Tags {
 		let allowed = cfg.options.tags.styles[cfg.options.tags.style];
 		if (allowed == undefined)
 			log.error(`Style ${cfg.options.tags.style} for tags doesn't exist`);
-		let tester = new RegExp("\\b(" + allowed.join("|") + ")\\b", "i");
+		let tstAllow = new RegExp("\\b(" + allowed.join("|") + ")\\b", "i");
+		let tstIgnore = new RegExp(
+			"^(" + cfg.options.tags.ignore.join("|") + ")\\b",
+			"i"
+		);
 
 		let projectTags = FileUtils.readFile(join(cfg.dirProject, "tags"));
 		let lines = projectTags.split("\n");
 		let fileTags = [];
 
 		for (let i = 0; i < lines.length; i++) {
-			if (tester.test(lines[i])) fileTags.push(lines[i]);
+			if (!tstAllow.test(lines[i])) continue;
+			if (lines[i].startsWith("$")) continue;
+			if (cfg.options.tags.ignore.length > 0 && tstIgnore.test(lines[i])) continue;
+			fileTags.push(lines[i]);
 		}
 
 		return fileTags.join("\n");
@@ -29,7 +36,7 @@ export class Tags {
 			exec(
 				`cd ${
 					cfg.dirProject
-				}; ctags-exuberant --fields=nksSaf --file-scope=yes -R ./${dir}`,
+				}; ctags-exuberant --fields=nksSaf --file-scope=yes --sort=no  -R ./${dir}`,
 				{ async: false }
 			);
 

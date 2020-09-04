@@ -196,7 +196,6 @@ Entries:
 			"output": "dist/static/js",
 			"source": "src"
 		},
-		"generateTags": false,
 		"nodeVersion": "latest",
 		"sourceMapping": true,
 		"sourceVersion": "typescript",
@@ -216,7 +215,6 @@ Entries:
 + *compiler*: Possible values: none, javascript, flow or typescript. The setting javascript will convert recent versions of JavaScript to a browser compatible version.
 + *dirs / output*: Where to put your JavaScript files.
 + *dirs / source*: Location of your TypeScript or JavaScript files.
-+ *generateTags*: If using vim on Linux, and having installed ctags-exuberant, generate a new 'tags' file in your project directory.
 + *nodeVersion*: For Babel. Possible values: current or version number.
 + *sourceMapping*: For Babel. Output source maps and fullfil requirements for [source-map-support](https://www.npmjs.com/package/source-map-support)
 + *sourceVersion*: For Babel. Possible values: es2015, es2016, es2017, es2018.
@@ -426,6 +424,7 @@ For auto-generating [tag files](https://en.wikipedia.org/wiki/Ctags#Tags_file_fo
 	"tags": {
 		"active": false,
 		"generator": "exuberant",
+		"ignore": [],
 		"style": "all",
 		"styles": {
 			"all": ["C","F","M","P","V","E","I","G","A","O","S","T"],
@@ -437,6 +436,7 @@ For auto-generating [tag files](https://en.wikipedia.org/wiki/Ctags#Tags_file_fo
 Entries:
 + *active*: Generate tags files
 + *generator*: Possible values exuberant or universal
++ *ignore*: Ignore tags in this list
 + *style*: Chosen style for the content of tags files
 + *styles*: Configured styles with allowed flags
 

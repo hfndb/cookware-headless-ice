@@ -23,5 +23,9 @@
 			"api",
 			"notes"
 		]
+	},
+	"tags": {
+		"active": true,
+		"style": "simple"
 	}
 }
