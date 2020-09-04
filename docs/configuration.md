@@ -189,6 +189,7 @@ Entries:
 ```
 {
 	"javascript": {
+		"ast": false,
 		"browserTargets": ["defaults"],
 		"compiler": "typescript",
 		"dirs": {
@@ -210,6 +211,7 @@ Entries:
 }
 ```
 Entries:
++ *ast*: Generate a .ast file for each transcompiled file
 + *browserTargets*: See [Babel documentation](https://babeljs.io/docs/en/presets). Presets are loaded based on the compiler setting. Browser targets can be set here.
 + *compiler*: Possible values: none, javascript, flow or typescript. The setting javascript will convert recent versions of JavaScript to a browser compatible version.
 + *dirs / output*: Where to put your JavaScript files.
@@ -370,6 +372,7 @@ Switches parts of the project overview on or off
 
 
 ## Sass
+
 ```
 {
 	"sass": {
@@ -391,7 +394,7 @@ Entries:
 {
 	"server": {
 		"backupInterval": 0,
-		beautify: ["src"],
+		"beautify": ["src"],
 		"firstUpdateSources": true,
 		"logStatic": false,
 		"port": 8000,
@@ -409,6 +412,33 @@ Entries:
 Example: If set to 8000, this website can be opened with http://localhost:8000/
 + *staticUrl*: Directory for static files; css, js and pictures.
 + *watchTimeout*: A timeout for filewatching using fs.watch(). Unit: ms. If you observe multiple changes in the console output, while you changed a file only once, then you could increase this timeout a bit.
+
+
+## Tags
+
+For auto-generating [tag files](https://en.wikipedia.org/wiki/Ctags#Tags_file_formats), using [ctags-exuberant](http://ctags.sourceforge.net/) or [universal-ctags](https://ctags.io/). Two types of tags will be generated
++ a tags file in the project root, containing information about all source files
++ a tags file in project dir .tags, containing information each source file
+
+
+```
+{
+	"tags": {
+		"active": false,
+		"generator": "exuberant",
+		"style": "all",
+		"styles": {
+			"all": ["C","F","M","P","V","E","I","G","A","O","S","T"],
+			"simple": ["C","F","M"],
+		}
+	},
+}
+```
+Entries:
++ *active*: Generate tags files
++ *generator*: Possible values exuberant or universal
++ *style*: Chosen style for the content of tags files
++ *styles*: Configured styles with allowed flags
 
 
 ## TypeScript

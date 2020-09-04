@@ -12,6 +12,7 @@ import { removeObsolete } from "../lib/files";
 import { Beautify } from "../lib/beautify";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 import { JavascriptUtils } from "./javascript";
+import { Tags } from "./tags";
 
 // https://babeljs.io/docs/en/
 
@@ -79,15 +80,12 @@ export function compile(verbose: boolean): void {
 	);
 
 	if (saydHello && verbose) {
-		if (cfg.options.javascript.generateTags) {
-			exec(
-				`ctags-exuberant --fields=nksSaf --file-scope=yes -R  ${join(
-					cfg.dirProject,
-					cfg.options.javascript.dirs.source
-				)}`,
-				{ async: true }
-			);
-		}
+		Tags.forProject(cfg.options.javascript.dirs.source);
+		changeList.forEach((entry: FileStatus) => {
+			if (entry.isNewOrModified()) {
+				Tags.forFile(join(cfg.options.javascript.dirs.source, entry.source));
+			}
+		});
 		log.info(`... done`);
 	} else if (verbose) {
 		log.info(`No changed ${cfg.options.javascript.compiler} files found`);
@@ -195,8 +193,10 @@ export function compileFile(
 
 		if (process.env.NODE_ENV == "production") {
 			// For production use
-			let map = join(entry.targetDir, entry.target + ".map");
-			if (test("-f", map)) rm(map);
+			let fl = join(entry.targetDir, entry.target + ".ast");
+			if (test("-f", fl)) rm(fl);
+			fl = join(entry.targetDir, entry.target + ".map");
+			if (test("-f", fl)) rm(fl);
 		} else if (
 			!dirname(entry.source).includes("browser") &&
 			cfg.options.javascript.sourceMapping
@@ -208,6 +208,15 @@ export function compileFile(
 				JSON.stringify(results.map),
 				false
 			);
+			if (cfg.options.javascript.ast)
+				FileUtils.writeFile(
+					entry.targetDir,
+					entry.target + ".ast",
+					JSON.stringify(results.ast),
+					false
+				);
+			// Working with AST, see
+			// https://hackernoon.com/babel-your-first-code-transformations-2d1a9a2f3bc4
 		}
 
 		FileUtils.writeFile(entry.targetDir, entry.target, results.code, verbose);

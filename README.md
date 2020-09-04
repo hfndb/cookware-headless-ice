@@ -5,6 +5,7 @@ For background information like **project philosophy**, see [design goals and ro
 The **command line toolbox**
 +  transcompiles (changed or new) [Sass](https://en.wikipedia.org/wiki/Sass_%28stylesheet_language%29) files to [CSS](https://en.wikipedia.org/wikiCascading_Style_Sheets),
 +  transcompiles (changed or new) [Flow](https://flow.org/) and [TypeScript](https://en.wikipedia.org/wiki/TypeScript) files to [JavaScript](https://en.wikipedia.org/wiki/JavaScript),
++ generates [tag files](https://en.wikipedia.org/wiki/Ctags#Tags_file_formats), using [ctags-exuberant](http://ctags.sourceforge.net/) or [universal-ctags](https://ctags.io/) (more details, see [here](./docs/configuration.md)),
 + renders (changed or new) template based HTML-content to static .html disk files,
 + [lints](https://en.wikipedia.org/wiki/Lint_%28software%29) HTML content files,
 + generates a .xml [Google sitemap](https://support.google.com/webmasters/answer/156184?hl=en),
@@ -15,6 +16,7 @@ The **command line toolbox**
 The **local development server**
 + renders HTML and [Markdown](https://en.wikipedia.org/wiki/Markdown) files on the fly, without caching to disk files,
 + transcompiles (changed or new) Sass, Flow and TypeScript,
++ generates tag files.
 + lints HTML,
 + displays a *system home page*, providing access to:
   - a project *todo list*,

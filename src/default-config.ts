@@ -70,9 +70,9 @@ let DefaultConfig = {
 		}
 	},
 	javascript: {
+		ast: false,
 		browserTargets: ["defaults"],
 		compiler: "javascript",
-		generateTags: false,
 		nodeVersion: "current",
 		sourceMapping: true,
 		sourceVersion: "es2017",
@@ -181,6 +181,15 @@ let DefaultConfig = {
 		port: 8000,
 		staticUrl: "static",
 		watchTimeout: 100
+	},
+	tags: {
+		active: false,
+		generator: "exuberant",
+		style: "all",
+		styles: {
+			all: ["C", "F", "M", "P", "V", "E", "I", "G", "A", "O", "S", "T"],
+			simple: ["C", "F", "M", "O"]
+		}
 	},
 	dependencies: {
 		browserify: {

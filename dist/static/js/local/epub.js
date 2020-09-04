@@ -1,15 +1,9 @@
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.renderEpub = renderEpub;
-
-require("source-map-support/register");
-
+Object.defineProperty(exports, "__esModule", { value: true });
 function renderEpub(verbose = true) {
-  verbose;
-  console.log("Not implemented yet...");
-  return 0;
+    verbose;
+    console.log("Not implemented yet...");
+    return 0;
 }
+exports.renderEpub = renderEpub;
 //# sourceMappingURL=epub.js.map

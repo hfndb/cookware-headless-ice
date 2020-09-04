@@ -1,26 +1,16 @@
 "use strict";
-
-require("source-map-support/register");
-
-var _path = require("path");
-
-var _shelljs = require("shelljs");
-
-var _misc = require("../local/misc");
-
-var _typescript = require("../local/typescript");
-
-var _config = require("../lib/config");
-
-var _upgrades = require("./upgrades");
-
-let cfg = _config.AppConfig.getInstance();
-
-if (!(0, _shelljs.test)("-f", (0, _path.join)(cfg.dirProject, "config-org.json"))) {
-  (0, _shelljs.cp)((0, _path.join)(cfg.dirMain, "default-project", "config.json"), (0, _path.join)(cfg.dirProject, "config-org.json"));
+Object.defineProperty(exports, "__esModule", { value: true });
+const path_1 = require("path");
+const shelljs_1 = require("shelljs");
+const misc_1 = require("../local/misc");
+const typescript_1 = require("../local/typescript");
+const config_1 = require("../lib/config");
+const upgrades_1 = require("./upgrades");
+let cfg = config_1.AppConfig.getInstance();
+if (!shelljs_1.test("-f", path_1.join(cfg.dirProject, "config-org.json"))) {
+    shelljs_1.cp(path_1.join(cfg.dirMain, "default-project", "config.json"), path_1.join(cfg.dirProject, "config-org.json"));
 }
-
-(0, _upgrades.upgrade)(cfg, true);
-(0, _misc.generateWeb)(false);
-(0, _typescript.generateTsDocs)();
+upgrades_1.upgrade(cfg, true);
+misc_1.generateWeb(false);
+typescript_1.generateTsDocs();
 //# sourceMappingURL=postinstall.js.map

@@ -24,6 +24,8 @@ var _session = require("../sys/session");
 
 var _javascript = require("./javascript");
 
+var _tags = require("./tags");
+
 function compile(verbose) {
   let cfg = _lib.AppConfig.getInstance();
 
@@ -76,12 +78,13 @@ function compile(verbose) {
   (0, _files.removeObsolete)(cfg.options.javascript.removeObsolete, processed, outDir, ".js");
 
   if (saydHello && verbose) {
-    if (cfg.options.javascript.generateTags) {
-      (0, _shelljs.exec)(`ctags-exuberant --fields=nksSaf --file-scope=yes -R  ${(0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.source)}`, {
-        async: true
-      });
-    }
+    _tags.Tags.forProject(cfg.options.javascript.dirs.source);
 
+    changeList.forEach(entry => {
+      if (entry.isNewOrModified()) {
+        _tags.Tags.forFile((0, _path.join)(cfg.options.javascript.dirs.source, entry.source));
+      }
+    });
     log.info(`... done`);
   } else if (verbose) {
     log.info(`No changed ${cfg.options.javascript.compiler} files found`);
@@ -156,12 +159,16 @@ function compileFile(entry, verbose = true) {
     }
 
     if (process.env.NODE_ENV == "production") {
-      let map = (0, _path.join)(entry.targetDir, entry.target + ".map");
-      if ((0, _shelljs.test)("-f", map)) (0, _shelljs.rm)(map);
+      let fl = (0, _path.join)(entry.targetDir, entry.target + ".ast");
+      if ((0, _shelljs.test)("-f", fl)) (0, _shelljs.rm)(fl);
+      fl = (0, _path.join)(entry.targetDir, entry.target + ".map");
+      if ((0, _shelljs.test)("-f", fl)) (0, _shelljs.rm)(fl);
     } else if (!(0, _path.dirname)(entry.source).includes("browser") && cfg.options.javascript.sourceMapping) {
       results.code += `\n//# sourceMappingURL=${(0, _path.basename)(entry.target)}.map`;
 
       _lib.FileUtils.writeFile(entry.targetDir, entry.target + ".map", JSON.stringify(results.map), false);
+
+      if (cfg.options.javascript.ast) _lib.FileUtils.writeFile(entry.targetDir, entry.target + ".ast", JSON.stringify(results.ast), false);
     }
 
     _lib.FileUtils.writeFile(entry.targetDir, entry.target, results.code, verbose);
