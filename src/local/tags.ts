@@ -30,7 +30,6 @@ export class Tags {
 	}
 
 	static forProject(dir: string): void {
-		return;
 		if (!cfg.options.tags.active) return;
 
 		let cmd = "";
