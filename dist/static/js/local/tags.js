@@ -38,7 +38,6 @@ class Tags {
   }
 
   static forProject(dir) {
-    return;
     if (!cfg.options.tags.active) return;
     let cmd = "";
 
