@@ -38,6 +38,7 @@ class Tags {
   }
 
   static forProject(dir) {
+    return;
     if (!cfg.options.tags.active) return;
     let cmd = "";
 
@@ -74,10 +75,9 @@ class Tags {
 
     let lines = projectTags.split("\n");
     let fileTags = [];
-    let testStr = "./" + file;
 
     for (let i = 0; i < lines.length; i++) {
-      if (lines[i].includes(testStr)) fileTags.push(lines[i]);
+      if (lines[i].includes(file)) fileTags.push(lines[i]);
     }
 
     _lib.FileUtils.writeFile(cfg.dirProject, (0, _path.join)(".tags", file), fileTags.join("\n"), false);

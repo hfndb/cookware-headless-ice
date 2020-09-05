@@ -30,6 +30,7 @@ export class Tags {
 	}
 
 	static forProject(dir: string): void {
+		return;
 		if (!cfg.options.tags.active) return;
 
 		let cmd = "";
@@ -66,10 +67,9 @@ export class Tags {
 		let projectTags = FileUtils.readFile(join(cfg.dirProject, "tags"));
 		let lines = projectTags.split("\n");
 		let fileTags = [];
-		let testStr = "./" + file;
 
 		for (let i = 0; i < lines.length; i++) {
-			if (lines[i].includes(testStr)) fileTags.push(lines[i]);
+			if (lines[i].includes(file)) fileTags.push(lines[i]);
 		}
 
 		FileUtils.writeFile(
