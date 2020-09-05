@@ -32,16 +32,32 @@ export class Tags {
 	static forProject(dir: string): void {
 		if (!cfg.options.tags.active) return;
 
-		if (cfg.options.tags.generator == "exuberant") {
-			exec(
-				`cd ${
-					cfg.dirProject
-				}; ctags-exuberant --fields=nksSaf --file-scope=yes --sort=no  -R ./${dir}`,
-				{ async: false }
-			);
+		let cmd = "";
 
-			FileUtils.writeFile(cfg.dirProject, "tags", Tags.filterFlags(), true);
+		switch (cfg.options.tags.generator) {
+			case "exuberant":
+				cmd = `ctags-exuberant --fields=nksSaf --file-scope=yes --sort=no  -R ./${dir}`;
+				break;
+			case "universal":
+				cmd = `ctags-universal --fields=nksSaf --file-scope=yes  --sort=no --tag-relative=yes --totals=yes -R ./${dir} &> /dev/null`;
+				break;
+			default:
+				log.error(`Generator ${cfg.options.tags.generator} not supported`);
+				return;
 		}
+
+		exec(`cd ${cfg.dirProject}; ${cmd}`, { async: false, silent: true });
+
+		// Create backup
+		let tags = FileUtils.readFile(join(cfg.dirProject, "tags"));
+		FileUtils.writeFile(
+			cfg.dirProject,
+			join(".tags", "tags-original"),
+			tags,
+			false
+		);
+
+		FileUtils.writeFile(cfg.dirProject, "tags", Tags.filterFlags(), true);
 	}
 
 	static forFile(file: string): void {

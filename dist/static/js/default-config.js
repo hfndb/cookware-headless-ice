@@ -193,12 +193,14 @@ let DefaultConfig = {
   },
   tags: {
     active: false,
-    generator: "exuberant",
+    generator: "universal",
     ignore: [],
     style: "all",
     styles: {
-      all: ["C", "F", "M", "P", "V", "E", "I", "G", "A", "O", "S", "T"],
-      simple: ["C", "F", "M", "O"]
+      allExuberant: ["C", "F", "M", "P", "V", "E", "I", "G", "A", "O", "S", "T"],
+      allUniversal: ["C", "E", "G", "I", "M", "O", "P", "S", "T", "V", "c", "f", "g", "m", "p", "v"],
+      all: ["C", "E", "G", "I", "M", "O", "P", "S", "T", "V", "c", "f", "g", "m", "p", "v"],
+      simple: ["c", "C", "F", "m", "M", "O"]
     }
   },
   dependencies: {
