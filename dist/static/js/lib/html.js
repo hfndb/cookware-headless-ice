@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Content = exports.Stripper = void 0;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _files = require("./files");
@@ -240,4 +238,3 @@ class Content {
 }
 
 exports.Content = Content;
-//# sourceMappingURL=html.js.map

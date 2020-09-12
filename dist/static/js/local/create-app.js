@@ -1,7 +1,5 @@
 "use strict";
 
-require("source-map-support/register");
-
 var _fs = require("fs");
 
 var _path = require("path");
@@ -61,4 +59,3 @@ if (process.env.NODE_ENV == "production") {
 }
 
 log.info(`- written Javascript app ${bundle.output} (${process.env.NODE_ENV == "production" ? "compressed" : "plain"}) `);
-//# sourceMappingURL=create-app.js.map

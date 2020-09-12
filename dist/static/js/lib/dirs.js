@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.createDirTree = createDirTree;
 exports.getDirList = getDirList;
 
-require("source-map-support/register");
-
 var _fs = require("fs");
 
 var _path = require("path");
@@ -68,4 +66,3 @@ function getDirList(path, recursive = true) {
 
   return dirs;
 }
-//# sourceMappingURL=dirs.js.map

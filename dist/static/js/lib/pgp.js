@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.signFile = signFile;
 
-require("source-map-support/register");
-
 var _shelljs = require("shelljs");
 
 var _log = require("./log");
@@ -23,4 +21,3 @@ function signFile(file) {
     log.error(`- Failed to sign file ${file}`, _log.Logger.error2string(err));
   }
 }
-//# sourceMappingURL=pgp.js.map

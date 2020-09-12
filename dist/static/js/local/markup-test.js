@@ -1,7 +1,5 @@
 "use strict";
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _chai = require("chai");
@@ -74,4 +72,3 @@ describe("HTML rendering", function () {
     if (exists) (0, _shelljs.rm)(file);
   });
 });
-//# sourceMappingURL=markup-test.js.map

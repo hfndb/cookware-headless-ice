@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.upgrade = upgrade;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _lib = require("../lib");
@@ -36,4 +34,3 @@ function upgrade(cfg, system = false) {
   needsUpdate;
   return true;
 }
-//# sourceMappingURL=upgrades.js.map

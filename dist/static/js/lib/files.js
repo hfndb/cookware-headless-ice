@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.removeObsolete = removeObsolete;
 exports.LineReader = exports.FileWatcher = exports.FileUtils = void 0;
 
-require("source-map-support/register");
-
 var _fs = require("fs");
 
 var _path = require("path");
@@ -416,4 +414,3 @@ class LineReader {
 }
 
 exports.LineReader = LineReader;
-//# sourceMappingURL=files.js.map

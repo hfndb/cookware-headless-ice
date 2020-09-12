@@ -1,7 +1,5 @@
 "use strict";
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _chai = require("chai");
@@ -54,4 +52,3 @@ describe("Sass transcompiling", function () {
     session.reset();
   });
 });
-//# sourceMappingURL=styling-test.js.map

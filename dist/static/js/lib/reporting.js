@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SimpleASCII = exports.Report = exports.Group = exports.Item = void 0;
 
-require("source-map-support/register");
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 class Item {
@@ -206,4 +204,3 @@ class SimpleASCII {
 }
 
 exports.SimpleASCII = SimpleASCII;
-//# sourceMappingURL=reporting.js.map

@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Formatter = exports.StringUtils = void 0;
 
-require("source-map-support/register");
-
 var _config = require("./config");
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -132,4 +130,3 @@ class Formatter {
 exports.Formatter = Formatter;
 
 _defineProperty(Formatter, "instance", null);
-//# sourceMappingURL=utils.js.map

@@ -58,8 +58,6 @@ Object.defineProperty(exports, "StringUtils", {
   }
 });
 
-require("source-map-support/register");
-
 var _config = require("./config");
 
 var _dirs = require("./dirs");
@@ -71,4 +69,3 @@ var _fileDiff = require("./file-diff");
 var _log = require("./log");
 
 var _utils = require("./utils");
-//# sourceMappingURL=index.js.map

@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.playGround = playGround;
 
-require("source-map-support/register");
-
 var _lib = require("../lib");
 
 function playGround() {
@@ -16,4 +14,3 @@ function playGround() {
 
   log.info("Start playing...");
 }
-//# sourceMappingURL=playground.js.map

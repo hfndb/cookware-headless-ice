@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.generateStats = generateStats;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -168,4 +166,3 @@ function generateStats() {
   });
   return report;
 }
-//# sourceMappingURL=overview.js.map

@@ -235,11 +235,12 @@ With 'cleanup' as a list of directories and files to remove after creating the a
 + *bundles*: An array with JavaScript files, merged and compressed for usage in a web browser. Each bundle is defined as follows:
 ```
 {
+	"header": "dist/static/js/some-file.js",
 	"output": "browser/generic.js",
 	"source": ["browser/test.js"]
 }
 ```
-With 'output' as the target file relative to the output directory, and 'source' as an array with input files relative to the source directory.
+The header file is relative to the project root, 'output' as the target file relative to the output directory, and 'source' as an array with input files relative to the source directory.
 + *removeObsolete / exclude*: An array with files which will be excluded from auto-removal.
 
 

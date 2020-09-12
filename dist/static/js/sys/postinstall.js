@@ -1,7 +1,5 @@
 "use strict";
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -23,4 +21,3 @@ if (!(0, _shelljs.test)("-f", (0, _path.join)(cfg.dirProject, "config-org.json")
 (0, _upgrades.upgrade)(cfg, true);
 (0, _misc.generateWeb)(false);
 (0, _typescript.generateTsDocs)();
-//# sourceMappingURL=postinstall.js.map

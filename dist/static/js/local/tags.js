@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Tags = void 0;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -14,6 +12,8 @@ var _shelljs = require("shelljs");
 var _lib = require("../lib");
 
 let cfg = _lib.AppConfig.getInstance();
+
+let log = _lib.Logger.getInstance();
 
 class Tags {
   static filterFlags() {
@@ -85,4 +85,3 @@ class Tags {
 }
 
 exports.Tags = Tags;
-//# sourceMappingURL=tags.js.map

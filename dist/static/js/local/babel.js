@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.compile = compile;
 exports.compileFile = compileFile;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -118,9 +116,7 @@ function compileFile(entry, verbose = true) {
     presets.push(["@babel/preset-react"]);
   }
 
-  if (process.env.NODE_ENV == "production") {
-    presets.push("minify");
-  } else if (!(0, _path.dirname)(entry.source).includes("browser") && cfg.options.javascript.sourceMapping) {
+  if (process.env.NODE_ENV == "production") {} else if (!(0, _path.dirname)(entry.source).includes("browser") && cfg.options.javascript.sourceMapping) {
     plugins.push("source-map-support");
   }
 
@@ -179,4 +175,3 @@ function compileFile(entry, verbose = true) {
 
   return true;
 }
-//# sourceMappingURL=babel.js.map

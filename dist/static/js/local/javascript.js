@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.generateJsDocs = generateJsDocs;
 exports.JavascriptUtils = void 0;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -107,6 +105,11 @@ class Bundle {
     let items = [];
     let outfile = (0, _path.join)(outDir, bundle.output);
     (0, _shelljs.rm)("-f", outfile);
+
+    if (bundle.header) {
+      items.push((0, _path.join)(cfg.dirProject, bundle.header));
+    }
+
     bundle.source.forEach(item => {
       items.push((0, _path.join)(outDir, item));
     });
@@ -139,4 +142,3 @@ function generateJsDocs() {
     async: true
   });
 }
-//# sourceMappingURL=javascript.js.map

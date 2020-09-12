@@ -1,7 +1,5 @@
 "use strict";
 
-require("source-map-support/register");
-
 var _config = require("../lib/config");
 
 var _express = require("../lib/express");
@@ -52,4 +50,3 @@ describe("Local development server", function () {
   });
 });
 (0, _server.gracefulShutdown)();
-//# sourceMappingURL=server-test.js.map

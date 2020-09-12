@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Beautify = void 0;
 
-require("source-map-support/register");
-
 var _lib = require("../lib");
 
 var _path = require("path");
@@ -89,4 +87,3 @@ class Beautify {
 }
 
 exports.Beautify = Beautify;
-//# sourceMappingURL=beautify.js.map

@@ -133,7 +133,7 @@ export function compileFile(
 
 	if (process.env.NODE_ENV == "production") {
 		// For production use
-		presets.push("minify");
+		//presets.push("minify"); // Bug in preset: https://github.com/babel/minify/issues/904
 	} else if (
 		!dirname(entry.source).includes("browser") &&
 		cfg.options.javascript.sourceMapping

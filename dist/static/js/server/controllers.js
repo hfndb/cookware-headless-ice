@@ -7,8 +7,6 @@ exports.controllerSys = controllerSys;
 exports.controllerContent = controllerContent;
 exports.controllerStatic = controllerStatic;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -217,4 +215,3 @@ async function controllerGeneric(req, res, next, contentDir, useProjectTemplates
 
   next();
 }
-//# sourceMappingURL=controllers.js.map

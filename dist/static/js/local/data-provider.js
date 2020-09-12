@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getAdditionalContext = getAdditionalContext;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 function getAdditionalContext(dir, file, cfg) {
@@ -17,4 +15,3 @@ function getAdditionalContext(dir, file, cfg) {
     pdf: `/pdf/${(0, _path.basename)(file, ".html")}.pdf `
   };
 }
-//# sourceMappingURL=data-provider.js.map

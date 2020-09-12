@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.getChangeList = getChangeList;
 exports.FileStatus = void 0;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -100,4 +98,3 @@ function getChangeList(opts) {
   });
   return changes;
 }
-//# sourceMappingURL=file-diff.js.map

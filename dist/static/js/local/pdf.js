@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.renderPdf = renderPdf;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -111,4 +109,3 @@ function renderPdfFile(fileStatus) {
 
   return retVal;
 }
-//# sourceMappingURL=pdf.js.map

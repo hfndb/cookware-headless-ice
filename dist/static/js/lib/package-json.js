@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.getPackages = getPackages;
 exports.getPackageReadmeFiles = getPackageReadmeFiles;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -69,4 +67,3 @@ function getPackageReadmeFiles(sys) {
 
   return mds;
 }
-//# sourceMappingURL=package-json.js.map

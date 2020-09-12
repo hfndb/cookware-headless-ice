@@ -175,7 +175,7 @@ let DefaultConfig = {
 	},
 	server: {
 		backupInterval: 0,
-		beautify: ["src"],
+		beautify: ["sass", "src"],
 		firstUpdateSources: true,
 		logStatic: false,
 		port: 8000,
@@ -368,6 +368,7 @@ let DefaultConfig = {
 			config: {
 				arrayExpand: true,
 				bracketSpacing: true,
+				printWidth: 80, // Default value
 				semi: true,
 				singleQuote: false,
 				useTabs: true,

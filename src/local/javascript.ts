@@ -114,6 +114,9 @@ class Bundle {
 		let items: string[] = [];
 		let outfile = join(outDir, bundle.output);
 		rm("-f", outfile);
+		if (bundle.header) {
+			items.push(join(cfg.dirProject, bundle.header));
+		}
 
 		bundle.source.forEach((item: string) => {
 			items.push(join(outDir, item));

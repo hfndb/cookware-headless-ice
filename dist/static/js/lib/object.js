@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Dataset = exports.ObjectUtils = exports.ArrayUtils = void 0;
 
-require("source-map-support/register");
-
 var _log = require("./log");
 
 var _config = require("./config");
@@ -175,4 +173,3 @@ class Dataset {
 }
 
 exports.Dataset = Dataset;
-//# sourceMappingURL=object.js.map

@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.gracefulShutdown = gracefulShutdown;
 exports.coatRack = coatRack;
 
-require("source-map-support/register");
-
 var _controllers = require("./controllers");
 
 var _watches = require("./watches");
@@ -113,4 +111,3 @@ function coatRack() {
   eu.app.get(/^\/pdf/, _controllers.controllerStatic);
   eu.init(gracefulShutdown);
 }
-//# sourceMappingURL=index.js.map

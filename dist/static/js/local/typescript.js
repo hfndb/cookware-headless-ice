@@ -7,8 +7,6 @@ exports.compileTypeScript = compileTypeScript;
 exports.watchTypeScript = watchTypeScript;
 exports.generateTsDocs = generateTsDocs;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -141,4 +139,3 @@ function generateTsDocs() {
     log.error("Failed to generate load TypeDoc project.", _lib.Logger.error2string(err));
   }
 }
-//# sourceMappingURL=typescript.js.map

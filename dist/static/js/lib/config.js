@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.AppMenu = exports.AppConfig = void 0;
 
-require("source-map-support/register");
-
 var _os = require("os");
 
 var _path = require("path");
@@ -354,4 +352,3 @@ class AppMenu {
 exports.AppMenu = AppMenu;
 
 _defineProperty(AppMenu, "instance", null);
-//# sourceMappingURL=config.js.map

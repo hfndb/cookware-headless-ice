@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.AudioUtils = void 0;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -40,4 +38,3 @@ class AudioUtils {
 }
 
 exports.AudioUtils = AudioUtils;
-//# sourceMappingURL=audio.js.map

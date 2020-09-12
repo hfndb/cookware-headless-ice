@@ -7,8 +7,6 @@ exports.generateWeb = generateWeb;
 exports.backupChangedSource = backupChangedSource;
 exports.searchProject = searchProject;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _os = require("os");
@@ -149,4 +147,3 @@ function searchProject(searchFor, html) {
 
   return retVal;
 }
-//# sourceMappingURL=misc.js.map

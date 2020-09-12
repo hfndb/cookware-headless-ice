@@ -1,7 +1,5 @@
 "use strict";
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _chai = require("chai");
@@ -61,4 +59,3 @@ describe("Reading Nunjucks file", function () {
     (0, _chai.expect)(found).to.equal(true, "other data");
   });
 });
-//# sourceMappingURL=nunjucks-test.js.map

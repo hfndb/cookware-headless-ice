@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.renderMarkdownFile = renderMarkdownFile;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _lib = require("../lib");
@@ -35,4 +33,3 @@ function renderMarkdownFile(dir, path) {
 
   return [content, title];
 }
-//# sourceMappingURL=markdown.js.map

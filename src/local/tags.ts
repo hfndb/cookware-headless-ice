@@ -3,6 +3,7 @@ import { exec, test } from "shelljs";
 import { AppConfig, FileUtils, Logger } from "../lib";
 
 let cfg = AppConfig.getInstance();
+let log = Logger.getInstance();
 
 export class Tags {
 	static filterFlags(): string {
@@ -17,7 +18,7 @@ export class Tags {
 
 		let projectTags = FileUtils.readFile(join(cfg.dirProject, "tags"));
 		let lines = projectTags.split("\n");
-		let fileTags = [];
+		let fileTags: string[] = [];
 
 		for (let i = 0; i < lines.length; i++) {
 			if (!tstAllow.test(lines[i])) continue;
@@ -65,7 +66,7 @@ export class Tags {
 
 		let projectTags = FileUtils.readFile(join(cfg.dirProject, "tags"));
 		let lines = projectTags.split("\n");
-		let fileTags = [];
+		let fileTags: string[] = [];
 
 		for (let i = 0; i < lines.length; i++) {
 			if (lines[i].includes(file)) fileTags.push(lines[i]);
@@ -79,3 +80,8 @@ export class Tags {
 		);
 	}
 }
+
+// jsdoc -X -r ./src > ./.tags/tree.json
+
+// https://typedoc.org/guides/options/#json
+// node node_modules/typedoc/bin/typedoc --json

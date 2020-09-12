@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Sitemap = void 0;
 
-require("source-map-support/register");
-
 var _fs = require("fs");
 
 var _path = require("path");
@@ -103,4 +101,3 @@ class Sitemap {
 }
 
 exports.Sitemap = Sitemap;
-//# sourceMappingURL=sitemap.js.map

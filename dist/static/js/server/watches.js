@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.JsWatch = exports.SassWatch = exports.CssWatch = exports.ConfigWatch = void 0;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -168,4 +166,3 @@ class JsWatch extends _lib.FileWatcher {
 exports.JsWatch = JsWatch;
 
 _defineProperty(JsWatch, "instance", void 0);
-//# sourceMappingURL=watches.js.map

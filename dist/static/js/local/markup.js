@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Html = exports.Lint = void 0;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -125,4 +123,3 @@ class Html {
 }
 
 exports.Html = Html;
-//# sourceMappingURL=markup.js.map

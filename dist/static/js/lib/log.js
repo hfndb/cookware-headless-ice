@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Logger = void 0;
 
-require("source-map-support/register");
-
 var _path = require("path");
 
 var _audio = require("./audio");
@@ -220,4 +218,3 @@ class Logger {
 exports.Logger = Logger;
 
 _defineProperty(Logger, "instance", void 0);
-//# sourceMappingURL=log.js.map

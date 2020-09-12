@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ExpressUtils = void 0;
 
-require("source-map-support/register");
-
 var _config = require("../lib/config");
 
 var _log = require("./log");
@@ -205,4 +203,3 @@ class ExpressUtils {
 exports.ExpressUtils = ExpressUtils;
 
 _defineProperty(ExpressUtils, "instance", null);
-//# sourceMappingURL=express.js.map
