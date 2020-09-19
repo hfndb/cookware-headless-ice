@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.compile = compile;
 exports.compileFile = compileFile;
 
+require("source-map-support/register");
+
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -159,10 +161,12 @@ function compileFile(entry, verbose = true) {
       if ((0, _shelljs.test)("-f", fl)) (0, _shelljs.rm)(fl);
       fl = (0, _path.join)(entry.targetDir, entry.target + ".map");
       if ((0, _shelljs.test)("-f", fl)) (0, _shelljs.rm)(fl);
-    } else if (!(0, _path.dirname)(entry.source).includes("browser") && cfg.options.javascript.sourceMapping) {
-      results.code += `\n//# sourceMappingURL=${(0, _path.basename)(entry.target)}.map`;
+    } else if (cfg.options.javascript.sourceMapping) {
+      if (!(0, _path.dirname)(entry.source).includes("browser")) {
+        results.code += `\n//# sourceMappingURL=${(0, _path.basename)(entry.target)}.map`;
 
-      _lib.FileUtils.writeFile(entry.targetDir, entry.target + ".map", JSON.stringify(results.map), false);
+        _lib.FileUtils.writeFile(entry.targetDir, entry.target + ".map", JSON.stringify(results.map), false);
+      }
 
       if (cfg.options.javascript.ast) _lib.FileUtils.writeFile(entry.targetDir, entry.target + ".ast", JSON.stringify(results.ast), false);
     }
@@ -175,3 +179,4 @@ function compileFile(entry, verbose = true) {
 
   return true;
 }
+//# sourceMappingURL=babel.js.map

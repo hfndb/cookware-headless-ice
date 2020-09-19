@@ -197,17 +197,16 @@ export function compileFile(
 			if (test("-f", fl)) rm(fl);
 			fl = join(entry.targetDir, entry.target + ".map");
 			if (test("-f", fl)) rm(fl);
-		} else if (
-			!dirname(entry.source).includes("browser") &&
-			cfg.options.javascript.sourceMapping
-		) {
-			results.code += `\n//# sourceMappingURL=${basename(entry.target)}.map`;
-			FileUtils.writeFile(
-				entry.targetDir,
-				entry.target + ".map",
-				JSON.stringify(results.map),
-				false
-			);
+		} else if (cfg.options.javascript.sourceMapping) {
+			if (!dirname(entry.source).includes("browser")) {
+				results.code += `\n//# sourceMappingURL=${basename(entry.target)}.map`;
+				FileUtils.writeFile(
+					entry.targetDir,
+					entry.target + ".map",
+					JSON.stringify(results.map),
+					false
+				);
+			}
 			if (cfg.options.javascript.ast)
 				FileUtils.writeFile(
 					entry.targetDir,

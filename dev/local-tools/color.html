@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Color</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+	<link rel="stylesheet" type="text/css" href="../../dist/static/css/generic.css" />
+	<script src="./js/w3color.js"></script>
+	<script src="./js/converter.js"></script>
+	<style type="text/css">
+		table {
+			border-collapse: collapse;
+		}
+		#color01 {
+			margin-left: 20px;
+		}
+		#html5colorpicker {
+			margin-left: 20px;
+		}
+		.resultStrings {
+			min-height: 250px;
+		}
+		#resultTable {
+			float: left;
+			width: 300px;
+		}
+		#result {
+			float: left;
+		}
+		#result01 {
+			box-sizing: border-box; /* box won't grow as a result of padding. Default behavior is content-box */
+			display: table-cell;
+			height: 100px;
+			padding: 10px;
+			text-align: center;
+			vertical-align: middle;
+			width: 400px;
+		}
+		#container {
+			margin-bottom: 60px;
+		}
+		#name01,#hex01,#rgb01,#hsl01,#hwb01,#cmyk01,#ncol01 {
+			white-space:nowrap;
+			background-color:#f9f9f9;
+			background-color:#ffffff;
+			border:1px solid #d3d3d3;
+			padding-left:4px;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="content">
+		<!-- Offline version of slighty modified source. See .js source -->
+			<h1 class="center">Color</h1>
+			<p>
+				<strong>Enter a color</strong>
+				(<i>name, hex, rgb, hsl, hwb, cmyk, ncol</i>)
+				<input id="color01" type="text" value="hsl(195, 100%, 50%)" oninput="validateColor()" onchange="validateColor()" onkeydown="submitOnEnter(event)">
+			</p>
+			<p>
+				Use HTML5 <strong>color picker</strong>
+				<input type="color" id="html5colorpicker" onchange="colorPicked()" value="#00bfff" style="width: 100px;">
+			</p>
+			<br>
+			<div class="resultStrings">
+				<div id="error01"></div>
+				<table id="resultTable">
+					<tbody>
+					<tr><td id="helpname01">Name</td><td id="name01" style="font-style: normal; color: rgb(0, 0, 0);"></td></tr>
+					<tr><td id="helprgb01">Rgb</td><td id="rgb01"></td></tr>
+					<tr><td id="helphex01">Hex</td><td id="hex01"></td></tr>
+					<tr><td id="helphsl01">Hsl</td><td id="hsl01"></td></tr>
+					<tr><td id="helphwb01">Hwb</td><td id="hwb01"></td></tr>
+					<tr><td id="helpcmyk01">Cmyk</td><td id="cmyk01"></td></tr>
+					<tr><td id="helpncol01">Ncol</td><td id="ncol01"></td></tr>
+					</tbody>
+				</table>
+				<div id="result" style="padding:0 40px 10px 40px;">
+					<div id="behindresult01">
+						<div id="result01"></div>
+					</div>
+				</div>
+			</div>
+			<hr>
+			<div id="huecontainer"></div>
+			<hr>
+			<div id="hslsatcontainer"></div>
+			<hr>
+			<div id="hsllumcontainer"></div>
+		</div>
+		<hr>
+		<script>
+			changeColor();
+		</script>
+		<h3>Color theory</h3>
+		<p>
+			- Light colors (shine): First color circle by Sir Isaac Newton (1666): RGB (<strong>primary colors</strong> red, green, blue), an <a href="https://en.wikipedia.org/wiki/Additive_color">additive color model</a>.<br>
+			- Print colors (cover) by Moses Harris (1766): RYB (primary colors red, yellow, blue as pigment of paint). Now CMY or <a href="https://en.wikipedia.org/wiki/CMYK_color_model">CMYK</a>, a <a href="https://en.wikipedia.org/wiki/Subtractive_color">subtractive color model</a>.
+		</p>
+		<p>
+			<strong>Secondary colors</strong> are 2 mixed primary colors.<br>
+			<strong>Tertiary colors</strong> are derived from one primary and one secondary color.<br>
+			<strong>Inverse colors</strong> come from the diametrically opposite position in the color wheel. See <a href="https://en.wikipedia.org/wiki/Opponent_process">opponent color</a>. In CSS:
+			<pre>
+			<code>
+.class-name {
+	filter: invert(100%);
+}
+			</code>
+			</pre>
+		</p>
+		<p>
+			<a href="https://en.wikipedia.org/wiki/HSL_and_HSV">HLS and HSV colors</a> are alternative representations of the <a href="https://en.wikipedia.org/wiki/RGB_color_model">RGB color model</a>. The HSL model attempts to resemble more perceptual color models such as the <a href="https://en.wikipedia.org/wiki/Natural_Color_System">Natural Color System</a> (NCS) or <a href="https://en.wikipedia.org/wiki/Munsell_color_system">Munsell color system</a>.<br>
+			<a href="https://en.wikipedia.org/wiki/HSL_and_HSV">HLS</a> is often used to create <a href="https://en.wikipedia.org/wiki/Pastel_(color)">pastel colors</a> (high value, low saturation)
+		</p>
+	</div>
+</body>
+</html>
