@@ -239,7 +239,7 @@ function namedsColors() {
 
 	for (i = 0; i < colorNames.length; i++) {
 		var obj = w3color(colorNames[i]);
-		a += "<tr onclick='colorClicked(\"" + colorHex[i] + "\")'>";
+		a += "<tr onclick='colorClicked(\"#" + colorHex[i] + "\")'>";
 		a += "<td style='text-align:right; background-color: #" + colorHex[i] + ";'>" + colorNames[i] + "</td>";
 		a += "<td style='text-align:right;'>#" + colorHex[i] + "</td>";
 		a += "<td style='text-align:right;'>" + obj.toRgbString() + "</td>";
