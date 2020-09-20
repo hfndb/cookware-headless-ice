@@ -254,6 +254,9 @@
 			this.ncol = color.ncol;
 			this.opacity = color.opacity;
 			this.valid = color.valid;
+		},
+		getColorArr: function(x) {
+			return getColorArr(x);
 		}
 	};
 	function toColorObject(c) {
