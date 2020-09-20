@@ -222,3 +222,32 @@ function hslTable(x) {
 		document.getElementById("hsllumcontainer").innerHTML = a;
 	}
 }
+
+// Added, table of named colors
+function namedsColors() {
+	var arr = w3color("black");
+	var colorHex = arr.getColorArr("hexs");
+	var colorNames = arr.getColorArr("names");
+
+	a = "<table style='width:100%;white-space: nowrap;font-size:14px;'>";
+	a += "<tr>";
+	a += "<th style='text-align:right;'>Color</th>";
+	a += "<th style='text-align:right;'>Hex</th>";
+	a += "<th style='text-align:right;'>Rgb</th>";
+	a += "<th style='text-align:right;'>Hsl</th>";
+	a += "</tr>";
+
+	for (i = 0; i < colorNames.length; i++) {
+		var obj = w3color(colorNames[i]);
+		a += "<tr onclick='colorClicked(\"" + colorHex[i] + "\")'>";
+		a += "<td style='text-align:right; background-color: #" + colorHex[i] + ";'>" + colorNames[i] + "</td>";
+		a += "<td style='text-align:right;'>#" + colorHex[i] + "</td>";
+		a += "<td style='text-align:right;'>" + obj.toRgbString() + "</td>";
+		a += "<td style='text-align:right;'>" + obj.toHslString() + "</td>";
+		a += "</tr>";
+	}
+
+	a += "</table>";
+
+	document.getElementById("namescontainer").innerHTML = a;
+}
