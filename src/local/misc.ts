@@ -14,13 +14,16 @@ import { ProcessingTypes, SessionVars } from "../sys/session";
 let cfg = AppConfig.getInstance();
 let log = Logger.getInstance(cfg.options.logging);
 
+/**
+ * Write .js and .sass related to colors as defined in project config
+ */
 function generateColorFiles() {
 	let lengthPadding = 30;
 	let comment =
 		"\n/".padEnd(lengthPadding, "*") +
 		"\n" +
 		" * ## \n" +
-		" ".padEnd(lengthPadding, "*") +
+		" ".padEnd(lengthPadding - 1, "*") +
 		"/\n";
 
 	let sass = {
@@ -35,7 +38,7 @@ function generateColorFiles() {
 	let keys = Object.keys(cfg.options.sass.colors.projects);
 	for (let i = 0; i < keys.length; i++) {
 		let key = keys[i];
-		if (key == "cookware" && cfg.isProject) continue;
+		if (key == "Cookware" && cfg.isProject) continue;
 
 		let colors = cfg.options.sass.colors.projects[key];
 		for (let c = 0; c < colors.length; c++) {

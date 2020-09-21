@@ -35,7 +35,7 @@ let log = _lib.Logger.getInstance(cfg.options.logging);
 
 function generateColorFiles() {
   let lengthPadding = 30;
-  let comment = "\n/".padEnd(lengthPadding, "*") + "\n" + " * ## \n" + " ".padEnd(lengthPadding, "*") + "/\n";
+  let comment = "\n/".padEnd(lengthPadding, "*") + "\n" + " * ## \n" + " ".padEnd(lengthPadding - 1, "*") + "/\n";
   let sass = {
     content: "",
     outFile: cfg.options.sass.colors.sass
@@ -48,7 +48,7 @@ function generateColorFiles() {
 
   for (let i = 0; i < keys.length; i++) {
     let key = keys[i];
-    if (key == "cookware" && cfg.isProject) continue;
+    if (key == "Cookware" && cfg.isProject) continue;
     let colors = cfg.options.sass.colors.projects[key];
 
     for (let c = 0; c < colors.length; c++) {

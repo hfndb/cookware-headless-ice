@@ -2,7 +2,7 @@ var colors = {};
 
 /****************************
  * Cookware headless ice 
- *****************************/
+ ****************************/
 colors["Cookware"] = {};
 colors["Cookware"]["whitesmoke"] = "#f5f5f5";
 colors["Cookware"]["grey-020"] = "#333";
