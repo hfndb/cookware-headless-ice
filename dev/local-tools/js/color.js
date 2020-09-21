@@ -271,7 +271,6 @@ function definedColors() {
 
 		var defined = colors[project];
 		var clrs = Object.keys(colors[project]);
-		console.log(defined, clrs);
 		for (c = 0; c < clrs.length; c++) {
 			var clr = clrs[c];
 			var hex = defined[clr];
