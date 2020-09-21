@@ -1,6 +1,6 @@
+@import "colors";
 @import "variables";
 /* @import "mixins"; */
-/* @import "alerts"; */
 @import "table";
 
 body {
@@ -28,10 +28,12 @@ h1 {
 
 // Report: Project overview
 .project-overview {
-	td, th {
+	td,
+	th {
 		text-align: right;
 	}
-	td:first-child, th:first-child {
+	td:first-child,
+	th:first-child {
 		text-align: left;
 	}
 	td:last-child {
@@ -50,17 +52,15 @@ h1 {
  * Screens
  ***********************************************************************/
 @media only screen {
-
 	a[href^="http:"],
 	a[href^="https:"],
 	a[href^="http:"]:visited,
-	a[href^="https:"]:visited
-	{
+	a[href^="https:"]:visited {
 		background-position: right center;
 		background-repeat: no-repeat;
 		margin: -2px 0;
 		padding: 2px 15px 2px 0;
-		background-image: url('../img/external.gif');
+		background-image: url("../img/external.gif");
 	}
 
 	// Extra large devices (large desktops, 1200px and up)
@@ -72,8 +72,6 @@ h1 {
 			width: 1084px;
 		}
 	}
-
-
 }
 
 /***********************************************************************

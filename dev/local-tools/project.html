@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Demo page for project style</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+	<link rel="stylesheet" type="text/css" href="../../dist/static/css/generic.css" />
+	<link rel="stylesheet" type="text/css" href="../../dist/static/css/project.css" />
+	<script src="./js/w3color.js"></script>
+	<script src="./js/color.js"></script>
+	<script src="./js/colors-defined.js"></script>
+	<style type="text/css">
+		i.icon {
+			display: block;
+			margin-right: 20px;
+		}
+		select[multiple] {
+			width: 100px;
+		}
+		#container {
+			margin-bottom: 60px;
+		}
+		.box {
+			border: 1px dotted grey;
+			height: 100px;
+			padding: 10px;
+			width: 600px;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="content">
+			<h1>Header 1</h1>
+			<h2>Header 2</h2>
+			<h3>Header 3</h3>
+			<h4>Header 4</h4>
+			<hr>
+			<p>
+				Paragraph <strong>Paragraph</strong> <em>Paragraph</em> <u>Paragraph</u>
+				<br>Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph
+			</p>
+			<blockquote>
+				Test
+				<p>
+					Test in p
+				</p>
+			</blockquote>
+			<ul>
+				<li>Unordered list</li>
+				<li>Unordered list</li>
+				<li>Unordered list</li>
+			</ul>
+			<ol>
+				<li>Ordered list</li>
+				<li>Ordered list</li>
+				<li>Ordered list</li>
+			</ol>
+
+			<p>
+				<strong>Table</strong>
+			</p>
+			<table class="">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Make</th>
+						<th>Model</th>
+						<th>Year</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>Honda</td>
+						<td>Accord</td>
+						<td>2009</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>Toyota</td>
+						<td>Camry</td>
+						<td>2012</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>Hyundai</td>
+						<td>Elantra</td>
+						<td>2010</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th>#</th>
+						<th>Make</th>
+						<th>Model</th>
+						<th>Year</th>
+					</tr>
+				</tfoot>
+			</table>
+
+			<p>
+				<button>Button</button>
+			</p>
+
+			<p>
+				<strong>Form</strong>
+			</p>
+			<form class="form">
+				<fieldset>
+					<legend>A stacked form legend</legend>
+					<label for="text">Text input</label>
+					<input name="text" type="text" value="" />
+
+					<label for="select">Select</label>
+					<select name="select">
+						<option value="a">a</option>
+						<option value="b">b</option>
+						<option value="c">c</option>
+						<option value="d">d</option>
+						<option value="e">e</option>
+						<option value="f" selected>f</option>
+					</select>
+
+					<label for="select-multiple" multiple=true>Select multiple</label>
+					<select multiple name="select-multiple">
+						<option value="a">a</option>
+						<option value="b">b</option>
+						<option value="c">c</option>
+						<option value="d">d</option>
+						<option value="e">e</option>
+						<option value="f" selected>f</option>
+					</select>
+
+					<label for="checkbox">Checkbox</label>
+					<input name="checkbox" type="checkbox" value="" />Unchecked
+					<input name="checkbox-2" type="checkbox" value="" checked="checked" />Checkbox checked
+
+					<label for="radio">Radio buttons</label>
+					<input name="radio" type="radio" value="a" />Radio button a
+					<input name="radio" type="radio" value="b" checked="checked" />Radio button b
+				</fieldset>
+			</form>
+			<h2>Defined colors</h2>
+			<div id="colorscontainer"></div>
+		</div>
+	</div>
+	<script>
+		definedColors();
+	</script>
+</body>
+</html>

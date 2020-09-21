@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Demo page for Bootstrap style</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+	<link rel="stylesheet" type="text/css" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+	<style type="text/css">
+		select[multiple] {
+			width: 100px;
+		}
+		#container {
+			margin-bottom: 60px;
+			margin-left: auto;
+			margin-right: auto;
+			width: 1024px;
+		}
+		.box {
+			border: 1px dotted grey;
+			height: 100px;
+			padding: 10px;
+			width: 800px;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="content">
+			<p>
+				<strong>Size:</strong> 631.2 KB
+			</p>
+			<h1>Header 1</h1>
+			<h2>Header 2</h2>
+			<h3>Header 3</h3>
+			<h4>Header 4</h4>
+			<p>
+				Paragraph <strong>Paragraph</strong> <em>Paragraph</em> <u>Paragraph</u>
+				<br>Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph Paragraph
+			</p>
+			<blockquote>
+				Test
+				<p>
+					Test in p
+				</p>
+			</blockquote>
+			<ul>
+				<li>Unordered list</li>
+				<li>Unordered list</li>
+				<li>Unordered list</li>
+			</ul>
+			<ol>
+				<li>Ordered list</li>
+				<li>Ordered list</li>
+				<li>Ordered list</li>
+			</ol>
+
+			<strong>Table</strong>, one of ... style options <br><br>
+			<table class="table table-bordered table-hover table-striped">
+				<thead class="thead-dark">
+					<tr>
+						<th>#</th>
+						<th>Make</th>
+						<th>Model</th>
+						<th>Year</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>Honda</td>
+						<td>Accord</td>
+						<td>2009</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>Toyota</td>
+						<td>Camry</td>
+						<td>2012</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>Hyundai</td>
+						<td>Elantra</td>
+						<td>2010</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<p class="box">
+				<strong>Buttons</strong><br>
+				<button type="button" class="btn btn-primary">Primary</button>
+				<button type="button" class="btn btn-secondary">Secondary</button>
+				<button type="button" class="btn btn-success">Success</button>
+				<button type="button" class="btn btn-danger">Danger</button>
+				<button type="button" class="btn btn-warning">Warning</button>
+				<button type="button" class="btn btn-info">Info</button>
+				<button type="button" class="btn btn-light">Light</button>
+				<button type="button" class="btn btn-dark">Dark</button>
+				<button type="button" class="btn btn-link">Link</button>
+			</p>
+
+			<p>
+				<strong>Alerts</strong>
+			</p>
+			<div class="alert alert-primary" role="alert">
+				This is a primary alert with a <a href="#" class="alert-link">an example link</a>
+			</div>
+			<div class="alert alert-secondary" role="alert">
+				This is a secondary alert with a <a href="#" class="alert-link">an example link</a>
+			</div>
+			<div class="alert alert-success" role="alert">
+				This is a success alert with a <a href="#" class="alert-link">an example link</a>
+			</div>
+			<div class="alert alert-danger" role="alert">
+				This is a danger alert
+			</div>
+			<div class="alert alert-warning" role="alert">
+				This is a warning alert with a <a href="#" class="alert-link">an example link</a>
+			</div>
+			<div class="alert alert-info" role="alert">
+				This is a info alert
+			</div>
+			<div class="alert alert-light" role="alert">
+				This is a light alert with a <a href="#" class="alert-link">an example link</a>
+			</div>
+			<div class="alert alert-dark" role="alert">
+				This is a dark alert with a <a href="#" class="alert-link">an example link</a>
+			</div>
+
+			<p>
+				<strong>Form</strong>
+			</p>
+			<form class="was-validated">
+				<div class="form-group">
+					<label for="exampleFormControlInput1">Email address</label>
+					<input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+					<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+				</div>
+				<div class="form-group">
+					<label for="validationServer01">First name</label>
+					<input type="text" class="form-control is-valid" id="validationServer01" placeholder="First name" value="Mark" required>
+					<div class="valid-feedback">
+						Looks good!
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="validationServer01">First name</label>
+					<input type="text" class="form-control is-invalid" id="validationServer01" placeholder="Last name" value="" required>
+					<div class="invalid-feedback">
+						Please ...
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="exampleFormControlSelect1">Example select</label>
+					<select class="form-control custom-select" id="exampleFormControlSelect1">
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="exampleFormControlSelect2">Example multiple select</label>
+					<select multiple class="custom-select" id="exampleFormControlSelect2" size="3">
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="exampleFormControlTextarea1">Example textarea</label>
+					<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+				</div>
+				<div class="custom-file">
+					<input type="file" class="custom-file-input" id="validatedCustomFile" required>
+					<label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+					<div class="invalid-feedback">Example invalid custom file feedback</div>
+				</div>
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="customCheck1">
+					<label class="custom-control-label" for="customCheck1">Custom checkbox</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" value="" id="defaultCheck2" disabled>
+					<label class="form-check-label" for="defaultCheck2">
+						Disabled checkbox
+					</label>
+				</div>
+				<div class="custom-control custom-radio custom-control-inline">
+					<input type="radio" id="exampleRadios" name="exampleRadios" class="custom-control-input">
+					<label class="custom-control-label" for="exampleRadios">Toggle this custom radio</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+					<label class="form-check-label" for="exampleRadios2">
+						Second default radio
+					</label>
+				</div>
+				<div class="form-check disabled">
+					<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" disabled>
+					<label class="form-check-label" for="exampleRadios3">
+						Disabled radio
+					</label>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

@@ -164,6 +164,38 @@ let DefaultConfig = {
 		exclude: ["api"]
 	},
 	sass: {
+		colors: {
+			sass: "_colors.scss",
+			src: "dev/local-tools/js/colors-defined.js",
+			projects: {
+				Cookware: [
+					{
+						comment: "Cookware headless ice"
+					},
+					{
+						hex: "333",
+						name: "grey-020"
+					},
+					{
+						hex: "808080",
+						name: "grey-050"
+					},
+					{
+						hex: "909090",
+						name: "grey-056"
+					},
+					{
+						hex: "08c",
+						name: "blue-040"
+					},
+					{
+						comment: "Background color for the code element",
+						hex: "eef",
+						name: "bg-code"
+					}
+				]
+			}
+		},
 		dirs: {
 			source: "sass",
 			output: "dist/static/css"

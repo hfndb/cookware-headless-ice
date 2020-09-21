@@ -375,16 +375,55 @@ Switches parts of the project overview on or off
 ```
 {
 	"sass": {
+		"colors": {
+			"sass": "_colors.scss",
+			"src": "dev/local-tools/js/colors.js",
+			"projects": {
+				"cookware": [
+					"_comment": {
+						"comment": "Cookware headless ice"
+					}
+					"color-body": {
+						"hex": "333",
+						"comment": "Font color for all body text"
+					},
+					"bg-code": {
+						"hex": "eef",
+						"comment": "Background color for the code element"
+					},
+					"grey-020": {
+						"hex": "333"
+					},
+					"grey-056": {
+						"hex": "909090"
+					},
+					"red-040": {
+						"hex": "08c"
+					}
+				]
+			}
+		},
 		"dirs": {
 			"source": "sass",
 			"output": "dist/static/css"
+		},
+		"removeObsolete": {
+			"active": true,
+			"exclude": []
 		}
 	}
 }
 ```
 Entries:
++ *colors": Central place to definie all defined colors in a project. This config will automatically be written to a JavaScript or TypeScript file and a sass inlcude.
++ *colors / sass": Output file in sass source dir with all defined colors
++ *colors / src": Output file in sass JavaScript source dir with all defined colors, relative to project directory
++ *colors / projects": Defined colors per project
++ *colors / projects / * / _comment: Required per project
++ *colors / projects / * / "color name" / hex: Hexadecimal color value without preceeding #
 + *dirs / source*: Location of your Sass files.
 + *dirs / output*: Where to put your CSS files.
++ *removeObsolete*: See as HTML.
 
 
 ## Server

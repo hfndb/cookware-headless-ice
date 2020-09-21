@@ -1,3 +1,4 @@
+@import "colors";
 @import "variables";
 @import "mixins";
 @import "reset";
@@ -7,7 +8,7 @@
  ***********************************************************************/
 body {
 	box-sizing: border-box; // box won't grow as a result of padding. Default behavior is content-box
-	color: #333;
+	color: $grey-020;
 	counter-reset: h1-counter;
 	font-family: Arial, serif;
 	font-size: 13pt;
@@ -15,17 +16,17 @@ body {
 }
 
 blockquote {
-	background-image: url('../img/quote.png');
+	background-image: url("../img/quote.png");
 	background-position: left top;
 	background-repeat: no-repeat;
 	border: 0;
-	color: rgb(144, 144, 144);
+	color: $grey-056;
 	margin-left: 0;
 	min-height: 25px;
 	padding-left: 40px;
 
 	p {
-		color: rgb(128, 128, 128);
+		color: $grey-050;
 		margin-bottom: 15px;
 	}
 
@@ -34,9 +35,8 @@ blockquote {
 	}
 }
 
-
 code {
-	background-color: #eef;
+	background-color: $bg-code;
 	border-radius: 6px;
 	display: block;
 	font-family: monospace, Courier, "Courier New";
@@ -194,13 +194,13 @@ table {
 		li,
 		ul,
 		ol {
-			color: #909090;
+			color: $grey-056;
 			font-size: inherit;
 			font-style: italic;
 		}
 
 		small {
-			color: #909090;
+			color: $grey-056;
 			display: block;
 			margin-top: -10px;
 		}

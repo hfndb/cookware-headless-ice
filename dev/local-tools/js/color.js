@@ -229,7 +229,7 @@ function namedsColors() {
 	var colorHex = arr.getColorArr("hexs");
 	var colorNames = arr.getColorArr("names");
 
-	a = "<table style='width:100%;white-space: nowrap;font-size:14px;'>";
+	var a = "<table style='width:100%;white-space: nowrap;font-size:14px;'>";
 	a += "<tr>";
 	a += "<th style='text-align:right;'>Color</th>";
 	a += "<th style='text-align:right;'>Hex</th>";
@@ -250,4 +250,42 @@ function namedsColors() {
 	a += "</table>";
 
 	document.getElementById("namescontainer").innerHTML = a;
+}
+
+// Added, table of colors defined in project
+function definedColors() {
+	var projects = Object.keys(colors);
+
+	var a = "";
+	for (i = 0; i < projects.length; i++) {
+		var project = projects[i];
+		a += "<table style='width:100%;white-space: nowrap;font-size:14px;'>";
+		a += "<caption>" + project + "</caption>";
+		a += "<tr>";
+		a += "<th style='text-align:center;'>Color</th>";
+		a += "<th style='text-align:left; padding-left: 10px;'>Variable in sass</th>";
+		a += "<th style='text-align:right;'>Hex</th>";
+		a += "<th style='text-align:right;'>Rgb</th>";
+		a += "<th style='text-align:right;'>Hsl</th>";
+		a += "</tr>";
+
+		var defined = colors[project];
+		var clrs = Object.keys(colors[project]);
+		console.log(defined, clrs);
+		for (c = 0; c < clrs.length; c++) {
+			var clr = clrs[c];
+			var hex = defined[clr];
+			var obj = w3color(hex);
+			a += "<tr>";
+			a += "<td style='text-align:left; background-color: " + hex + " ;'>&nbsp;</td>";
+			a += "<td style='text-align:left; padding-left: 10px;'>$" + clr + "</td>";
+			a += "<td style='text-align:right;'>" + hex + "</td>";
+			a += "<td style='text-align:right;'>" + obj.toRgbString() + "</td>";
+			a += "<td style='text-align:right;'>" + obj.toHslString() + "</td>";
+			a += "</tr>";
+		}
+
+		a += "</table>";
+	}
+	document.getElementById("colorscontainer").innerHTML = a;
 }

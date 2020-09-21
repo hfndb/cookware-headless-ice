@@ -7,6 +7,8 @@ exports.generateWeb = generateWeb;
 exports.backupChangedSource = backupChangedSource;
 exports.searchProject = searchProject;
 
+require("source-map-support/register");
+
 var _path = require("path");
 
 var _os = require("os");
@@ -31,14 +33,66 @@ let cfg = _lib.AppConfig.getInstance();
 
 let log = _lib.Logger.getInstance(cfg.options.logging);
 
+function generateColorFiles() {
+  let lengthPadding = 30;
+  let comment = "\n/".padEnd(lengthPadding, "*") + "\n" + " * ## \n" + " ".padEnd(lengthPadding, "*") + "/\n";
+  let sass = {
+    content: "",
+    outFile: cfg.options.sass.colors.sass
+  };
+  let src = {
+    content: "var colors = {};\n",
+    outFile: cfg.options.sass.colors.src
+  };
+  let keys = Object.keys(cfg.options.sass.colors.projects);
+
+  for (let i = 0; i < keys.length; i++) {
+    let key = keys[i];
+    if (key == "cookware" && cfg.isProject) continue;
+    let colors = cfg.options.sass.colors.projects[key];
+
+    for (let c = 0; c < colors.length; c++) {
+      if (c == 0) {
+        sass.content += comment.replace("##", colors[c].comment);
+        src.content += comment.replace("##", colors[c].comment);
+        src.content += `colors["${key}"] = {};\n`;
+        continue;
+      }
+
+      let cmt = colors[c].comment ? " // " + colors[c].comment : "";
+      sass.content += `$${colors[c].name}: #${colors[c].hex};${cmt}\n`;
+      src.content += `colors["${key}"]["${colors[c].name}"] = "#${colors[c].hex}";${cmt}\n`;
+    }
+  }
+
+  let fullPath = (0, _path.join)(cfg.dirProject, cfg.options.sass.dirs.source, sass.outFile);
+  let needsWrite = !(0, _shelljs.test)("-f", fullPath);
+
+  if (!needsWrite) {
+    needsWrite = _lib.FileUtils.readFile(fullPath) != sass.content;
+  }
+
+  if (needsWrite) {
+    _lib.FileUtils.writeFile(cfg.dirProject, (0, _path.join)(cfg.options.sass.dirs.source, sass.outFile), sass.content, true);
+  }
+
+  fullPath = (0, _path.join)(cfg.dirProject, src.outFile);
+  needsWrite = !(0, _shelljs.test)("-f", fullPath);
+
+  if (!needsWrite) {
+    needsWrite = _lib.FileUtils.readFile(fullPath) != src.content;
+  }
+
+  if (needsWrite) {
+    _lib.FileUtils.writeFile(cfg.dirProject, src.outFile, src.content, true);
+  }
+}
+
 function generateWeb(verbose) {
-  let cfg = _lib.AppConfig.getInstance();
-
-  let log = _lib.Logger.getInstance();
-
   let session = _session.SessionVars.getInstance();
 
   (0, _babel.compile)(verbose);
+  generateColorFiles();
 
   _styling.SassUtils.compile(verbose);
 
@@ -58,10 +112,6 @@ function generateWeb(verbose) {
 }
 
 function backupChangedSource(isFirst = false) {
-  let cfg = _lib.AppConfig.getInstance();
-
-  let log = _lib.Logger.getInstance();
-
   const frmtr = _utils.Formatter.getInstance();
 
   let name = isFirst ? "first" : "changes";
@@ -93,8 +143,6 @@ function backupChangedSource(isFirst = false) {
 }
 
 function searchProject(searchFor, html) {
-  let cfg = _lib.AppConfig.getInstance();
-
   let retVal = {
     dirs: []
   };
@@ -147,3 +195,4 @@ function searchProject(searchFor, html) {
 
   return retVal;
 }
+//# sourceMappingURL=misc.js.map

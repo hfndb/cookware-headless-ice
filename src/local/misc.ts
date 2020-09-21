@@ -14,6 +14,77 @@ import { ProcessingTypes, SessionVars } from "../sys/session";
 let cfg = AppConfig.getInstance();
 let log = Logger.getInstance(cfg.options.logging);
 
+function generateColorFiles() {
+	let lengthPadding = 30;
+	let comment =
+		"\n/".padEnd(lengthPadding, "*") +
+		"\n" +
+		" * ## \n" +
+		" ".padEnd(lengthPadding, "*") +
+		"/\n";
+
+	let sass = {
+		content: "",
+		outFile: cfg.options.sass.colors.sass
+	};
+	let src = {
+		content: "var colors = {};\n",
+		outFile: cfg.options.sass.colors.src
+	};
+
+	let keys = Object.keys(cfg.options.sass.colors.projects);
+	for (let i = 0; i < keys.length; i++) {
+		let key = keys[i];
+		if (key == "cookware" && cfg.isProject) continue;
+
+		let colors = cfg.options.sass.colors.projects[key];
+		for (let c = 0; c < colors.length; c++) {
+			if (c == 0) {
+				// Project header
+				sass.content += comment.replace("##", colors[c].comment);
+				src.content += comment.replace("##", colors[c].comment);
+				src.content += `colors["${key}"] = {};\n`;
+				continue;
+			}
+
+			// Color
+			let cmt = colors[c].comment ? " // " + colors[c].comment : "";
+			sass.content += `$${colors[c].name}: #${colors[c].hex};${cmt}\n`;
+			src.content += `colors["${key}"]["${colors[c].name}"] = "#${
+				colors[c].hex
+			}";${cmt}\n`;
+		}
+	}
+
+	// See if files need to be written, if so do do
+	let fullPath = join(
+		cfg.dirProject,
+		cfg.options.sass.dirs.source,
+		sass.outFile
+	);
+	let needsWrite = !test("-f", fullPath);
+	if (!needsWrite) {
+		needsWrite = FileUtils.readFile(fullPath) != sass.content;
+	}
+	if (needsWrite) {
+		FileUtils.writeFile(
+			cfg.dirProject,
+			join(cfg.options.sass.dirs.source, sass.outFile),
+			sass.content,
+			true
+		);
+	}
+
+	fullPath = join(cfg.dirProject, src.outFile);
+	needsWrite = !test("-f", fullPath);
+	if (!needsWrite) {
+		needsWrite = FileUtils.readFile(fullPath) != src.content;
+	}
+	if (needsWrite) {
+		FileUtils.writeFile(cfg.dirProject, src.outFile, src.content, true);
+	}
+}
+
 /**
  * Create local website:
  * - Transcompile changed Scss, Flow and TypeScript
@@ -22,11 +93,10 @@ let log = Logger.getInstance(cfg.options.logging);
  *
  */
 export function generateWeb(verbose: boolean): void {
-	let cfg = AppConfig.getInstance();
-	let log = Logger.getInstance();
 	let session = SessionVars.getInstance();
 
 	compileJs(verbose);
+	generateColorFiles();
 	SassUtils.compile(verbose);
 
 	let dir = join(cfg.dirProject, cfg.options.html.dirs.content);
@@ -52,8 +122,6 @@ export function generateWeb(verbose: boolean): void {
  * @param isFirst First file gets another file name
  */
 export function backupChangedSource(isFirst: boolean = false): void {
-	let cfg = AppConfig.getInstance();
-	let log = Logger.getInstance();
 	const frmtr = Formatter.getInstance();
 	let name = isFirst ? "first" : "changes";
 	let prefix = frmtr.date(new Date(), "YYYYMMDD-HHmm");
@@ -115,7 +183,6 @@ interface searchFinal {
  * @returns nested object with found entries
  */
 export function searchProject(searchFor: string, html: boolean): object {
-	let cfg = AppConfig.getInstance();
 	let retVal: searchFinal = { dirs: [] };
 	const dirs = [
 		cfg.options.javascript.dirs.source,
