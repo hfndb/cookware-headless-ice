@@ -173,6 +173,10 @@ let DefaultConfig = {
 						comment: "Cookware headless ice"
 					},
 					{
+						hex: "f5f5f5",
+						name: "whitesmoke"
+					},
+					{
 						hex: "333",
 						name: "grey-020"
 					},
