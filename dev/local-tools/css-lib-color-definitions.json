@@ -1,0 +1,275 @@
+{
+	"sass": {
+		"colors": {
+			"projects": {
+				"Bootstrap CSS": [
+					{
+						"comment": "Bootstrap CSS"
+					},
+					{
+						"hex": "f8f9fa",
+						"name": "bootstrap-gray-1000"
+					},
+					{
+						"hex": "e9ecef",
+						"name": "bootstrap-gray-200"
+					},
+					{
+						"hex": "dee2e6",
+						"name": "bootstrap-gray-300"
+					},
+					{
+						"hex": "ced4da",
+						"name": "bootstrap-gray-400"
+					},
+					{
+						"hex": "adb5bd",
+						"name": "bootstrap-gray-500"
+					},
+					{
+						"hex": "6c757d",
+						"name": "bootstrap-gray-600"
+					},
+					{
+						"hex": "495057",
+						"name": "bootstrap-gray-700"
+					},
+					{
+						"hex": "343a40",
+						"name": "bootstrap-gray-800"
+					},
+					{
+						"hex": "212529",
+						"name": "bootstrap-gray-900"
+					},
+					{
+						"hex": "007bff",
+						"name": "bootstrap-blue"
+					},
+					{
+						"hex": "dc3545",
+						"name": "bootstrap-red"
+					},
+					{
+						"hex": "28a745",
+						"name": "bootstrap-green"
+					},
+					{
+						"hex": "fd7e14",
+						"name": "bootstrap-orange"
+					},
+					{
+						"hex": "ffc107",
+						"name": "bootstrap-yellow"
+					},
+					{
+						"hex": "6610f2",
+						"name": "bootstrap-indigo"
+					},
+					{
+						"hex": "6f42c1",
+						"name": "bootstrap-purple"
+					},
+					{
+						"hex": "e83e8c",
+						"name": "bootstrap-pink"
+					},
+					{
+						"hex": "20c997",
+						"name": "bootstrap-teal",
+						"comment": "groenblauw"
+					},
+					{
+						"hex": "17a2b8",
+						"name": "bootstrap-cyan"
+					}
+				],
+				"Bulma CSS": [
+					{
+						"comment": "Bulma CSS"
+					},
+					{
+						"hex": "0a0a0a",
+						"name": "bulma-black"
+					},
+					{
+						"hex": "121212",
+						"name": "bulma-black-bis"
+					},
+					{
+						"hex": "242424",
+						"name": "bulma-black-ter"
+					},
+					{
+						"hex": "363636",
+						"name": "bulma-grey-darker"
+					},
+					{
+						"hex": "4a4a4a",
+						"name": "bulma-grey-dark"
+					},
+					{
+						"hex": "7a7a7a",
+						"name": "bulma-grey"
+					},
+					{
+						"hex": "b5b5b5",
+						"name": "bulma-grey-light"
+					},
+					{
+						"hex": "dbdbdb",
+						"name": "bulma-grey-lighter"
+					},
+					{
+						"hex": "ededed",
+						"name": "bulma-grey-lightest"
+					},
+					{
+						"hex": "f5f5f5",
+						"name": "bulma-white-ter"
+					},
+					{
+						"hex": "fafafa",
+						"name": "bulma-white-bis"
+					},
+					{
+						"hex": "ff470f",
+						"name": "bulma-orange"
+					},
+					{
+						"hex": "ffdd57",
+						"name": "bulma-yellow"
+					},
+					{
+						"hex": "48c774",
+						"name": "bulma-green"
+					},
+					{
+						"hex": "00d1b2",
+						"name": "bulma-turquoise"
+					},
+					{
+						"hex": "3298dc",
+						"name": "bulma-cyan"
+					},
+					{
+						"hex": "3273dc",
+						"name": "bulma-blue"
+					},
+					{
+						"hex": "b86bff",
+						"name": "bulma-purple"
+					},
+					{
+						"hex": "f14668",
+						"name": "bulma-red"
+					}
+				],
+				"Pure CSS": [
+					{
+						"comment": "Pure CSS"
+					},
+					{
+						"hex": "1f8dd6",
+						"name": "pure-blue",
+						"comment": "base"
+					},
+					{
+						"hex": "8058a5",
+						"name": "pure-purple",
+						"comment": "Grids"
+					},
+					{
+						"hex": "5eb95e",
+						"name": "pure-green",
+						"comment": "Forms"
+					},
+					{
+						"hex": "dd514c",
+						"name": "pure-red",
+						"comment": "Buttons"
+					},
+					{
+						"hex": "f37b1d",
+						"name": "pure-orange",
+						"comment": "Tables"
+					},
+					{
+						"hex": "fad232",
+						"name": "pure-yellow",
+						"comment": "Menus"
+					}
+				],
+				"Picnic CSS": [
+					{
+						"comment": "Other"
+					},
+					{
+						"hex": "7fdbff",
+						"name": "picnic-aqua",
+						"comment": "Section cool from here"
+					},
+					{
+						"hex": "0074d9",
+						"name": "picnic-blue"
+					},
+					{
+						"hex": "001f3f",
+						"name": "picnic-navy"
+					},
+					{
+						"hex": "39cccc",
+						"name": "picnic-teal"
+					},
+					{
+						"hex": "2ecc40",
+						"name": "picnic-green"
+					},
+					{
+						"hex": "3d9970",
+						"name": "picnic-olive"
+					},
+					{
+						"hex": "01ff70",
+						"name": "picnic-lime"
+					},
+					{
+						"hex": "ffdc00",
+						"name": "picnic-yellow",
+						"comment": "Section warm from here"
+					},
+					{
+						"hex": "ff851b",
+						"name": "picnic-orange"
+					},
+					{
+						"hex": "ff4136",
+						"name": "picnic-red"
+					},
+					{
+						"hex": "f012be",
+						"name": "picnic-fuchsia"
+					},
+					{
+						"hex": "b10dc9",
+						"name": "picnic-purple"
+					},
+					{
+						"hex": "85144b",
+						"name": "picnic-maroon"
+					},
+					{
+						"hex": "ddd",
+						"name": "picnic-silver",
+						"comment": "Section gray scale from here"
+					},
+					{
+						"hex": "aaa",
+						"name": "picnic-gray",
+						"comment": "Section gray scale from here"
+					}
+				]
+			}
+		}
+	}
+}

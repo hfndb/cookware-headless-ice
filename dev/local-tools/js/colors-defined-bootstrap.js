@@ -1,0 +1,22 @@
+var colors = {};
+
+colors["Bootstrap CSS"] = {};
+colors["Bootstrap CSS"]["gray-1000"] = "#f8f9fa";
+colors["Bootstrap CSS"]["gray-200"] = "#e9ecef";
+colors["Bootstrap CSS"]["gray-300"] = "#dee2e6";
+colors["Bootstrap CSS"]["gray-400"] = "#ced4da";
+colors["Bootstrap CSS"]["gray-500"] = "#adb5bd";
+colors["Bootstrap CSS"]["gray-600"] = "#6c757d";
+colors["Bootstrap CSS"]["gray-700"] = "#495057";
+colors["Bootstrap CSS"]["gray-800"] = "#343a40";
+colors["Bootstrap CSS"]["gray-900"] = "#212529";
+colors["Bootstrap CSS"]["blue"] = "#007bff";
+colors["Bootstrap CSS"]["red"] = "#dc3545";
+colors["Bootstrap CSS"]["green"] = "#28a745";
+colors["Bootstrap CSS"]["orange"] = "#fd7e14";
+colors["Bootstrap CSS"]["yellow"] = "#ffc107";
+colors["Bootstrap CSS"]["indigo"] = "#6610f2";
+colors["Bootstrap CSS"]["purple"] = "#6f42c1";
+colors["Bootstrap CSS"]["pink"] = "#e83e8c";
+colors["Bootstrap CSS"]["teal"] = "#20c997"; // groenblauw
+colors["Bootstrap CSS"]["cyan"] = "#17a2b8";

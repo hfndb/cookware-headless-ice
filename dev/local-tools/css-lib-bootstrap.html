@@ -5,6 +5,9 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
 	<link rel="stylesheet" type="text/css" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+	<script src="./js/w3color.js"></script>
+	<script src="./js/color.js"></script>
+	<script src="./js/colors-defined-bootstrap.js"></script>
 	<style type="text/css">
 		select[multiple] {
 			width: 100px;
@@ -211,7 +214,13 @@
 					</label>
 				</div>
 			</form>
+			<hr>
+			<h2>Defined colors</h2>
+			<div id="colorscontainer"></div>
 		</div>
 	</div>
+	<script>
+		definedColors();
+	</script>
 </body>
 </html>
