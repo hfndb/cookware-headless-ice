@@ -97,7 +97,7 @@ export class SassUtils {
 			if (isMixin) {
 				maxMixin = Math.max(maxMixin, entry.lastModified);
 			} else {
-				maxSass = Math.max(maxSass, entry.lastModified);
+				maxSass = Math.max(maxSass, entry.targetLastModified);
 			}
 
 			if (!isMixin && entry.isNewOrModified()) {

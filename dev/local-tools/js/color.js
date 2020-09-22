@@ -16,7 +16,7 @@ function convertColor() {
 
 		// Added: Calculate inverse color
 		var hsl = c.toHsl();
-		var inverted = "hsl(" + parseInt(Math.abs(360 - hsl.h)) + ", " + (hsl.s * 100) + "%, " + (hsl.l * 100) + "%)";
+		var inverted = "hsl(" + parseInt(Math.abs(360 - hsl.h)) + ", " + (Math.round(hsl.s) * 100) + "%, " + (Math.round(hsl.l) * 100) + "%)";
 		document.getElementById("result01").style.color = inverted;
 		document.getElementById("result01").innerHTML = "Inverted (opposite) color:<br>" + inverted;
 

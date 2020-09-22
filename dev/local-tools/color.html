@@ -46,6 +46,11 @@
 			border:1px solid #d3d3d3;
 			padding-left:4px;
 		}
+		@media only print {
+			#container {
+				padding: 0 5%;
+			}
+		}
 	</style>
 </head>
 <body>
@@ -95,25 +100,6 @@
 		</script>
 		<h3>Named colors</h3>
 		<div id="namescontainer" onclick="namedsColors()"><button>Show</button></div>
-		<h3>Color theory</h3>
-		<p>
-			- Light colors (shine): First color circle by Sir Isaac Newton (1666): RGB (<strong>primary colors</strong> red, green, blue), an <a href="https://en.wikipedia.org/wiki/Additive_color">additive color model</a>.<br>
-			- Print colors (cover) by Moses Harris (1766): RYB (primary colors red, yellow, blue as pigment of paint). Now CMY or <a href="https://en.wikipedia.org/wiki/CMYK_color_model">CMYK</a>, a <a href="https://en.wikipedia.org/wiki/Subtractive_color">subtractive color model</a>.
-		</p>
-		<p>
-			<strong>Secondary colors</strong> are 2 mixed primary colors.<br>
-			<strong>Tertiary colors</strong> are derived from one primary and one secondary color.<br>
-			<strong>Inverse colors</strong> come from the diametrically opposite position in the color wheel. See <a href="https://en.wikipedia.org/wiki/Opponent_process">opponent color</a>. In CSS:
-			<pre>
-			<code>.class-name {
-	filter: invert(100%);
-}</code>
-			</pre>
-		</p>
-		<p>
-			<a href="https://en.wikipedia.org/wiki/HSL_and_HSV">HLS and HSV colors</a> are alternative representations of the <a href="https://en.wikipedia.org/wiki/RGB_color_model">RGB color model</a>. The HSL model attempts to resemble more perceptual color models such as the <a href="https://en.wikipedia.org/wiki/Natural_Color_System">Natural Color System</a> (NCS) or <a href="https://en.wikipedia.org/wiki/Munsell_color_system">Munsell color system</a>.<br>
-			<a href="https://en.wikipedia.org/wiki/HSL_and_HSV">HLS</a> is often used to create <a href="https://en.wikipedia.org/wiki/Pastel_(color)">pastel colors</a> (high value, low saturation)
-		</p>
 	</div>
 </body>
 </html>

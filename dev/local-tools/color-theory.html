@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Color theory</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+	<link rel="stylesheet" type="text/css" href="../../dist/static/css/generic.css" />
+	<style type="text/css">
+		h2 {
+			margin: 6px 0 0 0;
+		}
+		#container {
+			margin-bottom: 60px;
+		}
+		@media only print {
+			#container {
+				padding: 0 5%;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="content">
+		<h1 class="center">Color theory</h1>
+		<p>
+			Working with colors is actually a kind of <a href="https://en.wikipedia.org/wiki/Witchcraft">witchcraft</a>, pardon me, 'which craft' epressed using hex codes or calling names into a structure, known as using <a href="https://en.wikipedia.org/wiki/Named_color">named colors</a>.
+		</p>
+		<p>
+			A hex code is a <a href="https://en.wikipedia.org/wiki/Hexadecimal">hexadecimal number</a>, consisting of a tag (#, compare with <a href="https://en.wikipedia.org/wiki/Tag_(game)">tagging</a>), followed by 3 pairs of characters, representing the intensity of red, green and blue in the color respectively: #&lt;rr&gt;&lt;gg&gt;&lt;bb&gt;.
+		</p>
+		<p>
+			To illustrate: Black would be written as #000000 or #000 (shorthand) and white as #fff or #ffffff (shorthand).
+		</p>
+		<h2>Hardening and softening</h2>
+		<p>
+			<a href="https://en.wikipedia.org/wiki/HSL_and_HSV">HLS and HSV colors</a> are alternative representations of the <a href="https://en.wikipedia.org/wiki/RGB_color_model">RGB color model</a>. The HSL model attempts to resemble more perceptual color models such as the <a href="https://en.wikipedia.org/wiki/Natural_Color_System">Natural Color System</a> (NCS) or <a href="https://en.wikipedia.org/wiki/Munsell_color_system">Munsell color system</a>.
+		</p>
+		<p>
+			The HLS colors approach is often used to create <a href="https://en.wikipedia.org/wiki/Pastel_(color)">pastel colors</a> (gentle colors with high value but lower saturation - usually around 50% - than 'hard' colors). Compare color saturation with efforts during communicating, to 'saturate' a message into others. Too little or too much could generate planned or unexpected 'special effects'.
+		</p>
+		<h2>Originals and derivates</h2>
+		<ul>
+			<li>
+				<p>
+					<strong>Primary colors</strong> are like primary specialisms for specific purposes.
+				<p>
+			</li>
+			<li>
+				<p>
+					<strong>Secondary colors</strong> are 2 mixed primary colors.
+				</p>
+			</li>
+			<li>
+				<p>
+					<strong>Tertiary colors</strong> are derived from one primary and one secondary color.
+				</p>
+			</li>
+			<li>
+				<p>
+					<strong>Inverse colors</strong> come from the diametrically opposite position in the color wheel. See <a href="https://en.wikipedia.org/wiki/Opponent_process">opponent color</a>. In CSS:
+				<p>
+				<pre>
+					<code>.class-name {
+	filter: invert(100%);
+}</code>
+				</pre>
+			</li>
+		</ul>
+		<h2>Purpose</h2>
+		<ul>
+			<li>
+				<p>
+					<strong>Pigment colors</strong> are often viewed like <a href="https://en.wikipedia.org/wiki/Human_skin_color">pigment</a> of your skin. Such color is inside and could (appear to) <a href="https://en.wikipedia.org/wiki/Coming_out">come out</a>. Though the color of skin depends on more than just pigment.
+				</p>
+			</li>
+			<li>
+				<p>
+					<strong>Light colors</strong> are supposed to <strong>shine</strong>: First color circle by <a href="https://en.wikipedia.org/wiki/Isaac_Newton">Sir Isaac Newton</a> (1666): RGB (<strong>primary colors</strong> red, green, blue), an <a href="https://en.wikipedia.org/wiki/Additive_color">additive color model</a> using a <a href="https://en.wikipedia.org/wiki/Color_wheel">color wheel</a>. A kind of <a href="https://en.wikipedia.org/wiki/Rota_Fortunae">Wheel of Fortune</a> for 'which craft' to determine the fate of a color palette and the nature of impressions for audience.
+				</p>
+			</li>
+			<li>
+				<p>
+					<strong>Print colors</strong> are supposed to <strong>cover</strong> (the original color). 'Invented' by <a href="https://en.wikipedia.org/wiki/Moses_Harris">Moses Harris</a> (1766): RYB (primary colors red, yellow, blue as <strong>paint in pigment</strong>). Pigment covering, replacing pigment? Known as CMY or <a href="https://en.wikipedia.org/wiki/CMYK_color_model">CMYK</a>, a <a href="https://en.wikipedia.org/wiki/Subtractive_color">subtractive color model</a>.
+				</p>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SassUtils = void 0;
 
+require("source-map-support/register");
+
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -92,7 +94,7 @@ class SassUtils {
       if (isMixin) {
         maxMixin = Math.max(maxMixin, entry.lastModified);
       } else {
-        maxSass = Math.max(maxSass, entry.lastModified);
+        maxSass = Math.max(maxSass, entry.targetLastModified);
       }
 
       if (!isMixin && entry.isNewOrModified()) {
@@ -191,3 +193,4 @@ class SassUtils {
 }
 
 exports.SassUtils = SassUtils;
+//# sourceMappingURL=styling.js.map
