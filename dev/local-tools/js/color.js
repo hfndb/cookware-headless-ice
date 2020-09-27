@@ -289,7 +289,7 @@ function definedColors() {
 	document.getElementById("colorscontainer").innerHTML = a;
 }
 
-function switchTheme(defaultTheme, ctrl) {
-	var newTheme = ctrl.value == defaultTheme ? defaultTheme : defaultTheme + " " + ctrl.value;
-	document.body.classList = newTheme;
+function changeMyLook(normalLook, ctrl) {
+	var newLook = ctrl.value == normalLook ? normalLook : normalLook + " " + ctrl.value;
+	document.body.classList = newLook;
 }

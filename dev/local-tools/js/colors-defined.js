@@ -15,4 +15,8 @@ colors["Cookware"]["grey-056"] = "#909090";
 colors["Cookware"]["blue-040"] = "#08c";
 colors["Cookware"]["bg-code"] = "#eef"; // Background color for the code element
 
+/****************************
+ * Defined looks of project UI 
+ ****************************/
+
 var looks = [];
