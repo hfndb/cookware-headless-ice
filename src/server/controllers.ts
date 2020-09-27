@@ -150,6 +150,8 @@ async function controllerGeneric(
 	switch (ext) {
 		case ".md":
 			let md = renderMarkdownFile(contentDir, url);
+			contentDir = join(cfg.dirMain, "content");
+			useProjectTemplates = false;
 
 			additionalContext = Object.assign(additionalContext, {
 				extractedTitle: md[1],

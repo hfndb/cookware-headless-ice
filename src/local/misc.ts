@@ -27,11 +27,11 @@ function generateColorFiles() {
 		"/\n";
 
 	let sass = {
-		content: "",
+		content: comment.replace("##", "Auto-generated file"),
 		outFile: cfg.options.sass.colors.sass
 	};
 	let src = {
-		content: "var colors = {};\n",
+		content: comment.replace("##", "Auto-generated file") + "var colors = {};\n",
 		outFile: cfg.options.sass.colors.src
 	};
 
@@ -58,6 +58,13 @@ function generateColorFiles() {
 			}";${cmt}\n`;
 		}
 	}
+
+	// Add looks
+	src.content +=
+		comment.replace("##", "Defined looks of project UI") +
+		"\nvar looks = " +
+		JSON.stringify(cfg.options.sass.looks, null, "\t") +
+		";\n";
 
 	// See if files need to be written, if so do do
 	let fullPath = join(

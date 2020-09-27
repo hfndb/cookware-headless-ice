@@ -7,6 +7,8 @@ exports.controllerSys = controllerSys;
 exports.controllerContent = controllerContent;
 exports.controllerStatic = controllerStatic;
 
+require("source-map-support/register");
+
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -150,6 +152,8 @@ async function controllerGeneric(req, res, next, contentDir, useProjectTemplates
   switch (ext) {
     case ".md":
       let md = (0, _markdown.renderMarkdownFile)(contentDir, url);
+      contentDir = (0, _path.join)(cfg.dirMain, "content");
+      useProjectTemplates = false;
       additionalContext = Object.assign(additionalContext, {
         extractedTitle: md[1],
         rendered: md[0]
@@ -215,3 +219,4 @@ async function controllerGeneric(req, res, next, contentDir, useProjectTemplates
 
   next();
 }
+//# sourceMappingURL=controllers.js.map

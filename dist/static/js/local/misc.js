@@ -37,11 +37,11 @@ function generateColorFiles() {
   let lengthPadding = 30;
   let comment = "\n/".padEnd(lengthPadding, "*") + "\n" + " * ## \n" + " ".padEnd(lengthPadding - 1, "*") + "/\n";
   let sass = {
-    content: "",
+    content: comment.replace("##", "Auto-generated file"),
     outFile: cfg.options.sass.colors.sass
   };
   let src = {
-    content: "var colors = {};\n",
+    content: comment.replace("##", "Auto-generated file") + "var colors = {};\n",
     outFile: cfg.options.sass.colors.src
   };
   let keys = Object.keys(cfg.options.sass.colors.projects);
@@ -65,6 +65,7 @@ function generateColorFiles() {
     }
   }
 
+  src.content += comment.replace("##", "Defined looks of project UI") + "\nvar looks = " + JSON.stringify(cfg.options.sass.looks, null, "\t") + ";\n";
   let fullPath = (0, _path.join)(cfg.dirProject, cfg.options.sass.dirs.source, sass.outFile);
   let needsWrite = !(0, _shelljs.test)("-f", fullPath);
 

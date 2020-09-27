@@ -205,6 +205,7 @@ let DefaultConfig = {
       source: "sass",
       output: "dist/static/css"
     },
+    looks: [],
     removeObsolete: {
       active: true,
       exclude: []

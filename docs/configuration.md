@@ -407,6 +407,9 @@ Switches parts of the project overview on or off
 			"source": "sass",
 			"output": "dist/static/css"
 		},
+		"looks": [
+			["casual", "Casual"]
+		],
 		"removeObsolete": {
 			"active": true,
 			"exclude": []
@@ -421,6 +424,7 @@ Entries:
 + *colors / projects": Defined colors per project
 + *colors / projects / * / _comment: Required per project
 + *colors / projects / * / "color name" / hex: Hexadecimal color value without preceeding #
++ *looks*: Defined looks of project UI, included here for demonstration purposes. "My look" would be called 'theming' by most others. The first element is a <body> class, the second the description in a user preferences dialog.
 + *dirs / source*: Location of your Sass files.
 + *dirs / output*: Where to put your CSS files.
 + *removeObsolete*: See as HTML.
