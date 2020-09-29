@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ExpressUtils = void 0;
 
+require("source-map-support/register");
+
 var _config = require("../lib/config");
 
 var _log = require("./log");
@@ -198,8 +200,37 @@ class ExpressUtils {
     next();
   }
 
+  static getCookie(req) {
+    let cookie = {};
+    if (!req.headers || !req.headers.cookie) return cookie;
+
+    function decode(s) {
+      return s.replace(/(%[0-9A-Z]{2})+/g, decodeURIComponent);
+    }
+
+    let entries = req.headers.cookie.split("; ");
+
+    for (let i = 0; i < entries.length; i++) {
+      let parts = entries[i].split("=");
+      let entry = parts.slice(1).join("=");
+
+      if (entry.charAt(0) === '"') {
+        entry = entry.slice(1, -1);
+      }
+
+      try {
+        let name = decode(parts[0]);
+        entry = decode(entry);
+        cookie[name] = entry;
+      } catch (e) {}
+    }
+
+    return cookie;
+  }
+
 }
 
 exports.ExpressUtils = ExpressUtils;
 
 _defineProperty(ExpressUtils, "instance", null);
+//# sourceMappingURL=express.js.map

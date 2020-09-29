@@ -3,6 +3,7 @@ import { AppConfig } from "../lib/config";
 import { Logger } from "./log";
 const bodyParser = require("body-parser");
 const express = require("express");
+//var cookieParser = require("cookie-parser"); // Somehow blocks incoming requests
 var session = require("express-session");
 var MemoryStore = require("memorystore")(session);
 
@@ -73,6 +74,11 @@ export class ExpressUtils {
 		// Logging
 		// -------------------------------------------------
 		this.app.use(ExpressUtils.requestLogger);
+
+		// -------------------------------------------------
+		// Cookie parsing - see above, require
+		// -------------------------------------------------
+		// this.app.use(cookieParser);
 
 		// -------------------------------------------------
 		// Body parsing
@@ -281,5 +287,38 @@ export class ExpressUtils {
 		});
 
 		next();
+	}
+
+	static getCookie(req: Request): Object {
+		let cookie = {};
+		if (!req.headers || !req.headers.cookie) return cookie;
+
+		/**
+		 * Remainder of code = modified version of code in js-cookie
+		 * @see https://github.com/js-cookie/js-cookie
+		 **/
+
+		function decode(s) {
+			return s.replace(/(%[0-9A-Z]{2})+/g, decodeURIComponent);
+		}
+
+		let entries = req.headers.cookie.split("; ");
+
+		for (let i = 0; i < entries.length; i++) {
+			let parts = entries[i].split("=");
+			let entry = parts.slice(1).join("=");
+
+			if (entry.charAt(0) === '"') {
+				entry = entry.slice(1, -1);
+			}
+
+			try {
+				let name = decode(parts[0]);
+				entry = decode(entry);
+				cookie[name] = entry;
+			} catch (e) {}
+		}
+
+		return cookie;
 	}
 }
