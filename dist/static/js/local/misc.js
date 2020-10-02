@@ -34,6 +34,10 @@ let cfg = _lib.AppConfig.getInstance();
 let log = _lib.Logger.getInstance(cfg.options.logging);
 
 function generateColorFiles() {
+  if (cfg.isProject && cfg.options.sass.colors.projects.length == 1 && cfg.options.sass.colors.projects["Cookware"]) {
+    return;
+  }
+
   let lengthPadding = 30;
   let comment = "\n/".padEnd(lengthPadding, "*") + "\n" + " * ## \n" + " ".padEnd(lengthPadding - 1, "*") + "/\n";
   let sass = {

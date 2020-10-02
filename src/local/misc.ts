@@ -18,6 +18,15 @@ let log = Logger.getInstance(cfg.options.logging);
  * Write .js and .sass related to colors as defined in project config
  */
 function generateColorFiles() {
+	if (
+		cfg.isProject &&
+		cfg.options.sass.colors.projects.length == 1 &&
+		cfg.options.sass.colors.projects["Cookware"]
+	) {
+		// No colors defined in project
+		return;
+	}
+
 	let lengthPadding = 30;
 	let comment =
 		"\n/".padEnd(lengthPadding, "*") +
