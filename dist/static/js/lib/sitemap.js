@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Sitemap = void 0;
 
+require("source-map-support/register");
+
 var _fs = require("fs");
 
 var _path = require("path");
@@ -81,7 +83,7 @@ class Sitemap {
     });
 
     let outputFile = (0, _path.join)(outputDir, "sitemap.xml");
-    let sitemap = new Sitemap(cfg.dirProject, outputFile, cfg.options.domain.url);
+    let sitemap = new Sitemap(outputDir, "sitemap.xml", cfg.options.domain.url);
     let isNew = (0, _shelljs.test)("-f", outputFile);
     html.forEach(entry => {
       let source = (0, _path.join)(outputDir, entry);
@@ -101,3 +103,4 @@ class Sitemap {
 }
 
 exports.Sitemap = Sitemap;
+//# sourceMappingURL=sitemap.js.map

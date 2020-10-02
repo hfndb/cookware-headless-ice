@@ -60,6 +60,9 @@ export class Sitemap {
 		return this.entries;
 	}
 
+	/**
+	 * Generate Google sitemap
+	 */
 	static generate(verbose: boolean) {
 		let cfg = AppConfig.getInstance();
 		if (!cfg.isProject || !cfg.options.html.sitemap.generate) {
@@ -68,12 +71,11 @@ export class Sitemap {
 		let log = Logger.getInstance(cfg.options.logging);
 		let outputDir = Content.getOutputDir();
 
-		// Generate Google sitemap
 		let html = FileUtils.getFileList(outputDir, {
 			allowedExtensions: [".html"]
 		});
 		let outputFile = join(outputDir, "sitemap.xml");
-		let sitemap = new Sitemap(cfg.dirProject, outputFile, cfg.options.domain.url);
+		let sitemap = new Sitemap(outputDir, "sitemap.xml", cfg.options.domain.url);
 		let isNew = test("-f", outputFile);
 
 		html.forEach((entry: string) => {
