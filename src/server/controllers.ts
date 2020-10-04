@@ -6,7 +6,6 @@ import { ExpressUtils } from "../lib/express";
 import { FileStatus } from "../lib/file-diff";
 import { Content } from "../lib/html";
 import { getPackageReadmeFiles } from "../lib/package-json";
-import { Formatter } from "../lib/utils";
 import { renderMarkdownFile } from "../local/markdown";
 import { Lint } from "../local/markup";
 import { searchProject } from "../local/misc";
@@ -162,10 +161,7 @@ async function controllerGeneric(
 		case ".html":
 			let data = "";
 			let entry: FileStatus;
-			let context = {
-				frmt: Formatter.getInstance(),
-				reqUrl: req.url
-			};
+			let context = Content.getDefaultContext(req.url);
 			context = Object.assign(context, additionalContext);
 
 			if (ext != ".md" && req.query && req.query.lint) {

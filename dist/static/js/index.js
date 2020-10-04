@@ -1,5 +1,7 @@
 "use strict";
 
+require("source-map-support/register");
+
 var _path = require("path");
 
 var _defaultConfig = require("./default-config");
@@ -188,3 +190,4 @@ if (stats) {
 
   log.info(session.toString());
 }
+//# sourceMappingURL=index.js.map

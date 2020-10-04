@@ -213,7 +213,6 @@ export class Content {
 	 */
 	render(dir: string, file: string, opts?: RenderOptions): string {
 		let cfg = AppConfig.getInstance();
-		const frmtr = Formatter.getInstance();
 		let retVal = "";
 
 		if (!opts) opts = {};
@@ -227,40 +226,7 @@ export class Content {
 			templateDir = join(cfg.dirMain, "templates");
 		}
 
-		// Determine prefix for statics, variable 'level' in context and base template
-		let levelNum = StringUtils.occurrences(file, "/");
-		let levelStr = "";
-		for (let i = 1; i < levelNum; i++) {
-			levelStr = levelStr + "../";
-		}
-
-		/**
-		 * <p>
-		 *   By default in context:
-		 * </p>
-		 * <ul>
-		 *   <li>frmt - instance of Formatter in lib/utils.js</li>
-		 *   <li>path and reqUrl - relative to root</li>
-		 *   <li>level - relative to root</li>
-		 *   <li>description - of website</li>
-		 *   <li>url - Home URL of website</li>
-		 *   <li>createdDate - formatted string</li>
-		 *   <li>createdDateTime - formatted string</li>
-		 *   <li>createdTime - formatted string</li>
-		 *   <li>environment - Node.js environment</li>
-		 * </ul>
-		 */
-		let context = {
-			description: cfg.options.domain.description,
-			createdDate: frmtr.date(new Date()),
-			createdDateTime: frmtr.datetime(new Date()),
-			createdTime: frmtr.time(new Date()),
-			environment: process.env.NODE_ENV,
-			frmt: frmtr,
-			level: levelStr,
-			path: file,
-			url: cfg.options.domain.url
-		};
+		let context = Content.getDefaultContext(file);
 		if (opts.additionalContext) {
 			Object.assign(context, opts.additionalContext);
 		}
@@ -274,5 +240,45 @@ export class Content {
 		retVal = Stripper.process(retVal);
 
 		return retVal;
+	}
+
+	/**
+	 * <p>
+	 *   By default in context:
+	 * </p>
+	 * <ul>
+	 *   <li>frmt - instance of Formatter in lib/utils.js</li>
+	 *   <li>path and reqUrl - relative to root</li>
+	 *   <li>level - relative to root</li>
+	 *   <li>description - of website</li>
+	 *   <li>url - Home URL of website</li>
+	 *   <li>createdDate - formatted string</li>
+	 *   <li>createdDateTime - formatted string</li>
+	 *   <li>createdTime - formatted string</li>
+	 *   <li>environment - Node.js environment</li>
+	 * </ul>
+	 */
+	static getDefaultContext(url: string): Object {
+		let cfg = AppConfig.getInstance();
+		const frmtr = Formatter.getInstance();
+
+		// Determine prefix for statics, variable 'level' in context and base template
+		let levelNum = StringUtils.occurrences(url, "/");
+		let levelStr = "";
+		for (let i = 1; i < levelNum; i++) {
+			levelStr = levelStr + "../";
+		}
+
+		return {
+			description: cfg.options.domain.description,
+			createdDate: frmtr.date(new Date()),
+			createdDateTime: frmtr.datetime(new Date()),
+			createdTime: frmtr.time(new Date()),
+			environment: process.env.NODE_ENV,
+			frmt: frmtr,
+			level: levelStr,
+			path: url,
+			url: cfg.options.domain.url
+		};
 	}
 }

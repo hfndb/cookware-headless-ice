@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Content = exports.Stripper = void 0;
 
+require("source-map-support/register");
+
 var _path = require("path");
 
 var _files = require("./files");
@@ -186,8 +188,6 @@ class Content {
   render(dir, file, opts) {
     let cfg = _lib.AppConfig.getInstance();
 
-    const frmtr = _utils.Formatter.getInstance();
-
     let retVal = "";
     if (!opts) opts = {};
     let templateDir;
@@ -200,25 +200,7 @@ class Content {
       templateDir = (0, _path.join)(cfg.dirMain, "templates");
     }
 
-    let levelNum = _utils.StringUtils.occurrences(file, "/");
-
-    let levelStr = "";
-
-    for (let i = 1; i < levelNum; i++) {
-      levelStr = levelStr + "../";
-    }
-
-    let context = {
-      description: cfg.options.domain.description,
-      createdDate: frmtr.date(new Date()),
-      createdDateTime: frmtr.datetime(new Date()),
-      createdTime: frmtr.time(new Date()),
-      environment: process.env.NODE_ENV,
-      frmt: frmtr,
-      level: levelStr,
-      path: file,
-      url: cfg.options.domain.url
-    };
+    let context = Content.getDefaultContext(file);
 
     if (opts.additionalContext) {
       Object.assign(context, opts.additionalContext);
@@ -235,6 +217,33 @@ class Content {
     return retVal;
   }
 
+  static getDefaultContext(url) {
+    let cfg = _lib.AppConfig.getInstance();
+
+    const frmtr = _utils.Formatter.getInstance();
+
+    let levelNum = _utils.StringUtils.occurrences(url, "/");
+
+    let levelStr = "";
+
+    for (let i = 1; i < levelNum; i++) {
+      levelStr = levelStr + "../";
+    }
+
+    return {
+      description: cfg.options.domain.description,
+      createdDate: frmtr.date(new Date()),
+      createdDateTime: frmtr.datetime(new Date()),
+      createdTime: frmtr.time(new Date()),
+      environment: process.env.NODE_ENV,
+      frmt: frmtr,
+      level: levelStr,
+      path: url,
+      url: cfg.options.domain.url
+    };
+  }
+
 }
 
 exports.Content = Content;
+//# sourceMappingURL=html.js.map

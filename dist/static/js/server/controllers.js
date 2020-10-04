@@ -23,8 +23,6 @@ var _html = require("../lib/html");
 
 var _packageJson = require("../lib/package-json");
 
-var _utils = require("../lib/utils");
-
 var _markdown = require("../local/markdown");
 
 var _markup = require("../local/markup");
@@ -163,10 +161,9 @@ async function controllerGeneric(req, res, next, contentDir, useProjectTemplates
     case ".html":
       let data = "";
       let entry;
-      let context = {
-        frmt: _utils.Formatter.getInstance(),
-        reqUrl: req.url
-      };
+
+      let context = _html.Content.getDefaultContext(req.url);
+
       context = Object.assign(context, additionalContext);
 
       if (ext != ".md" && req.query && req.query.lint) {
