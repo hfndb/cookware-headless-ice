@@ -226,7 +226,7 @@ class Content {
 
     let levelStr = "";
 
-    for (let i = 1; i < levelNum; i++) {
+    for (let i = 0; i < levelNum; i++) {
       levelStr = levelStr + "../";
     }
 

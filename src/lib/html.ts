@@ -248,7 +248,7 @@ export class Content {
 	 * </p>
 	 * <ul>
 	 *   <li>frmt - instance of Formatter in lib/utils.js</li>
-	 *   <li>path and reqUrl - relative to root</li>
+	 *   <li>path - relative to root</li>
 	 *   <li>level - relative to root</li>
 	 *   <li>description - of website</li>
 	 *   <li>url - Home URL of website</li>
@@ -265,7 +265,7 @@ export class Content {
 		// Determine prefix for statics, variable 'level' in context and base template
 		let levelNum = StringUtils.occurrences(url, "/");
 		let levelStr = "";
-		for (let i = 1; i < levelNum; i++) {
+		for (let i = 0; i < levelNum; i++) {
 			levelStr = levelStr + "../";
 		}
 
