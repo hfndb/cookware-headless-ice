@@ -3,7 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.JsWatch = exports.SassWatch = exports.CssWatch = exports.ConfigWatch = void 0;
+exports.initWatches = initWatches;
+
+require("source-map-support/register");
 
 var _path = require("path");
 
@@ -22,6 +24,10 @@ var _styling = require("../local/styling");
 var _session = require("../sys/session");
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+let cfg = _config.AppConfig.getInstance();
+
+let log = _lib.Logger.getInstance();
 
 class Double {
   static is(file) {
@@ -45,10 +51,6 @@ _defineProperty(Double, "reg", {});
 
 class ConfigWatch extends _lib.FileWatcher {
   change(event, file) {
-    let cfg = _config.AppConfig.getInstance();
-
-    let log = _lib.Logger.getInstance();
-
     event;
     file;
     cfg.read();
@@ -56,8 +58,6 @@ class ConfigWatch extends _lib.FileWatcher {
   }
 
 }
-
-exports.ConfigWatch = ConfigWatch;
 
 _defineProperty(ConfigWatch, "instance", void 0);
 
@@ -69,26 +69,16 @@ class CssWatch extends _lib.FileWatcher {
       return;
     }
 
-    let cfg = _config.AppConfig.getInstance();
-
-    let log = _lib.Logger.getInstance();
-
     log.info(`- ${file} changed`);
     (0, _shelljs.cp)((0, _path.join)(cfg.dirProject, cfg.options.sass.dirs.source, file), _styling.SassUtils.getOutputDir());
   }
 
 }
 
-exports.CssWatch = CssWatch;
-
 _defineProperty(CssWatch, "instance", void 0);
 
 class SassWatch extends _lib.FileWatcher {
   change(event, file) {
-    let cfg = _config.AppConfig.getInstance();
-
-    let log = _lib.Logger.getInstance();
-
     event;
 
     if ((0, _path.extname)(file) != ".scss") {
@@ -115,8 +105,6 @@ class SassWatch extends _lib.FileWatcher {
 
 }
 
-exports.SassWatch = SassWatch;
-
 _defineProperty(SassWatch, "instance", void 0);
 
 class JsWatch extends _lib.FileWatcher {
@@ -128,11 +116,6 @@ class JsWatch extends _lib.FileWatcher {
     }
 
     if (Double.is(file)) return;
-
-    let cfg = _config.AppConfig.getInstance();
-
-    let log = _lib.Logger.getInstance();
-
     log.info(`- ${file} changed`);
     let dir = (0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.source);
     let isTypescript = (0, _path.extname)(file) == ".ts";
@@ -163,6 +146,27 @@ class JsWatch extends _lib.FileWatcher {
 
 }
 
-exports.JsWatch = JsWatch;
-
 _defineProperty(JsWatch, "instance", void 0);
+
+function initWatches() {
+  ConfigWatch.instance = new ConfigWatch(cfg.dirProject, "", "config.json", cfg.options.server.watchTimeout, "application config file (config.json)");
+  CssWatch.instance = new CssWatch(cfg.dirProject, cfg.options.sass.dirs.source, "", cfg.options.server.watchTimeout, "plain css files");
+  SassWatch.instance = new SassWatch(cfg.dirProject, cfg.options.sass.dirs.source, "", cfg.options.server.watchTimeout, "Sass files");
+
+  if (cfg.options.javascript.useWatch) {
+    let tp = "JavaScript";
+
+    switch (cfg.options.javascript.compiler) {
+      case "flow":
+        tp = "Flow";
+        break;
+
+      case "typescript":
+        tp = "TypeScript";
+        break;
+    }
+
+    JsWatch.instance = new JsWatch(cfg.dirProject, cfg.options.javascript.dirs.source, "", cfg.options.server.watchTimeout, `${tp} files`);
+  }
+}
+//# sourceMappingURL=watches.js.map

@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.renderPdf = renderPdf;
 
+require("source-map-support/register");
+
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -87,7 +89,7 @@ function renderPdfFile(fileStatus) {
 
   let session = _session.SessionVars.getInstance();
 
-  let cmd = "wkhtmltopdf -q -s A4 -L ".concat(cfg.options.pdf.rendering.marginLeft.toString()).concat("mm -R ").concat(cfg.options.pdf.rendering.marginRight.toString()).concat('mm --print-media-type --header-right "[page] / [toPage]" ').concat((0, _path.join)(fileStatus.dir, fileStatus.source)).concat(" ").concat((0, _path.join)(fileStatus.targetDir, fileStatus.target));
+  let cmd = "wkhtmltopdf -q -s A4 -L ".concat(cfg.options.pdf.rendering.marginLeft.toString()).concat("mm -R ").concat(cfg.options.pdf.rendering.marginRight.toString()).concat('mm --print-media-type --enable-local-file-access  --header-right "[page] / [toPage]" ').concat((0, _path.join)(fileStatus.dir, fileStatus.source)).concat(" ").concat((0, _path.join)(fileStatus.targetDir, fileStatus.target));
 
   try {
     let r = (0, _shelljs.exec)(cmd, {});
@@ -109,3 +111,4 @@ function renderPdfFile(fileStatus) {
 
   return retVal;
 }
+//# sourceMappingURL=pdf.js.map

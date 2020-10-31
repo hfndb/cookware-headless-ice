@@ -3,7 +3,7 @@ import {
 	controllerStatic,
 	controllerSys
 } from "./controllers";
-import { ConfigWatch, CssWatch, JsWatch, SassWatch } from "./watches";
+import { initWatches } from "./watches";
 import { AppConfig } from "../lib/config";
 import { Logger } from "../lib";
 import { ExpressUtils } from "../lib/express";
@@ -71,49 +71,7 @@ export function coatRack(): void {
 
 	log.shutdown = gracefulShutdown;
 
-	// Setup file watching
-	ConfigWatch.instance = new ConfigWatch(
-		cfg.dirProject,
-		"",
-		"config.json",
-		cfg.options.server.watchTimeout,
-		"application config file (config.json)"
-	);
-
-	CssWatch.instance = new CssWatch(
-		cfg.dirProject,
-		cfg.options.sass.dirs.source,
-		"",
-		cfg.options.server.watchTimeout,
-		"plain css files"
-	);
-
-	SassWatch.instance = new SassWatch(
-		cfg.dirProject,
-		cfg.options.sass.dirs.source,
-		"",
-		cfg.options.server.watchTimeout,
-		"Sass files"
-	);
-
-	if (cfg.options.javascript.useWatch) {
-		let type = "JavaScript";
-		switch (cfg.options.javascript.compiler) {
-			case "flow":
-				type = "Flow";
-				break;
-			case "typescript":
-				type = "TypeScript";
-				break;
-		}
-		JsWatch.instance = new JsWatch(
-			cfg.dirProject,
-			cfg.options.javascript.dirs.source,
-			"",
-			cfg.options.server.watchTimeout,
-			`${type} files`
-		);
-	}
+	initWatches();
 
 	// Setup incremental autobackup of changed sources
 	if (cfg.options.server.backupInterval > 0) {

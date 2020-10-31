@@ -93,7 +93,9 @@ function renderPdfFile(fileStatus: FileStatus): boolean {
 		.concat(cfg.options.pdf.rendering.marginLeft.toString())
 		.concat("mm -R ")
 		.concat(cfg.options.pdf.rendering.marginRight.toString())
-		.concat('mm --print-media-type --header-right "[page] / [toPage]" ')
+		.concat(
+			'mm --print-media-type --enable-local-file-access  --header-right "[page] / [toPage]" '
+		)
 		.concat(join(fileStatus.dir, fileStatus.source))
 		.concat(" ")
 		.concat(join(fileStatus.targetDir, fileStatus.target));

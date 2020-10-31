@@ -11,6 +11,7 @@ import { renderPdf } from "./local/pdf";
 import { generateTsDocs } from "./local/typescript";
 import { playGround } from "./dev/playground";
 import { coatRack } from "./server/index";
+import { initWatches } from "./server/watches";
 import { SessionVars } from "./sys/session";
 
 let am = AppMenu.getInstance();
@@ -68,7 +69,12 @@ am.addOption({
 	alias: "r",
 	name: "run",
 	type: Boolean,
-	description: "Run local development server"
+	description: "Run local development server, watch file changes, transcompile"
+});
+am.addOption({
+	name: "watch",
+	type: Boolean,
+	description: "Start watching and transcompile without running server"
 });
 am.addOption({
 	alias: "t",
@@ -109,6 +115,10 @@ process.on("uncaughtException", err => {
 });
 
 let stats = false;
+if (choice.production) {
+	process.env.NODE_ENV = "production";
+}
+
 if (choice.beautify) {
 	Beautify.standAlone(choice.beautify);
 } else if (choice.docs && cfg.options.javascript.compiler == "typescript") {
@@ -120,9 +130,6 @@ if (choice.beautify) {
 } else if (choice.epub) {
 	renderEpub();
 } else if (choice.generate) {
-	if (choice.production) {
-		process.env.NODE_ENV = "production";
-	}
 	generateWeb(true);
 	stats = true;
 } else if (choice.lint) {
@@ -131,6 +138,9 @@ if (choice.beautify) {
 	renderPdf();
 } else if (choice.run) {
 	coatRack();
+	s;
+} else if (choice.watch) {
+	initWatches();
 } else if (choice.touch) {
 	let allow: string[] = [];
 	let dir = cfg.options.html.dirs.content;

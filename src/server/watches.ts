@@ -7,6 +7,9 @@ import { JavascriptUtils } from "../local/javascript";
 import { SassUtils } from "../local/styling";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 
+let cfg = AppConfig.getInstance();
+let log = Logger.getInstance();
+
 /**
  * Safety for beautifying files. Block files just beautified
  */
@@ -27,12 +30,10 @@ class Double {
 	}
 }
 
-export class ConfigWatch extends FileWatcher {
+class ConfigWatch extends FileWatcher {
 	static instance: ConfigWatch;
 
 	public change(event: string, file: string): void {
-		let cfg = AppConfig.getInstance();
-		let log = Logger.getInstance();
 		event; // Fool compiler - unused variable
 		file;
 		cfg.read();
@@ -40,7 +41,7 @@ export class ConfigWatch extends FileWatcher {
 	}
 }
 
-export class CssWatch extends FileWatcher {
+class CssWatch extends FileWatcher {
 	static instance: CssWatch;
 
 	public change(event: string, file: string): void {
@@ -48,8 +49,6 @@ export class CssWatch extends FileWatcher {
 		if (extname(file) != ".css") {
 			return;
 		}
-		let cfg = AppConfig.getInstance();
-		let log = Logger.getInstance();
 		log.info(`- ${file} changed`);
 		cp(
 			join(cfg.dirProject, cfg.options.sass.dirs.source, file),
@@ -58,12 +57,10 @@ export class CssWatch extends FileWatcher {
 	}
 }
 
-export class SassWatch extends FileWatcher {
+class SassWatch extends FileWatcher {
 	static instance: SassWatch;
 
 	public change(event: string, file: string): void {
-		let cfg = AppConfig.getInstance();
-		let log = Logger.getInstance();
 		event; // Fool compiler - unused variable
 		if (extname(file) != ".scss") {
 			return;
@@ -88,7 +85,7 @@ export class SassWatch extends FileWatcher {
 	}
 }
 
-export class JsWatch extends FileWatcher {
+class JsWatch extends FileWatcher {
 	static instance: JsWatch;
 
 	public change(event: string, file: string): void {
@@ -97,8 +94,6 @@ export class JsWatch extends FileWatcher {
 			return;
 		}
 		if (Double.is(file)) return;
-		let cfg = AppConfig.getInstance();
-		let log = Logger.getInstance();
 		log.info(`- ${file} changed`);
 		let dir = join(cfg.dirProject, cfg.options.javascript.dirs.source);
 
@@ -134,5 +129,58 @@ export class JsWatch extends FileWatcher {
 					);
 				}
 		}
+	}
+}
+
+/**
+ * Setup file watching. In base this would need, for example:
+ *
+ * @example
+ * while inotifywait -qr -e attrib --format 'Changed: %w%f' ./src ./sass; do
+ *	    /opt/projects/cookware-headless-ice/bin/starter.sh -g
+ * done
+ */
+export function initWatches() {
+	ConfigWatch.instance = new ConfigWatch(
+		cfg.dirProject,
+		"",
+		"config.json",
+		cfg.options.server.watchTimeout,
+		"application config file (config.json)"
+	);
+
+	CssWatch.instance = new CssWatch(
+		cfg.dirProject,
+		cfg.options.sass.dirs.source,
+		"",
+		cfg.options.server.watchTimeout,
+		"plain css files"
+	);
+
+	SassWatch.instance = new SassWatch(
+		cfg.dirProject,
+		cfg.options.sass.dirs.source,
+		"",
+		cfg.options.server.watchTimeout,
+		"Sass files"
+	);
+
+	if (cfg.options.javascript.useWatch) {
+		let tp = "JavaScript";
+		switch (cfg.options.javascript.compiler) {
+			case "flow":
+				tp = "Flow";
+				break;
+			case "typescript":
+				tp = "TypeScript";
+				break;
+		}
+		JsWatch.instance = new JsWatch(
+			cfg.dirProject,
+			cfg.options.javascript.dirs.source,
+			"",
+			cfg.options.server.watchTimeout,
+			`${tp} files`
+		);
 	}
 }

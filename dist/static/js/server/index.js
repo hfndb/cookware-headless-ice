@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.gracefulShutdown = gracefulShutdown;
 exports.coatRack = coatRack;
 
+require("source-map-support/register");
+
 var _controllers = require("./controllers");
 
 var _watches = require("./watches");
@@ -29,20 +31,20 @@ function gracefulShutdown() {
 
   let log = _lib.Logger.getInstance(cfg.options.logging);
 
-  if (_watches.ConfigWatch.instance instanceof Object) {
-    _watches.ConfigWatch.instance.stop();
+  if (ConfigWatch.instance instanceof Object) {
+    ConfigWatch.instance.stop();
   }
 
-  if (_watches.CssWatch.instance instanceof Object) {
-    _watches.CssWatch.instance.stop();
+  if (CssWatch.instance instanceof Object) {
+    CssWatch.instance.stop();
   }
 
-  if (_watches.SassWatch.instance instanceof Object) {
-    _watches.SassWatch.instance.stop();
+  if (SassWatch.instance instanceof Object) {
+    SassWatch.instance.stop();
   }
 
-  if (_watches.JsWatch.instance instanceof Object) {
-    _watches.JsWatch.instance.stop();
+  if (JsWatch.instance instanceof Object) {
+    JsWatch.instance.stop();
   }
 
   let session = _session.SessionVars.getInstance();
@@ -70,25 +72,7 @@ function coatRack() {
   }
 
   log.shutdown = gracefulShutdown;
-  _watches.ConfigWatch.instance = new _watches.ConfigWatch(cfg.dirProject, "", "config.json", cfg.options.server.watchTimeout, "application config file (config.json)");
-  _watches.CssWatch.instance = new _watches.CssWatch(cfg.dirProject, cfg.options.sass.dirs.source, "", cfg.options.server.watchTimeout, "plain css files");
-  _watches.SassWatch.instance = new _watches.SassWatch(cfg.dirProject, cfg.options.sass.dirs.source, "", cfg.options.server.watchTimeout, "Sass files");
-
-  if (cfg.options.javascript.useWatch) {
-    let type = "JavaScript";
-
-    switch (cfg.options.javascript.compiler) {
-      case "flow":
-        type = "Flow";
-        break;
-
-      case "typescript":
-        type = "TypeScript";
-        break;
-    }
-
-    _watches.JsWatch.instance = new _watches.JsWatch(cfg.dirProject, cfg.options.javascript.dirs.source, "", cfg.options.server.watchTimeout, `${type} files`);
-  }
+  (0, _watches.initWatches)();
 
   if (cfg.options.server.backupInterval > 0) {
     (0, _misc.backupChangedSource)(true);
@@ -111,3 +95,4 @@ function coatRack() {
   eu.app.get(/^\/pdf/, _controllers.controllerStatic);
   eu.init(gracefulShutdown);
 }
+//# sourceMappingURL=index.js.map

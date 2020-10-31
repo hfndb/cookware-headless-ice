@@ -28,6 +28,8 @@ var _playground = require("./dev/playground");
 
 var _index = require("./server/index");
 
+var _watches = require("./server/watches");
+
 var _session = require("./sys/session");
 
 let am = _config.AppMenu.getInstance();
@@ -76,7 +78,12 @@ am.addOption({
   alias: "r",
   name: "run",
   type: Boolean,
-  description: "Run local development server"
+  description: "Run local development server, watch file changes, transcompile"
+});
+am.addOption({
+  name: "watch",
+  type: Boolean,
+  description: "Start watching and transcompile without running server"
 });
 am.addOption({
   alias: "t",
@@ -118,6 +125,10 @@ process.on("uncaughtException", err => {
 });
 let stats = false;
 
+if (choice.production) {
+  process.env.NODE_ENV = "production";
+}
+
 if (choice.beautify) {
   _beautify.Beautify.standAlone(choice.beautify);
 } else if (choice.docs && cfg.options.javascript.compiler == "typescript") {
@@ -129,10 +140,6 @@ if (choice.beautify) {
 } else if (choice.epub) {
   (0, _epub.renderEpub)();
 } else if (choice.generate) {
-  if (choice.production) {
-    process.env.NODE_ENV = "production";
-  }
-
   (0, _misc.generateWeb)(true);
   stats = true;
 } else if (choice.lint) {
@@ -141,6 +148,9 @@ if (choice.beautify) {
   (0, _pdf.renderPdf)();
 } else if (choice.run) {
   (0, _index.coatRack)();
+  s;
+} else if (choice.watch) {
+  (0, _watches.initWatches)();
 } else if (choice.touch) {
   let allow = [];
   let dir = cfg.options.html.dirs.content;
