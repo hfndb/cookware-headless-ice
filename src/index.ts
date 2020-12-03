@@ -138,7 +138,6 @@ if (choice.beautify) {
 	renderPdf();
 } else if (choice.run) {
 	coatRack();
-	s;
 } else if (choice.watch) {
 	initWatches();
 } else if (choice.touch) {

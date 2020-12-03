@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.initWatches = initWatches;
+exports.terminateWatches = terminateWatches;
 
 require("source-map-support/register");
 
@@ -167,6 +168,24 @@ function initWatches() {
     }
 
     JsWatch.instance = new JsWatch(cfg.dirProject, cfg.options.javascript.dirs.source, "", cfg.options.server.watchTimeout, `${tp} files`);
+  }
+}
+
+function terminateWatches() {
+  if (ConfigWatch.instance instanceof Object) {
+    ConfigWatch.instance.stop();
+  }
+
+  if (CssWatch.instance instanceof Object) {
+    CssWatch.instance.stop();
+  }
+
+  if (SassWatch.instance instanceof Object) {
+    SassWatch.instance.stop();
+  }
+
+  if (JsWatch.instance instanceof Object) {
+    JsWatch.instance.stop();
   }
 }
 //# sourceMappingURL=watches.js.map

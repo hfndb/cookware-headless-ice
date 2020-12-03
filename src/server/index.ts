@@ -3,7 +3,7 @@ import {
 	controllerStatic,
 	controllerSys
 } from "./controllers";
-import { initWatches } from "./watches";
+import { initWatches, terminateWatches } from "./watches";
 import { AppConfig } from "../lib/config";
 import { Logger } from "../lib";
 import { ExpressUtils } from "../lib/express";
@@ -19,25 +19,9 @@ import { SessionVars } from "../sys/session";
 export function gracefulShutdown(): void {
 	let cfg = AppConfig.getInstance();
 	let log = Logger.getInstance(cfg.options.logging);
-
-	// Stop all active file watching
-	if (ConfigWatch.instance instanceof Object) {
-		ConfigWatch.instance.stop();
-	}
-
-	if (CssWatch.instance instanceof Object) {
-		CssWatch.instance.stop();
-	}
-
-	if (SassWatch.instance instanceof Object) {
-		SassWatch.instance.stop();
-	}
-
-	if (JsWatch.instance instanceof Object) {
-		JsWatch.instance.stop();
-	}
-
 	let session = SessionVars.getInstance();
+
+	terminateWatches();
 	log.info(session.toString()); // Statistics about processed files
 
 	// Perhaps overkill, but... these function calls will delete obsolete files - due to renaming files

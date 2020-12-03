@@ -133,7 +133,7 @@ class JsWatch extends FileWatcher {
 }
 
 /**
- * Setup file watching. In base this would need, for example:
+ * Setup file watching. In bash this would need, for example:
  *
  * @example
  * while inotifywait -qr -e attrib --format 'Changed: %w%f' ./src ./sass; do
@@ -182,5 +182,24 @@ export function initWatches() {
 			cfg.options.server.watchTimeout,
 			`${tp} files`
 		);
+	}
+}
+
+export function terminateWatches() {
+	// Stop all active file watching
+	if (ConfigWatch.instance instanceof Object) {
+		ConfigWatch.instance.stop();
+	}
+
+	if (CssWatch.instance instanceof Object) {
+		CssWatch.instance.stop();
+	}
+
+	if (SassWatch.instance instanceof Object) {
+		SassWatch.instance.stop();
+	}
+
+	if (JsWatch.instance instanceof Object) {
+		JsWatch.instance.stop();
 	}
 }

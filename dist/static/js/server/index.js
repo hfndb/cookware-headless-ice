@@ -31,24 +31,9 @@ function gracefulShutdown() {
 
   let log = _lib.Logger.getInstance(cfg.options.logging);
 
-  if (ConfigWatch.instance instanceof Object) {
-    ConfigWatch.instance.stop();
-  }
-
-  if (CssWatch.instance instanceof Object) {
-    CssWatch.instance.stop();
-  }
-
-  if (SassWatch.instance instanceof Object) {
-    SassWatch.instance.stop();
-  }
-
-  if (JsWatch.instance instanceof Object) {
-    JsWatch.instance.stop();
-  }
-
   let session = _session.SessionVars.getInstance();
 
+  (0, _watches.terminateWatches)();
   log.info(session.toString());
   (0, _babel.compile)(false);
 

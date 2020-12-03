@@ -148,7 +148,6 @@ if (choice.beautify) {
   (0, _pdf.renderPdf)();
 } else if (choice.run) {
   (0, _index.coatRack)();
-  s;
 } else if (choice.watch) {
   (0, _watches.initWatches)();
 } else if (choice.touch) {
