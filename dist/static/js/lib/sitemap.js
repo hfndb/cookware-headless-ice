@@ -70,7 +70,7 @@ class Sitemap {
   static generate(verbose) {
     let cfg = _lib.AppConfig.getInstance();
 
-    if (!cfg.isProject || !cfg.options.html.sitemap.generate) {
+    if (!cfg.isProject || !cfg.options.sitemap.generate) {
       return;
     }
 
@@ -88,7 +88,7 @@ class Sitemap {
     html.forEach(entry => {
       let source = (0, _path.join)(outputDir, entry);
       let modified = (0, _fs.statSync)(source).mtime;
-      if (_object.ArrayUtils.inExcludeList(cfg.options.html.sitemap.exclude, entry)) return;
+      if (_object.ArrayUtils.inExcludeList(cfg.options.sitemap.exclude, entry)) return;
       sitemap.addEntry(entry, modified);
     });
     sitemap.finish();

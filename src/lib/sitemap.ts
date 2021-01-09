@@ -65,7 +65,7 @@ export class Sitemap {
 	 */
 	static generate(verbose: boolean) {
 		let cfg = AppConfig.getInstance();
-		if (!cfg.isProject || !cfg.options.html.sitemap.generate) {
+		if (!cfg.isProject || !cfg.options.sitemap.generate) {
 			return;
 		}
 		let log = Logger.getInstance(cfg.options.logging);
@@ -81,8 +81,7 @@ export class Sitemap {
 		html.forEach((entry: string) => {
 			let source = join(outputDir, entry);
 			let modified = statSync(source).mtime;
-			if (ArrayUtils.inExcludeList(cfg.options.html.sitemap.exclude, entry))
-				return;
+			if (ArrayUtils.inExcludeList(cfg.options.sitemap.exclude, entry)) return;
 			sitemap.addEntry(entry, modified);
 		});
 
