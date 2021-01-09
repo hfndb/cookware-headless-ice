@@ -50,6 +50,21 @@ export class Stripper {
 }
 
 /**
+ * Counter to yield higher integers each time, in template
+ */
+function* counter(value) {
+	let step;
+
+	while (true) {
+		step = yield ++value;
+
+		if (step) {
+			value += step;
+		}
+	}
+}
+
+/**
  * For render()
  */
 export interface RenderOptions {
@@ -269,11 +284,15 @@ export class Content {
 			levelStr = levelStr + "../";
 		}
 
+		// Counter in template:
+		// counter.next().value;   // First retrieve value 0
+
 		return {
-			description: cfg.options.domain.description,
+			counter: counter(-1),
 			createdDate: frmtr.date(new Date()),
 			createdDateTime: frmtr.datetime(new Date()),
 			createdTime: frmtr.time(new Date()),
+			description: cfg.options.domain.description,
 			environment: process.env.NODE_ENV,
 			frmt: frmtr,
 			level: levelStr,

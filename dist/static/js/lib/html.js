@@ -52,6 +52,18 @@ class Stripper {
 
 exports.Stripper = Stripper;
 
+function* counter(value) {
+  let step;
+
+  while (true) {
+    step = yield ++value;
+
+    if (step) {
+      value += step;
+    }
+  }
+}
+
 class Content {
   constructor() {
     _defineProperty(this, "rendered", []);
@@ -231,10 +243,11 @@ class Content {
     }
 
     return {
-      description: cfg.options.domain.description,
+      counter: counter(-1),
       createdDate: frmtr.date(new Date()),
       createdDateTime: frmtr.datetime(new Date()),
       createdTime: frmtr.time(new Date()),
+      description: cfg.options.domain.description,
       environment: process.env.NODE_ENV,
       frmt: frmtr,
       level: levelStr,
