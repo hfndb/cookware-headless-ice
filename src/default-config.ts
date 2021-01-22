@@ -58,10 +58,6 @@ let DefaultConfig = {
 				exclude: []
 			}
 		},
-		sitemap: {
-			generate: true,
-			exclude: []
-		},
 		stripper: {
 			active: false,
 			begin: true,
@@ -218,6 +214,10 @@ let DefaultConfig = {
 		port: 8000,
 		staticUrl: "static",
 		watchTimeout: 100
+	},
+	sitemap: {
+		generate: true,
+		exclude: []
 	},
 	tags: {
 		active: false,

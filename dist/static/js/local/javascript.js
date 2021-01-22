@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.generateJsDocs = generateJsDocs;
 exports.JavascriptUtils = void 0;
 
+require("source-map-support/register");
+
 var _path = require("path");
 
 var _shelljs = require("shelljs");
@@ -102,18 +104,29 @@ class Bundle {
   static create(bundle) {
     let outDir = JavascriptUtils.getOutputDir();
     if (!Bundle.isChanged(bundle, outDir)) return;
-    let items = [];
-    let outfile = (0, _path.join)(outDir, bundle.output);
-    (0, _shelljs.rm)("-f", outfile);
+    let content = "";
+    let toWrite = "";
+    let useStrictNeeded = true;
+    (0, _shelljs.rm)("-f", (0, _path.join)(outDir, bundle.output));
 
     if (bundle.header) {
-      items.push((0, _path.join)(cfg.dirProject, bundle.header));
+      toWrite = _lib.FileUtils.readFile((0, _path.join)(cfg.dirProject, bundle.header));
+      useStrictNeeded = false;
     }
 
     bundle.source.forEach(item => {
-      items.push((0, _path.join)(outDir, item));
+      content = _lib.FileUtils.readFile((0, _path.join)(outDir, item));
+
+      if (!useStrictNeeded) {
+        content = content.replace('"use strict";', "");
+      }
+
+      useStrictNeeded = false;
+      toWrite += content;
     });
-    (0, _shelljs.cat)(items).to(outfile);
+
+    _lib.FileUtils.writeFile(outDir, bundle.output, toWrite, false);
+
     log.info(`- written Javascript bundle ${bundle.output}`);
     return;
   }
@@ -142,3 +155,4 @@ function generateJsDocs() {
     async: true
   });
 }
+//# sourceMappingURL=javascript.js.map

@@ -1,5 +1,5 @@
 import { join } from "path";
-import { cat, exec, rm, test } from "shelljs";
+import { exec, rm, test } from "shelljs";
 import { AppConfig, FileUtils, Logger } from "../lib";
 
 let cfg = AppConfig.getInstance();
@@ -111,18 +111,24 @@ class Bundle {
 		let outDir = JavascriptUtils.getOutputDir();
 		if (!Bundle.isChanged(bundle, outDir)) return;
 
-		let items: string[] = [];
-		let outfile = join(outDir, bundle.output);
-		rm("-f", outfile);
+		let content = "";
+		let toWrite = "";
+		let useStrictNeeded = true;
+		rm("-f", join(outDir, bundle.output));
 		if (bundle.header) {
-			items.push(join(cfg.dirProject, bundle.header));
+			toWrite = FileUtils.readFile(join(cfg.dirProject, bundle.header));
+			useStrictNeeded = false;
 		}
 
 		bundle.source.forEach((item: string) => {
-			items.push(join(outDir, item));
+			content = FileUtils.readFile(join(outDir, item));
+			if (!useStrictNeeded) {
+				content = content.replace('"use strict";', "");
+			}
+			useStrictNeeded = false;
+			toWrite += content;
 		});
-		cat(items).to(outfile);
-
+		FileUtils.writeFile(outDir, bundle.output, toWrite, false);
 		log.info(`- written Javascript bundle ${bundle.output}`);
 
 		return;
