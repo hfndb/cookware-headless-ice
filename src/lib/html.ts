@@ -155,18 +155,18 @@ export class Content {
 	/**
 	 * Render all changed or new HTML content files
 	 */
-	renderAll(verbose: boolean = true): void {
+	renderAll(verbose: boolean = true, additionalContext?: Object): void {
 		let cfg = AppConfig.getInstance();
 		let log = Logger.getInstance();
 		let nj: NunjucksUtils;
+		let opts = { additionalContext: additionalContext };
+		let outputDir = Content.getOutputDir();
+
 		if (cfg.options.html.caching.engine == "nunjucks") {
 			nj = new NunjucksUtils();
 		} else {
 			log.error(`Unkown template engine ${cfg.options.html.caching.engine}`);
 		}
-
-		// Determine outputdir
-		let outputDir = Content.getOutputDir();
 
 		let processed: string[] = [];
 		this.rendered = [];
@@ -198,7 +198,7 @@ export class Content {
 				}
 
 				if (entry.isNewOrModified()) {
-					content = this.render(entry.dir, entry.source);
+					content = this.render(entry.dir, entry.source, opts);
 					this.writeOutput(entry, content, verbose);
 					this.rendered.push(entry.source);
 				}

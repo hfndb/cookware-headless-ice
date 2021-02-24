@@ -1,17 +1,14 @@
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getAdditionalContext = getAdditionalContext;
-
-var _path = require("path");
-
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getAdditionalContext = void 0;
+const path_1 = require("path");
 function getAdditionalContext(dir, file, cfg) {
-  cfg;
-  dir;
-  return {
-    epub: `/epub/${(0, _path.basename)(file, ".html")}.epub `,
-    pdf: `/pdf/${(0, _path.basename)(file, ".html")}.pdf `
-  };
+    cfg;
+    dir;
+    return {
+        epub: `/epub/${path_1.basename(file, ".html")}.epub `,
+        pdf: `/pdf/${path_1.basename(file, ".html")}.pdf `
+    };
 }
+exports.getAdditionalContext = getAdditionalContext;
+//# sourceMappingURL=data-provider.js.map

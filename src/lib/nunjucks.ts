@@ -399,6 +399,7 @@ ${value}
 
 		if (changed && this.debug) {
 			let tmp = Object.assign({}, item);
+			// @ts-ignore
 			delete tmp.rawData;
 			log.info(`Info collected about changed file ${file}: `, tmp);
 		}
@@ -425,6 +426,7 @@ ${value}
 
 		let tmp = Object.assign({}, item);
 		if (!opts.stripFoundTags) {
+			// @ts-ignore
 			delete tmp.rawData;
 		}
 

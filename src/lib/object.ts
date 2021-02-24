@@ -106,6 +106,15 @@ export class ArrayUtils {
 		}
 		return inList;
 	}
+
+	/**
+	 * Method to swap rows in an array.
+	 * The array itself is, of course, passed by reference.
+	 */
+	static swapRow(list: any[], idxFrom: number, idxTo: number): void {
+		let toSwap = list.splice(idxFrom, 1); // Delete source row
+		list.splice(idxTo, 0, toSwap[0]); // Add source row
+	}
 }
 
 export class ObjectUtils {

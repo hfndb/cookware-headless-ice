@@ -1,71 +1,18 @@
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "AppConfig", {
-  enumerable: true,
-  get: function () {
-    return _config.AppConfig;
-  }
-});
-Object.defineProperty(exports, "createDirTree", {
-  enumerable: true,
-  get: function () {
-    return _dirs.createDirTree;
-  }
-});
-Object.defineProperty(exports, "fileListOptions", {
-  enumerable: true,
-  get: function () {
-    return _files.fileListOptions;
-  }
-});
-Object.defineProperty(exports, "FileUtils", {
-  enumerable: true,
-  get: function () {
-    return _files.FileUtils;
-  }
-});
-Object.defineProperty(exports, "FileWatcher", {
-  enumerable: true,
-  get: function () {
-    return _files.FileWatcher;
-  }
-});
-Object.defineProperty(exports, "getChangeList", {
-  enumerable: true,
-  get: function () {
-    return _fileDiff.getChangeList;
-  }
-});
-Object.defineProperty(exports, "FileStatus", {
-  enumerable: true,
-  get: function () {
-    return _fileDiff.FileStatus;
-  }
-});
-Object.defineProperty(exports, "Logger", {
-  enumerable: true,
-  get: function () {
-    return _log.Logger;
-  }
-});
-Object.defineProperty(exports, "StringUtils", {
-  enumerable: true,
-  get: function () {
-    return _utils.StringUtils;
-  }
-});
-
-var _config = require("./config");
-
-var _dirs = require("./dirs");
-
-var _files = require("./files");
-
-var _fileDiff = require("./file-diff");
-
-var _log = require("./log");
-
-var _utils = require("./utils");
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.StringUtils = exports.Logger = exports.FileStatus = exports.getChangeList = exports.FileWatcher = exports.FileUtils = exports.createDirTree = exports.AppConfig = void 0;
+var config_1 = require("./config");
+Object.defineProperty(exports, "AppConfig", { enumerable: true, get: function () { return config_1.AppConfig; } });
+var dirs_1 = require("./dirs");
+Object.defineProperty(exports, "createDirTree", { enumerable: true, get: function () { return dirs_1.createDirTree; } });
+var files_1 = require("./files");
+Object.defineProperty(exports, "FileUtils", { enumerable: true, get: function () { return files_1.FileUtils; } });
+Object.defineProperty(exports, "FileWatcher", { enumerable: true, get: function () { return files_1.FileWatcher; } });
+var file_diff_1 = require("./file-diff");
+Object.defineProperty(exports, "getChangeList", { enumerable: true, get: function () { return file_diff_1.getChangeList; } });
+Object.defineProperty(exports, "FileStatus", { enumerable: true, get: function () { return file_diff_1.FileStatus; } });
+var log_1 = require("./log");
+Object.defineProperty(exports, "Logger", { enumerable: true, get: function () { return log_1.Logger; } });
+var utils_1 = require("./utils");
+Object.defineProperty(exports, "StringUtils", { enumerable: true, get: function () { return utils_1.StringUtils; } });
+//# sourceMappingURL=index.js.map

@@ -1,40 +1,28 @@
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.AudioUtils = void 0;
-
-var _path = require("path");
-
-var _shelljs = require("shelljs");
-
-var _config = require("./config");
-
-var _log = require("./log");
-
+const path_1 = require("path");
+const shelljs_1 = require("shelljs");
+const config_1 = require("./config");
+const log_1 = require("./log");
 class AudioUtils {
-  static async playFile(file) {
-    let cfg = _config.AppConfig.getInstance();
-
-    let fullPath = (0, _path.join)(cfg.dirMain, file);
-
-    if (!(0, _shelljs.test)("-f", fullPath)) {
-      throw new Error(`File ${file} doesn't exist. Current working directory: ${process.cwd()}`);
+    static async playFile(file) {
+        let cfg = config_1.AppConfig.getInstance();
+        let fullPath = path_1.join(cfg.dirMain, file);
+        if (!shelljs_1.test("-f", fullPath)) {
+            throw new Error(`File ${file} doesn't exist. Current working directory: ${process.cwd()}`);
+        }
+        try {
+            shelljs_1.exec(`${cfg.options.audio.player} ${fullPath}`, {
+                async: true,
+                silent: true
+            });
+        }
+        catch (error) {
+            let log = log_1.Logger.getInstance();
+            log.warn(error);
+        }
     }
-
-    try {
-      (0, _shelljs.exec)(`${cfg.options.audio.player} ${fullPath}`, {
-        async: true,
-        silent: true
-      });
-    } catch (error) {
-      let log = _log.Logger.getInstance();
-
-      log.warn(error);
-    }
-  }
-
 }
-
 exports.AudioUtils = AudioUtils;
+//# sourceMappingURL=audio.js.map

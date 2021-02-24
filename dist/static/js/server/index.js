@@ -1,83 +1,53 @@
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.gracefulShutdown = gracefulShutdown;
-exports.coatRack = coatRack;
-
-require("source-map-support/register");
-
-var _controllers = require("./controllers");
-
-var _watches = require("./watches");
-
-var _config = require("../lib/config");
-
-var _lib = require("../lib");
-
-var _express = require("../lib/express");
-
-var _misc = require("../local/misc");
-
-var _babel = require("../local/babel");
-
-var _styling = require("../local/styling");
-
-var _session = require("../sys/session");
-
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.coatRack = exports.gracefulShutdown = void 0;
+const controllers_1 = require("./controllers");
+const watches_1 = require("./watches");
+const config_1 = require("../lib/config");
+const lib_1 = require("../lib");
+const express_1 = require("../lib/express");
+const misc_1 = require("../local/misc");
+const babel_1 = require("../local/babel");
+const styling_1 = require("../local/styling");
+const session_1 = require("../sys/session");
 function gracefulShutdown() {
-  let cfg = _config.AppConfig.getInstance();
-
-  let log = _lib.Logger.getInstance(cfg.options.logging);
-
-  let session = _session.SessionVars.getInstance();
-
-  (0, _watches.terminateWatches)();
-  log.info(session.toString());
-  (0, _babel.compile)(false);
-
-  _styling.SassUtils.compile(false);
-
-  _express.ExpressUtils.shutdown();
+    let cfg = config_1.AppConfig.getInstance();
+    let log = lib_1.Logger.getInstance(cfg.options.logging);
+    let session = session_1.SessionVars.getInstance();
+    watches_1.terminateWatches();
+    log.info(session.toString());
+    babel_1.compile(false);
+    styling_1.SassUtils.compile(false);
+    express_1.ExpressUtils.shutdown();
 }
-
+exports.gracefulShutdown = gracefulShutdown;
 function coatRack() {
-  let cfg = _config.AppConfig.getInstance();
-
-  let log = _lib.Logger.getInstance(cfg.options.logging);
-
-  if (cfg.options.server.firstUpdateSources) {
-    log.info("Checking (and updating) sources");
-    (0, _babel.compile)(false);
-
-    _styling.SassUtils.compile(false);
-
-    log.info("... done");
-  }
-
-  log.shutdown = gracefulShutdown;
-  (0, _watches.initWatches)();
-
-  if (cfg.options.server.backupInterval > 0) {
-    (0, _misc.backupChangedSource)(true);
-    setInterval(_misc.backupChangedSource, cfg.options.server.backupInterval * 60 * 1000);
-  }
-
-  let eu = _express.ExpressUtils.getInstance(false);
-
-  eu.app.get(/^.*\/$/, _controllers.controllerContent);
-  eu.app.all(/^\/.*.html$/, _controllers.controllerContent);
-  eu.app.get(/^\/.*.md$/, _controllers.controllerContent);
-  eu.app.get(/^\/sys\//, _controllers.controllerSys);
-
-  if (cfg.isProject && cfg.options.server.staticUrl != "static") {
-    eu.app.get(new RegExp(`^\/${cfg.options.server.staticUrl}\/`), _controllers.controllerStatic);
-  }
-
-  eu.app.get(/^\/static\//, _controllers.controllerStatic);
-  eu.app.get(/^\/epub/, _controllers.controllerStatic);
-  eu.app.get(/^\/pdf/, _controllers.controllerStatic);
-  eu.init(gracefulShutdown);
+    let cfg = config_1.AppConfig.getInstance();
+    let log = lib_1.Logger.getInstance(cfg.options.logging);
+    if (cfg.options.server.firstUpdateSources) {
+        log.info("Checking (and updating) sources");
+        babel_1.compile(false);
+        styling_1.SassUtils.compile(false);
+        log.info("... done");
+    }
+    log.shutdown = gracefulShutdown;
+    watches_1.initWatches();
+    if (cfg.options.server.backupInterval > 0) {
+        misc_1.backupChangedSource(true);
+        setInterval(misc_1.backupChangedSource, cfg.options.server.backupInterval * 60 * 1000);
+    }
+    let eu = express_1.ExpressUtils.getInstance(false);
+    eu.app.get(/^.*\/$/, controllers_1.controllerContent);
+    eu.app.all(/^\/.*.html$/, controllers_1.controllerContent);
+    eu.app.get(/^\/.*.md$/, controllers_1.controllerContent);
+    eu.app.get(/^\/sys\//, controllers_1.controllerSys);
+    if (cfg.isProject && cfg.options.server.staticUrl != "static") {
+        eu.app.get(new RegExp(`^\/${cfg.options.server.staticUrl}\/`), controllers_1.controllerStatic);
+    }
+    eu.app.get(/^\/static\//, controllers_1.controllerStatic);
+    eu.app.get(/^\/epub/, controllers_1.controllerStatic);
+    eu.app.get(/^\/pdf/, controllers_1.controllerStatic);
+    eu.init(gracefulShutdown);
 }
+exports.coatRack = coatRack;
 //# sourceMappingURL=index.js.map
