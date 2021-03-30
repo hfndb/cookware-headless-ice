@@ -82,7 +82,7 @@ export class JavascriptUtils {
 /**
  * Class to handle JavaScript bundles
  */
-class Bundle {
+export class Bundle {
 	/**
 	 * Internal method to check need for writing bundle
 	 */
@@ -113,7 +113,7 @@ class Bundle {
 
 		let content = "";
 		let toWrite = "";
-		let useStrictNeeded = true;
+		let useStrictNeeded = true; // Only use once, at the top
 		rm("-f", join(outDir, bundle.output));
 		if (bundle.header) {
 			toWrite = FileUtils.readFile(join(cfg.dirProject, bundle.header));
@@ -126,12 +126,51 @@ class Bundle {
 				content = content.replace('"use strict";', "");
 			}
 			useStrictNeeded = false;
-			toWrite += content;
+
+			toWrite += content.trim() + "\n";
 		});
 		FileUtils.writeFile(outDir, bundle.output, toWrite, false);
 		log.info(`- written Javascript bundle ${bundle.output}`);
 
 		return;
+	}
+
+	/**
+	 * Detect where a specific source file needs stripping of imports
+	 */
+	static needsStripping(file: string): boolean {
+		let toReturn = false;
+
+		for (let i = 0; i < cfg.options.javascript.bundles.length && !toReturn; i++) {
+			let bundle = cfg.options.javascript.bundles[i];
+			if (bundle.source.includes(file) && bundle.removeImports) {
+				toReturn = true;
+			}
+		}
+
+		return toReturn;
+	}
+
+	/**
+	 * Remove imports at the top of a source file.
+	 * While doing so, also strip exports.
+	 */
+	static stripImports(src: string): string {
+		let lines = src.split("\n");
+
+		for (let i = 0; i < lines.length; i++) {
+			// Strip import statement
+			if (lines[i].startsWith("import")) {
+				lines[i] = ""; // Don't desorientate sourcemap
+			}
+
+			// If import statements are obsolete, then exports too
+			if (lines[i].startsWith("exports.")) {
+				lines[i] = ""; // Don't desorientate sourcemap
+			}
+		}
+
+		return lines.join("\n");
 	}
 }
 

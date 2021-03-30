@@ -219,6 +219,7 @@ Entries:
 + *sourceMapping*: For Babel. Output source maps and fullfil requirements for [source-map-support](https://www.npmjs.com/package/source-map-support)
 + *sourceVersion*: For Babel. Possible values: es2015, es2016, es2017, es2018.
 + *useWatch*: For local development server. If true, will transcompile if a source file changes.
++ *removeObsolete / exclude*: An array with files which will be excluded from auto-removal.
 + *apps*: Main browser app files, compressed and with dependencies merged into it from node modules and other source. Each bundle is defined as follows:
 ```
 {
@@ -237,11 +238,11 @@ With 'cleanup' as a list of directories and files to remove after creating the a
 {
 	"header": "dist/static/js/some-file.js",
 	"output": "browser/generic.js",
+	"removeImports": false,
 	"source": ["browser/test.js"]
 }
 ```
 The header file is relative to the project root, 'output' as the target file relative to the output directory, and 'source' as an array with input files relative to the source directory.
-+ *removeObsolete / exclude*: An array with files which will be excluded from auto-removal.
 
 
 ## Known projects

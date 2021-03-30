@@ -11,7 +11,7 @@ import {
 import { removeObsolete } from "../lib/files";
 import { Beautify } from "../lib/beautify";
 import { ProcessingTypes, SessionVars } from "../sys/session";
-import { JavascriptUtils } from "./javascript";
+import { Bundle, JavascriptUtils } from "./javascript";
 import { Tags } from "./tags";
 
 // https://babeljs.io/docs/en/
@@ -31,9 +31,7 @@ export function compile(verbose: boolean): void {
 	let path = join(cfg.dirProject, cfg.options.javascript.dirs.source);
 	if (!test("-e", path)) {
 		log.warn(
-			`Path ./${
-				cfg.options.javascript.dirs.source
-			} doesn't exist. Request to compile ignored`
+			`Path ./${cfg.options.javascript.dirs.source} doesn't exist. Request to compile ignored`
 		);
 		return;
 	}
@@ -114,10 +112,16 @@ export function compileFile(
 
 	if (cfg.options.server.beautify.includes("src")) {
 		source = Beautify.content(entry.source, source);
-		if (source) {
-			FileUtils.writeFile(entry.dir, entry.source, source, false);
-		} else {
+		if (!source) {
 			return false;
+		}
+
+		FileUtils.writeFile(entry.dir, entry.source, source, false);
+
+		// In case file is in a browser bundle and removeImports is set to true...
+		if (Bundle.needsStripping(entry.source)) {
+			// Code editor is satisfied so far, but compiled file doesn't need imports
+			source = Bundle.stripImports(source);
 		}
 	}
 

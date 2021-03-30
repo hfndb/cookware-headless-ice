@@ -27,6 +27,13 @@ class ExpressUtils {
         this.app.use(bodyParser.urlencoded({
             extended: true
         }));
+        if (cfg.options.dependencies.express.activate.uploads) {
+            const fileUpload = require("express-fileupload");
+            let opts = Object.assign(cfg.options.dependencies.express.fileUpload, {
+                tempFileDir: cfg.dirTemp
+            });
+            this.app.use(fileUpload(opts));
+        }
         if (cfg.options.dependencies.express.activate.sessions) {
             this.activateSessions();
         }

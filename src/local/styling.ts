@@ -67,9 +67,7 @@ export class SassUtils {
 		let path = join(cfg.dirProject, cfg.options.sass.dirs.source);
 		if (!test("-e", path)) {
 			log.warn(
-				`Path ./${
-					cfg.options.sass.dirs.source
-				} doesn't exist. Request to compile ignored`
+				`Path ./${cfg.options.sass.dirs.source} doesn't exist. Request to compile ignored`
 			);
 			return;
 		}

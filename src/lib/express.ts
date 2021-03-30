@@ -91,6 +91,20 @@ export class ExpressUtils {
 			})
 		);
 
+		// Added for cookware-texts
+		if (cfg.options.dependencies.express.activate.uploads) {
+			// Usage example: https://attacomsian.com/blog/uploading-files-nodejs-express
+			// Options:
+			// - https://www.npmjs.com/package/express-fileupload
+			// - https://github.com/mscdex/busboy#api
+			const fileUpload = require("express-fileupload");
+			let opts = Object.assign(cfg.options.dependencies.express.fileUpload, {
+				tempFileDir: cfg.dirTemp
+			});
+
+			this.app.use(fileUpload(opts));
+		}
+
 		if (cfg.options.dependencies.express.activate.sessions) {
 			this.activateSessions();
 		}
@@ -218,9 +232,7 @@ export class ExpressUtils {
 		setTimeout(() => {
 			// Take some time to know for sure the 'address in use' error didn't occur
 			log.info(
-				`Initialization finalized - server running at port ${
-					cfg.options.server.port
-				}`
+				`Initialization finalized - server running at port ${cfg.options.server.port}`
 			);
 		}, 3000);
 	}

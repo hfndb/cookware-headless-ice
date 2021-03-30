@@ -266,6 +266,20 @@ The structure of this file is invalid, meaning, messed up.
 	}
 
 	/**
+	 * Get a temp filename, without directory or extension.
+	 * Composed of Date.now() and random numerical suffix, with hyphen in between
+	 * If called more than 1 millisecond apart, 100% unique.
+	 */
+	static getTempFileName(lengthSuffix: number): string {
+		let begin = parseInt("1".padEnd(lengthSuffix, "0"));
+		let end = parseInt("9".padEnd(lengthSuffix, "9"));
+		// Make the end exclusive, the beginning inclusive
+		let rndm = Math.floor(Math.random() * (end - begin)) + begin;
+		// Date.now is updated every millisecond
+		return Date.now() + "-" + rndm.toString();
+	}
+
+	/**
 	 * Search for occurences of a string in a file
 	 * In opts.markFound a placeholder $ to insert the search string
 	 *

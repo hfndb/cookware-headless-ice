@@ -274,7 +274,8 @@ let DefaultConfig = {
         },
         express: {
             activate: {
-                sessions: false
+                sessions: false,
+                uploads: false
             },
             session: {
                 cookie: {

@@ -155,6 +155,12 @@ The structure of this file is invalid, meaning, messed up.
         }
         return file + ext;
     }
+    static getTempFileName(lengthSuffix) {
+        let begin = parseInt("1".padEnd(lengthSuffix, "0"));
+        let end = parseInt("9".padEnd(lengthSuffix, "9"));
+        let rndm = Math.floor(Math.random() * (end - begin)) + begin;
+        return Date.now() + "-" + rndm.toString();
+    }
     static searchInFile(path, searchFor, opts) {
         const regex = new RegExp(searchFor, opts.ignoreCase ? "i" : undefined);
         if (opts.markFound != "") {

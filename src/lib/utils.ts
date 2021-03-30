@@ -42,6 +42,16 @@ export class StringUtils {
 	static initialCapitalized(str: string): string {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
+
+	/**
+	 * Convert number of bytes to readable
+	 */
+	static bytesToSize(bytes: number): string {
+		let sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+		if (bytes == 0) return "0 Byte";
+		let i = Math.floor(Math.log(bytes) / Math.log(1024));
+		return Math.round(bytes / Math.pow(1024, i)) + " " + sizes[i];
+	}
 }
 
 /**

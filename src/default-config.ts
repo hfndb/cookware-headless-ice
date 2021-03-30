@@ -271,7 +271,8 @@ let DefaultConfig = {
 		},
 		express: {
 			activate: {
-				sessions: false
+				sessions: false,
+				uploads: false
 			},
 			session: {
 				cookie: {
@@ -393,7 +394,7 @@ let DefaultConfig = {
 				indentedSyntax: false,
 				indentType: "tabs",
 				indentWidth: 1,
-				outputStyle: "compressed"
+				outputStyle: "compressed" // nested, expanded, compact, compressed
 			}
 		},
 		nunjucks: {
