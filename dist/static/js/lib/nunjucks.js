@@ -169,7 +169,13 @@ ${value}
             searchPaths.push(templateDir);
         searchPaths = searchPaths.concat(NunjucksUtils.getSearchPaths());
         try {
-            NunjucksUtils.getEnvironment(searchPaths);
+            let env = NunjucksUtils.getEnvironment(searchPaths);
+            env.globals["getVars"] = function () {
+                return this.getVariables();
+            };
+            env.globals["pprint"] = function (arg) {
+                return JSON.stringify(arg, null, "    ");
+            };
             let data = files_1.FileUtils.readFile(path_1.join(dir, file));
             return nunjucks.renderString(data, context);
         }

@@ -102,6 +102,7 @@ export function compileFile(
 ): boolean {
 	let cfg = AppConfig.getInstance();
 	let log = Logger.getInstance(cfg.options.logging);
+	let forBrowser = dirname(entry.source).includes("browser");
 	let fullPath = join(entry.dir, entry.source);
 	let plugins: any[] = [
 		"@babel/plugin-proposal-class-properties",
@@ -118,10 +119,13 @@ export function compileFile(
 
 		FileUtils.writeFile(entry.dir, entry.source, source, false);
 
-		// In case file is in a browser bundle and removeImports is set to true...
-		if (Bundle.needsStripping(entry.source)) {
+		// In case file is browser related and removeImports is set to true...
+		if (
+			(forBrowser && cfg.options.javascript.browser.removeImports) ||
+			Bundle.needsStripping(entry.source)
+		) {
 			// Code editor is satisfied so far, but compiled file doesn't need imports
-			source = Bundle.stripImports(source);
+			source = JavascriptUtils.stripImports(source);
 		}
 	}
 
@@ -138,10 +142,7 @@ export function compileFile(
 	if (process.env.NODE_ENV == "production") {
 		// For production use
 		//presets.push("minify"); // Bug in preset: https://github.com/babel/minify/issues/904
-	} else if (
-		!dirname(entry.source).includes("browser") &&
-		cfg.options.javascript.sourceMapping
-	) {
+	} else if (!forBrowser && cfg.options.javascript.sourceMapping) {
 		// https://www.mattzeunert.com/2016/02/14/how-do-source-maps-work.html
 		plugins.push("source-map-support");
 	}
@@ -164,11 +165,11 @@ export function compileFile(
 		presets.push("@babel/preset-flow");
 	}
 
-	if (dirname(entry.source).includes("browser")) {
+	if (forBrowser) {
 		presets.push([
 			"@babel/preset-env",
 			{
-				targets: cfg.options.javascript.browserTargets
+				targets: cfg.options.javascript.browser.targets
 			}
 		]);
 	} else {
@@ -202,7 +203,7 @@ export function compileFile(
 			fl = join(entry.targetDir, entry.target + ".map");
 			if (test("-f", fl)) rm(fl);
 		} else if (cfg.options.javascript.sourceMapping) {
-			if (!dirname(entry.source).includes("browser")) {
+			if (!forBrowser) {
 				results.code += `\n//# sourceMappingURL=${basename(entry.target)}.map`;
 				FileUtils.writeFile(
 					entry.targetDir,

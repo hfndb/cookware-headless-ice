@@ -190,7 +190,10 @@ Entries:
 {
 	"javascript": {
 		"ast": false,
-		"browserTargets": ["defaults"],
+		browser: {
+			removeImports: false,
+			targets: ["defaults"]
+		},
 		"compiler": "typescript",
 		"dirs": {
 			"output": "dist/static/js",
@@ -211,7 +214,8 @@ Entries:
 ```
 Entries:
 + *ast*: Generate a .ast file for each transcompiled file
-+ *browserTargets*: See [Babel documentation](https://babeljs.io/docs/en/presets). Presets are loaded based on the compiler setting. Browser targets can be set here.
++ *browser / removeImports*: Removes imports (and exports) from browser related source file just before transcompiling.
++ *browser / targets*: See [Babel documentation](https://babeljs.io/docs/en/presets). Presets are loaded based on the compiler setting. Browser targets can be set here.
 + *compiler*: Possible values: none, javascript, flow or typescript. The setting javascript will convert recent versions of JavaScript to a browser compatible version.
 + *dirs / output*: Where to put your JavaScript files.
 + *dirs / source*: Location of your TypeScript or JavaScript files.

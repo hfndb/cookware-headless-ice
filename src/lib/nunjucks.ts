@@ -323,7 +323,18 @@ ${value}
 		searchPaths = searchPaths.concat(NunjucksUtils.getSearchPaths());
 
 		try {
-			NunjucksUtils.getEnvironment(searchPaths);
+			let env = NunjucksUtils.getEnvironment(searchPaths);
+
+			// Add global function to dump all vars in template
+			env.globals["getVars"] = function() {
+				return this.getVariables();
+			};
+
+			// Add global function to pretty print a variable
+			env.globals["pprint"] = function(arg) {
+				return JSON.stringify(arg, null, "    ");
+			};
+
 			let data = FileUtils.readFile(join(dir, file));
 			return nunjucks.renderString(data, context);
 		} catch (err) {

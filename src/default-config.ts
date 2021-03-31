@@ -67,7 +67,10 @@ let DefaultConfig = {
 	},
 	javascript: {
 		ast: false,
-		browserTargets: ["defaults"],
+		browser: {
+			removeImports: false,
+			targets: ["defaults"]
+		},
 		compiler: "javascript",
 		nodeVersion: "current",
 		sourceMapping: true,

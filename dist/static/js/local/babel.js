@@ -96,6 +96,7 @@ function compileFile(entry, verbose = true) {
 
   let log = _lib.Logger.getInstance(cfg.options.logging);
 
+  let forBrowser = (0, _path.dirname)(entry.source).includes("browser");
   let fullPath = (0, _path.join)(entry.dir, entry.source);
   let plugins = ["@babel/plugin-proposal-class-properties", "@babel/proposal-object-rest-spread"];
   let presets = [];
@@ -111,8 +112,8 @@ function compileFile(entry, verbose = true) {
 
     _lib.FileUtils.writeFile(entry.dir, entry.source, source, false);
 
-    if (_javascript.Bundle.needsStripping(entry.source)) {
-      source = _javascript.Bundle.stripImports(source);
+    if (forBrowser && cfg.options.javascript.browser.removeImports || _javascript.Bundle.needsStripping(entry.source)) {
+      source = _javascript.JavascriptUtils.stripImports(source);
     }
   }
 
@@ -122,7 +123,7 @@ function compileFile(entry, verbose = true) {
     presets.push(["@babel/preset-react"]);
   }
 
-  if (process.env.NODE_ENV == "production") {} else if (!(0, _path.dirname)(entry.source).includes("browser") && cfg.options.javascript.sourceMapping) {
+  if (process.env.NODE_ENV == "production") {} else if (!forBrowser && cfg.options.javascript.sourceMapping) {
     plugins.push("source-map-support");
   }
 
@@ -134,9 +135,9 @@ function compileFile(entry, verbose = true) {
     presets.push("@babel/preset-flow");
   }
 
-  if ((0, _path.dirname)(entry.source).includes("browser")) {
+  if (forBrowser) {
     presets.push(["@babel/preset-env", {
-      targets: cfg.options.javascript.browserTargets
+      targets: cfg.options.javascript.browser.targets
     }]);
   } else {
     presets.push(["@babel/preset-env", {
@@ -166,7 +167,7 @@ function compileFile(entry, verbose = true) {
       fl = (0, _path.join)(entry.targetDir, entry.target + ".map");
       if ((0, _shelljs.test)("-f", fl)) (0, _shelljs.rm)(fl);
     } else if (cfg.options.javascript.sourceMapping) {
-      if (!(0, _path.dirname)(entry.source).includes("browser")) {
+      if (!forBrowser) {
         results.code += `\n//# sourceMappingURL=${(0, _path.basename)(entry.target)}.map`;
 
         _lib.FileUtils.writeFile(entry.targetDir, entry.target + ".map", JSON.stringify(results.map), false);
