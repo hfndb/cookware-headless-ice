@@ -41,13 +41,16 @@ $table-accent-bg:             rgba($black, .05) !default;
 $table-bg:                    null !default;
 $table-caption-color:         $text-muted !default;
 $table-color:                 $body-color !default;
-$table-cell-padding:          .75rem !default;
+$table-cell-padding:          .75rem !default; // Only used for screen
 $table-dark-color:            $white !default;
 $table-dark-bg:               $gray-800 !default;
 $table-dark-border-color:     lighten($table-dark-bg, 7.5%) !default;
 $table-hover-bg:              rgba($black, .075) !default;
 $table-hover-color:           $table-color !default;
 $table-striped-order:         odd !default;
+
+// Added
+$table-cell-padding-print:   .25rem .25rem; // Only used for printing
 
 
 
@@ -60,8 +63,6 @@ table {
 }
 
 caption {
-  padding-top: $table-cell-padding;
-  padding-bottom: $table-cell-padding;
   color: $table-caption-color;
   text-align: left;
   caption-side: bottom;
@@ -82,7 +83,6 @@ table {
 
   th,
   td {
-    padding: $table-cell-padding;
     vertical-align: top;
     border-top: $table-border-width solid $table-border-color;
   }
@@ -155,4 +155,26 @@ table th {
 table thead th {
     vertical-align: bottom;
     border-bottom: (2 * $table-border-width) solid $table-border-color;
+}
+
+@media only screen {
+	caption {
+		padding-top: $table-cell-padding;
+		padding-bottom: $table-cell-padding;
+	}
+	table {
+		th,
+		td {
+			padding: $table-cell-padding;
+		}
+	}
+}
+
+@media only print {
+	table {
+		th,
+		td {
+			padding: $table-cell-padding-print;
+		}
+	}
 }

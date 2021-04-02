@@ -57,8 +57,11 @@
 		{%- endfor %}		{#- for loop cell in group.max #}
 	</tr>
 	{%- endfor %}			{#- for loop group in groups #}
-	<tr>
-		<th colspan="5" class="summary">Groups summary</th>
+	<tr class="noprint">
+		<td colspan="5">&nbsp;</td>
+	</tr>
+	<tr style="page-break-before: always;">
+		<th colspan="5">Groups summary</th>
 	</tr>
 	{%- for group in report.groups %}
 	<tr>
@@ -69,7 +72,10 @@
 	</tr>
 	{%- endfor %}			{#- for loop group in groups #}
 	<tr>
-		<th colspan="5" class="summary">Report summary <span class="plain"> - {{ report.itemCount }} files in {{ report.groups.length }} groups</span></th>
+		<td colspan="5">&nbsp;</td>
+	</tr>
+	<tr>
+		<th colspan="5">Report summary <span class="plain"> - {{ report.itemCount }} files in {{ report.groups.length }} groups</span></th>
 	</tr>
 	<tr>
 		<td>Totals</td>
