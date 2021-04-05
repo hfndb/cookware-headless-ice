@@ -13,6 +13,8 @@ import { NunjucksUtils } from "./nunjucks";
 
 /**
  * Striptease class, to strip HTML and tease those who want to read the code
+ *
+ * @todo Also consider content of HTML code and pre tags
  */
 export class Stripper {
 	static process(content: string): string {

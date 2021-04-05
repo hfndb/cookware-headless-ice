@@ -240,6 +240,7 @@ With 'cleanup' as a list of directories and files to remove after creating the a
 + *bundles*: An array with JavaScript files, merged and compressed for usage in a web browser. Each bundle is defined as follows:
 ```
 {
+	"compress": true,
 	"header": "dist/static/js/some-file.js",
 	"output": "browser/generic.js",
 	"removeImports": false,

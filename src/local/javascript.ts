@@ -94,10 +94,44 @@ export class JavascriptUtils {
 			// If import statements are obsolete, then exports too
 			if (lines[i].startsWith("exports.")) {
 				lines[i] = ""; // Don't desorientate sourcemap
+			} else if (lines[i].startsWith("export ")) {
+				lines[i] = lines[i].replace("export ", "");
 			}
 		}
 
 		return lines.join("\n");
+	}
+
+	/**
+	 * Compact an already transcompiled file by removing obsolete spaces and line ends
+	 */
+	static stripSpaces(src: string): string {
+		let mlnTemplate = 0;
+		let lines = src.split("\n");
+		let toReturn = "";
+
+		for (let i = 0; i < lines.length; i++) {
+			let line = lines[i].trim();
+			if (!line) continue; // Empty line
+
+			// Handle multiline string templates
+			if (!mlnTemplate && line.includes("multiline template")) {
+				// Comment indicating that a multiline string template begins @ next line
+				mlnTemplate = 1;
+				continue;
+			} else if (mlnTemplate == 1) {
+				mlnTemplate = 2; // Begin, skip
+				continue;
+			} else if (mlnTemplate == 2) {
+				toReturn += line + "\n";
+				if (line.includes("`")) mlnTemplate = 0; // End
+				continue;
+			}
+			if (!toReturn.endsWith(";")) toReturn += " ";
+			toReturn += line;
+		}
+
+		return toReturn;
 	}
 }
 
@@ -151,6 +185,11 @@ export class Bundle {
 
 			toWrite += content.trim() + "\n";
 		});
+
+		if (bundle.compress) {
+			toWrite = JavascriptUtils.stripSpaces(toWrite);
+		}
+
 		FileUtils.writeFile(outDir, bundle.output, toWrite, false);
 		log.info(`- written Javascript bundle ${bundle.output}`);
 

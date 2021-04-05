@@ -123,7 +123,9 @@ function compileFile(entry, verbose = true) {
     presets.push(["@babel/preset-react"]);
   }
 
-  if (process.env.NODE_ENV == "production") {} else if (!forBrowser && cfg.options.javascript.sourceMapping) {
+  if (process.env.NODE_ENV == "production") {
+    source = _javascript.JavascriptUtils.stripSpaces(source);
+  } else if (!forBrowser && cfg.options.javascript.sourceMapping) {
     plugins.push("source-map-support");
   }
 

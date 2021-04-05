@@ -142,6 +142,7 @@ export function compileFile(
 	if (process.env.NODE_ENV == "production") {
 		// For production use
 		//presets.push("minify"); // Bug in preset: https://github.com/babel/minify/issues/904
+		source = JavascriptUtils.stripSpaces(source);
 	} else if (!forBrowser && cfg.options.javascript.sourceMapping) {
 		// https://www.mattzeunert.com/2016/02/14/how-do-source-maps-work.html
 		plugins.push("source-map-support");
