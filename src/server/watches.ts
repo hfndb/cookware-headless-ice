@@ -37,7 +37,7 @@ class ConfigWatch extends FileWatcher {
 		event; // Fool compiler - unused variable
 		file;
 		cfg.read();
-		log.info(`- config.json changed and reloaded`);
+		log.info(`- settings.json changed and reloaded`);
 	}
 }
 
@@ -144,9 +144,9 @@ export function initWatches() {
 	ConfigWatch.instance = new ConfigWatch(
 		cfg.dirProject,
 		"",
-		"config.json",
+		"settings.json",
 		cfg.options.server.watchTimeout,
-		"application config file (config.json)"
+		"project settings file (settings.json)"
 	);
 
 	CssWatch.instance = new CssWatch(
