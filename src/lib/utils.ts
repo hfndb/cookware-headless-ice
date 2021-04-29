@@ -4,7 +4,7 @@ import { AppConfig } from "./config";
 /**
  * Utility class for strings
  */
-export class StringUtils {
+export class StringExt {
 	/**
 	 * Count occurrences of a string within a string
 	 */

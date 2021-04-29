@@ -1,5 +1,5 @@
 import { join } from "path";
-import { DefaultConfig } from "./default-config";
+import { DefaultConfig } from "./default-settings";
 import { Lint } from "./local/markup";
 import { renderEpub } from "./local/epub";
 import { FileUtils, Logger } from "./lib";
@@ -88,7 +88,7 @@ am.addOption({
 	alias: "w",
 	name: "write",
 	type: Boolean,
-	description: "Write default config settings to config-default.json"
+	description: "Write default settings to settings-default.json"
 });
 am.addOption({
 	name: "production",
@@ -168,7 +168,11 @@ if (choice.beautify) {
 } else if (choice.playground) {
 	playGround();
 } else if (choice.write) {
-	FileUtils.writeJsonFile(DefaultConfig, cfg.dirProject, "config-default.json");
+	FileUtils.writeJsonFile(
+		DefaultConfig,
+		cfg.dirProject,
+		"settings-default.json"
+	);
 } else {
 	am.showHelp([
 		{

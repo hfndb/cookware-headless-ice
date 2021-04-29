@@ -31,7 +31,7 @@ class Stripper {
     let retVal = "";
 
     for (let i = 0; i < len; i++) {
-      if (cfg.options.html.stripper.empty && _utils.StringUtils.strip(tmp[i], true, true).length == 0) continue;
+      if (cfg.options.html.stripper.empty && _utils.StringExt.strip(tmp[i], true, true).length == 0) continue;
       retVal += Stripper.parseLine(tmp[i]);
     }
 
@@ -42,7 +42,7 @@ class Stripper {
     let cfg = _lib.AppConfig.getInstance();
 
     if (cfg.options.html.stripper.begin || cfg.options.html.stripper.end) {
-      line = _utils.StringUtils.strip(line, cfg.options.html.stripper.begin, cfg.options.html.stripper.end);
+      line = _utils.StringExt.strip(line, cfg.options.html.stripper.begin, cfg.options.html.stripper.end);
     }
 
     return line;
@@ -237,7 +237,7 @@ class Content {
 
     const frmtr = _utils.Formatter.getInstance();
 
-    let levelNum = _utils.StringUtils.occurrences(url, "/");
+    let levelNum = _utils.StringExt.occurrences(url, "/");
 
     let levelStr = "";
 

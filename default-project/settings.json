@@ -1,0 +1,17 @@
+{
+	"version": "0.0.1",
+	"logging": {
+		"dir": "/tmp/myproject"
+	},
+	"javascript": {
+		"compiler": "javascript",
+		"sourceVersion": "es2017"
+	},
+	"dependencies": {
+		"typedoc": {
+			"config": {
+				"name": "Your project API documentation"
+			}
+		}
+	}
+}

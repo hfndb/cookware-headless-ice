@@ -1,6 +1,6 @@
 import { join } from "path";
 import { removeObsolete } from "./files";
-import { Formatter, StringUtils } from "./utils";
+import { Formatter, StringExt } from "./utils";
 import { test, touch } from "shelljs";
 import {
 	getChangeList,
@@ -28,7 +28,7 @@ export class Stripper {
 		for (let i = 0; i < len; i++) {
 			if (
 				cfg.options.html.stripper.empty &&
-				StringUtils.strip(tmp[i], true, true).length == 0
+				StringExt.strip(tmp[i], true, true).length == 0
 			)
 				continue;
 			retVal += Stripper.parseLine(tmp[i]);
@@ -40,7 +40,7 @@ export class Stripper {
 	static parseLine(line: string): string {
 		let cfg = AppConfig.getInstance();
 		if (cfg.options.html.stripper.begin || cfg.options.html.stripper.end) {
-			line = StringUtils.strip(
+			line = StringExt.strip(
 				line,
 				cfg.options.html.stripper.begin,
 				cfg.options.html.stripper.end
@@ -280,7 +280,7 @@ export class Content {
 		const frmtr = Formatter.getInstance();
 
 		// Determine prefix for statics, variable 'level' in context and base template
-		let levelNum = StringUtils.occurrences(url, "/");
+		let levelNum = StringExt.occurrences(url, "/");
 		let levelStr = "";
 		for (let i = 0; i < levelNum; i++) {
 			levelStr = levelStr + "../";

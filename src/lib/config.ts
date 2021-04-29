@@ -2,7 +2,7 @@ import { homedir, platform, tmpdir } from "os";
 import { join, normalize, sep } from "path";
 import { cp } from "shelljs";
 import { test } from "shelljs";
-import { DefaultConfig } from "../default-config";
+import { DefaultConfig } from "../default-settings";
 import { Logger } from "./log";
 import { createDirTree } from "./dirs";
 import { FileUtils } from "./files";
@@ -10,8 +10,8 @@ import { ObjectUtils } from "./object";
 
 /**
  * Configuration mechanism.
- * <br>Default settings are supposed to be in src/default-config.js
- * <br>Project setttings override and are in working directory config.json
+ * <br>Default settings are supposed to be in src/default-settings.js
+ * <br>Project setttings override and are in working directory settings.json
  */
 
 /**
@@ -20,7 +20,7 @@ import { ObjectUtils } from "./object";
  * @property dirMain - Directory of cookware-headless-ice
  * @property dirProject - Directory of current project
  * @property isProject - True if working on a project, false if on cookware-headless-ice
- * @property options - Loaded from config.json in project directory
+ * @property options - Loaded from settings.json in project directory
  */
 export class AppConfig {
 	dirHome: string;
@@ -33,7 +33,7 @@ export class AppConfig {
 	static instance: AppConfig | null = null;
 
 	/**
-	 * Initializes properties based on file system, reads config.json and modifies search path
+	 * Initializes properties based on file system, reads settings.json and modifies search path
 	 * @param name of project
 	 */
 	constructor(name: string) {
@@ -90,7 +90,7 @@ export class AppConfig {
 			console.warn(
 				`Check and correct your project configuration and documentation about it:\n${join(
 					this.dirMain,
-					"config.json"
+					"settings.json"
 				)} \n\nDefault settings and project settings aren't the same version\n`
 			);
 		}
@@ -99,7 +99,7 @@ export class AppConfig {
 	}
 
 	static getProjectDir(dir: string): string {
-		while (dir.length > 2 && !test("-f", join(dir, "config.json"))) {
+		while (dir.length > 2 && !test("-f", join(dir, "settings.json"))) {
 			dir = normalize(join(dir, ".."));
 		}
 		return dir;
@@ -132,7 +132,7 @@ export class AppConfig {
 	}
 
 	/**
-	 * Read src/default-config.js and then project config.json
+	 * Read src/default-settings.js and then project settings.json
 	 */
 	read(): void {
 		// Make sure that this.defaults and this.options are 2 seperate objects
@@ -145,7 +145,7 @@ export class AppConfig {
 			return this.options;
 		}
 
-		let settings = join(this.dirProject, "config.json");
+		let settings = join(this.dirProject, "settings.json");
 		if (!test("-f", settings)) {
 			console.error(`Project settings ${settings} not found`);
 			process.exit(-1);
@@ -233,7 +233,7 @@ export class AppConfig {
 
 		if (!checkProjects) return;
 
-		// Check validity of config.json structure in all known projects
+		// Check validity of settings.json structure in all known projects
 		// While doing that, check version number
 		let projects: string[] = cfg.options.projects;
 		let saydHello = false;
@@ -242,7 +242,7 @@ export class AppConfig {
 			if (opts.version != undefined && opts.version != options.version) {
 				if (!saydHello) {
 					log.info(
-						`Checking project config(s).Should be version ${options.version}`
+						`Checking project setting(s).Should be version ${options.version}`
 					);
 					saydHello = true;
 				}
@@ -296,8 +296,8 @@ export function checkConfig() {
 
 	import { addedDiff, updatedDiff } from "deep-object-diff";
 
-	let app = FileUtils.readJsonFile(join(cfg.dirMain, "config.json"), false);
-	let project = FileUtils.readJsonFile(join(cfg.dirProject, "config.json"), false);
+	let app = FileUtils.readJsonFile(join(cfg.dirMain, "settings.json"), false);
+	let project = FileUtils.readJsonFile(join(cfg.dirProject, "settings.json"), false);
 
 	// @todo Doesn't display deep overrides like in cfg.options.dependencies.jsdoc.source.include
 	log.info("Overridden config settings:", updatedDiff(app, project));
@@ -327,7 +327,8 @@ export class AppMenu {
 		alias: "c",
 		name: "config",
 		type: Boolean,
-		description: "Check your project config.json; default and overridden settings"
+		description:
+			"Check your project settings.json; default and overridden settings"
 	};
 
 	initializeNewProjectShortcutI = {
@@ -341,8 +342,7 @@ export class AppMenu {
 		alias: "y",
 		name: "playground",
 		type: Boolean,
-		description:
-			"For developement purposes: Play with functionality. Shortcut y for Y-incison during autopsy (from Greek for 'seeing with your own eyes') 😀"
+		description: "For developement purposes: Play with functionality."
 	};
 
 	helpShortcutH = {
@@ -377,17 +377,13 @@ export class AppMenu {
 					this.options[current].alias == this.options[toCheck].alias
 				) {
 					console.log(
-						`- Double shortcut ${this.options[toCheck].alias} in modules ${
-							this.options[current].module
-						} and ${this.options[toCheck].module}`
+						`- Double shortcut ${this.options[toCheck].alias} in modules ${this.options[current].module} and ${this.options[toCheck].module}`
 					);
 					delete this.options[toCheck].alias;
 				}
 				if (this.options[current].name == this.options[toCheck].name) {
 					console.log(
-						`- Double name ${this.options[toCheck].name} in modules ${
-							this.options[current].module
-						} and ${this.options[toCheck].module}`
+						`- Double name ${this.options[toCheck].name} in modules ${this.options[current].module} and ${this.options[toCheck].module}`
 					);
 				}
 			}

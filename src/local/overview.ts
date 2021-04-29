@@ -1,6 +1,6 @@
 import { basename, extname, join } from "path";
 import { test } from "shelljs";
-import { fileListOptions, AppConfig, FileUtils, StringUtils } from "../lib";
+import { fileListOptions, AppConfig, FileUtils, StringExt } from "../lib";
 import { LineReader } from "../lib/files";
 import { ArrayUtils } from "../lib/object";
 import { getPackages } from "../lib/package-json";
@@ -21,7 +21,7 @@ function readFile(dir: string, file: string, group: Group, report: Report) {
 }
 
 function parseLine(line: string, item: Item, isInComment: boolean): boolean {
-	line = StringUtils.strip(line, true, true);
+	line = StringExt.strip(line, true, true);
 
 	let cmtSingleLine: string[] = []; // Start of single line comments
 	let cmtStart: string[] = []; // Start of multi-line comments

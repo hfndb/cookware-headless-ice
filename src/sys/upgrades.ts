@@ -3,7 +3,7 @@ import { FileUtils } from "../lib";
 import { AppConfig } from "../lib/config";
 
 /**
- * @todo Perhaps this file is obsolte, unless config.json will need specal conversions in the future
+ * @todo Perhaps this file is obsolte, unless settings.json will need specal conversions in the future
  */
 
 /**
@@ -12,14 +12,14 @@ import { AppConfig } from "../lib/config";
 export function upgrade(cfg: AppConfig, system: boolean = false): boolean {
 	let dir = system ? cfg.dirMain : cfg.dirProject;
 	let needsUpdate = false;
-	let options = FileUtils.readJsonFile(join(dir, "config.json"));
+	let options = FileUtils.readJsonFile(join(dir, "settings.json"));
 	let versionTarget = "0.0.1";
 	let versionCurrent = Object.getOwnPropertyDescriptor(options, "version");
 	if (versionCurrent) {
 		versionCurrent = versionCurrent.value;
 	} else {
 		console.error(
-			"Couldn't find a version number in config.json. Exiting now... bye!\n"
+			"Couldn't find a version number in settings.json. Exiting now... bye!\n"
 		);
 		return false;
 	}
