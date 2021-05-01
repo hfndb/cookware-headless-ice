@@ -47,7 +47,6 @@ class StringExt {
     let result;
 
     while ((result = re.exec(str)) !== null) {
-      delete result.input;
       let rw = [];
 
       for (let i = 1; i < result.length; i++) {
