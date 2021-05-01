@@ -1,4 +1,4 @@
-import { basename, join } from "path";
+import { basename, dirname, join, normalize, sep } from "path";
 import { cp, test, touch } from "shelljs";
 import {
 	getChangeList,
@@ -40,10 +40,23 @@ export class Double {
 	}
 }
 
-export class SassUtils {
-	private changeList: FileStatus[] = []; // list of all Sass files
-	private deps: any = {};
-	static preventDoubles: string[] = []; // For preventing double transcompiling during watching
+export class Files {
+	changeList: FileStatus[]; // list of all Sass files
+	private deps: Map<string, string[]> = new Map();
+
+	constructor() {
+		this.changeList = getChangeList({
+			sourcePath: join(cfg.dirProject, cfg.options.sass.dirs.source),
+			targetPath: SassUtils.getOutputDir(),
+			sourceExt: [".scss"],
+			targetExt: ".css"
+		});
+
+		// Read dependencies (imports)
+		this.changeList.forEach((entry: FileStatus) => {
+			this.read(entry);
+		});
+	}
 
 	/**
 	 * Get an entry in this.changelist based on source file
@@ -53,15 +66,35 @@ export class SassUtils {
 	}
 
 	/**
+	 * Translate an imported name to a file name
+	 */
+	getImport(fromDir: string, file: string): string {
+		let r = this.getDirFile(fromDir, file);
+		if (!r[1].startsWith("_")) r[1] = "_" + file;
+		if (!r[1].endsWith(".scss")) r[1] += ".scss";
+		return r.join(sep);
+	}
+
+	/**
+	 * @returns {string[]} [dir name, file name]
+	 */
+	getDirFile(fromDir: string, file: string): string[] {
+		let r = ["", file];
+		if (file.includes(sep)) {
+			r[0] = normalize(join(fromDir, dirname(file)));
+			r[1] = basename(file);
+		}
+		return r;
+	}
+
+	/**
 	 * See if file needs compiling
 	 */
 	importChanged(entry: FileStatus): boolean {
 		let maxImport = 0; // latest change of imported file
-		let imports = this.deps[entry.source] || [];
+		let imports = this.deps.get(entry.source) || [];
 		for (let i = 0; i < imports.length; i++) {
 			let im = imports[i];
-			if (!im.startsWith("_")) im = "_" + im;
-			if (!im.endsWith(".scss")) im += ".scss";
 			let file = this.getEntry(im);
 			if (file) maxImport = Math.max(maxImport, file.lastModified);
 		}
@@ -69,7 +102,15 @@ export class SassUtils {
 	}
 
 	/**
+	 * See if a file is an import (prefix _)
+	 */
+	static isImport(file: string): boolean {
+		return basename(file).startsWith("_");
+	}
+
+	/**
 	 * Extract includes from a file
+	 * @todo Turn this into a recursive method
 	 */
 	read(entry: FileStatus): void {
 		let fullPath = join(entry.dir, entry.source);
@@ -77,10 +118,30 @@ export class SassUtils {
 			`@import ["']+(.*)["']+;`,
 			FileUtils.readFile(fullPath)
 		);
+		let r = this.getDirFile("", entry.source);
 		for (let i = 0; i < result.length; i++) {
-			if (!this.deps[entry.source]) this.deps[entry.source] = [];
-			this.deps[entry.source].push(result[i][0]);
+			let lst = this.deps.get(entry.source) || [];
+			lst.push(this.getImport(r[0], result[i][0]));
+			this.deps.set(entry.source, lst);
 		}
+	}
+}
+
+export class SassUtils {
+	static preventDoubles: string[] = []; // For preventing double transcompiling during watching
+
+	/**
+	 * Auto-prefix CSS with vendor specifics
+	 *
+	 */
+	static addPrefixes(content: string): string {
+		const autoprefixer = require("autoprefixer");
+		const postcss = require("postcss");
+		let result: prefixResult = postcss([autoprefixer]).process(content);
+		result.warnings().forEach(function(warn: string) {
+			log.warn("Warning autoprefixer: " + warn.toString());
+		});
+		return result.css;
 	}
 
 	/**
@@ -102,49 +163,10 @@ export class SassUtils {
 	}
 
 	/**
-	 * See if a file is an import (prefix _)
-	 */
-	static isImport(file: string): boolean {
-		return basename(file).startsWith("_");
-	}
-
-	/**
-	 * Get CSS output directory
-	 */
-	static getOutputDir(): string {
-		let outputDir = "";
-		if (test("-d", join(cfg.dirProject, cfg.options.sass.dirs.output))) {
-			// In case of local project
-			outputDir = join(cfg.dirProject, cfg.options.sass.dirs.output);
-		} else if (test("-d", cfg.options.sass.dirs.output)) {
-			// In case of hosting
-			outputDir = cfg.options.sass.dirs.output;
-		} else {
-			log.error("JavaScript output directory couldn't be determined");
-		}
-
-		return outputDir;
-	}
-
-	/**
-	 * Auto-prefix CSS with vendor specifics
-	 *
-	 */
-	static addPrefixes(content: string): string {
-		const autoprefixer = require("autoprefixer");
-		const postcss = require("postcss");
-		let result: prefixResult = postcss([autoprefixer]).process(content);
-		result.warnings().forEach(function(warn: string) {
-			log.warn("Warning autoprefixer: " + warn.toString());
-		});
-		return result.css;
-	}
-
-	/**
 	 * Compile all changed or new Sass files
 	 */
 	static compile(verbose: boolean, isWatching: boolean = false): void {
-		let deps = new SassUtils();
+		let fls = new Files();
 		let outDir = SassUtils.getOutputDir();
 		let processed: string[] = [];
 		let saydHello = false;
@@ -157,13 +179,6 @@ export class SassUtils {
 			return;
 		}
 
-		deps.changeList = getChangeList({
-			sourcePath: join(cfg.dirProject, cfg.options.sass.dirs.source),
-			targetPath: outDir,
-			sourceExt: [".scss"],
-			targetExt: ".css"
-		});
-
 		function write(entry: FileStatus) {
 			if (!saydHello && verbose) {
 				saydHello = true;
@@ -173,15 +188,10 @@ export class SassUtils {
 			processed.push(entry.target);
 		}
 
-		// Read dependencies (imports)
-		deps.changeList.forEach((entry: FileStatus) => {
-			deps.read(entry);
-		});
-
-		deps.changeList.forEach((entry: FileStatus) => {
-			if (SassUtils.isImport(entry.source)) return;
+		fls.changeList.forEach((entry: FileStatus) => {
+			if (Files.isImport(entry.source)) return;
 			if (isWatching && Double.is(entry.source)) return;
-			if (entry.isNewOrModified() || deps.importChanged(entry)) {
+			if (entry.isNewOrModified() || fls.importChanged(entry)) {
 				write(entry);
 			}
 			processed.push(entry.target);
@@ -217,7 +227,7 @@ export class SassUtils {
 		let options = cfg.options.dependencies.nodeSass.config;
 		let session = SessionVars.getInstance();
 
-		if (SassUtils.isImport(entry.source) || !SassUtils.beautify(entry)) {
+		if (Files.isImport(entry.source) || !SassUtils.beautify(entry)) {
 			return false;
 		}
 
@@ -244,5 +254,23 @@ export class SassUtils {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get CSS output directory
+	 */
+	static getOutputDir(): string {
+		let outputDir = "";
+		if (test("-d", join(cfg.dirProject, cfg.options.sass.dirs.output))) {
+			// In case of local project
+			outputDir = join(cfg.dirProject, cfg.options.sass.dirs.output);
+		} else if (test("-d", cfg.options.sass.dirs.output)) {
+			// In case of hosting
+			outputDir = cfg.options.sass.dirs.output;
+		} else {
+			log.error("JavaScript output directory couldn't be determined");
+		}
+
+		return outputDir;
 	}
 }

@@ -76,7 +76,7 @@ class SassWatch extends _lib.FileWatcher {
     status.setSoure(file, ".scss");
     status.setTarget(_styling.SassUtils.getOutputDir(), ".css");
 
-    if (_styling.SassUtils.isImport(file)) {
+    if (_styling.Files.isImport(file)) {
       _styling.SassUtils.beautify(status);
 
       _styling.SassUtils.compile(true, true);

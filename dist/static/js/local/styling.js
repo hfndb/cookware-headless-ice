@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SassUtils = exports.Double = void 0;
+exports.SassUtils = exports.Files = exports.Double = void 0;
 
 require("source-map-support/register");
 
@@ -49,25 +49,51 @@ _defineProperty(Double, "_instance", void 0);
 
 _defineProperty(Double, "reg", {});
 
-class SassUtils {
+class Files {
   constructor() {
-    _defineProperty(this, "changeList", []);
+    _defineProperty(this, "changeList", void 0);
 
-    _defineProperty(this, "deps", {});
+    _defineProperty(this, "deps", new Map());
+
+    this.changeList = (0, _lib.getChangeList)({
+      sourcePath: (0, _path.join)(cfg.dirProject, cfg.options.sass.dirs.source),
+      targetPath: SassUtils.getOutputDir(),
+      sourceExt: [".scss"],
+      targetExt: ".css"
+    });
+    this.changeList.forEach(entry => {
+      this.read(entry);
+    });
   }
 
   getEntry(file) {
     return this.changeList.find(el => el.source == file);
   }
 
+  getImport(fromDir, file) {
+    let r = this.getDirFile(fromDir, file);
+    if (!r[1].startsWith("_")) r[1] = "_" + file;
+    if (!r[1].endsWith(".scss")) r[1] += ".scss";
+    return r.join(_path.sep);
+  }
+
+  getDirFile(fromDir, file) {
+    let r = ["", file];
+
+    if (file.includes(_path.sep)) {
+      r[0] = (0, _path.normalize)((0, _path.join)(fromDir, (0, _path.dirname)(file)));
+      r[1] = (0, _path.basename)(file);
+    }
+
+    return r;
+  }
+
   importChanged(entry) {
     let maxImport = 0;
-    let imports = this.deps[entry.source] || [];
+    let imports = this.deps.get(entry.source) || [];
 
     for (let i = 0; i < imports.length; i++) {
       let im = imports[i];
-      if (!im.startsWith("_")) im = "_" + im;
-      if (!im.endsWith(".scss")) im += ".scss";
       let file = this.getEntry(im);
       if (file) maxImport = Math.max(maxImport, file.lastModified);
     }
@@ -75,15 +101,39 @@ class SassUtils {
     return entry.targetLastModified < maxImport;
   }
 
+  static isImport(file) {
+    return (0, _path.basename)(file).startsWith("_");
+  }
+
   read(entry) {
     let fullPath = (0, _path.join)(entry.dir, entry.source);
 
     let result = _utils.StringExt.matchAll(`@import ["']+(.*)["']+;`, _lib.FileUtils.readFile(fullPath));
 
+    let r = this.getDirFile("", entry.source);
+
     for (let i = 0; i < result.length; i++) {
-      if (!this.deps[entry.source]) this.deps[entry.source] = [];
-      this.deps[entry.source].push(result[i][0]);
+      let lst = this.deps.get(entry.source) || [];
+      lst.push(this.getImport(r[0], result[i][0]));
+      this.deps.set(entry.source, lst);
     }
+  }
+
+}
+
+exports.Files = Files;
+
+class SassUtils {
+  static addPrefixes(content) {
+    const autoprefixer = require("autoprefixer");
+
+    const postcss = require("postcss");
+
+    let result = postcss([autoprefixer]).process(content);
+    result.warnings().forEach(function (warn) {
+      log.warn("Warning autoprefixer: " + warn.toString());
+    });
+    return result.css;
   }
 
   static beautify(entry) {
@@ -106,38 +156,8 @@ class SassUtils {
     return toReturn;
   }
 
-  static isImport(file) {
-    return (0, _path.basename)(file).startsWith("_");
-  }
-
-  static getOutputDir() {
-    let outputDir = "";
-
-    if ((0, _shelljs.test)("-d", (0, _path.join)(cfg.dirProject, cfg.options.sass.dirs.output))) {
-      outputDir = (0, _path.join)(cfg.dirProject, cfg.options.sass.dirs.output);
-    } else if ((0, _shelljs.test)("-d", cfg.options.sass.dirs.output)) {
-      outputDir = cfg.options.sass.dirs.output;
-    } else {
-      log.error("JavaScript output directory couldn't be determined");
-    }
-
-    return outputDir;
-  }
-
-  static addPrefixes(content) {
-    const autoprefixer = require("autoprefixer");
-
-    const postcss = require("postcss");
-
-    let result = postcss([autoprefixer]).process(content);
-    result.warnings().forEach(function (warn) {
-      log.warn("Warning autoprefixer: " + warn.toString());
-    });
-    return result.css;
-  }
-
   static compile(verbose, isWatching = false) {
-    let deps = new SassUtils();
+    let fls = new Files();
     let outDir = SassUtils.getOutputDir();
     let processed = [];
     let saydHello = false;
@@ -147,13 +167,6 @@ class SassUtils {
       log.warn(`Path ./${cfg.options.sass.dirs.source} doesn't exist. Request to compile ignored`);
       return;
     }
-
-    deps.changeList = (0, _lib.getChangeList)({
-      sourcePath: (0, _path.join)(cfg.dirProject, cfg.options.sass.dirs.source),
-      targetPath: outDir,
-      sourceExt: [".scss"],
-      targetExt: ".css"
-    });
 
     function write(entry) {
       if (!saydHello && verbose) {
@@ -165,14 +178,11 @@ class SassUtils {
       processed.push(entry.target);
     }
 
-    deps.changeList.forEach(entry => {
-      deps.read(entry);
-    });
-    deps.changeList.forEach(entry => {
-      if (SassUtils.isImport(entry.source)) return;
+    fls.changeList.forEach(entry => {
+      if (Files.isImport(entry.source)) return;
       if (isWatching && Double.is(entry.source)) return;
 
-      if (entry.isNewOrModified() || deps.importChanged(entry)) {
+      if (entry.isNewOrModified() || fls.importChanged(entry)) {
         write(entry);
       }
 
@@ -207,7 +217,7 @@ class SassUtils {
 
     let session = _session.SessionVars.getInstance();
 
-    if (SassUtils.isImport(entry.source) || !SassUtils.beautify(entry)) {
+    if (Files.isImport(entry.source) || !SassUtils.beautify(entry)) {
       return false;
     }
 
@@ -235,6 +245,20 @@ class SassUtils {
     }
 
     return true;
+  }
+
+  static getOutputDir() {
+    let outputDir = "";
+
+    if ((0, _shelljs.test)("-d", (0, _path.join)(cfg.dirProject, cfg.options.sass.dirs.output))) {
+      outputDir = (0, _path.join)(cfg.dirProject, cfg.options.sass.dirs.output);
+    } else if ((0, _shelljs.test)("-d", cfg.options.sass.dirs.output)) {
+      outputDir = cfg.options.sass.dirs.output;
+    } else {
+      log.error("JavaScript output directory couldn't be determined");
+    }
+
+    return outputDir;
   }
 
 }
