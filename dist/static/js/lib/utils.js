@@ -41,6 +41,25 @@ class StringExt {
     return result ? result[1] : "";
   }
 
+  static matchAll(exp, str) {
+    let toReturn = [];
+    let re = new RegExp(exp, "gim");
+    let result;
+
+    while ((result = re.exec(str)) !== null) {
+      delete result.input;
+      let rw = [];
+
+      for (let i = 1; i < result.length; i++) {
+        rw.push(result[i]);
+      }
+
+      toReturn.push(rw);
+    }
+
+    return toReturn;
+  }
+
   static initialCapitalized(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }

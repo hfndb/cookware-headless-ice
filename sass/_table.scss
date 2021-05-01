@@ -11,7 +11,9 @@
 //
 
 @mixin hover() {
-  &:hover { @content; }
+	&:hover {
+		@content;
+	}
 }
 
 $body-color: $grey-020;
@@ -19,8 +21,8 @@ $body-color: $grey-020;
 //
 // From _variables.scss
 //
-$black:    #000 !default;
-$white:    #fff !default;
+$black: #000 !default;
+$white: #fff !default;
 $gray-100: #f8f9fa !default;
 $gray-200: #e9ecef !default;
 $gray-300: #dee2e6 !default;
@@ -31,91 +33,87 @@ $gray-700: #495057 !default;
 $gray-800: #343a40 !default;
 $gray-900: #212529 !default;
 
-$border-width:                1px !default;
-$border-color:                $gray-300 !default;
+$border-width: 1px !default;
+$border-color: $gray-300 !default;
 $spacer: 1rem !default;
-$text-muted:                  $gray-600 !default;
-$table-border-width:          $border-width !default;
-$table-border-color:          $border-color !default;
-$table-accent-bg:             rgba($black, .05) !default;
-$table-bg:                    null !default;
-$table-caption-color:         $text-muted !default;
-$table-color:                 $body-color !default;
-$table-cell-padding:          .75rem !default; // Only used for screen
-$table-dark-color:            $white !default;
-$table-dark-bg:               $gray-800 !default;
-$table-dark-border-color:     lighten($table-dark-bg, 7.5%) !default;
-$table-hover-bg:              rgba($black, .075) !default;
-$table-hover-color:           $table-color !default;
-$table-striped-order:         odd !default;
+$text-muted: $gray-600 !default;
+$table-border-width: $border-width !default;
+$table-border-color: $border-color !default;
+$table-accent-bg: rgba($black, 0.05) !default;
+$table-bg: null !default;
+$table-caption-color: $text-muted !default;
+$table-color: $body-color !default;
+$table-cell-padding: 0.75rem !default; // Only used for screen
+$table-dark-color: $white !default;
+$table-dark-bg: $gray-800 !default;
+$table-dark-border-color: lighten($table-dark-bg, 7.5%) !default;
+$table-hover-bg: rgba($black, 0.075) !default;
+$table-hover-color: $table-color !default;
+$table-striped-order: odd !default;
 
 // Added
-$table-cell-padding-print:   .25rem .25rem; // Only used for printing
-
-
+$table-cell-padding-print: 0.25rem 0.25rem; // Only used for printing
 
 //
 // From _reboot.scss
 //
 
 table {
-  border-collapse: collapse; // Prevent double borders
+	border-collapse: collapse; // Prevent double borders
 }
 
 caption {
-  color: $table-caption-color;
-  text-align: left;
-  caption-side: bottom;
+	color: $table-caption-color;
+	text-align: left;
+	caption-side: bottom;
 }
 
 th {
-  // Matches default `<td>` alignment by inheriting from the `<body>`, or the
-  // closest parent with a set `text-align`.
-  text-align: inherit;
+	// Matches default `<td>` alignment by inheriting from the `<body>`, or the
+	// closest parent with a set `text-align`.
+	text-align: inherit;
 }
-
 
 table {
-  //width: 100%;
-  margin-bottom: $spacer;
-  color: $table-color;
-  background-color: $table-bg; // Reset for nesting within parents with `background-color`.
+	//width: 100%;
+	margin-bottom: $spacer;
+	color: $table-color;
+	background-color: $table-bg; // Reset for nesting within parents with `background-color`.
 
-  th,
-  td {
-    vertical-align: top;
-    border-top: $table-border-width solid $table-border-color;
-  }
+	th,
+	td {
+		vertical-align: top;
+		border-top: $table-border-width solid $table-border-color;
+	}
 
-  thead th {
-    vertical-align: bottom;
-    border-bottom: (2 * $table-border-width) solid $table-border-color;
-  }
+	thead th {
+		vertical-align: bottom;
+		border-bottom: (2 * $table-border-width) solid $table-border-color;
+	}
 
-  tbody + tbody {
-    border-top: (2 * $table-border-width) solid $table-border-color;
-  }
+	tbody + tbody {
+		border-top: (2 * $table-border-width) solid $table-border-color;
+	}
 }
-
 
 // Border versions
 //
 // Add or remove borders all around the table and between all the columns.
 
 table {
-  border: $table-border-width solid $table-border-color;
+	border: $table-border-width solid $table-border-color;
 
-  th,
-  td {
-    border: $table-border-width solid $table-border-color;
-  }
+	th,
+	td {
+		border: $table-border-width solid $table-border-color;
+	}
 
-  thead {
-    th,
-    td {
-      border-bottom-width: 2 * $table-border-width;
-    }
-  }
+	thead {
+		th,
+		td {
+			border-bottom-width: 2 * $table-border-width;
+		}
+	}
 }
 
 // Zebra-striping
@@ -123,9 +121,9 @@ table {
 // Default zebra-stripe styles (alternating gray and transparent backgrounds)
 
 table {
-  tbody tr:nth-of-type(#{$table-striped-order}) {
-    background-color: $table-accent-bg;
-  }
+	tbody tr:nth-of-type(#{$table-striped-order}) {
+		background-color: $table-accent-bg;
+	}
 }
 
 // Hover effect
@@ -133,10 +131,10 @@ table {
 // Placed here since it has to come after the potential zebra striping
 
 table tbody tr {
-    @include hover() {
-      color: $table-hover-color;
-      background-color: $table-hover-bg;
-    }
+	@include hover() {
+		color: $table-hover-color;
+		background-color: $table-hover-bg;
+	}
 }
 
 // Inverted color scheme: dark background and light text.
@@ -147,14 +145,13 @@ table th {
 	border-color: $table-dark-border-color;
 }
 
-
 /***********************************************************************
  * Now basic styling is done, add some nice colors
  ***********************************************************************/
 
 table thead th {
-    vertical-align: bottom;
-    border-bottom: (2 * $table-border-width) solid $table-border-color;
+	vertical-align: bottom;
+	border-bottom: (2 * $table-border-width) solid $table-border-color;
 }
 
 @media only screen {

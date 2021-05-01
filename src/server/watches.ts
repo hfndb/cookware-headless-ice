@@ -4,31 +4,11 @@ import { FileWatcher, FileStatus, Logger } from "../lib";
 import { AppConfig } from "../lib/config";
 import { compileFile } from "../local/babel";
 import { JavascriptUtils } from "../local/javascript";
-import { SassUtils } from "../local/styling";
+import { Double, SassUtils } from "../local/styling";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 
 let cfg = AppConfig.getInstance();
 let log = Logger.getInstance();
-
-/**
- * Safety for beautifying files. Block files just beautified
- */
-class Double {
-	static _instance: Double;
-	static reg: { [key: string]: number } = {};
-
-	static is(file: string): boolean {
-		let interval = 1 * 2000; // Assume max. 2 sec. to beautify
-		let now = new Date().getTime();
-		let last = Double.reg[file] || now - interval - 10;
-
-		if (now - last > interval) {
-			Double.reg[file] = now;
-			return false;
-		}
-		return true;
-	}
-}
 
 class ConfigWatch extends FileWatcher {
 	static instance: ConfigWatch;
@@ -71,15 +51,17 @@ class SassWatch extends FileWatcher {
 		let session = SessionVars.getInstance();
 		session.add(ProcessingTypes.sass, file);
 
-		if (basename(file, ".scss").startsWith("_")) {
-			// Mixin, compile everything
-			SassUtils.compile(true);
+		let status = new FileStatus(
+			join(cfg.dirProject, cfg.options.sass.dirs.source)
+		);
+		status.setSoure(file, ".scss");
+		status.setTarget(SassUtils.getOutputDir(), ".css");
+
+		if (SassUtils.isImport(file)) {
+			// Import, compile everything
+			SassUtils.beautify(status);
+			SassUtils.compile(true, true);
 		} else {
-			let status = new FileStatus(
-				join(cfg.dirProject, cfg.options.sass.dirs.source)
-			);
-			status.setSoure(file, ".scss");
-			status.setTarget(SassUtils.getOutputDir(), ".css");
 			SassUtils.compileFile(status);
 		}
 	}

@@ -6,7 +6,7 @@
 		"emitDecoratorMetadata": true,
 		"lib": [
 			"dom",
-			"es2017"
+			"es2019"
 		],
 		"module": "CommonJS",
 		"moduleResolution": "node",

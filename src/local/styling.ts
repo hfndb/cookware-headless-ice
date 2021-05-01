@@ -9,20 +9,109 @@ import {
 } from "../lib";
 import { Beautify } from "../lib/beautify";
 import { removeObsolete } from "../lib/files";
+import { StringExt } from "../lib/utils";
 import { ProcessingTypes, SessionVars } from "../sys/session";
+
+let cfg = AppConfig.getInstance();
+let log = Logger.getInstance(cfg.options.logging);
 
 interface prefixResult {
 	warnings: Function;
 	css: string;
 }
 
+/**
+ * Safety for beautifying files. To block files that are just beautified
+ */
+export class Double {
+	static _instance: Double;
+	static reg: { [key: string]: number } = {};
+
+	static is(file: string): boolean {
+		let interval = 1 * 2000; // Assume max. 2 sec. to beautify
+		let now = new Date().getTime();
+		let last = Double.reg[file] || now - interval - 10;
+
+		if (now - last > interval) {
+			Double.reg[file] = now;
+			return false;
+		}
+		return true;
+	}
+}
+
 export class SassUtils {
+	private changeList: FileStatus[] = []; // list of all Sass files
+	private deps: any = {};
+	static preventDoubles: string[] = []; // For preventing double transcompiling during watching
+
+	/**
+	 * Get an entry in this.changelist based on source file
+	 */
+	getEntry(file: string) {
+		return this.changeList.find(el => el.source == file);
+	}
+
+	/**
+	 * See if file needs compiling
+	 */
+	importChanged(entry: FileStatus): boolean {
+		let maxImport = 0; // latest change of imported file
+		let imports = this.deps[entry.source] || [];
+		for (let i = 0; i < imports.length; i++) {
+			let im = imports[i];
+			if (!im.startsWith("_")) im = "_" + im;
+			if (!im.endsWith(".scss")) im += ".scss";
+			let file = this.getEntry(im);
+			if (file) maxImport = Math.max(maxImport, file.lastModified);
+		}
+		return entry.targetLastModified < maxImport;
+	}
+
+	/**
+	 * Extract includes from a file
+	 */
+	read(entry: FileStatus): void {
+		let fullPath = join(entry.dir, entry.source);
+		let result = StringExt.matchAll(
+			`@import ["']+(.*)["']+;`,
+			FileUtils.readFile(fullPath)
+		);
+		for (let i = 0; i < result.length; i++) {
+			if (!this.deps[entry.source]) this.deps[entry.source] = [];
+			this.deps[entry.source].push(result[i][0]);
+		}
+	}
+
+	/**
+	 * Beautify a .scss file. Read from disk and write
+	 */
+	static beautify(entry: FileStatus): boolean {
+		let toReturn = true;
+		if (cfg.options.server.beautify.includes("sass")) {
+			let fullPath = join(entry.dir, entry.source);
+			let source = FileUtils.readFile(fullPath);
+			source = Beautify.content(entry.source, source);
+			if (source) {
+				FileUtils.writeFile(entry.dir, entry.source, source, false);
+			} else {
+				toReturn = false;
+			}
+		}
+		return toReturn;
+	}
+
+	/**
+	 * See if a file is an import (prefix _)
+	 */
+	static isImport(file: string): boolean {
+		return basename(file).startsWith("_");
+	}
+
 	/**
 	 * Get CSS output directory
 	 */
 	static getOutputDir(): string {
-		let cfg = AppConfig.getInstance();
-		let log = Logger.getInstance();
 		let outputDir = "";
 		if (test("-d", join(cfg.dirProject, cfg.options.sass.dirs.output))) {
 			// In case of local project
@@ -42,9 +131,6 @@ export class SassUtils {
 	 *
 	 */
 	static addPrefixes(content: string): string {
-		let cfg = AppConfig.getInstance();
-		let log = Logger.getInstance(cfg.options.logging);
-
 		const autoprefixer = require("autoprefixer");
 		const postcss = require("postcss");
 		let result: prefixResult = postcss([autoprefixer]).process(content);
@@ -57,9 +143,8 @@ export class SassUtils {
 	/**
 	 * Compile all changed or new Sass files
 	 */
-	static compile(verbose: boolean): void {
-		let cfg = AppConfig.getInstance();
-		let log = Logger.getInstance(cfg.options.logging);
+	static compile(verbose: boolean, isWatching: boolean = false): void {
+		let deps = new SassUtils();
 		let outDir = SassUtils.getOutputDir();
 		let processed: string[] = [];
 		let saydHello = false;
@@ -72,7 +157,7 @@ export class SassUtils {
 			return;
 		}
 
-		let changeList = getChangeList({
+		deps.changeList = getChangeList({
 			sourcePath: join(cfg.dirProject, cfg.options.sass.dirs.source),
 			targetPath: outDir,
 			sourceExt: [".scss"],
@@ -88,38 +173,18 @@ export class SassUtils {
 			processed.push(entry.target);
 		}
 
-		let maxMixin = 0; // to get the latest modified mixin
-		let maxSass = 0; // to get the latest modified other sass file
-		changeList.forEach((entry: FileStatus) => {
-			let isMixin = basename(entry.source).startsWith("_");
-			if (isMixin) {
-				maxMixin = Math.max(maxMixin, entry.lastModified);
-			} else {
-				maxSass = Math.max(maxSass, entry.targetLastModified);
-			}
-
-			if (!isMixin && entry.isNewOrModified()) {
-				write(entry);
-			}
+		// Read dependencies (imports)
+		deps.changeList.forEach((entry: FileStatus) => {
+			deps.read(entry);
 		});
 
-		// if (maxMixin > maxSass) {
-		// 	console.log(`Mixin changed`);
-		// } else if (maxMixin < maxSass) {
-		// 	console.log(new Date(maxMixin), new Date(maxSass));
-		// }
-
-		changeList.forEach((entry: FileStatus) => {
-			if (basename(entry.source).startsWith("_") || entry.isNewOrModified()) {
-				return;
-			}
-			if (maxMixin > maxSass) {
-				// Mixin changed, also compile remaining sass files
+		deps.changeList.forEach((entry: FileStatus) => {
+			if (SassUtils.isImport(entry.source)) return;
+			if (isWatching && Double.is(entry.source)) return;
+			if (entry.isNewOrModified() || deps.importChanged(entry)) {
 				write(entry);
-				touch(join(entry.dir, entry.source)); // In order to prevent this from happening again
-			} else {
-				processed.push(entry.target);
 			}
+			processed.push(entry.target);
 		});
 
 		// Before removing obsolete css, look at plain css that belongs in output directory
@@ -148,27 +213,14 @@ export class SassUtils {
 	 * @returns success
 	 */
 	static compileFile(entry: FileStatus, verbose: boolean = true): boolean {
-		let cfg = AppConfig.getInstance();
-		let log = Logger.getInstance(cfg.options.logging);
 		const sass = require("node-sass");
 		let options = cfg.options.dependencies.nodeSass.config;
 		let session = SessionVars.getInstance();
 
-		if (basename(entry.source).startsWith("_")) {
+		if (SassUtils.isImport(entry.source) || !SassUtils.beautify(entry)) {
 			return false;
 		}
 
-		let fullPath = join(entry.dir, entry.source);
-		let source = FileUtils.readFile(fullPath);
-
-		if (cfg.options.server.beautify.includes("sass")) {
-			source = Beautify.content(entry.source, source);
-			if (source) {
-				FileUtils.writeFile(entry.dir, entry.source, source, false);
-			} else {
-				return false;
-			}
-		}
 		Object.assign(options, {
 			file: join(entry.dir, entry.source),
 			outFile: join(entry.targetDir, entry.target),

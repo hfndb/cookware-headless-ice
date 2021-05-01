@@ -37,6 +37,24 @@ export class StringExt {
 	}
 
 	/**
+	 * Return array with all matches of a pattern with groups
+	 */
+	static matchAll(exp: string, str: string): any[] {
+		let toReturn:any[] = [];
+		let re = new RegExp(exp, "gim"); // Global, case insensitive, multiline
+		let result: any | null[];
+		while ((result = re.exec(str)) !== null) {
+			let rw:any[] = [];
+			for (let i = 1; i < result.length; i++) {
+				// Ignore element 0 with source line
+				rw.push(result[i]);
+			}
+			toReturn.push(rw);
+		}
+		return toReturn;
+	}
+
+	/**
 	 * Capitalize only the first character
 	 */
 	static initialCapitalized(str: string): string {

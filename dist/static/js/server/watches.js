@@ -30,26 +30,6 @@ let cfg = _config.AppConfig.getInstance();
 
 let log = _lib.Logger.getInstance();
 
-class Double {
-  static is(file) {
-    let interval = 1 * 2000;
-    let now = new Date().getTime();
-    let last = Double.reg[file] || now - interval - 10;
-
-    if (now - last > interval) {
-      Double.reg[file] = now;
-      return false;
-    }
-
-    return true;
-  }
-
-}
-
-_defineProperty(Double, "_instance", void 0);
-
-_defineProperty(Double, "reg", {});
-
 class ConfigWatch extends _lib.FileWatcher {
   change(event, file) {
     event;
@@ -86,20 +66,21 @@ class SassWatch extends _lib.FileWatcher {
       return;
     }
 
-    if (Double.is(file)) return;
+    if (_styling.Double.is(file)) return;
     log.info(`- ${file} changed`);
 
     let session = _session.SessionVars.getInstance();
 
     session.add(_session.ProcessingTypes.sass, file);
+    let status = new _lib.FileStatus((0, _path.join)(cfg.dirProject, cfg.options.sass.dirs.source));
+    status.setSoure(file, ".scss");
+    status.setTarget(_styling.SassUtils.getOutputDir(), ".css");
 
-    if ((0, _path.basename)(file, ".scss").startsWith("_")) {
-      _styling.SassUtils.compile(true);
+    if (_styling.SassUtils.isImport(file)) {
+      _styling.SassUtils.beautify(status);
+
+      _styling.SassUtils.compile(true, true);
     } else {
-      let status = new _lib.FileStatus((0, _path.join)(cfg.dirProject, cfg.options.sass.dirs.source));
-      status.setSoure(file, ".scss");
-      status.setTarget(_styling.SassUtils.getOutputDir(), ".css");
-
       _styling.SassUtils.compileFile(status);
     }
   }
@@ -116,7 +97,7 @@ class JsWatch extends _lib.FileWatcher {
       return;
     }
 
-    if (Double.is(file)) return;
+    if (_styling.Double.is(file)) return;
     log.info(`- ${file} changed`);
     let dir = (0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.source);
     let isTypescript = (0, _path.extname)(file) == ".ts";
