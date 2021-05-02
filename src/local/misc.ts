@@ -62,9 +62,7 @@ function generateColorFiles() {
 			// Color
 			let cmt = colors[c].comment ? " // " + colors[c].comment : "";
 			sass.content += `$${colors[c].name}: #${colors[c].hex};${cmt}\n`;
-			src.content += `colors["${key}"]["${colors[c].name}"] = "#${
-				colors[c].hex
-			}";${cmt}\n`;
+			src.content += `colors["${key}"]["${colors[c].name}"] = "#${colors[c].hex}";${cmt}\n`;
 		}
 	}
 
@@ -81,10 +79,9 @@ function generateColorFiles() {
 		cfg.options.sass.dirs.source,
 		sass.outFile
 	);
-	let needsWrite = !test("-f", fullPath);
-	if (!needsWrite) {
-		needsWrite = FileUtils.readFile(fullPath) != sass.content;
-	}
+	let needsWrite =
+		!test("-f", fullPath) ||
+		FileUtils.readFile(fullPath).trim() != sass.content.trim();
 	if (needsWrite) {
 		FileUtils.writeFile(
 			cfg.dirProject,
@@ -95,10 +92,8 @@ function generateColorFiles() {
 	}
 
 	fullPath = join(cfg.dirProject, src.outFile);
-	needsWrite = !test("-f", fullPath);
-	if (!needsWrite) {
-		needsWrite = FileUtils.readFile(fullPath) != src.content;
-	}
+	needsWrite =
+		!test("-f", fullPath) || FileUtils.readFile(fullPath) != src.content;
 	if (needsWrite) {
 		FileUtils.writeFile(cfg.dirProject, src.outFile, src.content, true);
 	}
@@ -128,9 +123,7 @@ export function generateWeb(verbose: boolean): void {
 		Sitemap.generate(verbose);
 	} else {
 		log.warn(
-			`HTML content directory "${
-				cfg.options.html.dirs.content
-			}" not found, skipping...`
+			`HTML content directory "${cfg.options.html.dirs.content}" not found, skipping...`
 		);
 	}
 }

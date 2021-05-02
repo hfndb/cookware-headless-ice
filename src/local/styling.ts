@@ -1,4 +1,4 @@
-import { basename, dirname, join, normalize, sep } from "path";
+import { basename, dirname, extname, join, normalize, sep } from "path";
 import { cp, test, touch } from "shelljs";
 import {
 	getChangeList,
@@ -21,18 +21,19 @@ interface prefixResult {
 }
 
 /**
- * Safety for beautifying files. To block files that are just beautified
+ * Safety, used during file watching to block files that are just processed.
+ * For principle, see switches and 'contact bounce'
  */
 export class Double {
 	static _instance: Double;
+	static interval = 1 * 1900; // Assume max. 1.9 sec. for processing
 	static reg: { [key: string]: number } = {};
 
 	static is(file: string): boolean {
-		let interval = 1 * 2000; // Assume max. 2 sec. to beautify
 		let now = new Date().getTime();
-		let last = Double.reg[file] || now - interval - 10;
+		let last = Double.reg[file] || now - Double.interval - 10;
 
-		if (now - last > interval) {
+		if (now - last > Double.interval) {
 			Double.reg[file] = now;
 			return false;
 		}
@@ -40,7 +41,10 @@ export class Double {
 	}
 }
 
-export class Files {
+/**
+ * Handling of Sass files
+ */
+export class SassFiles {
 	changeList: FileStatus[]; // list of all Sass files
 	private deps: Map<string, string[]> = new Map();
 
@@ -52,7 +56,7 @@ export class Files {
 			targetExt: ".css"
 		});
 
-		// Read dependencies (imports)
+		// Read imports
 		this.changeList.forEach((entry: FileStatus) => {
 			this.read(entry);
 		});
@@ -61,44 +65,69 @@ export class Files {
 	/**
 	 * Get an entry in this.changelist based on source file
 	 */
-	getEntry(file: string) {
+	private getEntry(file: string) {
 		return this.changeList.find(el => el.source == file);
 	}
 
 	/**
 	 * Translate an imported name to a file name
 	 */
-	getImport(fromDir: string, file: string): string {
-		let r = this.getDirFile(fromDir, file);
-		if (!r[1].startsWith("_")) r[1] = "_" + file;
-		if (!r[1].endsWith(".scss")) r[1] += ".scss";
-		return r.join(sep);
+	private getImport(fromDir: string, file: string): string {
+		let [d, f] = this.getDirFile(fromDir, file);
+		if (!f.startsWith("_")) f = "_" + file;
+		if (!f.endsWith(".scss")) f += ".scss";
+		return join(d, f);
 	}
 
 	/**
 	 * @returns {string[]} [dir name, file name]
 	 */
-	getDirFile(fromDir: string, file: string): string[] {
-		let r = ["", file];
-		if (file.includes(sep)) {
-			r[0] = normalize(join(fromDir, dirname(file)));
-			r[1] = basename(file);
+	private getDirFile(fromDir: string, file: string): string[] {
+		let path = join(fromDir, file);
+		let r = ["", path];
+		if (path.includes(sep)) {
+			r[0] = normalize(dirname(path));
+			r[1] = basename(path);
 		}
 		return r;
 	}
 
 	/**
-	 * See if file needs compiling
+	 * See if file needs transcompiling.
+	 *
+	 * @param {number} compareWith Highest level last modification
+	 * @param {file} file
 	 */
-	importChanged(entry: FileStatus): boolean {
-		let maxImport = 0; // latest change of imported file
-		let imports = this.deps.get(entry.source) || [];
+	importChanged(compareWith: number, file: string): boolean {
+		return compareWith < this.importsLatestChange(file);
+	}
+
+	/**
+	 * Look for the last modification of an imported file
+	 *
+	 * Apart from the question 'am I changed?'
+	 * look at 'are imported files changed?'
+	 * Then dig deeper and look further in the same way.
+	 * For each next level of import:
+	 * 'Are imported files in imported files changed?'
+	 *
+	 * Recursive introspection of imports in retrospective 😀
+	 *
+	 * @param {file} file
+	 */
+	private importsLatestChange(file: string): number {
+		let imports = this.deps.get(file) || [];
+		let latest = 0; // latest change of imported file
 		for (let i = 0; i < imports.length; i++) {
+			// Imports in file
 			let im = imports[i];
-			let file = this.getEntry(im);
-			if (file) maxImport = Math.max(maxImport, file.lastModified);
+			let fl = this.getEntry(im);
+			if (fl) latest = Math.max(latest, fl.lastModified);
+			// Recurse by looking at imported files in file
+			latest = Math.max(latest, this.importsLatestChange(im));
 		}
-		return entry.targetLastModified < maxImport;
+
+		return latest;
 	}
 
 	/**
@@ -109,27 +138,28 @@ export class Files {
 	}
 
 	/**
-	 * Extract includes from a file
-	 * @todo Turn this into a recursive method
+	 * Extract imports from a file
 	 */
-	read(entry: FileStatus): void {
+	private read(entry: FileStatus): void {
 		let fullPath = join(entry.dir, entry.source);
 		let result = StringExt.matchAll(
 			`@import ["']+(.*)["']+;`,
 			FileUtils.readFile(fullPath)
 		);
-		let r = this.getDirFile("", entry.source);
+		let [d, f] = this.getDirFile("", entry.source);
 		for (let i = 0; i < result.length; i++) {
 			let lst = this.deps.get(entry.source) || [];
-			lst.push(this.getImport(r[0], result[i][0]));
+			let fl = this.getImport(d, result[i][0]);
+			lst.push(fl);
 			this.deps.set(entry.source, lst);
 		}
 	}
 }
 
+/**
+ * Alter content of Sass files, transcompile to CSS
+ */
 export class SassUtils {
-	static preventDoubles: string[] = []; // For preventing double transcompiling during watching
-
 	/**
 	 * Auto-prefix CSS with vendor specifics
 	 *
@@ -146,10 +176,14 @@ export class SassUtils {
 
 	/**
 	 * Beautify a .scss file. Read from disk and write
+	 * @returns {boolean} if any transcompiling error on the way
 	 */
 	static beautify(entry: FileStatus): boolean {
 		let toReturn = true;
-		if (cfg.options.server.beautify.includes("sass")) {
+		if (
+			cfg.options.server.beautify.includes("sass") &&
+			entry.source != cfg.options.sass.colors.sass
+		) {
 			let fullPath = join(entry.dir, entry.source);
 			let source = FileUtils.readFile(fullPath);
 			source = Beautify.content(entry.source, source);
@@ -163,10 +197,10 @@ export class SassUtils {
 	}
 
 	/**
-	 * Compile all changed or new Sass files
+	 * Transcompile all changed or new Sass files
 	 */
 	static compile(verbose: boolean, isWatching: boolean = false): void {
-		let fls = new Files();
+		let fls = new SassFiles();
 		let outDir = SassUtils.getOutputDir();
 		let processed: string[] = [];
 		let saydHello = false;
@@ -174,7 +208,7 @@ export class SassUtils {
 		let path = join(cfg.dirProject, cfg.options.sass.dirs.source);
 		if (!test("-e", path)) {
 			log.warn(
-				`Path ./${cfg.options.sass.dirs.source} doesn't exist. Request to compile ignored`
+				`Path ./${cfg.options.sass.dirs.source} doesn't exist. Request to transcompile ignored`
 			);
 			return;
 		}
@@ -189,9 +223,12 @@ export class SassUtils {
 		}
 
 		fls.changeList.forEach((entry: FileStatus) => {
-			if (Files.isImport(entry.source)) return;
+			if (SassFiles.isImport(entry.source)) return;
 			if (isWatching && Double.is(entry.source)) return;
-			if (entry.isNewOrModified() || fls.importChanged(entry)) {
+			if (
+				entry.isNewOrModified() ||
+				fls.importChanged(entry.lastModified, entry.source)
+			) {
 				write(entry);
 			}
 			processed.push(entry.target);
@@ -218,7 +255,7 @@ export class SassUtils {
 	}
 
 	/**
-	 * Compile Sass file, using the configuration in config.json
+	 * Transcompile Sass file, using the configuration in settings.json
 	 *
 	 * @returns success
 	 */
@@ -227,7 +264,7 @@ export class SassUtils {
 		let options = cfg.options.dependencies.nodeSass.config;
 		let session = SessionVars.getInstance();
 
-		if (Files.isImport(entry.source) || !SassUtils.beautify(entry)) {
+		if (SassFiles.isImport(entry.source) || !SassUtils.beautify(entry)) {
 			return false;
 		}
 
@@ -247,7 +284,7 @@ export class SassUtils {
 			session.add(ProcessingTypes.sass, entry.target);
 		} catch (err) {
 			log.warn(
-				`- Failed to compile file: ${entry.source}`,
+				`- Failed to trancompile file: ${entry.source}`,
 				Logger.error2string(err)
 			);
 			return false;

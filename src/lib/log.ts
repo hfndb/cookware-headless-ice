@@ -1,6 +1,7 @@
 import { basename, dirname, join } from "path";
 import { AudioUtils } from "./audio";
 import { FileUtils } from "./files";
+import { ObjectUtils } from "./object";
 import { Formatter } from "./utils";
 const color = require("colors/safe");
 
@@ -104,8 +105,9 @@ export class Logger {
 
 	static args2string(arg: any[]): string {
 		let retVal = "";
-		arg.forEach((row: string) => {
+		arg.forEach((row: any) => {
 			if (typeof row == "object") {
+				if (row instanceof Map) row = ObjectUtils.map2object(row);
 				retVal = retVal.concat(JSON.stringify(row, null, 4)).concat("\n"); //@@
 			} else {
 				retVal = retVal.concat(row).concat("\n");
@@ -200,9 +202,7 @@ export class Logger {
 		}
 		let stack: any = this.getStackInfo();
 		args.unshift(
-			`  [ ${stack.dir}/${stack.file}:${stack.line}:${stack.pos}, ${
-				stack.method
-			} ]`
+			`  [ ${stack.dir}/${stack.file}:${stack.line}:${stack.pos}, ${stack.method} ]`
 		);
 		let pars = Logger.args2string(args);
 		this.writeConsole(color.blue("Debug"), pars);

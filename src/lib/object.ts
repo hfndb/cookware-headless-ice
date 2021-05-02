@@ -126,6 +126,18 @@ export class ObjectUtils {
 	}
 
 	/**
+	 * Return Map instance as generic object
+	 */
+	static map2object(mp: any): object {
+		let r = {};
+		if (typeof mp != "object" || !(mp instanceof Map)) return r;
+		for (let key of mp.keys()) {
+			r[key] = mp.get(key);
+		}
+		return r;
+	}
+
+	/**
 	 * Merge src object into target, like .json
 	 *
 	 * @param target {Object}

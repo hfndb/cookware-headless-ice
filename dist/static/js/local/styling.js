@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SassUtils = exports.Files = exports.Double = void 0;
+exports.SassUtils = exports.SassFiles = exports.Double = void 0;
 
 require("source-map-support/register");
 
@@ -29,11 +29,10 @@ let log = _lib.Logger.getInstance(cfg.options.logging);
 
 class Double {
   static is(file) {
-    let interval = 1 * 2000;
     let now = new Date().getTime();
-    let last = Double.reg[file] || now - interval - 10;
+    let last = Double.reg[file] || now - Double.interval - 10;
 
-    if (now - last > interval) {
+    if (now - last > Double.interval) {
       Double.reg[file] = now;
       return false;
     }
@@ -47,9 +46,11 @@ exports.Double = Double;
 
 _defineProperty(Double, "_instance", void 0);
 
+_defineProperty(Double, "interval", 1 * 1900);
+
 _defineProperty(Double, "reg", {});
 
-class Files {
+class SassFiles {
   constructor() {
     _defineProperty(this, "changeList", void 0);
 
@@ -71,34 +72,40 @@ class Files {
   }
 
   getImport(fromDir, file) {
-    let r = this.getDirFile(fromDir, file);
-    if (!r[1].startsWith("_")) r[1] = "_" + file;
-    if (!r[1].endsWith(".scss")) r[1] += ".scss";
-    return r.join(_path.sep);
+    let [d, f] = this.getDirFile(fromDir, file);
+    if (!f.startsWith("_")) f = "_" + file;
+    if (!f.endsWith(".scss")) f += ".scss";
+    return (0, _path.join)(d, f);
   }
 
   getDirFile(fromDir, file) {
-    let r = ["", file];
+    let path = (0, _path.join)(fromDir, file);
+    let r = ["", path];
 
-    if (file.includes(_path.sep)) {
-      r[0] = (0, _path.normalize)((0, _path.join)(fromDir, (0, _path.dirname)(file)));
-      r[1] = (0, _path.basename)(file);
+    if (path.includes(_path.sep)) {
+      r[0] = (0, _path.normalize)((0, _path.dirname)(path));
+      r[1] = (0, _path.basename)(path);
     }
 
     return r;
   }
 
-  importChanged(entry) {
-    let maxImport = 0;
-    let imports = this.deps.get(entry.source) || [];
+  importChanged(compareWith, file) {
+    return compareWith < this.importsLatestChange(file);
+  }
+
+  importsLatestChange(file) {
+    let imports = this.deps.get(file) || [];
+    let latest = 0;
 
     for (let i = 0; i < imports.length; i++) {
       let im = imports[i];
-      let file = this.getEntry(im);
-      if (file) maxImport = Math.max(maxImport, file.lastModified);
+      let fl = this.getEntry(im);
+      if (fl) latest = Math.max(latest, fl.lastModified);
+      latest = Math.max(latest, this.importsLatestChange(im));
     }
 
-    return entry.targetLastModified < maxImport;
+    return latest;
   }
 
   static isImport(file) {
@@ -110,18 +117,19 @@ class Files {
 
     let result = _utils.StringExt.matchAll(`@import ["']+(.*)["']+;`, _lib.FileUtils.readFile(fullPath));
 
-    let r = this.getDirFile("", entry.source);
+    let [d, f] = this.getDirFile("", entry.source);
 
     for (let i = 0; i < result.length; i++) {
       let lst = this.deps.get(entry.source) || [];
-      lst.push(this.getImport(r[0], result[i][0]));
+      let fl = this.getImport(d, result[i][0]);
+      lst.push(fl);
       this.deps.set(entry.source, lst);
     }
   }
 
 }
 
-exports.Files = Files;
+exports.SassFiles = SassFiles;
 
 class SassUtils {
   static addPrefixes(content) {
@@ -139,7 +147,7 @@ class SassUtils {
   static beautify(entry) {
     let toReturn = true;
 
-    if (cfg.options.server.beautify.includes("sass")) {
+    if (cfg.options.server.beautify.includes("sass") && entry.source != cfg.options.sass.colors.sass) {
       let fullPath = (0, _path.join)(entry.dir, entry.source);
 
       let source = _lib.FileUtils.readFile(fullPath);
@@ -157,14 +165,14 @@ class SassUtils {
   }
 
   static compile(verbose, isWatching = false) {
-    let fls = new Files();
+    let fls = new SassFiles();
     let outDir = SassUtils.getOutputDir();
     let processed = [];
     let saydHello = false;
     let path = (0, _path.join)(cfg.dirProject, cfg.options.sass.dirs.source);
 
     if (!(0, _shelljs.test)("-e", path)) {
-      log.warn(`Path ./${cfg.options.sass.dirs.source} doesn't exist. Request to compile ignored`);
+      log.warn(`Path ./${cfg.options.sass.dirs.source} doesn't exist. Request to transcompile ignored`);
       return;
     }
 
@@ -179,10 +187,10 @@ class SassUtils {
     }
 
     fls.changeList.forEach(entry => {
-      if (Files.isImport(entry.source)) return;
+      if (SassFiles.isImport(entry.source)) return;
       if (isWatching && Double.is(entry.source)) return;
 
-      if (entry.isNewOrModified() || fls.importChanged(entry)) {
+      if (entry.isNewOrModified() || fls.importChanged(entry.lastModified, entry.source)) {
         write(entry);
       }
 
@@ -217,7 +225,7 @@ class SassUtils {
 
     let session = _session.SessionVars.getInstance();
 
-    if (Files.isImport(entry.source) || !SassUtils.beautify(entry)) {
+    if (SassFiles.isImport(entry.source) || !SassUtils.beautify(entry)) {
       return false;
     }
 
@@ -240,7 +248,7 @@ class SassUtils {
 
       session.add(_session.ProcessingTypes.sass, entry.target);
     } catch (err) {
-      log.warn(`- Failed to compile file: ${entry.source}`, _lib.Logger.error2string(err));
+      log.warn(`- Failed to trancompile file: ${entry.source}`, _lib.Logger.error2string(err));
       return false;
     }
 
@@ -264,6 +272,4 @@ class SassUtils {
 }
 
 exports.SassUtils = SassUtils;
-
-_defineProperty(SassUtils, "preventDoubles", []);
 //# sourceMappingURL=styling.js.map

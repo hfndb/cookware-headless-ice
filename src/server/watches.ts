@@ -4,7 +4,7 @@ import { FileWatcher, FileStatus, Logger } from "../lib";
 import { AppConfig } from "../lib/config";
 import { compileFile } from "../local/babel";
 import { JavascriptUtils } from "../local/javascript";
-import { Double, Files, SassUtils } from "../local/styling";
+import { Double, SassFiles, SassUtils } from "../local/styling";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 
 let cfg = AppConfig.getInstance();
@@ -57,7 +57,7 @@ class SassWatch extends FileWatcher {
 		status.setSoure(file, ".scss");
 		status.setTarget(SassUtils.getOutputDir(), ".css");
 
-		if (Files.isImport(file)) {
+		if (SassFiles.isImport(file)) {
 			// Import, compile everything
 			SassUtils.beautify(status);
 			SassUtils.compile(true, true);
