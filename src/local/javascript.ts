@@ -1,6 +1,7 @@
 import { join } from "path";
 import { exec, rm, test } from "shelljs";
 import { AppConfig, FileUtils, Logger } from "../lib";
+import { StringExt } from "../lib/utils";
 
 let cfg = AppConfig.getInstance();
 let log = Logger.getInstance(cfg.options.logging);
@@ -27,7 +28,7 @@ export class JavascriptUtils {
 	}
 
 	/**
-	 * Create minified JavaScript bundles
+	 * Create compressed JavaScript bundles
 	 *
 	 * @returns array with output files
 	 */
@@ -103,9 +104,44 @@ export class JavascriptUtils {
 	}
 
 	/**
+	 * Strip empty space within a line
+	 */
+	static stripLine(line: string): string {
+		let lastIdx = -1;
+		let idx = line.indexOf(" ", lastIdx) + 1; // including trailing space
+		let spaces = cfg.options.javascript.lineStripping.needsSpace; // @@
+
+		function toPreserve(part1: string, part2: string): boolean {
+			let r = false;
+			for (let i = 0; i < spaces.after.length && !r; i++) {
+				if (part1.endsWith(spaces.after[i] + " ")) r = true;
+			}
+			for (let i = 0; i < spaces.around.length && !r; i++) {
+				if (part1.endsWith(spaces.around[i] + " ")) r = true;
+			}
+			return r;
+		}
+
+		while (idx >= 0 && idx > lastIdx) {
+			let strPart1 = line.substring(0, idx);
+			let strPart2 = line.substring(idx);
+			let sq = StringExt.occurrences(strPart1, "'"); // single quotes
+			let dq = StringExt.occurrences(strPart1, '"'); // double quotes
+			let inString = sq % 2 != 0 || dq % 2 != 0;
+
+			if (!inString && !toPreserve(strPart1, strPart2))
+				strPart1 = strPart1.trimRight();
+			line = strPart1 + strPart2;
+			lastIdx = idx;
+			idx = line.indexOf(" ", lastIdx) + 1;
+		}
+		return line;
+	}
+
+	/**
 	 * Compact an already transcompiled file by removing obsolete spaces and line ends
 	 */
-	static stripSpaces(src: string): string {
+	static stripFile(src: string): string {
 		let mlnTemplate = 0;
 		let lines = src.split("\n");
 		let toReturn = "";
@@ -127,7 +163,7 @@ export class JavascriptUtils {
 				if (line.includes("`")) mlnTemplate = 0; // End
 				continue;
 			}
-			if (!toReturn.endsWith(";")) toReturn += " ";
+			line = JavascriptUtils.stripLine(line);
 			toReturn += line;
 		}
 
@@ -187,7 +223,7 @@ export class Bundle {
 		});
 
 		if (bundle.compress) {
-			toWrite = JavascriptUtils.stripSpaces(toWrite);
+			toWrite = JavascriptUtils.stripFile(toWrite);
 		}
 
 		FileUtils.writeFile(outDir, bundle.output, toWrite, false);

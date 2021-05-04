@@ -15,15 +15,9 @@ const date = require("date-and-time");
 
 class StringExt {
   static occurrences(str, searchFor) {
-    let searchFrom = 0;
-    let retVal = 0;
-
-    while (str.indexOf(searchFor, searchFrom) >= 0) {
-      retVal++;
-      searchFrom = str.indexOf(searchFor, searchFrom) + 1;
-    }
-
-    return retVal;
+    let re = new RegExp(`(${searchFor})`, "g");
+    let result = str.match(re) || [];
+    return result.length;
   }
 
   static strip(str, begin, end) {

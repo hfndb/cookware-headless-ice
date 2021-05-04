@@ -14,6 +14,8 @@ var _shelljs = require("shelljs");
 
 var _lib = require("../lib");
 
+var _utils = require("../lib/utils");
+
 let cfg = _lib.AppConfig.getInstance();
 
 let log = _lib.Logger.getInstance(cfg.options.logging);
@@ -95,7 +97,44 @@ class JavascriptUtils {
     return lines.join("\n");
   }
 
-  static stripSpaces(src) {
+  static stripLine(line) {
+    let lastIdx = -1;
+    let idx = line.indexOf(" ", lastIdx) + 1;
+    let spaces = cfg.options.javascript.lineStripping.needsSpace;
+
+    function toPreserve(part1, part2) {
+      let r = false;
+
+      for (let i = 0; i < spaces.after.length && !r; i++) {
+        if (part1.endsWith(spaces.after[i] + " ")) r = true;
+      }
+
+      for (let i = 0; i < spaces.around.length && !r; i++) {
+        if (part1.endsWith(spaces.around[i] + " ")) r = true;
+      }
+
+      return r;
+    }
+
+    while (idx >= 0 && idx > lastIdx) {
+      let strPart1 = line.substring(0, idx);
+      let strPart2 = line.substring(idx);
+
+      let sq = _utils.StringExt.occurrences(strPart1, "'");
+
+      let dq = _utils.StringExt.occurrences(strPart1, '"');
+
+      let inString = sq % 2 != 0 || dq % 2 != 0;
+      if (!inString && !toPreserve(strPart1, strPart2)) strPart1 = strPart1.trimRight();
+      line = strPart1 + strPart2;
+      lastIdx = idx;
+      idx = line.indexOf(" ", lastIdx) + 1;
+    }
+
+    return line;
+  }
+
+  static stripFile(src) {
     let mlnTemplate = 0;
     let lines = src.split("\n");
     let toReturn = "";
@@ -116,7 +155,7 @@ class JavascriptUtils {
         continue;
       }
 
-      if (!toReturn.endsWith(";")) toReturn += " ";
+      line = JavascriptUtils.stripLine(line);
       toReturn += line;
     }
 
@@ -172,7 +211,7 @@ class Bundle {
     });
 
     if (bundle.compress) {
-      toWrite = JavascriptUtils.stripSpaces(toWrite);
+      toWrite = JavascriptUtils.stripFile(toWrite);
     }
 
     _lib.FileUtils.writeFile(outDir, bundle.output, toWrite, false);

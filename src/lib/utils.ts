@@ -9,14 +9,9 @@ export class StringExt {
 	 * Count occurrences of a string within a string
 	 */
 	static occurrences(str: string, searchFor: string): number {
-		let searchFrom = 0;
-		let retVal = 0;
-
-		while (str.indexOf(searchFor, searchFrom) >= 0) {
-			retVal++;
-			searchFrom = str.indexOf(searchFor, searchFrom) + 1;
-		}
-		return retVal;
+		let re = new RegExp(`(${searchFor})`, "g");
+		let result = str.match(re) || [];
+		return result.length;
 	}
 
 	/**

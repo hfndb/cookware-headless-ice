@@ -189,27 +189,32 @@ Entries:
 ```
 {
 	"javascript": {
+		"apps": [],
 		"ast": false,
-		browser: {
-			removeImports: false,
-			targets: ["defaults"]
+		"browser": {
+			"removeImports": false,
+			"targets": ["defaults"]
 		},
-		"compiler": "typescript",
+		"bundles": [],
+		"compiler": "javascript",
 		"dirs": {
 			"output": "dist/static/js",
 			"source": "src"
 		},
-		"nodeVersion": "latest",
-		"sourceMapping": true,
-		"sourceVersion": "typescript",
-		"useWatch": true,
-		"apps": [],
-		"bundles": [],
+		"lineStripping": {
+			"needsSpace": {
+				"after": ["else", "function", "var"],
+				"around": ["in", "new"]
+			}
+		},
+		"nodeVersion": "current",
 		"removeObsolete": {
 			"active": true,
 			"exclude": []
-		}
-	}
+		},
+		"sourceMapping": true,
+		"sourceVersion": "es2017",
+		"useWatch": true
 }
 ```
 Entries:
@@ -219,11 +224,12 @@ Entries:
 + *compiler*: Possible values: none, javascript, flow or typescript. The setting javascript will convert recent versions of JavaScript to a browser compatible version.
 + *dirs / output*: Where to put your JavaScript files.
 + *dirs / source*: Location of your TypeScript or JavaScript files.
++ *lineStripping*: In case of compression of an already transcompiled file for usage in a web browser, keywords which need space after or around can be set here.
 + *nodeVersion*: For Babel. Possible values: current or version number.
++ *removeObsolete / exclude*: An array with files which will be excluded from auto-removal.
 + *sourceMapping*: For Babel. Output source maps and fullfil requirements for [source-map-support](https://www.npmjs.com/package/source-map-support)
 + *sourceVersion*: For Babel. Possible values: es2015, es2016, es2017, es2018.
 + *useWatch*: For local development server. If true, will transcompile if a source file changes.
-+ *removeObsolete / exclude*: An array with files which will be excluded from auto-removal.
 + *apps*: Main browser app files, compressed and with dependencies merged into it from node modules and other source. Each bundle is defined as follows:
 ```
 {

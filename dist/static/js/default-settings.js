@@ -75,26 +75,32 @@ let DefaultConfig = {
     }
   },
   javascript: {
+    apps: [],
     ast: false,
     browser: {
       removeImports: false,
       targets: ["defaults"]
     },
+    bundles: [],
     compiler: "javascript",
-    nodeVersion: "current",
-    sourceMapping: true,
-    sourceVersion: "es2017",
-    useWatch: true,
     dirs: {
       output: "dist/static/js",
       source: "src"
     },
-    apps: [],
-    bundles: [],
+    lineStripping: {
+      needsSpace: {
+        after: ["else", "function", "var"],
+        around: ["in", "new"]
+      }
+    },
+    nodeVersion: "current",
     removeObsolete: {
       active: true,
       exclude: []
-    }
+    },
+    sourceMapping: true,
+    sourceVersion: "es2017",
+    useWatch: true
   },
   logging: {
     exitOnError: true,
