@@ -1,6 +1,4 @@
 import { join } from "path";
-import { removeObsolete } from "./files";
-import { Formatter, StringExt } from "./utils";
 import { test, touch } from "shelljs";
 import {
 	getChangeList,
@@ -9,47 +7,10 @@ import {
 	FileUtils,
 	Logger
 } from "../lib";
+import { removeObsolete } from "./files";
 import { NunjucksUtils } from "./nunjucks";
-
-/**
- * Striptease class, to strip HTML and tease those who want to read the code
- *
- * @todo Also consider content of HTML code and pre tags
- */
-export class Stripper {
-	static process(content: string): string {
-		let cfg = AppConfig.getInstance();
-		if (!cfg.options.html.stripper.active) return content;
-
-		let tmp = content.split("\n");
-		let len = tmp.length;
-		let retVal = "";
-
-		for (let i = 0; i < len; i++) {
-			if (
-				cfg.options.html.stripper.empty &&
-				StringExt.strip(tmp[i], true, true).length == 0
-			)
-				continue;
-			retVal += Stripper.parseLine(tmp[i]);
-		}
-
-		return retVal;
-	}
-
-	static parseLine(line: string): string {
-		let cfg = AppConfig.getInstance();
-		if (cfg.options.html.stripper.begin || cfg.options.html.stripper.end) {
-			line = StringExt.strip(
-				line,
-				cfg.options.html.stripper.begin,
-				cfg.options.html.stripper.end
-			);
-		}
-
-		return line;
-	}
-}
+import { stripHtml } from "./stripping";
+import { Formatter, StringExt } from "./utils";
 
 /**
  * Counter to yield higher integers each time, in template
@@ -254,7 +215,7 @@ export class Content {
 				retVal = NunjucksUtils.renderFile(dir, file, context, templateDir);
 		}
 
-		retVal = Stripper.process(retVal);
+		retVal = stripHtml(retVal);
 
 		return retVal;
 	}

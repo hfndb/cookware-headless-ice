@@ -6,11 +6,11 @@ import {
 	writeFileSync,
 	FSWatcher
 } from "fs";
-import { basename, dirname, extname, join } from "path";
+import { basename, dirname, extname, join, sep } from "path";
 import { mkdir, mv, rm, test, touch } from "shelljs";
 import { AppConfig } from "./config";
-import { Logger } from "./log";
 import { getDirList } from "./dirs";
+import { Logger } from "./log";
 import { ArrayUtils } from "./object";
 
 /**
@@ -200,6 +200,19 @@ The structure of this file is invalid, meaning, messed up.
 		}
 
 		return files;
+	}
+
+	/**
+	 * Translate a file name to name with suffix
+	 * For example: dir/file.txt becomes dir/file-suffix.txt
+	 */
+	static getSuffixedFile(path: string, suffix: string): string {
+		let dir = path.includes(sep) || path.includes("/") ? dirname(path) : "";
+		let file = basename(path);
+		let ext = extname(file); // Including dot
+		file = basename(file, ext); // forget source file name and get stem only
+
+		return join(dir, `${file}-${suffix}${ext}`);
 	}
 
 	/**
@@ -486,22 +499,29 @@ export function removeObsolete(
 	let sources = FileUtils.getFileList(outputDir, {
 		allowedExtensions: [ext]
 	});
+	let stripped =
+		cfg.options.stripping && cfg.options.stripping.suffix
+			? cfg.options.stripping.suffix
+			: "";
 
 	sources.forEach((file: string) => {
-		if (
-			!ArrayUtils.inExcludeList(removeObsolete.exclude, file) &&
-			!processed.includes(file)
-		) {
-			// Not in exclude list, not in list of processed files
-			let trashFile = join(cfg.dirTemp, file);
-			FileUtils.mkdir(dirname(trashFile));
-			mv(join(outputDir, file), trashFile);
-			if (test("-f", join(outputDir, file, ".map"))) {
-				rm(join(outputDir, file, ".map")); // Source map
-			}
-			if (process.env.NODE_ENV !== "test") {
-				log.info(`Moved obsolete file ${file} to ${trashFile} `);
-			}
+		let fl = basename(file, extname(file));
+		// In exclude list, in list of processed files?
+		let skip =
+			ArrayUtils.inExcludeList(removeObsolete.exclude, file) ||
+			processed.includes(file);
+		// Is stripped file?
+		skip = skip || (stripped && fl.endsWith(stripped));
+		if (skip) return;
+
+		let trashFile = join(cfg.dirTemp, file);
+		FileUtils.mkdir(dirname(trashFile));
+		mv(join(outputDir, file), trashFile);
+		if (test("-f", join(outputDir, file, ".map"))) {
+			rm(join(outputDir, file, ".map")); // Source map
+		}
+		if (process.env.NODE_ENV !== "test") {
+			log.info(`Moved obsolete file ${file} to ${trashFile} `);
 		}
 	});
 

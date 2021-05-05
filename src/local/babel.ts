@@ -1,15 +1,10 @@
 import { basename, dirname, join } from "path";
 import { exec, rm, test } from "shelljs";
 import { transformSync } from "@babel/core";
-import {
-	getChangeList,
-	AppConfig,
-	FileStatus,
-	FileUtils,
-	Logger
-} from "../lib";
-import { removeObsolete } from "../lib/files";
+import { getChangeList, AppConfig, FileStatus, Logger } from "../lib";
 import { Beautify } from "../lib/beautify";
+import { FileUtils, removeObsolete } from "../lib/files";
+import { stripJs } from "../lib/stripping";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 import { Bundle, JavascriptUtils } from "./javascript";
 import { Tags } from "./tags";
@@ -23,6 +18,7 @@ export function compile(verbose: boolean): void {
 	let cfg = AppConfig.getInstance();
 	let log = Logger.getInstance(cfg.options.logging);
 	let outDir = JavascriptUtils.getOutputDir();
+	let processed: string[] = [];
 	let saydHello = false;
 	let session = SessionVars.getInstance();
 	let sourceExt =
@@ -51,7 +47,6 @@ export function compile(verbose: boolean): void {
 		targetExt: ".js",
 		excludeList: cfg.options.javascript.removeObsolete.exclude
 	});
-	let processed: string[] = [];
 
 	changeList.forEach((entry: FileStatus) => {
 		processed.push(entry.target);
@@ -120,10 +115,7 @@ export function compileFile(
 		FileUtils.writeFile(entry.dir, entry.source, source, false);
 
 		// In case file is browser related and removeImports is set to true...
-		if (
-			(forBrowser && cfg.options.javascript.browser.removeImports) ||
-			Bundle.needsStripping(entry.source)
-		) {
+		if (forBrowser && cfg.options.javascript.browser.removeImports) {
 			// Code editor is satisfied so far, but compiled file doesn't need imports
 			source = JavascriptUtils.stripImports(source);
 		}
@@ -139,11 +131,11 @@ export function compileFile(
 		presets.push(["@babel/preset-react"]); // Using default settings
 	}
 
-	if (process.env.NODE_ENV == "production") {
-		// For production use
-		//presets.push("minify"); // Bug in preset: https://github.com/babel/minify/issues/904
-		source = JavascriptUtils.stripSpaces(source);
-	} else if (!forBrowser && cfg.options.javascript.sourceMapping) {
+	if (
+		process.env.NODE_ENV != "production" &&
+		!forBrowser &&
+		cfg.options.javascript.sourceMapping
+	) {
 		// https://www.mattzeunert.com/2016/02/14/how-do-source-maps-work.html
 		plugins.push("source-map-support");
 	}
@@ -203,29 +195,34 @@ export function compileFile(
 			if (test("-f", fl)) rm(fl);
 			fl = join(entry.targetDir, entry.target + ".map");
 			if (test("-f", fl)) rm(fl);
-		} else if (cfg.options.javascript.sourceMapping) {
-			if (!forBrowser) {
-				results.code += `\n//# sourceMappingURL=${basename(entry.target)}.map`;
-				FileUtils.writeFile(
-					entry.targetDir,
-					entry.target + ".map",
-					JSON.stringify(results.map),
-					false
-				);
-			}
+		} else if (cfg.options.javascript.sourceMapping && !forBrowser) {
+			results.code += `\n//# sourceMappingURL=${basename(entry.target)}.map`;
+			FileUtils.writeFile(
+				entry.targetDir,
+				entry.target + ".map",
+				JSON.stringify(results.map),
+				false
+			);
 			if (cfg.options.javascript.ast)
 				FileUtils.writeFile(
 					entry.targetDir,
 					entry.target + ".ast",
 					JSON.stringify(results.ast),
 					false
-				);
+				); // object results.ast needs some work before usable
 			// Working with AST, see
 			// https://hackernoon.com/babel-your-first-code-transformations-2d1a9a2f3bc4
 		}
 
 		FileUtils.writeFile(entry.targetDir, entry.target, results.code, verbose);
-		// FileUtils.writeFile(entry.targetDir, entry.target + ".ast", results.ast, false); // object results.ast needs some work before usable
+		if (forBrowser && cfg.options.stripping.auto) {
+			let toWrite = stripJs(results.code);
+			let file = FileUtils.getSuffixedFile(
+				entry.target,
+				cfg.options.stripping.suffix
+			);
+			FileUtils.writeFile(entry.targetDir, file, toWrite, false);
+		}
 	} catch (err) {
 		log.warn(
 			`- Failed to compile file: ${entry.source}`,

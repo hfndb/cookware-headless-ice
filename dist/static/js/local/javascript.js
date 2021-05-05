@@ -1,263 +1,154 @@
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.generateJsDocs = generateJsDocs;
-exports.Bundle = exports.JavascriptUtils = void 0;
-
-require("source-map-support/register");
-
-var _path = require("path");
-
-var _shelljs = require("shelljs");
-
-var _lib = require("../lib");
-
-var _utils = require("../lib/utils");
-
-let cfg = _lib.AppConfig.getInstance();
-
-let log = _lib.Logger.getInstance(cfg.options.logging);
-
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.generateJsDocs = exports.Bundle = exports.JavascriptUtils = void 0;
+const path_1 = require("path");
+const shelljs_1 = require("shelljs");
+const lib_1 = require("../lib");
+const stripping_1 = require("../lib/stripping");
+let cfg = lib_1.AppConfig.getInstance();
+let log = lib_1.Logger.getInstance(cfg.options.logging);
 class JavascriptUtils {
-  static getOutputDir() {
-    let cfg = _lib.AppConfig.getInstance();
-
-    let log = _lib.Logger.getInstance();
-
-    let outputDir = "";
-
-    if ((0, _shelljs.test)("-d", (0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.output))) {
-      outputDir = (0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.output);
-    } else if ((0, _shelljs.test)("-d", cfg.options.javascript.dirs.output)) {
-      outputDir = cfg.options.javascript.dirs.output;
-    } else {
-      log.error("JavaScript output directory couldn't be determined");
+    static getOutputDir() {
+        let cfg = lib_1.AppConfig.getInstance();
+        let log = lib_1.Logger.getInstance();
+        let outputDir = "";
+        if (shelljs_1.test("-d", path_1.join(cfg.dirProject, cfg.options.javascript.dirs.output))) {
+            outputDir = path_1.join(cfg.dirProject, cfg.options.javascript.dirs.output);
+        }
+        else if (shelljs_1.test("-d", cfg.options.javascript.dirs.output)) {
+            outputDir = cfg.options.javascript.dirs.output;
+        }
+        else {
+            log.error("JavaScript output directory couldn't be determined");
+        }
+        return outputDir;
     }
-
-    return outputDir;
-  }
-
-  static bundle() {
-    let outDir = JavascriptUtils.getOutputDir();
-    let nodeExec = (0, _path.join)(cfg.dirMain, "node_modules", "node", "bin", "node");
-    let execPath = (0, _path.join)(cfg.dirMain, "dist", "static", "js", "local");
-    let lst = [];
-
-    if (cfg.options.javascript.bundles.length == 0 && cfg.options.javascript.apps.length == 0) {
-      return lst;
+    static bundle() {
+        let outDir = JavascriptUtils.getOutputDir();
+        let nodeExec = path_1.join(cfg.dirMain, "node_modules", "node", "bin", "node");
+        let execPath = path_1.join(cfg.dirMain, "dist", "static", "js", "local");
+        let lst = [];
+        if (cfg.options.javascript.bundles.length == 0 &&
+            cfg.options.javascript.apps.length == 0) {
+            return lst;
+        }
+        for (let i = 0; i < cfg.options.javascript.bundles.length; i++) {
+            let bundle = cfg.options.javascript.bundles[i];
+            Bundle.create(bundle);
+            lst.push(bundle.output);
+        }
+        for (let i = 0; i < cfg.options.javascript.apps.length; i++) {
+            let bundle = cfg.options.javascript.apps[i];
+            let outfile = path_1.join(outDir, bundle.output);
+            lst.push(bundle.output);
+            shelljs_1.rm("-f", outfile);
+            let cmd = `${nodeExec} ${path_1.join(execPath, "create-app.js")} ${cfg.dirProject}` +
+                ` ${i}`;
+            if (process.env.NODE_ENV == "production") {
+                cmd += " 1";
+            }
+            shelljs_1.exec(cmd);
+            for (let i = 0; bundle.cleanup && i < bundle.cleanup.length; i++) {
+                let file = path_1.join(outDir, bundle.cleanup[i]);
+                if (shelljs_1.test("-e", file))
+                    shelljs_1.rm("-rf", file);
+                file += ".map";
+                if (shelljs_1.test("-e", file))
+                    shelljs_1.rm(file);
+            }
+        }
+        return lst;
     }
-
-    for (let i = 0; i < cfg.options.javascript.bundles.length; i++) {
-      let bundle = cfg.options.javascript.bundles[i];
-      Bundle.create(bundle);
-      lst.push(bundle.output);
+    static stripImports(src) {
+        let lines = src.split("\n");
+        for (let i = 0; i < lines.length; i++) {
+            if (lines[i].startsWith("import")) {
+                lines[i] = "";
+            }
+            if (lines[i].startsWith("exports.")) {
+                lines[i] = "";
+            }
+            else if (lines[i].startsWith("export ")) {
+                lines[i] = lines[i].replace("export ", "");
+            }
+        }
+        return lines.join("\n");
     }
-
-    for (let i = 0; i < cfg.options.javascript.apps.length; i++) {
-      let bundle = cfg.options.javascript.apps[i];
-      let outfile = (0, _path.join)(outDir, bundle.output);
-      lst.push(bundle.output);
-      (0, _shelljs.rm)("-f", outfile);
-      let cmd = `${nodeExec} ${(0, _path.join)(execPath, "create-app.js")} ${cfg.dirProject}` + ` ${i}`;
-
-      if (process.env.NODE_ENV == "production") {
-        cmd += " 1";
-      }
-
-      (0, _shelljs.exec)(cmd);
-
-      for (let i = 0; bundle.cleanup && i < bundle.cleanup.length; i++) {
-        let file = (0, _path.join)(outDir, bundle.cleanup[i]);
-        if ((0, _shelljs.test)("-e", file)) (0, _shelljs.rm)("-rf", file);
-        file += ".map";
-        if ((0, _shelljs.test)("-e", file)) (0, _shelljs.rm)(file);
-      }
-    }
-
-    return lst;
-  }
-
-  static stripImports(src) {
-    let lines = src.split("\n");
-
-    for (let i = 0; i < lines.length; i++) {
-      if (lines[i].startsWith("import")) {
-        lines[i] = "";
-      }
-
-      if (lines[i].startsWith("exports.")) {
-        lines[i] = "";
-      } else if (lines[i].startsWith("export ")) {
-        lines[i] = lines[i].replace("export ", "");
-      }
-    }
-
-    return lines.join("\n");
-  }
-
-  static stripLine(line) {
-    let lastIdx = -1;
-    let idx = line.indexOf(" ", lastIdx) + 1;
-    let spaces = cfg.options.javascript.lineStripping.needsSpace;
-
-    function toPreserve(part1, part2) {
-      let r = false;
-
-      for (let i = 0; i < spaces.after.length && !r; i++) {
-        if (part1.endsWith(spaces.after[i] + " ")) r = true;
-      }
-
-      for (let i = 0; i < spaces.around.length && !r; i++) {
-        if (part1.endsWith(spaces.around[i] + " ")) r = true;
-      }
-
-      return r;
-    }
-
-    while (idx >= 0 && idx > lastIdx) {
-      let strPart1 = line.substring(0, idx);
-      let strPart2 = line.substring(idx);
-
-      let sq = _utils.StringExt.occurrences(strPart1, "'");
-
-      let dq = _utils.StringExt.occurrences(strPart1, '"');
-
-      let inString = sq % 2 != 0 || dq % 2 != 0;
-      if (!inString && !toPreserve(strPart1, strPart2)) strPart1 = strPart1.trimRight();
-      line = strPart1 + strPart2;
-      lastIdx = idx;
-      idx = line.indexOf(" ", lastIdx) + 1;
-    }
-
-    return line;
-  }
-
-  static stripFile(src) {
-    let mlnTemplate = 0;
-    let lines = src.split("\n");
-    let toReturn = "";
-
-    for (let i = 0; i < lines.length; i++) {
-      let line = lines[i].trim();
-      if (!line) continue;
-
-      if (!mlnTemplate && line.includes("multiline template")) {
-        mlnTemplate = 1;
-        continue;
-      } else if (mlnTemplate == 1) {
-        mlnTemplate = 2;
-        continue;
-      } else if (mlnTemplate == 2) {
-        toReturn += line + "\n";
-        if (line.includes("`")) mlnTemplate = 0;
-        continue;
-      }
-
-      line = JavascriptUtils.stripLine(line);
-      toReturn += line;
-    }
-
-    return toReturn;
-  }
-
 }
-
 exports.JavascriptUtils = JavascriptUtils;
-
 class Bundle {
-  static isChanged(bundle, outDir) {
-    if (!(0, _shelljs.test)("-f", (0, _path.join)(outDir, bundle.output))) return true;
-    let changed = false;
-    let path = (0, _path.join)(cfg.dirProject, cfg.options.javascript.dirs.source);
-
-    let last = _lib.FileUtils.getLastModified(outDir, bundle.output);
-
-    bundle.source.forEach(item => {
-      let srcFile = (0, _path.join)(path, item);
-
-      let ths = _lib.FileUtils.getLastModified(path, item);
-
-      if (ths > last) {
-        changed = true;
-      }
-    });
-    return changed;
-  }
-
-  static create(bundle) {
-    let outDir = JavascriptUtils.getOutputDir();
-    if (!Bundle.isChanged(bundle, outDir)) return;
-    let content = "";
-    let toWrite = "";
-    let useStrictNeeded = true;
-    (0, _shelljs.rm)("-f", (0, _path.join)(outDir, bundle.output));
-
-    if (bundle.header) {
-      toWrite = _lib.FileUtils.readFile((0, _path.join)(cfg.dirProject, bundle.header));
-      useStrictNeeded = false;
+    static isChanged(bundle, outDir) {
+        if (!shelljs_1.test("-f", path_1.join(outDir, bundle.output)))
+            return true;
+        let changed = false;
+        let path = path_1.join(cfg.dirProject, cfg.options.javascript.dirs.source);
+        let last = lib_1.FileUtils.getLastModified(outDir, bundle.output);
+        bundle.source.forEach((item) => {
+            let srcFile = path_1.join(path, item);
+            let ths = lib_1.FileUtils.getLastModified(path, item);
+            if (ths > last) {
+                changed = true;
+            }
+        });
+        return changed;
     }
-
-    bundle.source.forEach(item => {
-      content = _lib.FileUtils.readFile((0, _path.join)(outDir, item));
-
-      if (!useStrictNeeded) {
-        content = content.replace('"use strict";', "");
-      }
-
-      useStrictNeeded = false;
-      toWrite += content.trim() + "\n";
-    });
-
-    if (bundle.compress) {
-      toWrite = JavascriptUtils.stripFile(toWrite);
+    static create(bundle) {
+        let outDir = JavascriptUtils.getOutputDir();
+        if (!Bundle.isChanged(bundle, outDir))
+            return;
+        let content = "";
+        let toWrite = "";
+        let useStrictNeeded = true;
+        shelljs_1.rm("-f", path_1.join(outDir, bundle.output));
+        if (bundle.header) {
+            toWrite = lib_1.FileUtils.readFile(path_1.join(cfg.dirProject, bundle.header));
+            useStrictNeeded = false;
+        }
+        bundle.source.forEach((item) => {
+            content = lib_1.FileUtils.readFile(path_1.join(outDir, item));
+            if (!useStrictNeeded) {
+                content = content.replace('"use strict";', "");
+            }
+            useStrictNeeded = false;
+            toWrite += content.trim() + "\n";
+        });
+        lib_1.FileUtils.writeFile(outDir, bundle.output, toWrite, false);
+        if (cfg.options.stripping.auto || bundle.compress) {
+            toWrite = stripping_1.stripJs(toWrite);
+            let file = lib_1.FileUtils.getSuffixedFile(bundle.output, cfg.options.stripping.suffix);
+            lib_1.FileUtils.writeFile(outDir, file, toWrite, false);
+        }
+        log.info(`- written Javascript bundle ${bundle.output}`);
+        return;
     }
-
-    _lib.FileUtils.writeFile(outDir, bundle.output, toWrite, false);
-
-    log.info(`- written Javascript bundle ${bundle.output}`);
-    return;
-  }
-
-  static needsStripping(file) {
-    let toReturn = false;
-
-    for (let i = 0; i < cfg.options.javascript.bundles.length && !toReturn; i++) {
-      let bundle = cfg.options.javascript.bundles[i];
-
-      if (bundle.source.includes(file) && bundle.removeImports) {
-        toReturn = true;
-      }
+    static needsStripping(file) {
+        let toReturn = false;
+        for (let i = 0; i < cfg.options.javascript.bundles.length && !toReturn; i++) {
+            let bundle = cfg.options.javascript.bundles[i];
+            if (bundle.source.includes(file) && bundle.removeImports) {
+                toReturn = true;
+            }
+        }
+        return toReturn;
     }
-
-    return toReturn;
-  }
-
 }
-
 exports.Bundle = Bundle;
-
 function generateJsDocs() {
-  let options = cfg.options.dependencies.jsdoc.config;
-  let dir = options.opts.destination;
-  options.opts.destination = (0, _path.join)(cfg.dirProject, dir);
-
-  for (let i = 0; i < options.source.include.length; i++) {
-    options.source.include[i] = (0, _path.join)(cfg.dirProject, options.source.include[i]);
-  }
-
-  _lib.FileUtils.writeJsonFile(options, cfg.dirTemp, ".jsdoc.json", false);
-
-  if ((0, _shelljs.test)("-d", options.opts.destination)) {
-    (0, _shelljs.rm)("-rf", (0, _path.join)(options.opts.destination, "*"));
-  } else {
-    _lib.FileUtils.mkdir(options.opts.destination);
-  }
-
-  log.info(`Generating API docs of JavaScript files, in ${dir}`);
-  (0, _shelljs.exec)(`jsdoc --configure ${(0, _path.join)(cfg.dirTemp, ".jsdoc.json")}`, {
-    async: true
-  });
+    let options = cfg.options.dependencies.jsdoc.config;
+    let dir = options.opts.destination;
+    options.opts.destination = path_1.join(cfg.dirProject, dir);
+    for (let i = 0; i < options.source.include.length; i++) {
+        options.source.include[i] = path_1.join(cfg.dirProject, options.source.include[i]);
+    }
+    lib_1.FileUtils.writeJsonFile(options, cfg.dirTemp, ".jsdoc.json", false);
+    if (shelljs_1.test("-d", options.opts.destination)) {
+        shelljs_1.rm("-rf", path_1.join(options.opts.destination, "*"));
+    }
+    else {
+        lib_1.FileUtils.mkdir(options.opts.destination);
+    }
+    log.info(`Generating API docs of JavaScript files, in ${dir}`);
+    shelljs_1.exec(`jsdoc --configure ${path_1.join(cfg.dirTemp, ".jsdoc.json")}`, { async: true });
 }
+exports.generateJsDocs = generateJsDocs;
 //# sourceMappingURL=javascript.js.map

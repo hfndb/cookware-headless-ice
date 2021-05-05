@@ -115,7 +115,7 @@ class SassFiles {
   read(entry) {
     let fullPath = (0, _path.join)(entry.dir, entry.source);
 
-    let result = _utils.StringExt.matchAll(`@import ["']+(.*)["']+;`, _lib.FileUtils.readFile(fullPath));
+    let result = _utils.StringExt.matchAll(`@import ["']+(.*)["']+;`, _files.FileUtils.readFile(fullPath));
 
     let [d, f] = this.getDirFile("", entry.source);
 
@@ -150,12 +150,12 @@ class SassUtils {
     if (cfg.options.server.beautify.includes("sass") && entry.source != cfg.options.sass.colors.sass) {
       let fullPath = (0, _path.join)(entry.dir, entry.source);
 
-      let source = _lib.FileUtils.readFile(fullPath);
+      let source = _files.FileUtils.readFile(fullPath);
 
       source = _beautify.Beautify.content(entry.source, source);
 
       if (source) {
-        _lib.FileUtils.writeFile(entry.dir, entry.source, source, false);
+        _files.FileUtils.writeFile(entry.dir, entry.source, source, false);
       } else {
         toReturn = false;
       }
@@ -197,7 +197,7 @@ class SassUtils {
       processed.push(entry.target);
     });
 
-    _lib.FileUtils.getFileList((0, _path.join)(cfg.dirProject, cfg.options.sass.dirs.source), {
+    _files.FileUtils.getFileList((0, _path.join)(cfg.dirProject, cfg.options.sass.dirs.source), {
       allowedExtensions: [".css"]
     }).forEach(file => {
       let path = (0, _path.join)(outDir, file);
@@ -244,9 +244,25 @@ class SassUtils {
 
       let prefixed = SassUtils.addPrefixes(result.css);
 
-      _lib.FileUtils.writeFile(entry.targetDir, entry.target, prefixed, verbose);
+      _files.FileUtils.writeFile(entry.targetDir, entry.target, prefixed, verbose);
 
       session.add(_session.ProcessingTypes.sass, entry.target);
+      Object.assign(options, {
+        indentedSyntax: true,
+        outputStyle: "compressed",
+        sourceMap: undefined
+      });
+      result = sass.renderSync(options);
+
+      if (!result) {
+        throw new Error("");
+      }
+
+      prefixed = SassUtils.addPrefixes(result.css);
+
+      let file = _files.FileUtils.getSuffixedFile(entry.target, cfg.options.stripping.suffix);
+
+      _files.FileUtils.writeFile(entry.targetDir, file, prefixed, false);
     } catch (err) {
       log.warn(`- Failed to trancompile file: ${entry.source}`, _lib.Logger.error2string(err));
       return false;

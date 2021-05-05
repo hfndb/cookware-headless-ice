@@ -1,14 +1,8 @@
 import { basename, dirname, extname, join, normalize, sep } from "path";
 import { cp, test, touch } from "shelljs";
-import {
-	getChangeList,
-	AppConfig,
-	FileStatus,
-	FileUtils,
-	Logger
-} from "../lib";
+import { getChangeList, AppConfig, FileStatus, Logger } from "../lib";
 import { Beautify } from "../lib/beautify";
-import { removeObsolete } from "../lib/files";
+import { FileUtils, removeObsolete } from "../lib/files";
 import { StringExt } from "../lib/utils";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 
@@ -282,6 +276,23 @@ export class SassUtils {
 			let prefixed = SassUtils.addPrefixes(result.css);
 			FileUtils.writeFile(entry.targetDir, entry.target, prefixed, verbose);
 			session.add(ProcessingTypes.sass, entry.target);
+
+			// Also write a stripped version
+			Object.assign(options, {
+				indentedSyntax: true,
+				outputStyle: "compressed",
+				sourceMap: undefined
+			});
+			result = sass.renderSync(options);
+			if (!result) {
+				throw new Error("");
+			}
+			prefixed = SassUtils.addPrefixes(result.css);
+			let file = FileUtils.getSuffixedFile(
+				entry.target,
+				cfg.options.stripping.suffix
+			);
+			FileUtils.writeFile(entry.targetDir, file, prefixed, false);
 		} catch (err) {
 			log.warn(
 				`- Failed to trancompile file: ${entry.source}`,

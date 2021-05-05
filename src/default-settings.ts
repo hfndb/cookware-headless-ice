@@ -59,10 +59,7 @@ let DefaultConfig = {
 			}
 		},
 		stripper: {
-			active: false,
-			begin: true,
-			end: true,
-			empty: true
+			active: false
 		}
 	},
 	javascript: {
@@ -227,6 +224,10 @@ let DefaultConfig = {
 	sitemap: {
 		generate: true,
 		exclude: []
+	},
+	stripping: {
+		auto: true,
+		suffix: "stripped"
 	},
 	tags: {
 		active: false,
@@ -400,10 +401,10 @@ let DefaultConfig = {
 		nodeSass: {
 			config: {
 				includePaths: ["sass"],
-				indentedSyntax: false,
+				indentedSyntax: true,
 				indentType: "tabs",
 				indentWidth: 1,
-				outputStyle: "compressed" // nested, expanded, compact, compressed
+				outputStyle: "nested" // nested, expanded, compact, compressed
 			}
 		},
 		nunjucks: {

@@ -4,11 +4,11 @@ Back to [main  page](../README.md).
 
 As described in the [design goals and roadmap](./design-goals-and-roadmap.md), the plan was to build a toolbox with one configuration file. Apart from the TypeScript configuration file (see heading TypeScript on this page, about type checking), it succeeded.
 
-All configuration options are set in the file config.json. For your convenience, this file is backuped to config-org.json. In case you mess up, you can always revert.
+All configuration options are set in the file settings.json. For your convenience, this file is backuped to settings-org.json. In case you mess up, you can always revert.
 
 As a **general rule** all directory paths in config.json are relative to the project root.
 
-Config.json in a project directory **overrides** the default program settings, as configured in [default-config.js](https://github.com/hfndb/cookware-headless-ice/blob/master/src/default-config.ts) in the 'src' directory. It contains the following sections:
+Config.json in a project directory **overrides** the default program settings, as configured in [default-settings.js](https://github.com/hfndb/cookware-headless-ice/blob/master/src/default-settings.ts) in the 'src' directory. It contains the following sections:
 
 
 ## Version information
@@ -72,7 +72,7 @@ Entries:
 {
 	"env": {
 		"node_path": []
-	},
+	}
 }
 ```
 
@@ -88,7 +88,7 @@ Entries:
 		"exactMatch": true,
 		"beginswith": true,
 		"contains": true
-	},
+	}
 }
 ```
 
@@ -108,7 +108,7 @@ At all such places you can alternatively use a quite detailed structure, in whic
 		"exactMatch":  [],
 		"startsWith":  [],
 		"endsWith":  []
-	},
+	}
 }
 ```
 
@@ -161,10 +161,7 @@ Used in system todo list, project overview and perhaps also project pages. An in
 			"exclude": []
 		},
 		"stripper": {
-			"active": false,
-			"begin": true,
-			"end": true,
-			"empty": true
+			"active": false
 		}
 	}
 }
@@ -180,9 +177,6 @@ Entries:
 + *caching / removeObsolete / exclude*: An array with HTMLfiles which will be excluded from auto-removal.
 + *sitemap / exclude*: An array with HTML content to exclude from sitemap.
 + *stripper / active*: Organize a striptease by stripping HTML from elements, making a page faster to load en harder to read the HTML code (teasing)
-+ *stripper / begin*: Spaces or tabs at the beginning of a line
-+ *stripper / end*: Spaces or tabs at the end of a line
-+ *stripper / empty*: Empty lines
 
 
 ## JavaScript
@@ -457,6 +451,7 @@ Entries:
 	},
 }
 ```
+
 Entries:
 + *backupInterval*: Interval for automatic backups of recently changed source code to backups directory. Unit: min. If set to 0, the auto-backup functionality is ignored.
 + "beautify": Array with kinds of code to beautify on the fly, when file change is detected. Possible values: saas, src
@@ -467,6 +462,21 @@ Example: If set to 8000, this website can be opened with http://localhost:8000/
 + *staticUrl*: Directory for static files; css, js and pictures.
 + *watchTimeout*: A timeout for filewatching using fs.watch(). Unit: ms. If you observe multiple changes in the console output, while you changed a file only once, then you could increase this timeout a bit.
 
+
+## Stripping
+
+Settings for what is known as file compression, minifying.
+
+```
+{
+	"stripping": {
+		"auto": true,
+		"suffix": "stripped"
+	}
+```
+
+Entries:
++ *auto*: Automatically also generate stripped versions, ignore HTML and JavaScript settings.
 
 ## Tags
 

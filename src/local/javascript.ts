@@ -1,7 +1,7 @@
 import { join } from "path";
 import { exec, rm, test } from "shelljs";
 import { AppConfig, FileUtils, Logger } from "../lib";
-import { StringExt } from "../lib/utils";
+import { stripJs } from "../lib/stripping";
 
 let cfg = AppConfig.getInstance();
 let log = Logger.getInstance(cfg.options.logging);
@@ -102,73 +102,6 @@ export class JavascriptUtils {
 
 		return lines.join("\n");
 	}
-
-	/**
-	 * Strip empty space within a line
-	 */
-	static stripLine(line: string): string {
-		let lastIdx = -1;
-		let idx = line.indexOf(" ", lastIdx) + 1; // including trailing space
-		let spaces = cfg.options.javascript.lineStripping.needsSpace; // @@
-
-		function toPreserve(part1: string, part2: string): boolean {
-			let r = false;
-			for (let i = 0; i < spaces.after.length && !r; i++) {
-				if (part1.endsWith(spaces.after[i] + " ")) r = true;
-			}
-			for (let i = 0; i < spaces.around.length && !r; i++) {
-				if (part1.endsWith(spaces.around[i] + " ")) r = true;
-			}
-			return r;
-		}
-
-		while (idx >= 0 && idx > lastIdx) {
-			let strPart1 = line.substring(0, idx);
-			let strPart2 = line.substring(idx);
-			let sq = StringExt.occurrences(strPart1, "'"); // single quotes
-			let dq = StringExt.occurrences(strPart1, '"'); // double quotes
-			let inString = sq % 2 != 0 || dq % 2 != 0;
-
-			if (!inString && !toPreserve(strPart1, strPart2))
-				strPart1 = strPart1.trimRight();
-			line = strPart1 + strPart2;
-			lastIdx = idx;
-			idx = line.indexOf(" ", lastIdx) + 1;
-		}
-		return line;
-	}
-
-	/**
-	 * Compact an already transcompiled file by removing obsolete spaces and line ends
-	 */
-	static stripFile(src: string): string {
-		let mlnTemplate = 0;
-		let lines = src.split("\n");
-		let toReturn = "";
-
-		for (let i = 0; i < lines.length; i++) {
-			let line = lines[i].trim();
-			if (!line) continue; // Empty line
-
-			// Handle multiline string templates
-			if (!mlnTemplate && line.includes("multiline template")) {
-				// Comment indicating that a multiline string template begins @ next line
-				mlnTemplate = 1;
-				continue;
-			} else if (mlnTemplate == 1) {
-				mlnTemplate = 2; // Begin, skip
-				continue;
-			} else if (mlnTemplate == 2) {
-				toReturn += line + "\n";
-				if (line.includes("`")) mlnTemplate = 0; // End
-				continue;
-			}
-			line = JavascriptUtils.stripLine(line);
-			toReturn += line;
-		}
-
-		return toReturn;
-	}
 }
 
 /**
@@ -222,11 +155,15 @@ export class Bundle {
 			toWrite += content.trim() + "\n";
 		});
 
-		if (bundle.compress) {
-			toWrite = JavascriptUtils.stripFile(toWrite);
-		}
-
 		FileUtils.writeFile(outDir, bundle.output, toWrite, false);
+		if (cfg.options.stripping.auto || bundle.compress) {
+			toWrite = stripJs(toWrite);
+			let file = FileUtils.getSuffixedFile(
+				bundle.output,
+				cfg.options.stripping.suffix
+			);
+			FileUtils.writeFile(outDir, file, toWrite, false);
+		}
 		log.info(`- written Javascript bundle ${bundle.output}`);
 
 		return;
