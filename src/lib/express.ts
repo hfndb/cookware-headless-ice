@@ -261,7 +261,7 @@ export class ExpressUtils {
 	static logRequest(req: Request, res: Response): void {
 		if (req.path == "/favicon.ico") return;
 		let log = Logger.getInstance();
-		let str = `${req.method} ${res.statusCode} ${req.url}`;
+		let str = `${req.method.padEnd(5, " ")}${res.statusCode} ${req.url}`;
 		// ${ res.statusMessage }  ${res.get("Content-Length") || 0}b
 		if (res.statusCode == 404) {
 			log.warn(str);
