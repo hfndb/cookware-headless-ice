@@ -2,12 +2,15 @@ import { basename, extname, join } from "path";
 import { test } from "shelljs";
 import { fileListOptions, AppConfig, FileUtils, StringExt } from "../lib";
 import { LineReader } from "../lib/files";
+import { Content } from "../lib/html";
+import { getStamp, renderSysTemplate } from "./misc";
 import { ArrayUtils } from "../lib/object";
 import { getPackages } from "../lib/package-json";
 import { Item, Group, Report } from "../lib/reporting";
 
+let cfg = AppConfig.getInstance();
+
 function readFile(dir: string, file: string, group: Group, report: Report) {
-	let cfg = AppConfig.getInstance();
 	let lr = new LineReader(join(cfg.dirProject, dir, file));
 
 	let item: Item = new Item(report, file);
@@ -85,7 +88,6 @@ function parseLine(line: string, item: Item, isInComment: boolean): boolean {
 }
 
 export function generateStats(): Report {
-	let cfg = AppConfig.getInstance();
 	let options: fileListOptions = {
 		allowedExtensions: [""],
 		excludeList: ["dist", "node_modules"],
@@ -153,4 +155,28 @@ export function generateStats(): Report {
 	Object.assign(report, { packages: getPackages(cfg.dirProject) });
 
 	return report;
+}
+
+export function writeStats() {
+	// Get data
+	let pg = "project-overview.html";
+	let context = Content.getDefaultContext(pg);
+	context = Object.assign(context, { report: generateStats() });
+	let data = renderSysTemplate(pg, context);
+	let rootDir = Content.getOutputDir();
+
+	// Correct path of CSS in HTML
+	// @todo Works fine in Linux, not in Windows
+	data = data.replace(
+		new RegExp("/static/sys/css/", "g"),
+		join(cfg.dirMain, "dist", "static", "css") + "/"
+	);
+
+	// Create dir, if needed
+	let dir = join(rootDir, cfg.options.projectOverview.dir);
+	FileUtils.mkdir(dir);
+
+	// Write file
+	let path = join(cfg.options.projectOverview.dir, getStamp() + ".html");
+	FileUtils.writeFile(rootDir, path, data, true);
 }

@@ -10,6 +10,7 @@ The **command line toolbox**
 + renders (changed or new) template based HTML-content to static .html disk files,
 + [lints](https://en.wikipedia.org/wiki/Lint_%28software%29) HTML content files,
 + generates a .xml [Google sitemap](https://support.google.com/webmasters/answer/156184?hl=en),
++ generates a date-time stamped project overview (see below),
 + renders (plain or PGP signed) PDF, in the future perhaps also ePub files,
 + generates [API](https://en.wikipedia.org/wiki/Application_programming_interface) documentation for JavaScript and TypeScript files in HTML format,
 + creates automatic backups of changed files, using a time interval.

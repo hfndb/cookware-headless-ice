@@ -324,16 +324,7 @@ ${value}
 
 		try {
 			let env = NunjucksUtils.getEnvironment(searchPaths);
-
-			// Add global function to dump all vars in template
-			env.globals["getVars"] = function() {
-				return this.getVariables();
-			};
-
-			// Add global function to pretty print a variable
-			env.globals["pprint"] = function(arg) {
-				return JSON.stringify(arg, null, "    ");
-			};
+			NunjucksUtils.addGlobalFunctions(env);
 
 			let data = FileUtils.readFile(join(dir, file));
 			return nunjucks.renderString(data, context);
@@ -341,6 +332,26 @@ ${value}
 			log.warn(`- Failed to render file ${file}`, Logger.error2string(err));
 			return "";
 		}
+	}
+
+	/**
+	 * Add a bunch of convenience function to Nunjucks environment
+	 */
+	static addGlobalFunctions(env: any): void {
+		// To dump all vars in template
+		env.globals["getVars"] = function() {
+			return this.getVariables();
+		};
+
+		// To pretty print a variable
+		env.globals["pprint"] = function(arg) {
+			return JSON.stringify(arg, null, "    ");
+		};
+
+		// To test for string type
+		env.globals["isString"] = function(arg) {
+			return typeof arg == "string";
+		};
 	}
 
 	/**

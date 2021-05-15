@@ -78,6 +78,17 @@ $ cookware --lint
 Shortcut -l. Linted files will be logged to a file in your HTML output directory.
 
 
+## Project overview
+
+Write a project overview into your HTML output directory.
+
+```
+$ cookware --overview
+```
+
+Shortcut -o
+
+
 ## Run
 
 ```

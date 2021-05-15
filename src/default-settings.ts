@@ -55,7 +55,7 @@ let DefaultConfig = {
 			engine: "nunjucks",
 			removeObsolete: {
 				active: true,
-				exclude: []
+				exclude: ["project-overview"]
 			}
 		},
 		stripper: {
@@ -158,6 +158,7 @@ let DefaultConfig = {
 		content: true,
 		configuration: true,
 		code: true,
+		dir: "project-overviews",
 		showPackages: false,
 		styling: true,
 		templates: true,

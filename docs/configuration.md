@@ -362,6 +362,7 @@ Entries:
 	"projectOverview": {
 		"configuration": true,
 		"code": true,
+		"dir": "project-overview",
 		"showPackages": false,
 		"styling": true,
 		"documentation": true,
@@ -373,7 +374,7 @@ Entries:
 }
 ```
 
-Switches parts of the project overview on or off
+Switches parts of the project overview on or off and sets output directory for project overviews, if generated from the command line.
 
 
 ## Sass

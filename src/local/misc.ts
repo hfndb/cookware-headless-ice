@@ -1,12 +1,14 @@
+import { Response } from "express";
 import { extname, join } from "path";
 import { platform } from "os";
 // import { EOL } from 'os'
 import { exec, test } from "shelljs";
 import { AppConfig, FileUtils, Logger } from "../lib";
+import { FileStatus } from "../lib/file-diff";
+import { Content } from "../lib/html";
 import { Sitemap } from "../lib/sitemap";
 import { Formatter } from "../lib/utils";
 import { compile as compileJs } from "./babel";
-import { Content } from "../lib/html";
 import { SassUtils } from "./styling";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 // import { compileTypeScript } from "./typescript";
@@ -128,15 +130,19 @@ export function generateWeb(verbose: boolean): void {
 	}
 }
 
+export function getStamp(): string {
+	const frmtr = Formatter.getInstance();
+	return frmtr.date(new Date(), "YYYYMMDD-HHmm");
+}
+
 /**
  * Initialization of auto-backup for dev server
  *
  * @param isFirst First file gets another file name
  */
 export function backupChangedSource(isFirst: boolean = false): void {
-	const frmtr = Formatter.getInstance();
 	let name = isFirst ? "first" : "changes";
-	let prefix = frmtr.date(new Date(), "YYYYMMDD-HHmm");
+	let prefix = getStamp();
 
 	let arch = join("backups", `${prefix}-${name}.tgz`);
 	let diff = join("notes", `${prefix}-git.diff`);
@@ -163,6 +169,32 @@ export function backupChangedSource(isFirst: boolean = false): void {
 	} catch (err) {
 		log.error(`Error creating ${arch} ${diff}`, Logger.error2string(err));
 	}
+}
+
+/**
+ * Render a system template in the content dir
+ */
+export function renderSysTemplate(
+	path: string,
+	context: object,
+	content?: Content
+): string {
+	let cfg = AppConfig.getInstance();
+	if (!content) content = new Content();
+	let session = SessionVars.getInstance();
+
+	let entry = new FileStatus(join(cfg.dirMain, "content"));
+	entry.setSoure(path, ".html");
+	let data = content.render(entry.dir, entry.source, {
+		additionalContext: context,
+		useProjectTemplates: false
+	});
+
+	content.rendered.forEach(file => {
+		session.add(ProcessingTypes.html, file);
+	});
+
+	return data;
 }
 
 /**

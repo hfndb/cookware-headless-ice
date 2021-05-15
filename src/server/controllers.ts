@@ -8,7 +8,7 @@ import { Content } from "../lib/html";
 import { getPackageReadmeFiles } from "../lib/package-json";
 import { renderMarkdownFile } from "../local/markdown";
 import { Lint } from "../local/markup";
-import { searchProject } from "../local/misc";
+import { searchProject, renderSysTemplate } from "../local/misc";
 import { generateStats } from "../local/overview";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 const date = require("date-and-time");
@@ -72,21 +72,16 @@ export function controllerStatic(req: Request, res: Response, next: Function) {
 	}
 }
 
-function renderSysTemplate(res: Response, path: string, context: object) {
-	let cfg = AppConfig.getInstance();
-	let content = new Content();
-	let session = SessionVars.getInstance();
-
-	let entry = new FileStatus(join(cfg.dirMain, "content"));
-	entry.setSoure(path, ".html");
-	let data = content.render(entry.dir, entry.source, {
-		additionalContext: context,
-		useProjectTemplates: false
-	});
-	content.rendered.forEach(file => {
-		session.add(ProcessingTypes.html, file);
-	});
-
+/**
+ * Render a system template in the content dir
+ */
+function sysTemplate(
+	res: Response,
+	path: string,
+	context: object,
+	content: Content
+) {
+	let data = renderSysTemplate(path, context, content);
 	res.send(data);
 }
 
@@ -176,13 +171,13 @@ async function controllerGeneric(
 						}
 					]
 				});
-				renderSysTemplate(res, "lint.html", context);
+				sysTemplate(res, "lint.html", context, content);
 			} else if (url == "todo.html") {
 				context = Object.assign(context, searchProject("todo", true));
-				renderSysTemplate(res, "todo.html", context);
+				sysTemplate(res, "todo.html", context, content);
 			} else if (url == "project-overview.html") {
 				context = Object.assign(context, { report: generateStats() });
-				renderSysTemplate(res, "project-overview.html", context);
+				sysTemplate(res, "project-overview.html", context, content);
 			} else {
 				let tmp = await getCustomContext(req, res, contentDir, url);
 

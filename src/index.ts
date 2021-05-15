@@ -7,6 +7,7 @@ import { AppConfig, AppMenu } from "./lib/config";
 import { Beautify } from "./lib/beautify";
 import { generateJsDocs } from "./local/javascript";
 import { generateWeb } from "./local/misc";
+import { writeStats } from "./local/overview";
 import { renderPdf } from "./local/pdf";
 import { generateTsDocs } from "./local/typescript";
 import { playGround } from "./dev/playground";
@@ -58,6 +59,12 @@ am.addOption({
 	name: "lint",
 	type: Boolean,
 	description: "Lint html"
+});
+am.addOption({
+	alias: "o",
+	name: "overview",
+	type: Boolean,
+	description: "Write project overview"
 });
 am.addOption({
 	alias: "p",
@@ -134,6 +141,8 @@ if (choice.beautify) {
 	stats = true;
 } else if (choice.lint) {
 	Lint.content();
+} else if (choice.overview) {
+	writeStats();
 } else if (choice.pdf) {
 	renderPdf();
 } else if (choice.run) {
