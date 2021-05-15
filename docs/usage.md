@@ -16,15 +16,15 @@ Shortcut -b. Beautyfied files will be logged to the console.
 
 ## Check
 
-Check overrrides in current project config.json, relative to default settings in config.json from application directory.
+Check overrrides in current project settings.json, relative to default settings.
 
-Check validity and version number of all known project config.json files. See [config.json](./configuration.md), header "Known projects".
+Check validity and version number of all known project settings.json files. See [settings.json](./configuration.md), header "Known projects".
 
 ```
 $ cookware --config
 ```
 
-Shortcut -c. A diff of config.json will be logged to the console.
+Shortcut -c. A diff of settings.json will be logged to the console.
 
 
 ## Docs
@@ -64,7 +64,7 @@ Initalize new project in current working directory
 $ cookware --init
 ```
 
-Shortcut -i. This command will copy the default-project to the working directory and create a directory structure as defined in config.json.
+Shortcut -i. This command will copy the default-project to the working directory and create a directory structure as defined in settings.json.
 
 
 ## Lint
@@ -99,7 +99,7 @@ Shortcut -r. Start local development server.
 
 Web requests, changed and transcompiled (source and styling) files will be logged to the console.
 
-Depending on the port set in [config.json](./configuration.md), section "server":
+Depending on the port set in [settings.json](./configuration.md), section "server":
 + http://localhost:8000/ provides access to:
 	+ Project HTML
 	+ Project README.md and related documentation

@@ -55,7 +55,7 @@ let DefaultConfig = {
 			engine: "nunjucks",
 			removeObsolete: {
 				active: true,
-				exclude: ["project-overview"]
+				exclude: ["project-overviews"]
 			}
 		},
 		stripper: {

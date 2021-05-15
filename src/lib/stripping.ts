@@ -8,7 +8,7 @@ import { AppConfig, Logger } from "../lib";
  * What this really is?
  * - Merging all lines into 1 line.
  * - Removing hiearchy (code indenting)
- * - Removing spaces as in spaces needed to think about what's next
+ * - Removing spaces as in space needed to think about what's next
  */
 class Stripper {
 	after: string[];

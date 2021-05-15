@@ -178,6 +178,8 @@ Entries:
 + *sitemap / exclude*: An array with HTML content to exclude from sitemap.
 + *stripper / active*: Organize a striptease by stripping HTML from elements, making a page faster to load en harder to read the HTML code (teasing)
 
+See [compacting files](./compacting-files.md) for more information about... compacting output.
+
 
 ## JavaScript
 ```
@@ -248,6 +250,8 @@ With 'cleanup' as a list of directories and files to remove after creating the a
 }
 ```
 The header file is relative to the project root, 'output' as the target file relative to the output directory, and 'source' as an array with input files relative to the source directory.
+
+See [compacting files](./compacting-files.md) for more information about... compacting output.
 
 
 ## Known projects
@@ -435,6 +439,8 @@ Entries:
 + *dirs / source*: Location of your Sass files.
 + *dirs / output*: Where to put your CSS files.
 + *removeObsolete*: See as HTML.
+
+See [compacting files](./compacting-files.md) for more information about... compacting output.
 
 
 ## Server
