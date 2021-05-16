@@ -9,7 +9,7 @@ Compacting files is known as [file compression](https://en.wikipedia.org/wiki/Fi
 
 Files, like dossiers, should not even exist or otherwise be as compact as possible. Should not include what is not really, really, really necessary.
 
-Files that you keep to yourself (in this case, not leaving a computer) should remain readable. However, distribution towards web browsers requires not 'overdosing' disk traffic and network traffic while only software (browsers) needs enough readability for rendering.
+Files that you keep to yourself (in this case, not leaving a computer) should remain readable. However, distribution towards web browsers requires not 'overdosing' disk traffic and network traffic while only software (browsers) needs enough readability for interpretation and rendering.
 
 
 ## Stripping
@@ -19,7 +19,10 @@ Stripping is the first step in compacting files. For which the file [stripping.t
 + Stripping hierarchy (code indenting)
 + Removing spaces as in space needed to think about what's next.
 
-Don't give software, a web browser, any (line or word) break that you should want to prevent. Don't send truly obsolete or even misleading information. Do not err yourself 😉
+Don't give software, a web browser, any (line, space or word) break that you should want to prevent for reasons of interpretation that should not break or be hindered.
+Don't send truly obsolete or even misleading information.
+
+Put differently: Do not err yourself 😉
 
 
 ## Sass
