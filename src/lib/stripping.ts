@@ -10,7 +10,7 @@ import { AppConfig, Logger } from "../lib";
  * - Removing hiearchy (code indenting)
  * - Removing spaces as in space needed to think about what's next
  */
-class Stripper {
+export class Stripper {
 	after: string[];
 	around: string[];
 	before: string[];
@@ -91,6 +91,30 @@ class Stripper {
 			if (part1.endsWith(this.around[i] + " ")) r = true;
 		}
 		return r;
+	}
+
+	/**
+	 * Remove imports at the top of a source file.
+	 * While doing so, also strip exports.
+	 */
+	static stripImports(src: string): string {
+		let lines = src.split("\n");
+
+		for (let i = 0; i < lines.length; i++) {
+			// Strip import statement
+			if (lines[i].startsWith("import")) {
+				lines[i] = ""; // Don't desorientate sourcemap
+			}
+
+			// If import statements are obsolete, then exports too
+			if (lines[i].startsWith("exports.")) {
+				lines[i] = ""; // Don't desorientate sourcemap
+			} else if (lines[i].startsWith("export ")) {
+				lines[i] = lines[i].replace("export ", "");
+			}
+		}
+
+		return lines.join("\n");
 	}
 }
 

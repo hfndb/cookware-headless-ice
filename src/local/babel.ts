@@ -4,7 +4,7 @@ import { transformSync } from "@babel/core";
 import { getChangeList, AppConfig, FileStatus, Logger } from "../lib";
 import { Beautify } from "../lib/beautify";
 import { FileUtils, removeObsolete } from "../lib/files";
-import { stripJs } from "../lib/stripping";
+import { stripJs, Stripper } from "../lib/stripping";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 import { Bundle, JavascriptUtils } from "./javascript";
 import { Tags } from "./tags";
@@ -117,7 +117,7 @@ export function compileFile(
 		// In case file is browser related and removeImports is set to true...
 		if (forBrowser && cfg.options.javascript.browser.removeImports) {
 			// Code editor is satisfied so far, but compiled file doesn't need imports
-			source = JavascriptUtils.stripImports(source);
+			source = Stripper.stripImports(source);
 		}
 	}
 

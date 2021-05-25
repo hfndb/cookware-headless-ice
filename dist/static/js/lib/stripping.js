@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.stripHtml = stripHtml;
 exports.stripJs = stripJs;
+exports.Stripper = void 0;
 
 require("source-map-support/register");
 
@@ -93,7 +94,27 @@ class Stripper {
     return r;
   }
 
+  static stripImports(src) {
+    let lines = src.split("\n");
+
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].startsWith("import")) {
+        lines[i] = "";
+      }
+
+      if (lines[i].startsWith("exports.")) {
+        lines[i] = "";
+      } else if (lines[i].startsWith("export ")) {
+        lines[i] = lines[i].replace("export ", "");
+      }
+    }
+
+    return lines.join("\n");
+  }
+
 }
+
+exports.Stripper = Stripper;
 
 function stripHtml(source) {
   let cfg = _lib.AppConfig.getInstance();

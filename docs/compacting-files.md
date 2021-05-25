@@ -74,6 +74,6 @@ In that way, during development, a nicely structured file will be sent to the br
 
 ## Further revelations
 
-Of course this attempt to 'enlighten' you is not complete yet. Culture and philosophy 'strongly' encourage to preserve certain mysteries. I don't. However, to further explore the principle of compacting, this project needs some more attention as in adding a next feature.
+Of course this attempt to 'enlighten' you is not complete yet. Culture and philosophy 'strongly' encourages to preserve certain mysteries. I don't. However, to further explore the principle of compacting, this project needs some more attention as in adding a next feature.
 
 A next update of cookware-headless-ice will feature an added feature and some more revelations here that you might appreciate 😀
