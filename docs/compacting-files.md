@@ -84,7 +84,7 @@ Stripping as in putting all code in one line, is no more than just one step on t
 
 'Shortening' is about the usage of words (in code, like names). In the very first programming languages I used, [C](https://en.wikipedia.org/wiki/C_(programming_language)), you can reserve memory to remember information. Like you do, when you want to keep and retrieve 'stored' memories. Names like words point to such information, somewhere in memory. C as a language even includes explicit [pointers](https://en.wikipedia.org/wiki/Pointer_(computer_programming)), to point to a specific place in memory.
 
-When you speak with somebody, your words refer to memories. Your memories and/or the memories of others. In software, words coming from [Node.js](https://en.wikipedia.org/wiki/Node.js) software are sent to software known as a web browser. The only thing needed during that communiation is that both pieces of software 'think' about the same. A matter of interpretation.
+When you speak with somebody, your words refer to memories. Your memories and/or the memories of others. In software, words coming from [Node.js](https://en.wikipedia.org/wiki/Node.js) software are sent to software known as a web browser. The only thing needed during that communiation is that both pieces of software 'think' about the exact same. A matter of interpretation.
 
 ### Don't make em too big, too long, too wide
 
@@ -122,7 +122,6 @@ To initiate shrinking of such words: In your JavaScript project settings, you ca
       "class": "Namespace",
       "methods": [ "actSober", "actThoughtful"]
    },
-   ,
    {
    	"functions": ["retrieveInfo"]
    }
@@ -162,7 +161,7 @@ process_path ./src/plugins/*/browser/
 process_path ./src/plugins/*/browser/*/
 ```
 
-After doing your homework like this, a changed JavaScript file will not only be stripped, but also words in code will be shortened. A translation table (dictionary) will be written to [project directory]/notes/translate-table.txt.
+After doing your homework like this, a changed JavaScript file will not only be transcompiled and stripped, but also words in code will be shortened. A translation table (dictionary) will be written to [project directory]/notes/translate-table.txt.
 
 In case you didn't know exactly what you architected, programmed, bugs that a web browser will find during interpreting, you'll need this translation table aka dictionary to trace back what you were thinking while writing.
 
