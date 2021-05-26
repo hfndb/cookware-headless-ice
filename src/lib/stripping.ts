@@ -1,5 +1,6 @@
+import { join } from "path";
 import { StringExt } from "../lib/utils";
-import { AppConfig, Logger } from "../lib";
+import { AppConfig, FileUtils, Logger } from "../lib";
 
 /**
  * Compact an already rendered or transcompiled file.
@@ -133,4 +134,214 @@ export function stripJs(source): string {
 	let spaces = cfg.options.javascript.lineStripping.needsSpace;
 	let s = new Stripper(spaces.after, spaces.around, spaces.before);
 	return s.stripFile(source);
+}
+
+/**
+ * For Shrinker, internal usage
+ */
+interface Overflowed {
+	single: string;
+	overflowed: boolean;
+}
+
+/**
+ * In terms of the 'scientific' (in fact philosophical) theory of evolution:
+ * - After a Big Bang you started to architect software and write code.
+ * - Writing code resulted in 'expansion of your universe'
+ * - Organize a Big Shrink towards what is really necessary,
+ *   so short words, not including too much letters,
+ *   will be sent to a web browser.
+ *
+ * A sequal to stripping as above.
+ *
+ */
+export class Shrinker {
+	private alpha: string[];
+	private codeZero: number;
+	private codeNine: number;
+	private content: string;
+	private dictTxt: string;
+	private lastUsed: string;
+	private numeric: string[];
+
+	constructor() {
+		this.codeZero = "0".charCodeAt(0);
+		this.codeNine = "9".charCodeAt(0);
+		this.content = "";
+		this.alpha = [];
+		this.dictTxt = "";
+		this.numeric = [];
+		this.lastUsed = "";
+
+		// See https://theasciicode.com.ar/
+
+		// Letters:
+		// Lower case from 97 to (but excluding) 123
+		for (let ll = 97; ll < 123; ll++) {
+			this.alpha.push(String.fromCharCode(ll));
+		}
+		// Upper case from 65 to (but excluding) 91
+		for (let ll = 65; ll < 91; ll++) {
+			this.alpha.push(String.fromCharCode(ll));
+		}
+
+		// Numbers:
+		for (let nr = 0; nr < 10; nr++) {
+			this.numeric.push(nr.toString());
+		}
+	}
+
+	/**
+	 * Magic here:
+	 * Get a 'different' character, though not different enough to be truly unique.
+	 */
+	private getChar(what: Overflowed): void {
+		let charCode = what.single.charCodeAt(0);
+		let isNum = charCode >= this.codeZero && charCode <= this.codeNine;
+
+		if (isNum && what.single == "9") {
+			// Go to next level cycle
+			what.single = "a";
+			what.overflowed = true;
+		} else if (isNum) {
+			// Go to next number
+			what.single = (parseInt(what.single) + 1).toString();
+			what.overflowed = false;
+		} else if (what.single == "Z") {
+			// Switch to numeric
+			what.single = "0";
+			what.overflowed = false;
+		} else {
+			// Get next indexed character in row
+			let idx = this.alpha.findIndex(val => val == what.single);
+			what.single = this.alpha[idx + 1];
+			what.overflowed = false;
+		}
+	}
+
+	/**
+	 * Get the next string, as a shortened version.
+	 * No, not intended as 'security by obfuscation':
+	 * Do not trust camel case, since that can generate duplicates,
+	 * like camels with the exact same bumps born.
+	 */
+	private getNext(): string {
+		let toReturn = this.lastUsed;
+		if (!toReturn) {
+			toReturn = "Aa";
+			this.lastUsed = toReturn;
+			return toReturn;
+		}
+		let last = toReturn.split(""); // Split into an array with characters
+		let lastIdx = last.length - 1;
+		let go: Overflowed = {
+			single: "",
+			overflowed: true
+		};
+
+		while (true) {
+			// The need to alter the character @ lastIdx of the array 'last'
+			go.single = last[lastIdx];
+			this.getChar(go);
+
+			if (go.overflowed && lastIdx == 0) {
+				// Make string longer
+				let len = toReturn.length;
+				toReturn = "A".padEnd(len + 1, "a");
+				break;
+			} else if (go.overflowed) {
+				// Go one index to the left and repeat loop
+				last[lastIdx] = go.single;
+				lastIdx -= 1;
+			} else {
+				// Finished, not overflowed
+				last[lastIdx] = go.single;
+				break;
+			}
+		}
+
+		toReturn = last.join(""); // At last...
+		this.lastUsed = toReturn;
+
+		return toReturn;
+	}
+
+	/**
+	 * Shorten some word in this.content
+	 */
+	private shorten(search: string): string {
+		let short = this.getNext();
+		this.content = this.content.replace(new RegExp(search, "g"), short);
+		return short;
+	}
+
+	/**
+	 * Act: Classes and related methods
+	 */
+	private classes(act: any): void {
+		// Properties of act: One class name, string list of methods
+		let short = this.shorten(act.class);
+		this.dictTxt +=
+			`${"".padEnd(30, "-")}\n` +
+			`Class: ${act.class}: ${short}\n` +
+			`${"".padEnd(30, "-")}\n`;
+
+		let methods: string[] = act.methods;
+		for (let i = 0; i < methods.length; i++) {
+			short = this.shorten(short + "." + methods[i]);
+			this.dictTxt += `- ${short}: ${methods[i]}\n`;
+		}
+	}
+
+	/**
+	 * Act: Functions
+	 */
+	private functions(act: any): void {
+		// Act: String list of functions
+		this.dictTxt += `Functions:\n`;
+		for (let i = 0; i < act.length; i++) {
+			let short = this.shorten(act[i]);
+			this.dictTxt += `- ${short}: ${act[i]}\n`;
+		}
+	}
+
+	/**
+	 * Write dictionary, resulting of project settings, to file
+	 */
+	private writeDict(removeOld: boolean = false): void {
+		let cfg = AppConfig.getInstance();
+		let file = join("notes", "translate-table.txt");
+		if (removeOld) FileUtils.rmFile(file);
+		FileUtils.writeFile(
+			cfg.dirProject,
+			file,
+			this.dictTxt,
+			false,
+			removeOld ? "w" : "a"
+		);
+	}
+
+	/**
+	 * Main entry: Shrink words so they are not too long any more
+	 */
+	shrinkFile(content: string, writeDict: boolean): string {
+		this.content = content;
+		this.dictTxt = "";
+
+		let cfg = AppConfig.getInstance();
+		let opts = cfg.options.javascript.browser.shrink;
+		for (let i = 0; i < opts.length; i++) {
+			let act = opts[i];
+
+			if (act.class != undefined && act.class) {
+				this.classes(act);
+			} else if (act.functions != undefined && act.functions.length > 0) {
+				this.functions(act);
+			}
+		}
+
+		if (writeDict) this.writeDict(true);
+
+		return this.content;
+	}
 }

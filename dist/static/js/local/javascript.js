@@ -51,7 +51,7 @@ class JavascriptUtils {
 
     for (let i = 0; i < cfg.options.javascript.bundles.length; i++) {
       let bundle = cfg.options.javascript.bundles[i];
-      Bundle.create(bundle);
+      Bundle.create(bundle, i == 0);
       lst.push(bundle.output);
     }
 
@@ -103,10 +103,11 @@ class Bundle {
     return changed;
   }
 
-  static create(bundle) {
+  static create(bundle, writeDict) {
     let outDir = JavascriptUtils.getOutputDir();
     if (!Bundle.isChanged(bundle, outDir)) return;
     let content = "";
+    let shr = new _stripping.Shrinker();
     let toWrite = "";
     let useStrictNeeded = true;
     (0, _shelljs.rm)("-f", (0, _path.join)(outDir, bundle.output));
@@ -133,6 +134,10 @@ class Bundle {
       toWrite = (0, _stripping.stripJs)(toWrite);
 
       let file = _lib.FileUtils.getSuffixedFile(bundle.output, cfg.options.stripping.suffix);
+
+      _lib.FileUtils.writeFile(outDir, file + "~", toWrite, false);
+
+      toWrite = shr.shrinkFile(toWrite, writeDict);
 
       _lib.FileUtils.writeFile(outDir, file, toWrite, false);
     }

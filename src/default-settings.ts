@@ -67,6 +67,7 @@ let DefaultConfig = {
 		ast: false,
 		browser: {
 			removeImports: false,
+			shrink: [],
 			targets: ["defaults"]
 		},
 		bundles: [],

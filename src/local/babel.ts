@@ -6,7 +6,7 @@ import { Beautify } from "../lib/beautify";
 import { FileUtils, removeObsolete } from "../lib/files";
 import { stripJs, Stripper } from "../lib/stripping";
 import { ProcessingTypes, SessionVars } from "../sys/session";
-import { Bundle, JavascriptUtils } from "./javascript";
+import { JavascriptUtils } from "./javascript";
 import { Tags } from "./tags";
 
 // https://babeljs.io/docs/en/

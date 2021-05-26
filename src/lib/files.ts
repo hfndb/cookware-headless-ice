@@ -51,6 +51,15 @@ export class FileUtils {
 	static ENCODING_UTF8: string = "utf8";
 
 	/**
+	 * Method to safely remove a file
+	 *
+	 * @param path to json file to read
+	 */
+	static rmFile(path: string): void {
+		if (test("-f", path)) rm(path);
+	}
+
+	/**
 	 * Method to safely read a json file
 	 *
 	 * @param path to json file to read
@@ -505,11 +514,13 @@ export function removeObsolete(
 			: "";
 
 	sources.forEach((file: string) => {
-		let fl = basename(file, extname(file));
-		// In exclude list, in list of processed files?
+		let ext = extname(file);
+		let fl = basename(file, ext);
+		// In exclude list, in list of processed files, backup file?
 		let skip =
 			ArrayUtils.inExcludeList(removeObsolete.exclude, file) ||
-			processed.includes(file);
+			processed.includes(file) ||
+			ext.endsWith("~");
 		// Is stripped file?
 		skip = skip || (stripped && fl.endsWith(stripped));
 		if (skip) return;
@@ -517,9 +528,7 @@ export function removeObsolete(
 		let trashFile = join(cfg.dirTemp, file);
 		FileUtils.mkdir(dirname(trashFile));
 		mv(join(outputDir, file), trashFile);
-		if (test("-f", join(outputDir, file, ".map"))) {
-			rm(join(outputDir, file, ".map")); // Source map
-		}
+		FileUtils.rmFile(join(outputDir, file, ".map")); // Source map
 		if (process.env.NODE_ENV !== "test") {
 			log.info(`Moved obsolete file ${file} to ${trashFile} `);
 		}

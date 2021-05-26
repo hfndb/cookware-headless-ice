@@ -25,6 +25,10 @@ var _object = require("./object");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 class FileUtils {
+  static rmFile(path) {
+    if ((0, _shelljs.test)("-f", path)) (0, _shelljs.rm)(path);
+  }
+
   static readJsonFile(path, ignoreErrors = true) {
     let parsed = {};
     let file = (0, _path.basename)(path);
@@ -372,17 +376,15 @@ function removeObsolete(removeObsolete, processed, outputDir, ext) {
   });
   let stripped = cfg.options.stripping && cfg.options.stripping.suffix ? cfg.options.stripping.suffix : "";
   sources.forEach(file => {
-    let fl = (0, _path.basename)(file, (0, _path.extname)(file));
-    let skip = _object.ArrayUtils.inExcludeList(removeObsolete.exclude, file) || processed.includes(file);
+    let ext = (0, _path.extname)(file);
+    let fl = (0, _path.basename)(file, ext);
+    let skip = _object.ArrayUtils.inExcludeList(removeObsolete.exclude, file) || processed.includes(file) || ext.endsWith("~");
     skip = skip || stripped && fl.endsWith(stripped);
     if (skip) return;
     let trashFile = (0, _path.join)(cfg.dirTemp, file);
     FileUtils.mkdir((0, _path.dirname)(trashFile));
     (0, _shelljs.mv)((0, _path.join)(outputDir, file), trashFile);
-
-    if ((0, _shelljs.test)("-f", (0, _path.join)(outputDir, file, ".map"))) {
-      (0, _shelljs.rm)((0, _path.join)(outputDir, file, ".map"));
-    }
+    FileUtils.rmFile((0, _path.join)(outputDir, file, ".map"));
 
     if (process.env.NODE_ENV !== "test") {
       log.info(`Moved obsolete file ${file} to ${trashFile} `);

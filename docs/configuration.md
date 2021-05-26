@@ -13,7 +13,7 @@ Config.json in a project directory **overrides** the default program settings, a
 
 ## Version information
 
-```
+```javascript
 {
 	"version": "0.0.1"
 }
@@ -25,7 +25,7 @@ Version information. When cookware-headless-ice is upgraded, your configuration 
 
 ## Domain
 
-```
+```javascript
 {
 	"domain": {
 		"description": "Website name",
@@ -39,7 +39,7 @@ Relevant for generating a Google sitemap.xml. If irrelevant, just ignore this en
 
 ## Epub
 
-```
+```javascript
 {
 	"epub": {
 		"dirs": {
@@ -68,7 +68,7 @@ Entries:
 
 ## Env
 
-```
+```javascript
 {
 	"env": {
 		"node_path": []
@@ -82,7 +82,7 @@ Entries:
 
 ## Exclude list
 
-```
+```javascript
 {
 	"excludeList": {
 		"exactMatch": true,
@@ -94,7 +94,7 @@ Entries:
 
 Default settings for an exclude list, in case the exclude list is a simple array like in:
 
-```
+```javascript
 	"exclude": []
 }
 ```
@@ -102,7 +102,7 @@ Default settings for an exclude list, in case the exclude list is a simple array
 At all such places you can alternatively use a quite detailed structure, in which case the default settings will be ignored. Example:
 
 
-```
+```javascript
 	"exclude": {
 		"contains": [],
 		"exactMatch":  [],
@@ -114,7 +114,7 @@ At all such places you can alternatively use a quite detailed structure, in whic
 
 
 ## Formats
-```
+```javascript
 	"formats": {
 		"date": "DD-MM-YYYY",
 		"datetime": "DD-MM-YYYY HH:mm",
@@ -137,7 +137,7 @@ Used in system todo list, project overview and perhaps also project pages. An in
 
 
 ## HTML
-```
+```javascript
 {
 	"html": {
 		"dirs": {
@@ -182,13 +182,17 @@ See [compacting files](./compacting-files.md) for more information about... comp
 
 
 ## JavaScript
-```
+
+See [compacting files](./compacting-files.md) for more information about... compacting output, and file bundles.
+
+```javascript
 {
 	"javascript": {
 		"apps": [],
 		"ast": false,
 		"browser": {
 			"removeImports": false,
+			"shrink": [],
 			"targets": ["defaults"]
 		},
 		"bundles": [],
@@ -216,6 +220,7 @@ See [compacting files](./compacting-files.md) for more information about... comp
 Entries:
 + *ast*: Generate a .ast file for each transcompiled file
 + *browser / removeImports*: Removes imports (and exports) from browser related source file just before transcompiling.
++ *browser / shrink*: Object array for shrinking, see [compacting files](./compacting-files.md)
 + *browser / targets*: See [Babel documentation](https://babeljs.io/docs/en/presets). Presets are loaded based on the compiler setting. Browser targets can be set here.
 + *compiler*: Possible values: none, javascript, flow or typescript. The setting javascript will convert recent versions of JavaScript to a browser compatible version.
 + *dirs / output*: Where to put your JavaScript files.
@@ -227,7 +232,7 @@ Entries:
 + *sourceVersion*: For Babel. Possible values: es2015, es2016, es2017, es2018.
 + *useWatch*: For local development server. If true, will transcompile if a source file changes.
 + *apps*: Main browser app files, compressed and with dependencies merged into it from node modules and other source. Each bundle is defined as follows:
-```
+```javascript
 {
 	"output": "browser/app.js",
 	"source": "browser/main.js",
@@ -240,7 +245,7 @@ Entries:
 With 'cleanup' as a list of directories and files to remove after creating the app file.
 **Note:** To generate code for production use, set javascript.compress = true.
 + *bundles*: An array with JavaScript files, merged and compressed for usage in a web browser. Each bundle is defined as follows:
-```
+```javascript
 {
 	"compress": true,
 	"header": "dist/static/js/some-file.js",
@@ -251,12 +256,10 @@ With 'cleanup' as a list of directories and files to remove after creating the a
 ```
 The header file is relative to the project root, 'output' as the target file relative to the output directory, and 'source' as an array with input files relative to the source directory.
 
-See [compacting files](./compacting-files.md) for more information about... compacting output.
-
 
 ## Known projects
 
-```
+```javascript
 {
 	"projects": []
 }
@@ -268,7 +271,7 @@ Array with full paths to known projects. To validate the structure of config.jso
 
 ## Logging
 
-```
+```javascript
 {
 	"logging": {
 		"exitOnError": true,
@@ -309,7 +312,7 @@ Notable entries:
 
 ## New projects
 
-```
+```javascript
 {
 	"newProject": {
 		"dirStructure": {
@@ -324,7 +327,7 @@ A definition of the directory structure for new projects, documented in the sour
 
 ## PDF
 
-```
+```javascript
 {
 	"pdf": {
 		"dirs": {
@@ -361,7 +364,7 @@ Entries:
 
 
 ## Project overview
-```
+```javascript
 {
 	"projectOverview": {
 		"configuration": true,
@@ -382,8 +385,7 @@ Switches parts of the project overview on or off and sets output directory for p
 
 
 ## Sass
-
-```
+```javascript
 {
 	"sass": {
 		"colors": {
@@ -444,8 +446,7 @@ See [compacting files](./compacting-files.md) for more information about... comp
 
 
 ## Server
-
-```
+```javascript
 {
 	"server": {
 		"backupInterval": 0,
@@ -474,7 +475,7 @@ Example: If set to 8000, this website can be opened with http://localhost:8000/
 
 Settings for what is known as file compression, minifying.
 
-```
+```javascript
 {
 	"stripping": {
 		"auto": true,
@@ -492,7 +493,7 @@ For auto-generating [tag files](https://en.wikipedia.org/wiki/Ctags#Tags_file_fo
 + a tags file in project dir .tags, containing information each source file
 
 
-```
+```javascript
 {
 	"tags": {
 		"active": false,
@@ -519,12 +520,12 @@ Entries:
 The entry noEmit in tsconfig.json prevents the TypeScript compiler to transcompile. In this way, Babel can do the job. Which dramatically increases effeciency ([read more](https://iamturns.com/typescript-babel/)). However, this might force you to check types manually.
 
 Incidental type check by TypeScript compiler:
-```
+```bash
 tsc
 ```
 
 Turn on TypeScript compiler in watch mode:
-```
+```bash
 tsc -w
 ```
 
@@ -540,7 +541,7 @@ In this section, you'll find configuration options for integrated packages. Rele
 
 'Special' section in the dependencies part:
 
-```
+```javascript
 "express": {
 	"activate": {
 		"sessions": false

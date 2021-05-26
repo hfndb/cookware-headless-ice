@@ -1,7 +1,7 @@
 import { join } from "path";
 import { exec, rm, test } from "shelljs";
 import { AppConfig, FileUtils, Logger } from "../lib";
-import { stripJs } from "../lib/stripping";
+import { stripJs, Shrinker } from "../lib/stripping";
 
 let cfg = AppConfig.getInstance();
 let log = Logger.getInstance(cfg.options.logging);
@@ -48,7 +48,7 @@ export class JavascriptUtils {
 		// Generate bundles
 		for (let i = 0; i < cfg.options.javascript.bundles.length; i++) {
 			let bundle = cfg.options.javascript.bundles[i];
-			Bundle.create(bundle);
+			Bundle.create(bundle, i == 0);
 			lst.push(bundle.output);
 		}
 
@@ -108,11 +108,12 @@ export class Bundle {
 	/**
 	 * If necessary, write bundle
 	 */
-	static create(bundle: any): void {
+	static create(bundle: any, writeDict: boolean): void {
 		let outDir = JavascriptUtils.getOutputDir();
 		if (!Bundle.isChanged(bundle, outDir)) return;
 
 		let content = "";
+		let shr = new Shrinker();
 		let toWrite = "";
 		let useStrictNeeded = true; // Only use once, at the top
 		rm("-f", join(outDir, bundle.output));
@@ -138,6 +139,8 @@ export class Bundle {
 				bundle.output,
 				cfg.options.stripping.suffix
 			);
+			FileUtils.writeFile(outDir, file + "~", toWrite, false); // todo remove
+			toWrite = shr.shrinkFile(toWrite, writeDict);
 			FileUtils.writeFile(outDir, file, toWrite, false);
 		}
 		log.info(`- written Javascript bundle ${bundle.output}`);
