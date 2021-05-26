@@ -90,7 +90,7 @@ When you speak with somebody, your words refer to memories. Your memories and/or
 
 In words, you don't use more letters than necessary. A nice example comes from Czech language where 'a' means 'and' in English and 'i' means 'and also'. Compare that with Hungarian language, where words get longer depending on how well that language is mastered by the speaker. However, enough should be enough. Words (like organisations using more and more employees) which take too much space, are too big, too long, too wide are symptoms of defected, ill thinking.
 
-To depict 'enough', I have put a socalled [easter egg](https://en.wikipedia.org/wiki/Easter_egg_(media)) in cookware-headless-ice. Which I did not intend to keep hidden. While 'shortening' your code, names will start with 'Aa'. Why? Is this just another example of 'security by obfuscation'? No. For reasons of words as more pointers and more:
+To depict 'enough', I have put a socalled [easter egg](https://en.wikipedia.org/wiki/Easter_egg_(media)) in cookware-headless-ice. Which I did not intend to keep hidden. While 'shortening' your code, names will start with 'Aa'. Why? Is this just another example of 'security by obfuscation'? No. For reasons of words as mere pointers and more:
 
 Try to imagine the two very first people in this world. One body with something between the legs, later known as a penis. The other body with some extra lips between the legs (not for blah blah). Words like 'male' or 'female' were not invented yet. At what situation were they looking?
 
