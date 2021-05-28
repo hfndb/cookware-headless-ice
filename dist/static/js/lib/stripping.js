@@ -232,8 +232,6 @@ class Shrinker {
   }
 
   shorten(search, replace, all = true) {
-    if (search.includes("init:function")) console.log(`Replace '${search}' with '${replace}'`, all ? "all" : "first");
-
     if (all) {
       this.content = this.content.replace(new RegExp(search, "g"), replace);
       return;
@@ -272,7 +270,8 @@ class Shrinker {
     this.dictTxt += `Functions:\n`;
 
     for (let i = 0; i < act.length; i++) {
-      let short = this.shorten(act[i], act[i]);
+      let short = this.getNext();
+      this.shorten(act[i], short);
       this.dictTxt += `- ${short}: ${act[i]}\n`;
     }
   }

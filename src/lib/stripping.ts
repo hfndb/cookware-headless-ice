@@ -273,9 +273,6 @@ export class Shrinker {
 	 * Shorten some word in this.content
 	 */
 	private shorten(search: string, replace: string, all: boolean = true): void {
-		if (search.includes("init:function"))
-			console.log(`Replace '${search}' with '${replace}'`, all ? "all" : "first");
-
 		if (all) {
 			// Simple global replace
 			this.content = this.content.replace(new RegExp(search, "g"), replace);
@@ -336,7 +333,8 @@ export class Shrinker {
 		// Act: String list of functions
 		this.dictTxt += `Functions:\n`;
 		for (let i = 0; i < act.length; i++) {
-			let short = this.shorten(act[i], act[i]);
+			let short = this.getNext();
+			this.shorten(act[i], short);
 			this.dictTxt += `- ${short}: ${act[i]}\n`;
 		}
 	}
