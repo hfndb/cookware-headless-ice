@@ -73,11 +73,14 @@ export class Stripper {
 
 	/**
 	 * Check whether space is within encapculated string
+	 *
+	 * @todo Within template string, escaped double quotes also count. Fix.
 	 */
 	isInString(str: string): boolean {
 		let sq = StringExt.occurrences(str, "'"); // single quotes
 		let dq = StringExt.occurrences(str, '"'); // double quotes
-		return sq % 2 != 0 || dq % 2 != 0;
+		let cm = StringExt.occurrences(str, "/"); // comment like /* */
+		return sq % 2 != 0 || dq % 2 != 0 || cm % 2 != 0;
 	}
 
 	/**
@@ -269,28 +272,61 @@ export class Shrinker {
 	/**
 	 * Shorten some word in this.content
 	 */
-	private shorten(search: string): string {
-		let short = this.getNext();
-		this.content = this.content.replace(new RegExp(search, "g"), short);
-		return short;
+	private shorten(search: string, replace: string, all: boolean = true): void {
+		if (search.includes("init:function"))
+			console.log(`Replace '${search}' with '${replace}'`, all ? "all" : "first");
+
+		if (all) {
+			// Simple global replace
+			this.content = this.content.replace(new RegExp(search, "g"), replace);
+			return;
+		}
+
+		// Replace only first occurence.
+		// In case of all == false, String.replace()
+		// still replaces all occurences, even without 'g' passed to regex.
+		// So... therefore to simulate String.replace():
+		let idx = this.content.indexOf(search);
+		if (idx < 0) return;
+		let strPart1 = this.content.substring(0, idx);
+		let strPart2 = this.content.substring(idx + search.length);
+		this.content = strPart1 + replace + strPart2;
 	}
 
 	/**
-	 * Act: Classes and related methods
+	 * Act: Classes and related methods.
+	 *
+	 * Pre-condition: For reasons of replacing only a first occurence,
+	 * names to shorten should be defined in the same order as they are bundled
 	 */
 	private classes(act: any): void {
 		// Properties of act: One class name, string list of methods
-		let short = this.shorten(act.class);
+		let cR = this.getNext(); // Class replacer, don't replace class name yet
 		this.dictTxt +=
 			`${"".padEnd(30, "-")}\n` +
-			`Class: ${act.class}: ${short}\n` +
+			`Class: ${act.class}: ${cR}\n` +
 			`${"".padEnd(30, "-")}\n`;
 
 		let methods: string[] = act.methods;
 		for (let i = 0; i < methods.length; i++) {
-			short = this.shorten(short + "." + methods[i]);
-			this.dictTxt += `- ${short}: ${methods[i]}\n`;
+			let mS = methods[i]; // method search for
+			let mR = this.getNext(); // method replace with
+			// Call class using static method
+			this.shorten(act.class + "." + mS, cR + "." + mR);
+			// Object with functions as methods syntax, replace only first occurence
+			// Function name inserted by Babel, like interpolation to roll back
+			if (this.content.includes(`var ${act.class}=`)) {
+				// Only replace if class is included in content file
+				this.shorten(mS + ":function " + mS, mR + ":function ", false);
+			}
+			// In case of prototyping
+			this.shorten(act.class + ".prototype." + mS, cR + ".prototype." + mR);
+			// Internal
+			this.shorten("this." + mS, "this." + mR);
+			this.dictTxt += `- ${mR}: ${mS}\n`;
 		}
+
+		this.shorten(act.class, cR); // Now replace name of class itself
 	}
 
 	/**
@@ -300,7 +336,7 @@ export class Shrinker {
 		// Act: String list of functions
 		this.dictTxt += `Functions:\n`;
 		for (let i = 0; i < act.length; i++) {
-			let short = this.shorten(act[i]);
+			let short = this.shorten(act[i], act[i]);
 			this.dictTxt += `- ${short}: ${act[i]}\n`;
 		}
 	}

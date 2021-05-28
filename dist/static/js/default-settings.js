@@ -87,7 +87,7 @@ let DefaultConfig = {
     },
     lineStripping: {
       needsSpace: {
-        after: ["else", "function", "var"],
+        after: ["case", "delete", "else", "function", "return", "throw", "typeof", "var"],
         around: ["in", "new"]
       }
     },

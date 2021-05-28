@@ -79,7 +79,9 @@ class Stripper {
 
     let dq = _utils.StringExt.occurrences(str, '"');
 
-    return sq % 2 != 0 || dq % 2 != 0;
+    let cm = _utils.StringExt.occurrences(str, "/");
+
+    return sq % 2 != 0 || dq % 2 != 0 || cm % 2 != 0;
   }
 
   preserveSpace(part1, part2) {
@@ -229,28 +231,48 @@ class Shrinker {
     return toReturn;
   }
 
-  shorten(search) {
-    let short = this.getNext();
-    this.content = this.content.replace(new RegExp(search, "g"), short);
-    return short;
+  shorten(search, replace, all = true) {
+    if (search.includes("init:function")) console.log(`Replace '${search}' with '${replace}'`, all ? "all" : "first");
+
+    if (all) {
+      this.content = this.content.replace(new RegExp(search, "g"), replace);
+      return;
+    }
+
+    let idx = this.content.indexOf(search);
+    if (idx < 0) return;
+    let strPart1 = this.content.substring(0, idx);
+    let strPart2 = this.content.substring(idx + search.length);
+    this.content = strPart1 + replace + strPart2;
   }
 
   classes(act) {
-    let short = this.shorten(act.class);
-    this.dictTxt += `${"".padEnd(30, "-")}\n` + `Class: ${act.class}: ${short}\n` + `${"".padEnd(30, "-")}\n`;
+    let cR = this.getNext();
+    this.dictTxt += `${"".padEnd(30, "-")}\n` + `Class: ${act.class}: ${cR}\n` + `${"".padEnd(30, "-")}\n`;
     let methods = act.methods;
 
     for (let i = 0; i < methods.length; i++) {
-      short = this.shorten(short + "." + methods[i]);
-      this.dictTxt += `- ${short}: ${methods[i]}\n`;
+      let mS = methods[i];
+      let mR = this.getNext();
+      this.shorten(act.class + "." + mS, cR + "." + mR);
+
+      if (this.content.includes(`var ${act.class}=`)) {
+        this.shorten(mS + ":function " + mS, mR + ":function ", false);
+      }
+
+      this.shorten(act.class + ".prototype." + mS, cR + ".prototype." + mR);
+      this.shorten("this." + mS, "this." + mR);
+      this.dictTxt += `- ${mR}: ${mS}\n`;
     }
+
+    this.shorten(act.class, cR);
   }
 
   functions(act) {
     this.dictTxt += `Functions:\n`;
 
     for (let i = 0; i < act.length; i++) {
-      let short = this.shorten(act[i]);
+      let short = this.shorten(act[i], act[i]);
       this.dictTxt += `- ${short}: ${act[i]}\n`;
     }
   }

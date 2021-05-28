@@ -144,6 +144,7 @@ function process {
    # Syntax specific regular expressions here
    grep 'export let .* = {' $1
 #  grep 'let .* = {' $1
+   grep '\.prototype' $1 # rare, but...
    grep '.*: function(' $1
 }
 export -f process
