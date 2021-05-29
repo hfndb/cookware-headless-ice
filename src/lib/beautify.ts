@@ -1,6 +1,7 @@
-import { AppConfig, FileUtils, Logger } from "../lib";
 import { extname, join } from "path";
 import { test } from "shelljs";
+import { AppConfig, FileUtils, Logger } from "../lib";
+import { notify } from "../lib/notifications";
 
 let cfg = AppConfig.getInstance("cookware-headless-ice");
 let log = Logger.getInstance(cfg.options.logging);
@@ -73,6 +74,18 @@ export class Beautify {
 			return data;
 		} catch (err) {
 			log.warn(`- Failed to render file ${file} `, Logger.error2string(err));
+			switch (parser) {
+				case "css":
+					if (cfg.options.notifications.compileIssue.sass) notify("Sass issue");
+					break;
+				case "html":
+					if (cfg.options.notifications.compileIssue.html) notify("Html issue");
+					break;
+				case "babel":
+				case "typescript":
+					if (cfg.options.notifications.compileIssue.code) notify("Code issue");
+					break;
+			}
 			return "";
 		}
 	}

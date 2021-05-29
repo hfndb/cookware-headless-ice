@@ -88,7 +88,7 @@ let DefaultConfig = {
     lineStripping: {
       needsSpace: {
         after: ["case", "delete", "else", "function", "return", "throw", "typeof", "var"],
-        around: ["in", "new"]
+        around: ["in", "instanceoff", "new"]
       }
     },
     nodeVersion: "current",
@@ -146,6 +146,16 @@ let DefaultConfig = {
         }
       }
     }
+  },
+  notifications: {
+    command: "",
+    compileIssue: {
+      code: false,
+      html: false,
+      sass: false
+    },
+    timeout: 3,
+    title: "Cookware headless ice"
   },
   pdf: {
     dirs: {

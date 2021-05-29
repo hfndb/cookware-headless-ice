@@ -4,6 +4,7 @@ import { transformSync } from "@babel/core";
 import { getChangeList, AppConfig, FileStatus, Logger } from "../lib";
 import { Beautify } from "../lib/beautify";
 import { FileUtils, removeObsolete } from "../lib/files";
+import { notify } from "../lib/notifications";
 import { stripJs, Stripper } from "../lib/stripping";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 import { JavascriptUtils } from "./javascript";
