@@ -5,6 +5,7 @@ import { AppConfig } from "../lib/config";
 import { ExpressUtils } from "../lib/express";
 import { FileStatus } from "../lib/file-diff";
 import { Content } from "../lib/html";
+import { SysUtils } from "../lib/sys";
 import { getPackageReadmeFiles } from "../lib/package-json";
 import { renderMarkdownFile } from "../local/markdown";
 import { Lint } from "../local/markup";
@@ -206,6 +207,8 @@ async function controllerGeneric(
 					additionalContext: context,
 					useProjectTemplates: useProjectTemplates
 				});
+				if (!data && cfg.options.notifications.compileIssue.html)
+					SysUtils.notify("Html issue");
 				content.rendered.forEach(file => {
 					session.add(ProcessingTypes.html, file);
 				});

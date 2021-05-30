@@ -3,7 +3,10 @@ import { exec, test } from "shelljs";
 import { AppConfig } from "./config";
 import { Logger } from "./log";
 
-export class AudioUtils {
+/**
+ * Outgoing to system level
+ */
+export class SysUtils {
 	/**
 	 * Play an audio file
 	 *
@@ -27,5 +30,20 @@ export class AudioUtils {
 			let log = Logger.getInstance();
 			log.warn(error);
 		}
+	}
+	static notify(msg: string) {
+		let cfg = AppConfig.getInstance();
+
+		if (!cfg.options.notifications.command) return;
+		let cmd =
+			cfg.options.notifications.command +
+			' "' +
+			msg +
+			'" ' +
+			cfg.options.notifications.timeout.toString() +
+			' "' +
+			cfg.options.notifications.title +
+			'"';
+		exec(cmd, { async: true });
 	}
 }

@@ -21,6 +21,8 @@ var _fileDiff = require("../lib/file-diff");
 
 var _html = require("../lib/html");
 
+var _sys = require("../lib/sys");
+
 var _packageJson = require("../lib/package-json");
 
 var _markdown = require("../local/markdown");
@@ -191,6 +193,7 @@ async function controllerGeneric(req, res, next, contentDir, useProjectTemplates
           additionalContext: context,
           useProjectTemplates: useProjectTemplates
         });
+        if (!data && cfg.options.notifications.compileIssue.html) _sys.SysUtils.notify("Html issue");
         content.rendered.forEach(file => {
           session.add(_session.ProcessingTypes.html, file);
         });

@@ -20,9 +20,9 @@ var _beautify = require("../lib/beautify");
 
 var _files = require("../lib/files");
 
-var _stripping = require("../lib/stripping");
-
 var _session = require("../sys/session");
+
+var _stripping = require("../lib/stripping");
 
 var _javascript = require("./javascript");
 
@@ -182,6 +182,9 @@ function compileFile(entry, verbose = true) {
       let toWrite = (0, _stripping.stripJs)(results.code);
 
       let file = _files.FileUtils.getSuffixedFile(entry.target, cfg.options.stripping.suffix);
+
+      let shr = new _stripping.Shrinker();
+      toWrite = shr.shrinkFile(toWrite, false);
 
       _files.FileUtils.writeFile(entry.targetDir, file, toWrite, false);
     }

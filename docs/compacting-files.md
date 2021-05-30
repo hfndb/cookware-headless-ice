@@ -127,40 +127,7 @@ To initiate shrinking of such words: In your JavaScript project settings, you ca
    }
 ]
 ```
-You won't get away easy with what you wrote. Code. You'll need to complete this settings to shorten words, names. For a specific project, I did not rely on an auto-generated tags file but wrote a tiny shell script to retrieve the exact information I wanted. Here it is:
-
-```bash
-#!/bin/bash
-
-function print_header {
-   echo ""
-   echo "-------------------------------------"
-   echo $1
-   echo "-------------------------------------"
-}
-
-function process {
-   print_header $1
-   # Syntax specific regular expressions here
-   grep 'export let .* = {' $1
-#  grep 'let .* = {' $1
-   grep '\.prototype' $1 # rare, but...
-   grep '.*: function(' $1
-}
-export -f process
-
-function process_path {
-   while read -d '' filename; do
-      process "${filename}" </dev/null
-   done < <(find $1 -iname '*.js' -type f -print0)
-}
-
-# Generic path
-process_path ./src/lib/browser/
-# Project specific paths
-process_path ./src/plugins/*/browser/
-process_path ./src/plugins/*/browser/*/
-```
+You won't get away easy with what you wrote. Code. You'll need to complete this settings to shorten words, names. For specific projects, I did not rely on an auto-generated tags file but wrote a tiny shell script to retrieve the exact information I wanted: [shorten.sh](../tools/shorten.sh).
 
 After doing your homework like this, a changed JavaScript file will not only be transcompiled and stripped, but also words in code will be shortened. A translation table (dictionary) will be written to [project directory]/notes/translate-table.txt.
 

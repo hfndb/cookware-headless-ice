@@ -4,9 +4,9 @@ import { transformSync } from "@babel/core";
 import { getChangeList, AppConfig, FileStatus, Logger } from "../lib";
 import { Beautify } from "../lib/beautify";
 import { FileUtils, removeObsolete } from "../lib/files";
-import { notify } from "../lib/notifications";
-import { stripJs, Stripper } from "../lib/stripping";
 import { ProcessingTypes, SessionVars } from "../sys/session";
+import { stripJs, Shrinker, Stripper } from "../lib/stripping";
+import { SysUtils } from "../lib/sys";
 import { JavascriptUtils } from "./javascript";
 import { Tags } from "./tags";
 
@@ -222,6 +222,8 @@ export function compileFile(
 				entry.target,
 				cfg.options.stripping.suffix
 			);
+			let shr = new Shrinker();
+			toWrite = shr.shrinkFile(toWrite, false);
 			FileUtils.writeFile(entry.targetDir, file, toWrite, false);
 		}
 	} catch (err) {

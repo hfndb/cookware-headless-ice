@@ -1,5 +1,5 @@
 import { basename, dirname, join } from "path";
-import { AudioUtils } from "./audio";
+import { SysUtils } from "./sys";
 import { FileUtils } from "./files";
 import { ObjectUtils } from "./object";
 import { Formatter } from "./utils";
@@ -215,7 +215,7 @@ export class Logger {
 		this.writeFile(this.fileAll, "warning", pars + "\n");
 		if (this.opts.playSoundOn.warning) {
 			// Taken from https://www.soundjay.com/
-			AudioUtils.playFile(join("bin", "writing-signature-1.mp3"));
+			SysUtils.playFile(join("bin", "writing-signature-1.mp3"));
 		}
 	}
 
@@ -241,7 +241,7 @@ export class Logger {
 		this.writeFile(this.fileError, "error", pars + "\n");
 		if (this.opts.playSoundOn.error) {
 			// Taken from https://www.soundjay.com/
-			AudioUtils.playFile(join("bin", "writing-signature-1.mp3"));
+			SysUtils.playFile(join("bin", "writing-signature-1.mp3"));
 		}
 		if (this.opts.exitOnError) {
 			this.isShuttingDown = true;

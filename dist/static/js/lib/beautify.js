@@ -13,7 +13,7 @@ var _shelljs = require("shelljs");
 
 var _lib = require("../lib");
 
-var _notifications = require("../lib/notifications");
+var _sys = require("../lib/sys");
 
 let cfg = _lib.AppConfig.getInstance("cookware-headless-ice");
 
@@ -87,16 +87,16 @@ class Beautify {
 
       switch (parser) {
         case "css":
-          if (cfg.options.notifications.compileIssue.sass) (0, _notifications.notify)("Sass issue");
+          if (cfg.options.notifications.compileIssue.sass) _sys.SysUtils.notify("Sass issue");
           break;
 
         case "html":
-          if (cfg.options.notifications.compileIssue.html) (0, _notifications.notify)("Html issue");
+          if (cfg.options.notifications.compileIssue.html) _sys.SysUtils.notify("Html issue");
           break;
 
         case "babel":
         case "typescript":
-          if (cfg.options.notifications.compileIssue.code) (0, _notifications.notify)("Code issue");
+          if (cfg.options.notifications.compileIssue.code) _sys.SysUtils.notify("Code issue");
           break;
       }
 

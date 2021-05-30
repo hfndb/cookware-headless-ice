@@ -1,7 +1,7 @@
 import { extname, join } from "path";
 import { test } from "shelljs";
 import { AppConfig, FileUtils, Logger } from "../lib";
-import { notify } from "../lib/notifications";
+import { SysUtils } from "../lib/sys";
 
 let cfg = AppConfig.getInstance("cookware-headless-ice");
 let log = Logger.getInstance(cfg.options.logging);
@@ -76,14 +76,17 @@ export class Beautify {
 			log.warn(`- Failed to render file ${file} `, Logger.error2string(err));
 			switch (parser) {
 				case "css":
-					if (cfg.options.notifications.compileIssue.sass) notify("Sass issue");
+					if (cfg.options.notifications.compileIssue.sass)
+						SysUtils.notify("Sass issue");
 					break;
 				case "html":
-					if (cfg.options.notifications.compileIssue.html) notify("Html issue");
+					if (cfg.options.notifications.compileIssue.html)
+						SysUtils.notify("Html issue");
 					break;
 				case "babel":
 				case "typescript":
-					if (cfg.options.notifications.compileIssue.code) notify("Code issue");
+					if (cfg.options.notifications.compileIssue.code)
+						SysUtils.notify("Code issue");
 					break;
 			}
 			return "";
