@@ -1,5 +1,5 @@
-import { readdirSync } from "fs";
-import { join } from "path";
+import { join, sep } from "path";
+const { fdir } = require("fdir");
 import { test, touch } from "shelljs";
 import { FileUtils } from "./files";
 
@@ -95,20 +95,19 @@ export function getDirList(path: string, recursive: boolean = true): string[] {
 		throw new Error(`Path ${path} doesn't exist`);
 	}
 
+	let opts = {
+		group: true
+	};
+	if (!recursive) Object.assign(opts, { maxDepth: 0 });
+	const fl = new fdir().crawlWithOptions(path, opts).sync();
+
 	let dirs: string[] = [];
-
-	function addPath(dirname: string) {
-		readdirSync(dirname).forEach((file: string) => {
-			const realpath = join(dirname, file);
-			if (test("-d", realpath)) {
-				if (recursive) addPath(realpath);
-				dirs.push(realpath.substr(path.length + 1));
-			}
-		});
-	}
-
-	if (test("-d", path)) {
-		addPath(path);
+	for (let d = 0; d < fl.length; d++) {
+		let dir = fl[d].dir;
+		dir = dir.substring(path.length + 1);
+		if (!dir) continue;
+		if (!recursive && dir.includes(sep)) continue;
+		dirs.push(dir);
 	}
 
 	return dirs;

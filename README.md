@@ -137,6 +137,7 @@ Generic:
 + [command-line-args](https://www.npmjs.com/package/command-line-args) and [command-line-usage](https://www.npmjs.com/package/command-line-usage) for parsing command line options and displaying help
 + [date-and-time](https://www.npmjs.com/package/date-and-time) to format and manipulate dates and times
 + [deep-diff](https://www.npmjs.com/package/deep-diff) to check and display overridden settings in project config.json
++ [fdir](https://www.npmjs.com/package/fdir) to scan directories and files
 + [Mocha](https://www.npmjs.com/package/mocha) and [Chai](https://www.chaijs.com/) for unit testing
 + [n-readlines](https://www.npmjs.com/package/n-readlines) to synchronically read lines from a file, for strictly sequential parsing - [linearizability](https://en.wikipedia.org/wiki/Linearizability)
 + [q-i](https://www.npmjs.com/package/q-i) to display a colored and formatted version of objects with json structure

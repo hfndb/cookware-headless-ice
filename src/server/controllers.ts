@@ -207,7 +207,7 @@ async function controllerGeneric(
 					additionalContext: context,
 					useProjectTemplates: useProjectTemplates
 				});
-				if (!data && cfg.options.notifications.compileIssue.html)
+				if (!data && cfg.options.sys.notifications.compileIssue.html)
 					SysUtils.notify("Html issue");
 				content.rendered.forEach(file => {
 					session.add(ProcessingTypes.html, file);

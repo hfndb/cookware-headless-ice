@@ -21,22 +21,6 @@ class ConfigWatch extends FileWatcher {
 	}
 }
 
-class CssWatch extends FileWatcher {
-	static instance: CssWatch;
-
-	public change(event: string, file: string): void {
-		event; // Fool compiler - unused variable
-		if (extname(file) != ".css") {
-			return;
-		}
-		log.info(`- ${file} changed`);
-		cp(
-			join(cfg.dirProject, cfg.options.sass.dirs.source, file),
-			SassUtils.getOutputDir()
-		);
-	}
-}
-
 class SassWatch extends FileWatcher {
 	static instance: SassWatch;
 
@@ -131,14 +115,6 @@ export function initWatches() {
 		"project settings file (settings.json)"
 	);
 
-	CssWatch.instance = new CssWatch(
-		cfg.dirProject,
-		cfg.options.sass.dirs.source,
-		"",
-		cfg.options.server.watchTimeout,
-		"plain css files"
-	);
-
 	SassWatch.instance = new SassWatch(
 		cfg.dirProject,
 		cfg.options.sass.dirs.source,
@@ -171,10 +147,6 @@ export function terminateWatches() {
 	// Stop all active file watching
 	if (ConfigWatch.instance instanceof Object) {
 		ConfigWatch.instance.stop();
-	}
-
-	if (CssWatch.instance instanceof Object) {
-		CssWatch.instance.stop();
 	}
 
 	if (SassWatch.instance instanceof Object) {

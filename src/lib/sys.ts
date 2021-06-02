@@ -22,7 +22,7 @@ export class SysUtils {
 			);
 		}
 		try {
-			exec(`${cfg.options.audio.player} ${fullPath}`, {
+			exec(`${cfg.options.sys.audio.player} ${fullPath}`, {
 				async: true,
 				silent: true
 			});
@@ -34,15 +34,15 @@ export class SysUtils {
 	static notify(msg: string) {
 		let cfg = AppConfig.getInstance();
 
-		if (!cfg.options.notifications.command) return;
+		if (!cfg.options.sys.notifications.command) return;
 		let cmd =
-			cfg.options.notifications.command +
+			cfg.options.sys.notifications.command +
 			' "' +
 			msg +
 			'" ' +
-			cfg.options.notifications.timeout.toString() +
+			cfg.options.sys.notifications.timeout.toString() +
 			' "' +
-			cfg.options.notifications.title +
+			cfg.options.sys.notifications.title +
 			'"';
 		exec(cmd, { async: true });
 	}

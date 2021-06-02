@@ -90,7 +90,7 @@ class Report extends Group {
         if (group.itemCount == 0)
             return;
         if (this.isInitialized != undefined) {
-            delete this.isInitialized;
+            Reflect.deleteProperty(this, "isInitialized");
         }
         this.groups.push(group);
     }

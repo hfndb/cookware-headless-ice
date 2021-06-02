@@ -325,43 +325,6 @@ Notable entries:
 A definition of the directory structure for new projects, documented in the source file *src/lib/dirs.ts*, function *createdirtree()*. Using the API docs, section lib/dirs, the layout is more pleasant to read.
 
 
-## Notifications
-
-```javascript
-{
-	"notifications": {
-		"command": "/path/to/notification.sh",
-		"compileIssue": {
-			"code": false,
-			"html": false,
-			"sass": false
-		}
-	},
-}
-```
-
-For desktop notification, in case of issues. In a Linux system, I use the following bash file to initiate notificatons. If you write your own bash file, please note the order of parameters.
-
-```bash
-#!/bin/bash
-
-MESSAGE=$1
-TIMEOUT=$2
-TITLE=$3
-
-if [ "$TITLE" != "" ]; then
-	TITLE="--title=$TITLE"
-fi
-
-if [ "$TIMEOUT" == "" ]; then
-	TIMEOUT=5
-fi
-
-# Will not dispay if in full screen mode
-kdialog --passivepopup "$MESSAGE" "$TITLE" $TIMEOUT
-```
-
-
 ## PDF
 
 ```javascript
@@ -522,6 +485,50 @@ Settings for what is known as file compression, minifying.
 
 Entries:
 + *auto*: Automatically also generate stripped versions, ignore HTML and JavaScript settings.
+
+
+## Sys
+
+```javascript
+sys {
+	"audio": {
+		"player": "mplayer"
+	},
+	"notifications": {
+		"command": "/path/to/notification.sh",
+		"compileIssue": {
+			"code": false,
+			"html": false,
+			"sass": false
+		}
+	}
+}
+```
+
+Notable entries:
+
++ *audio*: For playing sounds in case of issues (warning, error). The player needs to be installed in your system.
++ *notifications*: For desktop notifications, in case of issues (warning, error). In a Linux system, I use the following bash file to initiate notificatons. If you write your own bash file, please note the order of parameters.
+
+
+```bash
+#!/bin/bash
+
+MESSAGE=$1
+TIMEOUT=$2
+TITLE=$3
+
+if [ "$TITLE" != "" ]; then
+	TITLE="--title=$TITLE"
+fi
+
+if [ "$TIMEOUT" == "" ]; then
+	TIMEOUT=5
+fi
+
+# Will not dispay if in full screen mode
+kdialog --passivepopup "$MESSAGE" "$TITLE" $TIMEOUT
+```
 
 ## Tags
 

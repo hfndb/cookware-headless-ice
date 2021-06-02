@@ -1,9 +1,6 @@
 let DefaultConfig = {
 	version: "0.0.1",
 	projects: [],
-	audio: {
-		player: "mplayer"
-	},
 	domain: {
 		description: "Website name",
 		url: "http://www.yourdomain.com"
@@ -147,16 +144,6 @@ let DefaultConfig = {
 			}
 		}
 	},
-	notifications: {
-		command: "",
-		compileIssue: {
-			code: false,
-			html: false,
-			sass: false
-		},
-		timeout: 3,
-		title: "Cookware headless ice"
-	},
 	pdf: {
 		dirs: {
 			content: "dist",
@@ -249,6 +236,21 @@ let DefaultConfig = {
 	stripping: {
 		auto: true,
 		suffix: "stripped"
+	},
+	sys: {
+		audio: {
+			player: "mplayer"
+		},
+		notifications: {
+			command: "",
+			compileIssue: {
+				code: false,
+				html: false,
+				sass: false
+			},
+			timeout: 3,
+			title: "Cookware headless ice"
+		}
 	},
 	tags: {
 		active: false,

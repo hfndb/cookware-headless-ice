@@ -76,16 +76,16 @@ export class Beautify {
 			log.warn(`- Failed to render file ${file} `, Logger.error2string(err));
 			switch (parser) {
 				case "css":
-					if (cfg.options.notifications.compileIssue.sass)
+					if (cfg.options.sys.notifications.compileIssue.sass)
 						SysUtils.notify("Sass issue");
 					break;
 				case "html":
-					if (cfg.options.notifications.compileIssue.html)
+					if (cfg.options.sys.notifications.compileIssue.html)
 						SysUtils.notify("Html issue");
 					break;
 				case "babel":
 				case "typescript":
-					if (cfg.options.notifications.compileIssue.code)
+					if (cfg.options.sys.notifications.compileIssue.code)
 						SysUtils.notify("Code issue");
 					break;
 			}

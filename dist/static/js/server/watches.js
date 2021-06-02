@@ -19,16 +19,6 @@ class ConfigWatch extends lib_1.FileWatcher {
         log.info(`- settings.json changed and reloaded`);
     }
 }
-class CssWatch extends lib_1.FileWatcher {
-    change(event, file) {
-        event;
-        if (path_1.extname(file) != ".css") {
-            return;
-        }
-        log.info(`- ${file} changed`);
-        shelljs_1.cp(path_1.join(cfg.dirProject, cfg.options.sass.dirs.source, file), styling_1.SassUtils.getOutputDir());
-    }
-}
 class SassWatch extends lib_1.FileWatcher {
     change(event, file) {
         event;
@@ -82,7 +72,6 @@ class JsWatch extends lib_1.FileWatcher {
 }
 function initWatches() {
     ConfigWatch.instance = new ConfigWatch(cfg.dirProject, "", "settings.json", cfg.options.server.watchTimeout, "project settings file (settings.json)");
-    CssWatch.instance = new CssWatch(cfg.dirProject, cfg.options.sass.dirs.source, "", cfg.options.server.watchTimeout, "plain css files");
     SassWatch.instance = new SassWatch(cfg.dirProject, cfg.options.sass.dirs.source, "", cfg.options.server.watchTimeout, "Sass files");
     if (cfg.options.javascript.useWatch) {
         let tp = "JavaScript";
@@ -101,9 +90,6 @@ exports.initWatches = initWatches;
 function terminateWatches() {
     if (ConfigWatch.instance instanceof Object) {
         ConfigWatch.instance.stop();
-    }
-    if (CssWatch.instance instanceof Object) {
-        CssWatch.instance.stop();
     }
     if (SassWatch.instance instanceof Object) {
         SassWatch.instance.stop();

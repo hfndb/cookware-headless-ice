@@ -1,12 +1,6 @@
-import {
-	readdirSync,
-	readFileSync,
-	statSync,
-	watch,
-	writeFileSync,
-	FSWatcher
-} from "fs";
+import { readFileSync, statSync, watch, writeFileSync, FSWatcher } from "fs";
 import { basename, dirname, extname, join, sep } from "path";
+const { fdir } = require("fdir");
 import { mkdir, mv, rm, test, touch } from "shelljs";
 import { AppConfig } from "./config";
 import { getDirList } from "./dirs";
@@ -172,6 +166,7 @@ The structure of this file is invalid, meaning, messed up.
 		if (!test("-e", path)) {
 			throw new Error("Path " + path + " doesn't exist");
 		}
+		let cfg = AppConfig.getInstance();
 
 		let allowedExtensions =
 			opts.allowedExtensions == undefined ? [] : opts.allowedExtensions;
@@ -179,33 +174,29 @@ The structure of this file is invalid, meaning, messed up.
 		let recursive = opts.recursive == undefined ? true : opts.recursive;
 		let files: string[] = [];
 
-		function addFile(file: string) {
-			file = file.substr(path.length + 1);
-			if (excludeList.includes(file)) return;
-			if (
-				allowedExtensions.length == 0 ||
-				allowedExtensions.includes(extname(file))
-			) {
-				files.push(file);
+		let tns = {
+			group: true
+		};
+		if (!recursive) Object.assign(tns, { maxDepth: 0 }); // No effect
+		const fl = new fdir().crawlWithOptions(path, tns).sync();
+
+		for (let d = 0; d < fl.length; d++) {
+			let dir = fl[d].dir;
+			if (dir.startsWith(cfg.dirProject)) {
+				dir = dir.substring(path.length + 1);
 			}
-		}
-		function addPath(dirname: string) {
-			if (excludeList.includes(basename(dirname))) return;
+			if (!recursive && dir.length > 0) continue;
 
-			readdirSync(dirname).forEach((file: string) => {
-				const realpath = join(dirname, file);
-				if (recursive && test("-d", realpath)) {
-					addPath(realpath);
-				} else if (test("-f", realpath)) {
-					addFile(realpath);
+			for (let f = 0; f < fl[d].files.length; f++) {
+				let file = fl[d].files[f];
+				if (excludeList.includes(file)) continue;
+				if (
+					allowedExtensions.length == 0 ||
+					allowedExtensions.includes(extname(file))
+				) {
+					files.push(join(dir, file));
 				}
-			});
-		}
-
-		if (test("-f", path)) {
-			addFile(path);
-		} else {
-			addPath(path);
+			}
 		}
 
 		return files;

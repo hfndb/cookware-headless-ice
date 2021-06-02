@@ -379,7 +379,7 @@ export class AppMenu {
 					console.log(
 						`- Double shortcut ${this.options[toCheck].alias} in modules ${this.options[current].module} and ${this.options[toCheck].module}`
 					);
-					delete this.options[toCheck].alias;
+					Reflect.deleteProperty(this.options[toCheck], "alias");
 				}
 				if (this.options[current].name == this.options[toCheck].name) {
 					console.log(

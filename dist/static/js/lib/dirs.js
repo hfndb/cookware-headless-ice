@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getDirList = exports.createDirTree = void 0;
-const fs_1 = require("fs");
 const path_1 = require("path");
+const { fdir } = require("fdir");
 const shelljs_1 = require("shelljs");
 const files_1 = require("./files");
 function createDirTree(rootDir, tree, sourceControl = false) {
@@ -32,19 +32,21 @@ function getDirList(path, recursive = true) {
     if (!shelljs_1.test("-e", path)) {
         throw new Error(`Path ${path} doesn't exist`);
     }
+    let opts = {
+        group: true
+    };
+    if (!recursive)
+        Object.assign(opts, { maxDepth: 0 });
+    const fl = new fdir().crawlWithOptions(path, opts).sync();
     let dirs = [];
-    function addPath(dirname) {
-        fs_1.readdirSync(dirname).forEach((file) => {
-            const realpath = path_1.join(dirname, file);
-            if (shelljs_1.test("-d", realpath)) {
-                if (recursive)
-                    addPath(realpath);
-                dirs.push(realpath.substr(path.length + 1));
-            }
-        });
-    }
-    if (shelljs_1.test("-d", path)) {
-        addPath(path);
+    for (let d = 0; d < fl.length; d++) {
+        let dir = fl[d].dir;
+        dir = dir.substring(path.length + 1);
+        if (!dir)
+            continue;
+        if (!recursive && dir.includes(path_1.sep))
+            continue;
+        dirs.push(dir);
     }
     return dirs;
 }
