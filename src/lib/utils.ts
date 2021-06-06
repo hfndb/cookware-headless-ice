@@ -112,7 +112,6 @@ export class Formatter {
 	}
 
 	// Number type
-
 	decimal(
 		nr: number,
 		decimals: number,
@@ -120,40 +119,42 @@ export class Formatter {
 		suffix: string = ""
 	): string {
 		if (!nr) return "";
-		if (decimals == 0) return this.int(nr);
 
-		let beforeComma = Math.trunc(nr);
-		let behindComma = Math.round(Math.abs(nr % 1) * Math.pow(10, decimals));
+		let minus = nr < 0 ? "-" : "";
+		let part = nr % 1;
+		let rem = nr - part;
+		if (decimals) {
+			part = part.toPrecision(decimals);
+		}
+		part *= 100;
+		let toReturn =
+			decimals == 0
+				? ""
+				: this.decimalSeparator +
+				  part
+						.toString()
+						.substring(0, decimals - 1)
+						.padEnd(decimals, "0");
 
-		return (
-			prefix +
-			this.int(beforeComma) +
-			this.decimalSeparator +
-			behindComma.toString().padEnd(decimals, "0") +
-			suffix
-		);
+		while (rem) {
+			part = rem % 1000;
+			rem = (rem - part) / 1000;
+			part = part.toString();
+			if (rem) {
+				part = part.padStart(3, "0");
+			}
+			toReturn = this.thousandsSeparator + part + toReturn;
+		}
+
+		if (toReturn.startsWith(this.thousandsSeparator)) {
+			toReturn = toReturn.substring(1);
+		}
+
+		return prefix + minus + toReturn + suffix;
 	}
 
 	int(nr: number): string {
-		if (!nr) return "";
-		if (!Number.isInteger(nr)) {
-			nr = Math.round(nr);
-		}
-
-		let isNegative = nr < 0;
-		let portion: number;
-		let thousands: number[] = [];
-		nr = Math.abs(nr);
-		while (nr) {
-			portion = nr % 1000;
-			thousands.push(portion);
-			nr -= portion;
-			if (nr) nr /= 1000;
-		}
-
-		return (
-			(isNegative ? "-" : "") + thousands.reverse().join(this.thousandsSeparator)
-		);
+		return this.decimal(nr, 0);
 	}
 
 	/**
