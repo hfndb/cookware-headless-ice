@@ -65,6 +65,17 @@ export class StringExt {
 		let i = Math.floor(Math.log(bytes) / Math.log(1024));
 		return Math.round(bytes / Math.pow(1024, i)) + " " + sizes[i];
 	}
+
+	/**
+	 * Get a random string
+	 */
+	static getRandom(length: number): string {
+		let begin = parseInt("1".padEnd(length, "0"));
+		let end = parseInt("9".padEnd(length, "9"));
+		// Make the end exclusive, the beginning inclusive
+		let rndm = Math.floor(Math.random() * (end - begin)) + begin;
+		return rndm.toString();
+	}
 }
 
 /**
@@ -124,6 +135,7 @@ export class Formatter {
 		let part = nr % 1;
 		let rem = nr - part;
 		if (decimals) {
+			// @ts-ignore
 			part = part.toPrecision(decimals);
 		}
 		part *= 100;
@@ -139,8 +151,10 @@ export class Formatter {
 		while (rem) {
 			part = rem % 1000;
 			rem = (rem - part) / 1000;
+			// @ts-ignore
 			part = part.toString();
 			if (rem) {
+				// @ts-ignore
 				part = part.padStart(3, "0");
 			}
 			toReturn = this.thousandsSeparator + part + toReturn;

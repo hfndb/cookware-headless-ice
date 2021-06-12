@@ -64,6 +64,13 @@ class StringExt {
     return Math.round(bytes / Math.pow(1024, i)) + " " + sizes[i];
   }
 
+  static getRandom(length) {
+    let begin = parseInt("1".padEnd(length, "0"));
+    let end = parseInt("9".padEnd(length, "9"));
+    let rndm = Math.floor(Math.random() * (end - begin)) + begin;
+    return rndm.toString();
+  }
+
 }
 
 exports.StringExt = StringExt;

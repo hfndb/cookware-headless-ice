@@ -6,6 +6,7 @@ import { AppConfig } from "./config";
 import { getDirList } from "./dirs";
 import { Logger } from "./log";
 import { ArrayUtils } from "./object";
+import { StringExt } from "./utils";
 
 /**
  * For FileUtils.searchInFile()
@@ -284,12 +285,8 @@ The structure of this file is invalid, meaning, messed up.
 	 * If called more than 1 millisecond apart, 100% unique.
 	 */
 	static getTempFileName(lengthSuffix: number): string {
-		let begin = parseInt("1".padEnd(lengthSuffix, "0"));
-		let end = parseInt("9".padEnd(lengthSuffix, "9"));
-		// Make the end exclusive, the beginning inclusive
-		let rndm = Math.floor(Math.random() * (end - begin)) + begin;
 		// Date.now is updated every millisecond
-		return Date.now() + "-" + rndm.toString();
+		return Date.now() + "-" + StringExt.getRandom(lengthSuffix);
 	}
 
 	/**

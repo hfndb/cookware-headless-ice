@@ -178,12 +178,12 @@ Entries:
 + *sitemap / exclude*: An array with HTML content to exclude from sitemap.
 + *stripper / active*: Organize a striptease by stripping HTML from elements, making a page faster to load en harder to read the HTML code (teasing)
 
-See [compacting files](./compacting-files.md) for more information about... compacting output.
+See [compacting files](./philosophical/compacting-files.md) for more information about... compacting output.
 
 
 ## JavaScript
 
-See [compacting files](./compacting-files.md) for more information about... compacting output, and file bundles.
+See [compacting files](./philosophical/compacting-files.md) for more information about... compacting output, and file bundles.
 
 ```javascript
 {
@@ -220,7 +220,7 @@ See [compacting files](./compacting-files.md) for more information about... comp
 Entries:
 + *ast*: Generate a .ast file for each transcompiled file
 + *browser / removeImports*: Removes imports (and exports) from browser related source file just before transcompiling.
-+ *browser / shrink*: Object array for shrinking, see [compacting files](./compacting-files.md)
++ *browser / shrink*: Object array for shrinking, see [compacting files](./philosophical/compacting-files.md)
 + *browser / targets*: See [Babel documentation](https://babeljs.io/docs/en/presets). Presets are loaded based on the compiler setting. Browser targets can be set here.
 + *compiler*: Possible values: none, javascript, flow or typescript. The setting javascript will convert recent versions of JavaScript to a browser compatible version.
 + *dirs / output*: Where to put your JavaScript files.
@@ -442,7 +442,7 @@ Entries:
 + *dirs / output*: Where to put your CSS files.
 + *removeObsolete*: See as HTML.
 
-See [compacting files](./compacting-files.md) for more information about... compacting output.
+See [compacting files](./philosophical/compacting-files.md) for more information about... compacting output.
 
 
 ## Server
