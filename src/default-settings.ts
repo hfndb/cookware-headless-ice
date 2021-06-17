@@ -175,6 +175,7 @@ let DefaultConfig = {
 	},
 	sass: {
 		colors: {
+			active: false,
 			sass: "_colors.scss",
 			src: "dev/local-tools/js/colors-defined.js",
 			projects: {

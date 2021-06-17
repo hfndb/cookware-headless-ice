@@ -43,9 +43,11 @@ export class SassFiles {
 	private deps: Map<string, string[]> = new Map();
 
 	constructor() {
+		let outDir = SassUtils.getOutputDir();
+
 		this.changeList = getChangeList({
 			sourcePath: join(cfg.dirProject, cfg.options.sass.dirs.source),
-			targetPath: SassUtils.getOutputDir(),
+			targetPath: outDir,
 			sourceExt: [".scss"],
 			targetExt: ".css"
 		});
@@ -194,6 +196,13 @@ export class SassUtils {
 	 * Transcompile all changed or new Sass files
 	 */
 	static compile(verbose: boolean, isWatching: boolean = false): void {
+		let srcDir = join(cfg.dirProject, cfg.options.sass.dirs.source);
+		if (!test("-d", srcDir)) {
+			log.info(
+				`Path ./${cfg.options.sass.dirs.source} doesn't exist. Request to compile ignored`
+			);
+			return;
+		}
 		let fls = new SassFiles();
 		let outDir = SassUtils.getOutputDir();
 		let processed: string[] = [];
@@ -201,7 +210,7 @@ export class SassUtils {
 
 		let path = join(cfg.dirProject, cfg.options.sass.dirs.source);
 		if (!test("-e", path)) {
-			log.warn(
+			log.info(
 				`Path ./${cfg.options.sass.dirs.source} doesn't exist. Request to transcompile ignored`
 			);
 			return;
@@ -316,7 +325,7 @@ export class SassUtils {
 			// In case of hosting
 			outputDir = cfg.options.sass.dirs.output;
 		} else {
-			log.error("JavaScript output directory couldn't be determined");
+			log.error("Sass output directory couldn't be determined");
 		}
 
 		return outputDir;

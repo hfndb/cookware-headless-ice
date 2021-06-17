@@ -20,6 +20,10 @@ let log = Logger.getInstance(cfg.options.logging);
  * Write .js and .sass related to colors as defined in project config
  */
 function generateColorFiles() {
+	if (!cfg.options.sass.colors.active) {
+		// Not active in project
+		return;
+	}
 	if (
 		cfg.isProject &&
 		cfg.options.sass.colors.projects.length == 1 &&
@@ -124,8 +128,8 @@ export function generateWeb(verbose: boolean): void {
 		});
 		Sitemap.generate(verbose);
 	} else {
-		log.warn(
-			`HTML content directory "${cfg.options.html.dirs.content}" not found, skipping...`
+		log.info(
+			`Path ./${cfg.options.html.dirs.content} doesn't exist. Request to render ignored`
 		);
 	}
 }

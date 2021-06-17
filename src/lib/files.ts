@@ -383,7 +383,7 @@ export class FileWatcher {
 		let log = Logger.getInstance();
 		let fullPath = join(workingDir, projectDir, path);
 		if (!test("-e", fullPath)) {
-			log.warn(
+			log.info(
 				`Path ./${join(projectDir, path)} doesn't exist. Request to watch ${
 					this.description
 				} ignored`

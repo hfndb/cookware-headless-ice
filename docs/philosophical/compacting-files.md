@@ -138,3 +138,11 @@ In the mean time, with or without errors, a web browser will not be fed with too
 ### Please note
 
 Please note the following: What I wrote in this page only applies to 'browser bundles', not to 'app bundles' that you can configure. I don't even use the latter. Why? I want to be in full control over my thinking. If others think for me, as in perhaps 'app bundles' for you, you also get to swallow any error that others produce for you. Do not err.
+
+## Read more
+
+Philosophically, about software architecture:
+
++ [Reference](../design-goals-and-roadmap.md) to debate about strong vs. loose typing. Though rigid or even loose typing (designated types) is not always necessary.
+
+[comment]: <> (No comments here)

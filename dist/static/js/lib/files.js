@@ -296,7 +296,7 @@ class FileWatcher {
     let fullPath = (0, _path.join)(workingDir, projectDir, path);
 
     if (!(0, _shelljs.test)("-e", fullPath)) {
-      log.warn(`Path ./${(0, _path.join)(projectDir, path)} doesn't exist. Request to watch ${this.description} ignored`);
+      log.info(`Path ./${(0, _path.join)(projectDir, path)} doesn't exist. Request to watch ${this.description} ignored`);
       return;
     }
 

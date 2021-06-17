@@ -184,7 +184,7 @@ Web:
 + [Contribute](./docs/contribute.md)
 
 ### Philosophically, about software architecture
-+ Reference to debate about [strong vs. loose typing](./docs/design-goals-and-roadmap.md)
-+ [Compacting files](../docs/philosophical/compacting-files.md)
++ [Reference](./docs/design-goals-and-roadmap.md) to debate about strong vs. loose typing. Though rigid or even loose typing (designated types) is not always necessary.
++ [Compacting files](./docs/philosophical/compacting-files.md) as an art
 
 [comment]: <> (No comments here)

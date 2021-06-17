@@ -27,7 +27,7 @@ export function compile(verbose: boolean): void {
 
 	let path = join(cfg.dirProject, cfg.options.javascript.dirs.source);
 	if (!test("-e", path)) {
-		log.warn(
+		log.info(
 			`Path ./${cfg.options.javascript.dirs.source} doesn't exist. Request to compile ignored`
 		);
 		return;
