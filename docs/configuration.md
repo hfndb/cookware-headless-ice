@@ -389,6 +389,7 @@ Switches parts of the project overview on or off and sets output directory for p
 {
 	"sass": {
 		"colors": {
+			"active": false,
 			"sass": "_colors.scss",
 			"src": "dev/local-tools/js/colors.js",
 			"projects": {

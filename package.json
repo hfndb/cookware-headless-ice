@@ -69,7 +69,8 @@
     "rebuild-sass": "npm rebuild node-sass",
     "update": "npm update browserlist postcss node-sass",
     "test": "find ./dist/static/js/lib ./dist/static/js/local -name '*-test.js' | xargs mocha -R spec --no-colors --throw-deprecation",
-    "test-server": "find ./dist/static/js/server  -name '*-test.js' | xargs mocha -R spec --no-colors --throw-deprecation"
+    "test-server": "find ./dist/static/js/server  -name '*-test.js' | xargs mocha -R spec --no-colors --throw-deprecation",
+    "update-deps": "node dist/static/js/sys/packages.js"
   },
   "repository": {
     "type": "git",
