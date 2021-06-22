@@ -5,7 +5,7 @@ import { LineReader } from "../lib/files";
 import { Content } from "../lib/html";
 import { getStamp, renderSysTemplate } from "./misc";
 import { ArrayUtils } from "../lib/object";
-import { getPackages } from "../lib/package-json";
+import { Packages } from "../lib/package-json";
 import { Item, Group, Report } from "../lib/reporting";
 
 let cfg = AppConfig.getInstance();
@@ -152,7 +152,7 @@ export function generateStats(): Report {
 	Object.assign(report, {
 		showPackages: cfg.options.projectOverview.showPackages
 	});
-	Object.assign(report, { packages: getPackages(cfg.dirProject) });
+	Object.assign(report, { packages: Packages.getPackages(cfg.dirProject) });
 
 	return report;
 }

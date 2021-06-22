@@ -83,6 +83,12 @@ npm run-script update # To update package browserlist postcss node-sass
 npm run-script rebuild-sass # To only update the sass binary
 ```
 
+Install missing packages (dependencies), incremental update installed packages if needed:
+
+```
+npm run-script update-deps
+```
+
 
 ## Usage
 
@@ -108,13 +114,6 @@ npm run-script rebuild-sass # To only update the sass binary
 
 ```
 	npm run-script test:ts
-```
-
-+ Dependencies of this project, in case of an existing installation:
-Install missing packages, incremental update installed packages if needed:
-
-```
-	npm run-script update-deps
 ```
 
 Detailed usage information [here](./docs/usage.md).

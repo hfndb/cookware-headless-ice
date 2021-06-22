@@ -126,6 +126,14 @@ The structure of this file is invalid, meaning, messed up.
 	}
 
 	/**
+	 * Replace Carriage Return (CR, \r, on older Macs), CR followed by LF (\r\n, on WinDOS)
+	 * with Line Feed (LF, \n, on Unices incl. Linux).
+	 */
+	static stripLineBreaks(str: string): string {
+		return str.replace(/\r?\n|\r/g, "\n");
+	}
+
+	/**
 	 * Method to safely write to a file.
 	 */
 	static writeFile(

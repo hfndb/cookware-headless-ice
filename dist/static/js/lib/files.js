@@ -88,6 +88,10 @@ The structure of this file is invalid, meaning, messed up.
     return data;
   }
 
+  static stripLineBreaks(str) {
+    return str.replace(/\r?\n|\r/g, "\n");
+  }
+
   static writeFile(dir, file, content, verbose, flag = "w") {
     let log = _log.Logger.getInstance();
 

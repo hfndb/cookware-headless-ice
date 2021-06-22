@@ -1,7 +1,12 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const config_1 = require("../lib/config");
-const upgrades_1 = require("./upgrades");
-let cfg = config_1.AppConfig.getInstance();
-upgrades_1.upgrade(cfg, true);
+
+require("source-map-support/register");
+
+var _config = require("../lib/config");
+
+var _upgrades = require("./upgrades");
+
+let cfg = _config.AppConfig.getInstance("cookware");
+
+(0, _upgrades.upgrade)(cfg, true);
 //# sourceMappingURL=postinstall.js.map

@@ -305,6 +305,7 @@ let DefaultConfig = {
 		},
 		express: {
 			activate: {
+				logging: true,
 				sessions: false,
 				uploads: false
 			},

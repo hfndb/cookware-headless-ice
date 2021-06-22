@@ -589,7 +589,9 @@ In this section, you'll find configuration options for integrated packages. Rele
 ```javascript
 "express": {
 	"activate": {
-		"sessions": false
+		"logging": true,
+		"sessions": false,
+		"uploads": false
 	},
 	"session": {
 		"cookie": {

@@ -6,7 +6,7 @@ import { ExpressUtils } from "../lib/express";
 import { FileStatus } from "../lib/file-diff";
 import { Content } from "../lib/html";
 import { SysUtils } from "../lib/sys";
-import { getPackageReadmeFiles } from "../lib/package-json";
+import { Packages } from "../lib/package-json";
 import { renderMarkdownFile } from "../local/markdown";
 import { Lint } from "../local/markup";
 import { searchProject, renderSysTemplate } from "../local/misc";
@@ -137,8 +137,8 @@ async function controllerGeneric(
 	if (prefix == "/sys" && url == "index.html") {
 		additionalContext = Object.assign(additionalContext, {
 			isProject: false,
-			systemPackages: getPackageReadmeFiles(true),
-			projectPackages: getPackageReadmeFiles(false)
+			systemPackages: Packages.getPackageReadmeFiles(true),
+			projectPackages: Packages.getPackageReadmeFiles(false)
 		});
 	}
 

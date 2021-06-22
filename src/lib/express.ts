@@ -73,7 +73,10 @@ export class ExpressUtils {
 		// -------------------------------------------------
 		// Logging
 		// -------------------------------------------------
-		this.app.use(ExpressUtils.requestLogger);
+		// if added for cookware-texts
+		if (cfg.options.dependencies.express.activate.logging) {
+			this.app.use(ExpressUtils.requestLogger);
+		}
 
 		// -------------------------------------------------
 		// Cookie parsing - see above, require
@@ -229,12 +232,15 @@ export class ExpressUtils {
 			}
 		});
 
-		setTimeout(() => {
-			// Take some time to know for sure the 'address in use' error didn't occur
-			log.info(
-				`Initialization finalized - server running at port ${cfg.options.server.port}`
-			);
-		}, 3000);
+		// if added for cookware-texts
+		if (cfg.options.dependencies.express.activate.logging) {
+			setTimeout(() => {
+				// Take some time to know for sure the 'address in use' error didn't occur
+				log.info(
+					`Initialization finalized - server running at port ${cfg.options.server.port}`
+				);
+			}, 3000);
+		}
 	}
 
 	/**

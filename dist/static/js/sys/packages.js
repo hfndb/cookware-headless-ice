@@ -8,9 +8,9 @@ var _packageJson = require("../lib/package-json");
 
 let cfg = _config.AppConfig.getInstance("cookware");
 
-(0, _packageJson.updatePackages)(true);
+_packageJson.Packages.updatePackages(true);
 
 if (cfg.isProject) {
-  (0, _packageJson.updatePackages)(false);
+  _packageJson.Packages.updatePackages(false);
 }
 //# sourceMappingURL=packages.js.map
