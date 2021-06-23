@@ -211,6 +211,11 @@ The structure of this file is invalid, meaning, messed up.
 		return files;
 	}
 
+	static getFileSize(file: string): number {
+		let info = statSync(file);
+		return info.size;
+	}
+
 	/**
 	 * Translate a file name to name with suffix
 	 * For example: dir/file.txt becomes dir/file-suffix.txt

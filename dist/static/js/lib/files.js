@@ -160,6 +160,11 @@ The structure of this file is invalid, meaning, messed up.
     return files;
   }
 
+  static getFileSize(file) {
+    let info = (0, _fs.statSync)(file);
+    return info.size;
+  }
+
   static getSuffixedFile(path, suffix) {
     let dir = path.includes(_path.sep) || path.includes("/") ? (0, _path.dirname)(path) : "";
     let file = (0, _path.basename)(path);
