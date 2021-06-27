@@ -106,7 +106,7 @@ The structure of this file is invalid, meaning, messed up.
 			verbose &&
 			process.env.NODE_ENV !== "test"
 		) {
-			log.info(`Data written to file ${file}`);
+			log.info(`File written: ${file}`);
 		}
 	}
 
@@ -491,7 +491,7 @@ export class FileWatcher {
 /**
  * Remove obsolete output files
  *
- * @param removeObsolete settings from config.json
+ * @param removeObsolete settings from settings.json
  * @param processed by production of output files
  * @param outputDir
  * @param ext to search for

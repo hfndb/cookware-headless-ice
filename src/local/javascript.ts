@@ -167,7 +167,7 @@ export class Bundle {
 
 /**
  * Generate HTML formatted docs from JavaScript sources in src.
- * Uses configuration in config.json
+ * Uses configuration in settings.json
  */
 export function generateJsDocs(): void {
 	// Make paths relative to project directory

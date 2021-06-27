@@ -69,7 +69,7 @@ The structure of this file is invalid, meaning, messed up.
     let log = _log.Logger.getInstance();
 
     if (FileUtils.writeFile(dir, file, data, false) && verbose && process.env.NODE_ENV !== "test") {
-      log.info(`Data written to file ${file}`);
+      log.info(`File written: ${file}`);
     }
   }
 

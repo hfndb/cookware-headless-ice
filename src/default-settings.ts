@@ -478,6 +478,6 @@ For playground:
 import { DefaultConfig } from "../default-config";
 import { FileUtils } from "../lib/files";
 
-FileUtils.writeJsonFile(DefaultConfig, cfg.dirTemp, "default-config.json", true);
+FileUtils.writeJsonFile(DefaultConfig, cfg.dirTemp, "default-settings.json", true);
 
 */

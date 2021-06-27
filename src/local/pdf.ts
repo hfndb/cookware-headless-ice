@@ -16,7 +16,7 @@ import { SassUtils } from "./styling";
 
 /**
  * Render all changed or new PDF files
- * Uses configuration in config.json
+ * Uses configuration in settings.json
  */
 export function renderPdf(): void {
 	let cfg = AppConfig.getInstance();

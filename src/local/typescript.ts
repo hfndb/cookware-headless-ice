@@ -107,7 +107,7 @@ export function watchTypeScript(): void {
 
 /**
  * Generate HTML formatted docs from TypeScript sources in src.
- * Uses configuration in config.json
+ * Uses configuration in settings.json
  *
  * @todo plugin for markdown output? https://github.com/tgreyuk/typedoc-plugin-markdown
  */
@@ -118,7 +118,7 @@ export function generateTsDocs(): void {
 	let log = Logger.getInstance(cfg.options.logging);
 
 	if (!dir) {
-		log.error("Output dir for typedoc not found in config.json");
+		log.error("Output dir for typedoc not found in settings.json");
 		return;
 	}
 	if (test("-d", dir)) {

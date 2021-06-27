@@ -31,7 +31,7 @@ export class Beautify {
 
 	/**
 	 * Beautify html, js, ts or scss file(s)
-	 * Uses configuration in config.json
+	 * Uses configuration in settings.json
 	 *
 	 * @param file name
 	 * @param content of file

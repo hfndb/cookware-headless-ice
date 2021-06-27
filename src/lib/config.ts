@@ -1,7 +1,7 @@
 import { homedir, platform, tmpdir } from "os";
 import { join, normalize, sep } from "path";
-import { cp } from "shelljs";
-import { test } from "shelljs";
+import { cp, test } from "shelljs";
+import { Command } from "commander";
 import { DefaultConfig } from "../default-settings";
 import { Logger } from "./log";
 import { createDirTree } from "./dirs";
@@ -321,6 +321,7 @@ interface Option {
 }
 
 export class AppMenu {
+	name: string = "";
 	static instance: AppMenu | null = null;
 
 	checkOverridesShortcutC = {
@@ -366,43 +367,63 @@ export class AppMenu {
 		return AppMenu.instance;
 	}
 
+	/**
+	 * For programming purposes. Check for options with the same shortcut or name
+	 */
+	checkOption(toCheck: number, current: number) {
+		if (process.env.NODE_ENV == "production" || toCheck <= current) return;
+		if (
+			this.options[toCheck].alias &&
+			this.options[current].alias == this.options[toCheck].alias
+		) {
+			console.log(
+				`- Double shortcut ${this.options[toCheck].alias} in modules ${this.options[current].module} and ${this.options[toCheck].module}`
+			);
+			Reflect.deleteProperty(this.options[toCheck], "alias");
+		}
+		if (this.options[current].name == this.options[toCheck].name) {
+			console.log(
+				`- Double name ${this.options[toCheck].name} in modules ${this.options[current].module} and ${this.options[toCheck].module}`
+			);
+		}
+	}
+
 	getUserChoice(): any {
-		// For programming purposes: Check for options with the same shortcut or name
+		// Check
 		for (let current = 0; current < this.options.length; current++) {
-			if (process.env.NODE_ENV == "production") break;
 			for (let toCheck = 0; toCheck < this.options.length; toCheck++) {
-				if (toCheck <= current) continue;
-				if (
-					this.options[toCheck].alias &&
-					this.options[current].alias == this.options[toCheck].alias
-				) {
-					console.log(
-						`- Double shortcut ${this.options[toCheck].alias} in modules ${this.options[current].module} and ${this.options[toCheck].module}`
-					);
-					Reflect.deleteProperty(this.options[toCheck], "alias");
-				}
-				if (this.options[current].name == this.options[toCheck].name) {
-					console.log(
-						`- Double name ${this.options[toCheck].name} in modules ${this.options[current].module} and ${this.options[toCheck].module}`
-					);
-				}
+				this.checkOption(toCheck, current);
+			}
+		}
+		// Build command
+		const program = new Command();
+		program.name(this.name);
+		for (let i = 0; i < this.options.length; i++) {
+			let opt = this.options[i];
+			let sc = opt.alias ? `-${opt.alias} ` : "";
+			if (opt.type == Boolean) {
+				program.option(`${sc}--${opt.name}`, opt.description);
+			}
+			if (opt.type == String) {
+				let lbl = opt.typeLabel ? ` ${opt.typeLabel}` : "";
+				program.option(`${sc}--${opt.name}${lbl}`, opt.description);
 			}
 		}
 
-		const commandLineArgs = require("command-line-args");
 		let chosen = {};
 		try {
-			chosen = commandLineArgs(this.options);
+			// Get command line options as provided by user
+			program.parse(process.argv);
+			// Translate 'em to usable info
+			chosen = program.opts();
 		} catch (error) {
 			// Do nothing
 		}
 		return chosen;
 	}
 
-	showHelp(opts: any) {
-		const commandLineUsage = require("command-line-usage");
-		const usage = commandLineUsage(opts);
-		console.log(usage);
+	setName(name: string) {
+		this.name = name;
 	}
 
 	addOption(opt: Option) {

@@ -50,8 +50,7 @@ am.addOption({
 	name: "generate",
 	type: Boolean,
 	description:
-		"Transompile changed js, ts and scss, render changed .html using template engine, \
-			generate Google sitemap."
+		"Transompile changed js, ts and scss, render changed .html using template engine, generate Google sitemap."
 });
 am.addOption(am.initializeNewProjectShortcutI);
 am.addOption({
@@ -79,6 +78,7 @@ am.addOption({
 	description: "Run local development server, watch file changes, transcompile"
 });
 am.addOption({
+	alias: "w",
 	name: "watch",
 	type: Boolean,
 	description: "Start watching and transcompile without running server"
@@ -92,7 +92,6 @@ am.addOption({
 	typeLabel: "<type>"
 });
 am.addOption({
-	alias: "w",
 	name: "write",
 	type: Boolean,
 	description: "Write default settings to settings-default.json"
@@ -103,7 +102,8 @@ am.addOption({
 	description: "Flag to compile and compress for production use"
 });
 am.addOption(am.playgroundShortcutY);
-am.addOption(am.helpShortcutH);
+//am.addOption(am.helpShortcutH);
+am.setName("cookware-headless-ice");
 
 let choice = am.getUserChoice();
 
@@ -182,22 +182,6 @@ if (choice.beautify) {
 		cfg.dirProject,
 		"settings-default.json"
 	);
-} else {
-	am.showHelp([
-		{
-			header: "cookware-headless-ice",
-			content: "Utility functions"
-		},
-		{
-			header: "Options",
-			hide: ["number"],
-			optionList: am.options
-		},
-		{
-			content:
-				"Project home: {underline https://github.com/hfndb/cookware-headless-ice}"
-		}
-	]);
 }
 if (stats) {
 	let session = SessionVars.getInstance();

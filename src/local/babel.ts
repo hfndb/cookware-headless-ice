@@ -87,7 +87,7 @@ export function compile(verbose: boolean): void {
 }
 
 /**
- * Compile source file, using the configuration in config.json
+ * Compile source file, using the configuration in settings.json
  *
  * @returns success
  * @todo Decorators (such as for package json2typescript) don't work yet. Apparently due to bugs in this plugin
