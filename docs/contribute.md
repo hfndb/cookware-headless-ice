@@ -9,9 +9,9 @@ This project is an example of sober thinking. Openly. Not too big, potentially u
 
 + Bug reports and bugfixes (pull requests) are always welcome. In case of bug reports, please include
 	- OS incl. version nr.
-	- Node.js version nr. if you're using the version in package.json
+	- Node.js version nr. if you're not using the version in package.json
 	- Console output of stacktrace and other relevant information
-	- A copy of your project config.json
+	- A copy of your project settings.json
 
 + This project could use testing on platforms other than Linux, mainly Apple and Windows.
 
