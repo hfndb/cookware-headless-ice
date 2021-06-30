@@ -187,11 +187,11 @@ Web:
 
 
 ## Read more
-+ [Tiny budget hosting](./docs/tiny-budget-hosting.md)
 + [Design goals and roadmap](./docs/design-goals-and-roadmap.md)
 + [Configuration](./docs/configuration.md)
 + [Usage](./docs/usage.md)
 + [Contribute](./docs/contribute.md)
++ [Tiny budget hosting](./docs/tiny-budget-hosting.md)
 
 ### Philosophically, about software architecture
 + [Reference](./docs/design-goals-and-roadmap.md) to debate about strong vs. loose typing. Though rigid or even loose typing (designated types) is not always necessary.
