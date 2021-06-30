@@ -25,6 +25,9 @@ The **local development server**
   - a *project overview*, with files, statistics and a count of integrated Node.js packages, and
   + a documentation browser, to project and system README.md files, and README.md files in integrated Node.js packages.
 
+**Other**
++ In the dev/local-tools directory you'll find some tools to play with colors and styles.
+
 
 This project is developed on a Linux platform and should also run on BSD and Apple platforms. With some additional effort on Windows too 😉 See [contribute](./docs/contribute.md).
 
@@ -184,6 +187,7 @@ Web:
 
 
 ## Read more
++ [Tiny budget hosting](./docs/tiny-budget-hosting.md)
 + [Design goals and roadmap](./docs/design-goals-and-roadmap.md)
 + [Configuration](./docs/configuration.md)
 + [Usage](./docs/usage.md)
