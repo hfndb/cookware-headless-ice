@@ -4,6 +4,7 @@ import { FileWatcher, FileStatus, Logger } from "../lib";
 import { AppConfig } from "../lib/config";
 import { compileFile } from "../local/babel";
 import { JavascriptUtils } from "../local/javascript";
+import { PhpUtils } from "../local/javascript";
 import { Double, SassFiles, SassUtils } from "../local/styling";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 
@@ -18,36 +19,6 @@ class ConfigWatch extends FileWatcher {
 		file;
 		cfg.read();
 		log.info(`- settings.json changed and reloaded`);
-	}
-}
-
-class SassWatch extends FileWatcher {
-	static instance: SassWatch;
-
-	public change(event: string, file: string): void {
-		event; // Fool compiler - unused variable
-		if (extname(file) != ".scss") {
-			return;
-		}
-		if (Double.is(file)) return;
-		log.info(`- ${file} changed`);
-
-		let session = SessionVars.getInstance();
-		session.add(ProcessingTypes.sass, file);
-
-		let status = new FileStatus(
-			join(cfg.dirProject, cfg.options.sass.dirs.source)
-		);
-		status.setSoure(file, ".scss");
-		status.setTarget(SassUtils.getOutputDir(), ".css");
-
-		if (SassFiles.isImport(file)) {
-			// Import, compile everything
-			SassUtils.beautify(status);
-			SassUtils.compile(true, true);
-		} else {
-			SassUtils.compileFile(status);
-		}
 	}
 }
 
@@ -98,6 +69,60 @@ class JsWatch extends FileWatcher {
 	}
 }
 
+class PhpWatch extends FileWatcher {
+	static instance: PhpWatch;
+
+	public change(event: string, file: string): void {
+		event; // Fool compiler - unused variable
+		if (extname(file) != ".php") {
+			return;
+		}
+		if (Double.is(file)) return;
+		log.info(`- ${file} changed`);
+
+		let dir = join(cfg.dirProject, cfg.options.php.dirs.source);
+		let session = SessionVars.getInstance();
+		session.add(ProcessingTypes.php, file);
+
+		// Setup inplace editing
+		let status = new FileStatus(dir);
+		status.setSoure(file, ".php");
+		status.setTarget(dir, ".php");
+
+		PhpUtils.beautify(status);
+	}
+}
+
+class SassWatch extends FileWatcher {
+	static instance: SassWatch;
+
+	public change(event: string, file: string): void {
+		event; // Fool compiler - unused variable
+		if (extname(file) != ".scss") {
+			return;
+		}
+		if (Double.is(file)) return;
+		log.info(`- ${file} changed`);
+
+		let session = SessionVars.getInstance();
+		session.add(ProcessingTypes.sass, file);
+
+		let status = new FileStatus(
+			join(cfg.dirProject, cfg.options.sass.dirs.source)
+		);
+		status.setSoure(file, ".scss");
+		status.setTarget(SassUtils.getOutputDir(), ".css");
+
+		if (SassFiles.isImport(file)) {
+			// Import, compile everything
+			SassUtils.beautify(status);
+			SassUtils.compile(true, true);
+		} else {
+			SassUtils.compileFile(status);
+		}
+	}
+}
+
 /**
  * Setup file watching. In bash this would need, for example:
  *
@@ -113,14 +138,6 @@ export function initWatches() {
 		"settings.json",
 		cfg.options.server.watchTimeout,
 		"project settings file (settings.json)"
-	);
-
-	SassWatch.instance = new SassWatch(
-		cfg.dirProject,
-		cfg.options.sass.dirs.source,
-		"",
-		cfg.options.server.watchTimeout,
-		"Sass files"
 	);
 
 	if (cfg.options.javascript.useWatch) {
@@ -141,6 +158,24 @@ export function initWatches() {
 			`${tp} files`
 		);
 	}
+
+	if (cfg.options.php.useWatch) {
+		PhpWatch.instance = new PhpWatch(
+			cfg.dirProject,
+			cfg.options.php.dirs.source,
+			"",
+			cfg.options.server.watchTimeout,
+			"Php files"
+		);
+	}
+
+	SassWatch.instance = new SassWatch(
+		cfg.dirProject,
+		cfg.options.sass.dirs.source,
+		"",
+		cfg.options.server.watchTimeout,
+		"Sass files"
+	);
 }
 
 export function terminateWatches() {

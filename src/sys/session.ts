@@ -6,6 +6,7 @@ export enum ProcessingTypes {
 	html = "html",
 	javascript = "javascript",
 	pdf = "pdf",
+	php = "php",
 	sass = "sass",
 	typescript = "typescript"
 }
@@ -17,6 +18,7 @@ export class SessionVars {
 	epub = new Map();
 	html = new Map();
 	javascript = new Map();
+	php = new Map();
 	pdf = new Map();
 	sass = new Map();
 	typescript = new Map();
@@ -48,6 +50,7 @@ export class SessionVars {
 		resetMap(this.epub);
 		resetMap(this.html);
 		resetMap(this.javascript);
+		resetMap(this.php);
 		resetMap(this.pdf);
 		resetMap(this.sass);
 		resetMap(this.typescript);
@@ -68,11 +71,14 @@ export class SessionVars {
 			case ProcessingTypes.sass:
 				counter = this.sass;
 				break;
-			case ProcessingTypes.typescript:
-				counter = this.typescript;
+			case ProcessingTypes.php:
+				counter = this.php;
 				break;
 			case ProcessingTypes.pdf:
 				counter = this.pdf;
+				break;
+			case ProcessingTypes.typescript:
+				counter = this.typescript;
 				break;
 			default:
 				throw new Error(`Unknown type: ${type}`);
@@ -101,6 +107,7 @@ export class SessionVars {
 		add2retval(this.epub, "ePub");
 		add2retval(this.html, "HTML");
 		add2retval(this.javascript, "JavaScript");
+		add2retval(this.php, "php");
 		add2retval(this.pdf, "PDF");
 		add2retval(this.sass, "Sass");
 		add2retval(this.typescript, "TypeScript");

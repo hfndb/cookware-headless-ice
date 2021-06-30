@@ -327,6 +327,25 @@ Notable entries:
 A definition of the directory structure for new projects, documented in the source file *src/lib/dirs.ts*, function *createdirtree()*. Using the API docs, section lib/dirs, the layout is more pleasant to read.
 
 
+## PHP
+
+```javascript
+{
+	"php": {
+		"dirs": {
+			"source": "dist/static/php"
+		},
+		"useWatch": false
+	}
+}
+```
+
+Self-explanatory
+
+Notable entry:
++ source: Relative from project root, for inplace editing (beautify during watching)
+
+
 ## PDF
 
 ```javascript

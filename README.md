@@ -17,8 +17,9 @@ The **command line toolbox**
 
 The **local development server**
 + renders HTML and [Markdown](https://en.wikipedia.org/wiki/Markdown) files on the fly, without caching to disk files,
++ beautifies (changed) Sass, Flow, TypeScript and PHP,
 + transcompiles (changed or new) Sass, Flow and TypeScript,
-+ generates tag files.
+s+ generates tag files,
 + lints HTML,
 + displays a *system home page*, providing access to:
   - a project *todo list*,
@@ -180,7 +181,7 @@ Epub:
 + [epub-gen](https://www.npmjs.com/package/epub-gen) to generate ePub files
 
 Code, generic:
-+ [prettier](https://www.npmjs.com/package/prettier) for beautifying css, scss, html, JavaScript and TypeScript files
++ [prettier](https://www.npmjs.com/package/prettier) and [@prettier/plugin-php](https://www.npmjs.com/package/@prettier/plugin-php) for beautifying css, scss, html, JavaScript, TypeScript and PHP files
 
 Web:
 + [express](https://www.npmjs.com/package/express) for local development server, with [body-parser](https://www.npmjs.com/package/body-parser) to process POST requests. For sessions [express-session](https://www.npmjs.com/package/express-session) with [memorystore](https://www.npmjs.com/package/memorystore)

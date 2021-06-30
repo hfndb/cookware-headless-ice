@@ -9,12 +9,14 @@ Such websites can be one page, or grow towards large volumes as with reference o
 
 ## Hosting at home
 
-In case you have a computer running 24/7, and a stable internet connection, that can be used to expose a website to others. Points of attention:
+In case you have a computer running 24/7, and a stable internet connection, that can be used to expose a website to others.
 
-+ Yearly expenses: Domain registration, like sample.com. Prices start at approx. $10 or €10 yearly. Though some providers also hand out free subdomains like yourname.sample.com
+**Points of attention:**
+
++ Yearly expenses: Domain registration, like sample.com. Prices start at approx. $10 or €10 yearly. Though some providers also hand out free subdomains like yourname.sample.com.
 + Domains are connected to one or more IP numbers using DNS registration. Domain providers offer a control panel for such configuration.
 + You'll need to fiddle with port forwarding in your router, to route incoming request to the proper computer.
-+ The computer you use needs to run a webserver, like [Nginx](https://en.wikipedia.org/wiki/Nginx) or [Apache](https://en.wikipedia.org/wiki/Apache_HTTP_Server)
++ The computer you use needs to run a webserver, like [Nginx](https://en.wikipedia.org/wiki/Nginx) or [Apache](https://en.wikipedia.org/wiki/Apache_HTTP_Server).
 
 
 ## Hosting elsewhere

@@ -145,6 +145,12 @@ let DefaultConfig = {
       }
     }
   },
+  php: {
+    dirs: {
+      source: "dist/static/php"
+    },
+    useWatch: false
+  },
   pdf: {
     dirs: {
       content: "dist",
@@ -217,7 +223,7 @@ let DefaultConfig = {
   },
   server: {
     backupInterval: 0,
-    beautify: ["sass", "src"],
+    beautify: ["php", "sass", "src"],
     firstUpdateSources: true,
     logStatic: false,
     port: 8000,
