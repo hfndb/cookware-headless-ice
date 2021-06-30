@@ -7,8 +7,6 @@
 DIR_CURRENT=`dirname $0`
 source $DIR_CURRENT/env.sh # Get some vars
 
-# Get $DIR_DRUPAL_REPO, $DIR_PROJECT and some color vars
-
 # Set some vars
 DIR_PROJECT=`pwd`
 DIR_DOMAIN=`basename $DIR_PROJECT`
