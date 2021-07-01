@@ -6,7 +6,7 @@ import { FileUtils, Logger } from "./lib";
 import { AppConfig, AppMenu } from "./lib/config";
 import { Beautify } from "./lib/beautify";
 import { generateJsDocs } from "./local/javascript";
-import { generateWeb } from "./local/misc";
+import { generateColorFiles, generateWeb } from "./local/misc";
 import { writeStats } from "./local/overview";
 import { renderPdf } from "./local/pdf";
 import { generateTsDocs } from "./local/typescript";
@@ -97,6 +97,11 @@ am.addOption({
 	description: "Write default settings to settings-default.json"
 });
 am.addOption({
+	name: "colors",
+	type: Boolean,
+	description: "Generate color files"
+});
+am.addOption({
 	name: "production",
 	type: Boolean,
 	description: "Flag to compile and compress for production use"
@@ -128,6 +133,8 @@ if (choice.production) {
 
 if (choice.beautify) {
 	Beautify.standAlone(choice.beautify);
+} else if (choice.colors) {
+	generateColorFiles();
 } else if (choice.docs && cfg.options.javascript.compiler == "typescript") {
 	generateTsDocs();
 } else if (choice.docs) {

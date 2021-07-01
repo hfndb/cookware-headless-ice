@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.generateColorFiles = generateColorFiles;
 exports.generateWeb = generateWeb;
 exports.getStamp = getStamp;
 exports.backupChangedSource = backupChangedSource;
@@ -39,10 +40,12 @@ let log = _lib.Logger.getInstance(cfg.options.logging);
 
 function generateColorFiles() {
   if (!cfg.options.sass.colors.active) {
+    log.info("Colors not activated in this project");
     return;
   }
 
   if (cfg.isProject && cfg.options.sass.colors.projects.length == 1 && cfg.options.sass.colors.projects["Cookware"]) {
+    log.info("No colors defined in this project");
     return;
   }
 
@@ -97,7 +100,6 @@ function generateWeb(verbose) {
   let session = _session.SessionVars.getInstance();
 
   (0, _babel.compile)(verbose);
-  generateColorFiles();
 
   _styling.SassUtils.compile(verbose);
 

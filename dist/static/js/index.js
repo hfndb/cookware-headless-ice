@@ -106,6 +106,11 @@ am.addOption({
   description: "Write default settings to settings-default.json"
 });
 am.addOption({
+  name: "colors",
+  type: Boolean,
+  description: "Generate color files"
+});
+am.addOption({
   name: "production",
   type: Boolean,
   description: "Flag to compile and compress for production use"
@@ -138,6 +143,8 @@ if (choice.production) {
 
 if (choice.beautify) {
   _beautify.Beautify.standAlone(choice.beautify);
+} else if (choice.colors) {
+  (0, _misc.generateColorFiles)();
 } else if (choice.docs && cfg.options.javascript.compiler == "typescript") {
   (0, _typescript.generateTsDocs)();
 } else if (choice.docs) {

@@ -19,9 +19,9 @@ let log = Logger.getInstance(cfg.options.logging);
 /**
  * Write .js and .sass related to colors as defined in project config
  */
-function generateColorFiles() {
+export function generateColorFiles() {
 	if (!cfg.options.sass.colors.active) {
-		// Not active in project
+		log.info("Colors not activated in this project");
 		return;
 	}
 	if (
@@ -29,7 +29,7 @@ function generateColorFiles() {
 		cfg.options.sass.colors.projects.length == 1 &&
 		cfg.options.sass.colors.projects["Cookware"]
 	) {
-		// No colors defined in project
+		log.info("No colors defined in this project");
 		return;
 	}
 
@@ -116,7 +116,6 @@ export function generateWeb(verbose: boolean): void {
 	let session = SessionVars.getInstance();
 
 	compileJs(verbose);
-	generateColorFiles();
 	SassUtils.compile(verbose);
 
 	let dir = join(cfg.dirProject, cfg.options.html.dirs.content);
