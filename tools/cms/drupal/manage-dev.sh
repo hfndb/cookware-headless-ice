@@ -2,6 +2,7 @@
 
 # Script to manage a local Drupal dev environment,
 # in case a website is deployed to a server using Drupal
+# Usage: project dir$ <path to this script/manage-dev.sh
 
 
 DIR_CURRENT=`dirname $0`
@@ -11,6 +12,14 @@ if [ ! -f $DIR_PROJECT/settings.json ]; then
 	echo "File settings.json not found"
 	exit 1
 fi
+
+# Usage: remove_dir <path> <opts>
+function remove_dir {
+	if [ -d $1 ]; then
+		return
+	fi
+	rm $2 $1
+}
 
 # Initialize Drupal repository for domains
 function init_drupal_repo {
@@ -33,7 +42,7 @@ function init_drupal_repo {
 		FILE=`basename ${MODULES[${KEY}]}`
 		wget ${MODULES[${KEY}]} -O $FILE
 		tar -xzf $FILE
-		echo "- ${KEY} in position"
+		echo "- Module ${KEY} in position"
 	done
 	cd $DIR_DEFAULT
 
@@ -69,43 +78,70 @@ function on_ctrl_c() {
 # Create tarball for Drupal resets
 function default_tarball {
 	cd $DIR_DRUPAL_REPO/default
-	rm -f ./custom.tgz
-	mkdir -p ./custom/{sites,themes}
-	sudo cp -afr ./drupal/sites ./custom/ # To overrule permissions
-	cp -afr ./drupal/themes ./custom/
-	cd ./custom
-	tar -czf ../custom.tgz .
-	sudo rm -rf ./custom
+	rm -f ./drupal.tgz
+	mkdir -p /tmp/drupal/{sites,themes}
+	sudo cp -afr ./drupal/sites /tmp/drupal/ # To overrule permissions
+	cp -afr ./drupal/themes /tmp/drupal/
+	cd /tmp
+	tar -czf $DIR_DRUPAL_REPO/custom.tgz ./drupal
+	sudo rm -rf ./drupal
 }
 
 # Initialize project for usage with Drupal
 function init_project {
 	cd $DIR_PROJECT
-	sudo rm -rf drupal
+	if [ -d $DIR_PROJECT/drupal ]; then
+		echo "Dir $DIR_PROJECT/drupal already exists. Won't rewrite"
+		return
+	fi
 	mkdir drupal
 	cd drupal
 	tar -xzf $DIR_DRUPAL_REPO/default/custom.tgz
+
+	# Some first files for theme
+	cd themes
+	mkdir $DIR_DOMAIN
+	cd $DIR_DOMAIN
+	mkdir {css,img,js}
+	touch $DIR_DOMAIN.info.yml # theme info
+	touch html.html.twig # base HTML template
+	touch page.html.twig # content template
+	touch $DIR_DOMAIN.libraries.yml # refs to css, js
 }
 
 # Completely resetted project
 function activate_project {
-	# Full reset of Drupal by reinstall
-	sudo rm -rf $DIR_INSTALL
-	cp -ar $DIR_DRUPAL_REPO/default/drupal $DIR_INSTALL
+	echo "Full reset of Drupal by full reinstall? y or n [default = no]"
+	read $REINSTALL
+	if [ "$REINSTALL" == "y" ]; then
+		sudo rm -rf $DIR_INSTALL
+		cp -ar $DIR_DRUPAL_REPO/default/drupal $DIR_INSTALL
+		echo "- Drupal in position"
+	fi
 
-	# Put default site in position
+	# Put modules in position, will need activation in UI anyway
+	DIR_TARGET=$DIR_INSTALL/sites/all/modules
+	mkdir -p $DIR_TARGET
+	for FILE in `find $DIR_DRUPAL_REPO/default/modules -mindepth 1 -maxdepth 1 -type d` ; do
+		DIR=`basename $FILE`
+		remove_dir $DIR_TARGET/$DIR
+		ln -s $FILE $DIR_TARGET/
+		echo "- Module $DIR in position"
+	done
+
+	# Put site in position (SQLite database in sites/default/files/.sqlite)
 	DIR_TARGET=$DIR_INSTALL/sites/
 	sudo rm -rf $DIR_TARGET/default
-	cp -ar $DIR_PROJECT/drupal/sites/default $DIR_TARGET
+	cp -ar $DIR_DRUPAL_REPO/default/drupal/sites/default $DIR_TARGET
+	echo "- Site in position"
 
-	# Put default theme in position
+	# Put theme(s) in position
 	DIR_TARGET=$DIR_INSTALL/themes
 	for FILE in `find $DIR_PROJECT/drupal/themes -mindepth 1 -maxdepth 1 -type d` ; do
 		DIR=`basename $FILE`
-		if [ -d $DIR_TARGET/$DIR ]; then
-			rm -rf $DIR_TARGET/$DIR
-		fi
+		remove_dir $DIR_TARGET/$DIR "-rf"
 		cp -afr $FILE $DIR_TARGET/
+		echo "- Theme $DIR in position"
 	done
 }
 
@@ -114,18 +150,22 @@ function update_project {
 	DIR_STATIC=$DIR_PROJECT/www/static
 	DIR_THEME=$DIR_INSTALL/themes/default
 
-	rsync -rau \
-		$DIR_STATIC/css/ $DIR_THEME/css/
-
-	rsync -rau \
-		$DIR_STATIC/images/ $DIR_THEME/images/
-
-	rsync -rau \
-		$DIR_STATIC/js/ $DIR_THEME/js/
+	rsync -rau --delete $DIR_STATIC/css/ $DIR_THEME/css/
+	rsync -rau --delete $DIR_STATIC/img/ $DIR_THEME/img/
+	rsync -rau --delete $DIR_STATIC/js/  $DIR_THEME/js/
 }
 
 function open_notes {
-	kate $DIR_STUDY/*.txt
+	CORE_DIR=$DIR_DRUPAL_REPO/default/drupal/core
+	THEME=$DIR_PROJECT/drupal/themes/$DIR_DOMAIN
+	kate \
+		$CORE_DIR/modules/system/templates/html.html.twig \
+		$CORE_DIR/themes/bartik/templates/page.html.twig \
+		$DIR_STUDY/*.txt \
+		$THEME/$DIR_DOMAIN.info.yml \
+		$THEME/html.html.twig \
+		$THEME/page.html.twig \
+		$THEME/$DIR_DOMAIN.libraries.yml # refs to css, js
 }
 
 function run_dev_server {
