@@ -65,14 +65,33 @@ export class Content {
 		data: string,
 		verbose: boolean = true
 	): void {
-		if (data) {
-			let log = Logger.getInstance();
-			if (!this.saydHello && verbose) {
-				this.saydHello = true;
-				log.info("Rendering HTML content");
-			}
-			FileUtils.writeFile(entry.targetDir, entry.target, data, true);
+		if (!data) return;
+		let log = Logger.getInstance();
+		if (!this.saydHello && verbose) {
+			this.saydHello = true;
+			log.info("Rendering HTML content");
 		}
+		FileUtils.writeFile(entry.targetDir, entry.target, data, true);
+
+		/**
+		 * Perhaps content isn't changed, only a template.
+		 * Anyway, adjust last modified date time to date time of content.
+		 *
+		 * Why? Then bots, scrapers can reliably determine the actual
+		 * date time of the last update. And, if you look at
+		 * the network console in a web browser, you'll see the correct
+		 * information.
+		 *
+		 * No bullshit as in many CMS's which output the date time
+		 * of 'on the fly' composing HTML. Which is always 'now',
+		 * thus obscuring when a page was really written or updated.
+		 *
+		 * No cheating, no misleading. Touching? 😉
+		 */
+
+		let lastChanged = FileUtils.getLastModified(entry.dir, entry.source);
+		// @ts-ignore
+		touch({ "-d": lastChanged }, join(entry.targetDir, entry.target));
 	}
 
 	private getCustomContext(dir: string, url: string): Object {
