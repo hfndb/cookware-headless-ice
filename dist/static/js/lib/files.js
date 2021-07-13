@@ -202,6 +202,11 @@ The structure of this file is invalid, meaning, messed up.
     return (0, _fs.statSync)(fullPath).mtimeMs;
   }
 
+  static getLastModifiedDate(path, file) {
+    let fullPath = (0, _path.join)(path, file);
+    return (0, _fs.statSync)(fullPath).mtime;
+  }
+
   static getLastChangeInDirectory(path, extensions, startAt = 0) {
     let retVal = startAt;
     let lst = FileUtils.getFileList(path, {
@@ -311,11 +316,7 @@ class FileWatcher {
 
     let isDir = (0, _shelljs.test)("-d", fullPath);
 
-    if (isDir && FileUtils.getFileList(fullPath, {
-      recursive: false
-    }).length == 0) {
-      return;
-    } else if (!isDir) {
+    if (!isDir) {
       fullPath = (0, _path.join)(workingDir, projectDir);
     }
 

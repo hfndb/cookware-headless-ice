@@ -142,7 +142,6 @@ _defineProperty(SassWatch, "instance", void 0);
 
 function initWatches() {
   ConfigWatch.instance = new ConfigWatch(cfg.dirProject, "", "settings.json", cfg.options.server.watchTimeout, "project settings file (settings.json)");
-
   if (cfg.options.javascript.useWatch) {
     let tp = "JavaScript";
 
@@ -155,7 +154,6 @@ function initWatches() {
         tp = "TypeScript";
         break;
     }
-
     JsWatch.instance = new JsWatch(cfg.dirProject, cfg.options.javascript.dirs.source, "", cfg.options.server.watchTimeout, `${tp} files`);
   }
 

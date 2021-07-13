@@ -72,7 +72,7 @@ class Content {
 
     _lib.FileUtils.writeFile(entry.targetDir, entry.target, data, true);
 
-    let lastChanged = _lib.FileUtils.getLastModified(entry.dir, entry.source);
+    let lastChanged = _lib.FileUtils.getLastModifiedDate(entry.dir, entry.source);
 
     (0, _shelljs.touch)({
       "-d": lastChanged

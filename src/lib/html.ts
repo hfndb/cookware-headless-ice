@@ -89,7 +89,7 @@ export class Content {
 		 * No cheating, no misleading. Touching? 😉
 		 */
 
-		let lastChanged = FileUtils.getLastModified(entry.dir, entry.source);
+		let lastChanged = FileUtils.getLastModifiedDate(entry.dir, entry.source);
 		// @ts-ignore
 		touch({ "-d": lastChanged }, join(entry.targetDir, entry.target));
 	}

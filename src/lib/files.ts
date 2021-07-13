@@ -256,11 +256,19 @@ The structure of this file is invalid, meaning, messed up.
 	}
 
 	/**
-	 * @returns Last modified timestamp (mtimeMs)
+	 * @returns Last modified timestamp
 	 */
 	static getLastModified(path: string, file: string): number {
 		let fullPath = join(path, file);
 		return statSync(fullPath).mtimeMs;
+	}
+
+	/**
+	 * @returns Last modified
+	 */
+	static getLastModifiedDate(path: string, file: string): Date {
+		let fullPath = join(path, file);
+		return statSync(fullPath).mtime;
 	}
 
 	static getLastChangeInDirectory(
@@ -405,13 +413,7 @@ export class FileWatcher {
 		}
 		let isDir = test("-d", fullPath);
 
-		if (
-			isDir &&
-			FileUtils.getFileList(fullPath, { recursive: false }).length == 0
-		) {
-			// To prevent error with dirs which don't contain files
-			return;
-		} else if (!isDir) {
+		if (!isDir) {
 			fullPath = join(workingDir, projectDir); // Watch directory, not file (workaround for bug in Node.js)
 		}
 
