@@ -194,8 +194,14 @@ Web:
 + [Contribute](./docs/contribute.md)
 + [Tiny budget hosting](./docs/tiny-budget-hosting.md)
 
+
 ### Philosophically, about software architecture
 + [Reference](./docs/design-goals-and-roadmap.md) to debate about strong vs. loose typing. Though rigid or even loose typing (designated types) is not always necessary.
 + [Compacting files](./docs/philosophical/compacting-files.md) as an art
+
+
+### Funding
+This project is a gift to you and others, not funded, paid by others to produce. In case you like the principle of giving and want to communicate about that, you can contact me using the email address in [this file](./package.json).
+
 
 [comment]: <> (No comments here)

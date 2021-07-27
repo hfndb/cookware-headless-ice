@@ -27,6 +27,15 @@ $ cookware --config
 Shortcut -c. A diff of settings.json will be logged to the console.
 
 
+## Colors
+
+Write defined colors for project to CSS and JavaScript.See [settings.json](./configuration.md), header "Sass / colors".
+
+```
+$ cookware --colors
+```
+
+
 ## Docs
 
 ```
