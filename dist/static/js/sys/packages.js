@@ -1,16 +1,10 @@
 "use strict";
-
-require("source-map-support/register");
-
-var _config = require("../lib//config");
-
-var _packageJson = require("../lib/package-json");
-
-let cfg = _config.AppConfig.getInstance("cookware");
-
-_packageJson.Packages.updatePackages(true);
-
+Object.defineProperty(exports, "__esModule", { value: true });
+const config_1 = require("../lib//config");
+const package_json_1 = require("../lib/package-json");
+let cfg = config_1.AppConfig.getInstance("cookware");
+package_json_1.Packages.updatePackages(true);
 if (cfg.isProject) {
-  _packageJson.Packages.updatePackages(false);
+    package_json_1.Packages.updatePackages(false);
 }
 //# sourceMappingURL=packages.js.map

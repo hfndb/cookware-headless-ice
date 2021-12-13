@@ -4,7 +4,7 @@ import { FileWatcher, FileStatus, Logger } from "../lib";
 import { AppConfig } from "../lib/config";
 import { compileFile } from "../local/babel";
 import { JavascriptUtils } from "../local/javascript";
-import { PhpUtils } from "../local/javascript";
+import { PhpUtils } from "../local/php";
 import { Double, SassFiles, SassUtils } from "../local/styling";
 import { ProcessingTypes, SessionVars } from "../sys/session";
 

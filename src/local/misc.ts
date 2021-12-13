@@ -17,91 +17,96 @@ let cfg = AppConfig.getInstance();
 let log = Logger.getInstance(cfg.options.logging);
 
 /**
- * Write .js and .sass related to colors as defined in project config
+ * Class to facilitate color system, which auto generates CSS and JavaScript
  */
-export function generateColorFiles() {
-	if (!cfg.options.sass.colors.active) {
-		log.info("Colors not activated in this project");
-		return;
-	}
-	if (
-		cfg.isProject &&
-		cfg.options.sass.colors.projects.length == 1 &&
-		cfg.options.sass.colors.projects["Cookware"]
-	) {
-		log.info("No colors defined in this project");
-		return;
+export class Colors {
+	static getConfig(): any {
+		let path = join(cfg.dirProject, "dev", "colors.json");
+		let go = test("-f", join(path));
+		return go ? FileUtils.readJsonFile(path) : null;
 	}
 
-	let lengthPadding = 30;
-	let comment =
+	/**
+	 * Write .js and .sass related to colors as defined in project config
+	 */
+	static generate(): void {
+		let json = Colors.getConfig();
+
+		if (!json || !json.active) {
+			log.info("Colors not used in this project");
+			return;
+		}
+
+		let lengthPadding = 30;
+		let comment =
 		"\n/".padEnd(lengthPadding, "*") +
 		"\n" +
 		" * ## \n" +
 		" ".padEnd(lengthPadding - 1, "*") +
 		"/\n";
 
-	let sass = {
-		content: comment.replace("##", "Auto-generated file"),
-		outFile: cfg.options.sass.colors.sass
-	};
-	let src = {
-		content: comment.replace("##", "Auto-generated file") + "var colors = {};\n",
-		outFile: cfg.options.sass.colors.src
-	};
+		let sass = {
+			content: comment.replace("##", "Auto-generated file"),
+			outFile: json.sass
+		};
+		let src = {
+			content: comment.replace("##", "Auto-generated file") + "var colors = {};\n",
+			outFile: json.src
+		};
 
-	let keys = Object.keys(cfg.options.sass.colors.projects);
-	for (let i = 0; i < keys.length; i++) {
-		let key = keys[i];
-		if (key == "Cookware" && cfg.isProject) continue;
+		let keys = Object.keys(json.projects);
+		for (let i = 0; i < keys.length; i++) {
+			let key = keys[i];
+			if (key == "Cookware" && cfg.isProject) continue;
 
-		let colors = cfg.options.sass.colors.projects[key];
-		for (let c = 0; c < colors.length; c++) {
-			if (c == 0) {
-				// Project header
-				sass.content += comment.replace("##", colors[c].comment);
-				src.content += comment.replace("##", colors[c].comment);
-				src.content += `colors["${key}"] = {};\n`;
-				continue;
+			let colors = json.projects[key];
+			for (let c = 0; c < colors.length; c++) {
+				if (c == 0) {
+					// Project header
+					sass.content += comment.replace("##", colors[c].comment);
+					src.content += comment.replace("##", colors[c].comment);
+					src.content += `colors["${key}"] = {};\n`;
+					continue;
+				}
+
+				// Color
+				let cmt = colors[c].comment ? " // " + colors[c].comment : "";
+				sass.content += `$${colors[c].name}: #${colors[c].hex};${cmt}\n`;
+				src.content += `colors["${key}"]["${colors[c].name}"] = "#${colors[c].hex}";${cmt}\n`;
 			}
-
-			// Color
-			let cmt = colors[c].comment ? " // " + colors[c].comment : "";
-			sass.content += `$${colors[c].name}: #${colors[c].hex};${cmt}\n`;
-			src.content += `colors["${key}"]["${colors[c].name}"] = "#${colors[c].hex}";${cmt}\n`;
 		}
-	}
 
-	// Add looks
-	src.content +=
+		// Add looks
+		src.content +=
 		comment.replace("##", "Defined looks of project UI") +
 		"\nvar looks = " +
 		JSON.stringify(cfg.options.sass.looks, null, "\t") +
 		";\n";
 
-	// See if files need to be written, if so do do
-	let fullPath = join(
-		cfg.dirProject,
-		cfg.options.sass.dirs.source,
-		sass.outFile
-	);
-	let needsWrite =
+		// See if files need to be written, if so do do
+		let fullPath = join(
+			cfg.dirProject,
+			cfg.options.sass.dirs.source,
+			sass.outFile
+		);
+		let needsWrite =
 		!test("-f", fullPath) ||
 		FileUtils.readFile(fullPath).trim() != sass.content.trim();
-	if (needsWrite) {
-		FileUtils.writeFile(
-			cfg.dirProject,
-			join(cfg.options.sass.dirs.source, sass.outFile),
-			sass.content,
-			true
-		);
-	}
+		if (needsWrite) {
+			FileUtils.writeFile(
+				cfg.dirProject,
+				join(cfg.options.sass.dirs.source, sass.outFile),
+									  sass.content,
+							  true
+			);
+		}
 
-	fullPath = join(cfg.dirProject, src.outFile);
-	needsWrite =
+		fullPath = join(cfg.dirProject, src.outFile);
+		needsWrite =
 		!test("-f", fullPath) || FileUtils.readFile(fullPath) != src.content;
-	if (needsWrite) {
-		FileUtils.writeFile(cfg.dirProject, src.outFile, src.content, true);
+		if (needsWrite) {
+			FileUtils.writeFile(cfg.dirProject, src.outFile, src.content, true);
+		}
 	}
 }
 

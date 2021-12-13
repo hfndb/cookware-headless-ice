@@ -1,4 +1,5 @@
 import { join } from "path";
+import { test } from "shelljs";
 import { StringExt } from "../lib/utils";
 import { AppConfig, FileUtils, Logger } from "../lib";
 
@@ -166,6 +167,7 @@ export class Shrinker {
 	private dictTxt: string;
 	private lastUsed: string;
 	private numeric: string[];
+	private static cfg;
 
 	constructor() {
 		this.codeZero = "0".charCodeAt(0);
@@ -194,6 +196,14 @@ export class Shrinker {
 		}
 	}
 
+	private static init() {
+		let cfg = AppConfig.getInstance();
+		let path: string;
+		if (!Shrinker.cfg) {
+			path = join(cfg.dirProject, "dev", "shrink.json");
+			Shrinker.cfg = test("-f", join(path)) ? FileUtils.readJsonFile(path) : null;
+		}
+	}
 	/**
 	 * Magic here:
 	 * Get a 'different' character, though not different enough to be truly unique.
@@ -363,9 +373,8 @@ export class Shrinker {
 		this.dictTxt = "";
 
 		let cfg = AppConfig.getInstance();
-		let opts = cfg.options.javascript.browser.shrink;
-		for (let i = 0; i < opts.length; i++) {
-			let act = opts[i];
+		for (let i = 0; Shrinker.cfg && i < Shrinker.cfg.length; i++) {
+			let act = Shrinker.cfg[i];
 
 			if (act.class != undefined && act.class) {
 				this.classes(act);

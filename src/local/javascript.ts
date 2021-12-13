@@ -37,24 +37,19 @@ export class JavascriptUtils {
 		let nodeExec = join(cfg.dirMain, "node_modules", "node", "bin", "node");
 		let execPath = join(cfg.dirMain, "dist", "static", "js", "local");
 		let lst: string[] = [];
-
-		if (
-			cfg.options.javascript.bundles.length == 0 &&
-			cfg.options.javascript.apps.length == 0
-		) {
-			return lst;
-		}
+		let path;
 
 		// Generate bundles
-		for (let i = 0; i < cfg.options.javascript.bundles.length; i++) {
-			let bundle = cfg.options.javascript.bundles[i];
+		Bundle.init();
+		for (let i = 0; Bundle.bundles && i < Bundle.bundles.length; i++) {
+			let bundle = Bundle.bundles[i];
 			Bundle.create(bundle, i == 0);
 			lst.push(bundle.output);
 		}
 
 		// Generate apps
-		for (let i = 0; i < cfg.options.javascript.apps.length; i++) {
-			let bundle = cfg.options.javascript.apps[i];
+		for (let i = 0; Bundle.apps && i < Bundle.apps.length; i++) {
+			let bundle = Bundle.apps[i];
 			let outfile = join(outDir, bundle.output);
 			lst.push(bundle.output);
 			rm("-f", outfile);
@@ -84,6 +79,23 @@ export class JavascriptUtils {
  * Class to handle JavaScript bundles
  */
 export class Bundle {
+	private static apps;
+	private static bundles;
+
+	private static init() {
+		let path: string;
+		if (!Bundle.bundles) {
+			path = join(cfg.dirProject, "dev", "bundles.json");
+			Bundle.bundles = test("-f", join(path))
+				? FileUtils.readJsonFile(path)
+				: null;
+		}
+		if (!Bundle.apps) {
+			path = join(cfg.dirProject, "dev", "apps.json");
+			Bundle.apps = test("-f", join(path)) ? FileUtils.readJsonFile(path) : null;
+		}
+	}
+
 	/**
 	 * Internal method to check need for writing bundle
 	 */
@@ -153,9 +165,14 @@ export class Bundle {
 	 */
 	static needsStripping(file: string): boolean {
 		let toReturn = false;
+		Bundle.init();
 
-		for (let i = 0; i < cfg.options.javascript.bundles.length && !toReturn; i++) {
-			let bundle = cfg.options.javascript.bundles[i];
+		for (
+			let i = 0;
+			Bundle.bundles && i < Bundle.bundles.length && !toReturn;
+			i++
+		) {
+			let bundle = Bundle.bundles[i];
 			if (bundle.source.includes(file) && bundle.removeImports) {
 				toReturn = true;
 			}

@@ -5,9 +5,11 @@ import { Beautify } from "../lib/beautify";
 import { FileUtils, removeObsolete } from "../lib/files";
 import { StringExt } from "../lib/utils";
 import { ProcessingTypes, SessionVars } from "../sys/session";
+import { Colors } from "./misc";
 
 let cfg = AppConfig.getInstance();
 let log = Logger.getInstance(cfg.options.logging);
+let colorCfg;
 
 interface prefixResult {
 	warnings: Function;
@@ -177,10 +179,11 @@ export class SassUtils {
 	 */
 	static beautify(entry: FileStatus): boolean {
 		let toReturn = true;
-		if (
-			cfg.options.server.beautify.includes("sass") &&
-			entry.source != cfg.options.sass.colors.sass
-		) {
+		// Auto generated CSS to skip
+		if (!colorCfg) colorCfg = Colors.getConfig();
+		let skip = !colorCfg || (colorCfg && entry.source == colorCfg.sass);
+
+		if (!skip && cfg.options.server.beautify.includes("sass")) {
 			let fullPath = join(entry.dir, entry.source);
 			let source = FileUtils.readFile(fullPath);
 			source = Beautify.content(entry.source, source);

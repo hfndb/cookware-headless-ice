@@ -3,8 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.JavascriptUtils = exports.Bundle = void 0;
 exports.generateJsDocs = generateJsDocs;
-exports.Bundle = exports.JavascriptUtils = void 0;
 
 require("source-map-support/register");
 
@@ -15,6 +15,8 @@ var _shelljs = require("shelljs");
 var _lib = require("../lib");
 
 var _stripping = require("../lib/stripping");
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 let cfg = _lib.AppConfig.getInstance();
 
@@ -44,19 +46,17 @@ class JavascriptUtils {
     let nodeExec = (0, _path.join)(cfg.dirMain, "node_modules", "node", "bin", "node");
     let execPath = (0, _path.join)(cfg.dirMain, "dist", "static", "js", "local");
     let lst = [];
+    let path;
+    Bundle.init();
 
-    if (cfg.options.javascript.bundles.length == 0 && cfg.options.javascript.apps.length == 0) {
-      return lst;
-    }
-
-    for (let i = 0; i < cfg.options.javascript.bundles.length; i++) {
-      let bundle = cfg.options.javascript.bundles[i];
+    for (let i = 0; Bundle.bundles && i < Bundle.bundles.length; i++) {
+      let bundle = Bundle.bundles[i];
       Bundle.create(bundle, i == 0);
       lst.push(bundle.output);
     }
 
-    for (let i = 0; i < cfg.options.javascript.apps.length; i++) {
-      let bundle = cfg.options.javascript.apps[i];
+    for (let i = 0; Bundle.apps && i < Bundle.apps.length; i++) {
+      let bundle = Bundle.apps[i];
       let outfile = (0, _path.join)(outDir, bundle.output);
       lst.push(bundle.output);
       (0, _shelljs.rm)("-f", outfile);
@@ -84,6 +84,20 @@ class JavascriptUtils {
 exports.JavascriptUtils = JavascriptUtils;
 
 class Bundle {
+  static init() {
+    let path;
+
+    if (!Bundle.bundles) {
+      path = (0, _path.join)(cfg.dirProject, "dev", "bundles.json");
+      Bundle.bundles = (0, _shelljs.test)("-f", (0, _path.join)(path)) ? _lib.FileUtils.readJsonFile(path) : null;
+    }
+
+    if (!Bundle.apps) {
+      path = (0, _path.join)(cfg.dirProject, "dev", "apps.json");
+      Bundle.apps = (0, _shelljs.test)("-f", (0, _path.join)(path)) ? _lib.FileUtils.readJsonFile(path) : null;
+    }
+  }
+
   static isChanged(bundle, outDir) {
     if (!(0, _shelljs.test)("-f", (0, _path.join)(outDir, bundle.output))) return true;
     let changed = false;
@@ -148,9 +162,10 @@ class Bundle {
 
   static needsStripping(file) {
     let toReturn = false;
+    Bundle.init();
 
-    for (let i = 0; i < cfg.options.javascript.bundles.length && !toReturn; i++) {
-      let bundle = cfg.options.javascript.bundles[i];
+    for (let i = 0; Bundle.bundles && i < Bundle.bundles.length && !toReturn; i++) {
+      let bundle = Bundle.bundles[i];
 
       if (bundle.source.includes(file) && bundle.removeImports) {
         toReturn = true;
@@ -163,6 +178,10 @@ class Bundle {
 }
 
 exports.Bundle = Bundle;
+
+_defineProperty(Bundle, "apps", void 0);
+
+_defineProperty(Bundle, "bundles", void 0);
 
 function generateJsDocs() {
   let options = cfg.options.dependencies.jsdoc.config;

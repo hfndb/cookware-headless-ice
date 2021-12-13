@@ -6,7 +6,7 @@ import { FileUtils, Logger } from "./lib";
 import { AppConfig, AppMenu } from "./lib/config";
 import { Beautify } from "./lib/beautify";
 import { generateJsDocs } from "./local/javascript";
-import { generateColorFiles, generateWeb } from "./local/misc";
+import { Colors, generateWeb } from "./local/misc";
 import { writeStats } from "./local/overview";
 import { renderPdf } from "./local/pdf";
 import { generateTsDocs } from "./local/typescript";
@@ -134,7 +134,7 @@ if (choice.production) {
 if (choice.beautify) {
 	Beautify.standAlone(choice.beautify);
 } else if (choice.colors) {
-	generateColorFiles();
+	Colors.generate();
 } else if (choice.docs && cfg.options.javascript.compiler == "typescript") {
 	generateTsDocs();
 } else if (choice.docs) {
