@@ -5,10 +5,12 @@
 
 # This file isn't really necessary at this time, but since future usage might require setting of environment variables it's better te be prepaeed.
 
-DIR=`dirname $0`
-$DIR/../node_modules/node/bin/node \
+# Get full path to this script
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+$SCRIPT_DIR/../node_modules/node/bin/node \
 	--preserve-symlinks \
-	$DIR/../dist/static/js/index.js $1 $2 $3 $4
-# node --preserve-symlinks $DIR/../dist/static/js/index.js $1 $2 $3 $4
+	$SCRIPT_DIR/../src/index.mjs $1 $2 $3 $4
+# node --preserve-symlinks ./src/index.js $1 $2 $3 $4
 
 # unset DEBUG

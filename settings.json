@@ -13,7 +13,7 @@
 		}
 	},
 	"javascript": {
-		"compiler": "typescript",
+		"compiler": "javascript",
 		"compress": false,
 		"sourceMapping": true
 	},

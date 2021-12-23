@@ -6,15 +6,15 @@
 		"emitDecoratorMetadata": true,
 		"lib": [
 			"dom",
-			"es2019"
+			"es2017"
 		],
-		"module": "CommonJS",
-		"moduleResolution": "node",
-		"noEmit": false,
-		"noImplicitAny": false,
-		"noUnusedLocals": false,
-		"noUnusedParameters": false,
-		"noImplicitReturns": false,
+		"module": "commonjs",
+		"moduleResolution": "Node",
+		"noEmit": true,
+		"noImplicitAny": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
 		"outDir": "./dist/static/js",
 		"preserveConstEnums": true,
 		"removeComments": true,
@@ -22,7 +22,7 @@
 		"sourceMap": true,
 		"sourceRoot": "./src",
 		"strict": true,
-		"target": "es2018",
+		"target": "es2017",
 		"typeRoots" : [
 			"./node_modules/@types",
 			"./src/@types"
