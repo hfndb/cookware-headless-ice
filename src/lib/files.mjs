@@ -79,10 +79,12 @@ The structure of this file is invalid, meaning, messed up.
 	static readFile(path) {
 		let data = "";
 		try {
-			data = readFileSync(path, FileUtils.ENCODING_UTF8);
+			data = readFileSync(path, {
+				encoding: FileUtils.ENCODING_UTF8
+			});
 		} catch (err) {
 			let log = Logger.getInstance();
-			log.error(`Error reading ${path}`, Logger.error2string(err));
+			log.error(`Error reading file '${path}'`, Logger.error2string(err));
 			throw err;
 		}
 		return data;

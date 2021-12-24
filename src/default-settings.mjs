@@ -411,6 +411,7 @@ let DefaultConfig = {
 				arrayExpand: true,
 				bracketSpacing: true,
 				printWidth: 80,
+				requirePragma: false,
 				semi: true,
 				singleQuote: false,
 				trailingComma: "all",
