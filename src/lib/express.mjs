@@ -2,8 +2,7 @@ import { AppConfig } from "../lib/config.mjs";
 import { Logger } from "./log.mjs";
 import bodyParser from "body-parser";
 import express from "express";
-import eUpload from "express-fileupload";
-const { fileUpload } = eUpload;
+import fileUpload from "express-fileupload";
 // import cookieParser from "cookie-parser"; // Somehow blocks incoming requests
 import session from "express-session";
 import MemoryStore from "memorystore";

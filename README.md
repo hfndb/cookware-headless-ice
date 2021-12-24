@@ -110,17 +110,11 @@ npm run-script update-deps
 	$ cookware -h
 	```
 
-+ Run tests (JavaScript):
++ Run tests:
 
 	```
 	npm test
 	```
-
-+ Run tests (TypeScript, slower):
-
-```
-	npm run-script test:ts
-```
 
 Detailed usage information [here](./docs/usage.md).
 

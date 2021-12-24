@@ -164,7 +164,7 @@ $ cookware --help
 Shortcut -h. Outputs all available commands.
 
 
-## TypeScript debugging using Chrome DevTools
+## JavaScript debugging using Chrome DevTools
 
 ```
 $ ./bin/debug-chrome.sh

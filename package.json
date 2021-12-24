@@ -67,12 +67,12 @@
     "mocha": "^6.2.3"
   },
   "scripts": {
-    "postinstall": "./node_modules/node/bin/node dist/static/js/sys/postinstall.js",
+    "postinstall": "./node_modules/node/bin/node src/sys/postinstall.mjs",
     "rebuild-sass": "npm rebuild node-sass",
     "update": "npm update browserlist postcss node-sass",
-    "test": "find ./dist/static/js/lib ./dist/static/js/local -name '*-test.js' | xargs mocha -R spec --no-colors --throw-deprecation",
-    "test-server": "find ./dist/static/js/server  -name '*-test.js' | xargs mocha -R spec --no-colors --throw-deprecation",
-    "update-deps": "node dist/static/js/sys/packages.js"
+    "test": "find ./src/lib ./src/local -name '*-test.mjs' | xargs mocha -R spec --no-colors --throw-deprecation",
+    "test-server": "find ./src/server  -name '*-test.mjs' | xargs mocha -R spec --no-colors --throw-deprecation",
+    "update-deps": "node src/sys/packages.mjs"
   },
   "repository": {
     "type": "git",
