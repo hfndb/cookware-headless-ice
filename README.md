@@ -1,10 +1,12 @@
 **cookware-headless-ice** is a console based working environment, constructed as a [Node.js](https://en.wikipedia.org/wiki/Node.js) project. Like a chef, you can use this gear to 'cook' your own code for projects. So... in Case Of Emergency (ICE), feeling an itch to write some code, you could use this 'integrated cooking environment' (ice) 😉
 
+This project was originally written in [TypeScript](https://en.wikipedia.org/wiki/TypeScript) (.ts) and later transformed to pure [JavaScript](https://en.wikipedia.org/wiki/JavaScript) (.mjs), ES module code introduced in [ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript), so transcompiling of any kind is no longer necessary, to run this Node.js project.
+
 For background information like **project philosophy**, see [design goals and roadmap](./docs/design-goals-and-roadmap.md).
 
 The **command line toolbox**
 +  transcompiles (changed or new) [Sass](https://en.wikipedia.org/wiki/Sass_%28stylesheet_language%29) files to [CSS](https://en.wikipedia.org/wikiCascading_Style_Sheets),
-+  transcompiles (changed or new) [Flow](https://flow.org/) and [TypeScript](https://en.wikipedia.org/wiki/TypeScript) files to [JavaScript](https://en.wikipedia.org/wiki/JavaScript),
++  transcompiles (changed or new) [Flow](https://flow.org/), [JavaScript](https://en.wikipedia.org/wiki/JavaScript) (.js) and [TypeScript](https://en.wikipedia.org/wiki/TypeScript) (.ts, .cts, .mts) files to [CommonJS](https://en.wikipedia.org/wiki/CommonJS) (.js)
 + generates Sass and JavaScript files with definitions of configured colors and looks, the JavaScript for standalone tools colors.html and project.html in./dev/local-tools/,
 + generates [tag files](https://en.wikipedia.org/wiki/Ctags#Tags_file_formats), using [ctags-exuberant](http://ctags.sourceforge.net/) or [universal-ctags](https://ctags.io/) (more details, see [here](./docs/configuration.md)),
 + renders (changed or new) template based HTML-content to static .html disk files,

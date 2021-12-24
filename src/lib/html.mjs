@@ -73,40 +73,6 @@ export class Content {
 		touch({ "-d": lastChanged }, join(entry.targetDir, entry.target));
 	}
 
-	getCustomContext(dir, url) {
-		let cfg = AppConfig.getInstance();
-		let file = join(
-			cfg.dirProject,
-			cfg.options.javascript.dirs.output,
-			"local",
-			"data-provider.js",
-		);
-		if (!test("-f", file)) return {};
-		const mw = require(file); // Dynamically load
-		return mw.getAdditionalContext(dir, url, cfg);
-	}
-
-	execHook(type) {
-		let cfg = AppConfig.getInstance();
-		let dir = join(cfg.dirProject, cfg.options.javascript.dirs.output, "local");
-		let file = "";
-		switch (type) {
-			case 1:
-				file = "render-before.js";
-				break;
-			case 2:
-				file = "render-after.js";
-				break;
-			default:
-				return;
-				break;
-		}
-		if (!test("-f", join(dir, file))) return;
-		const resolved = require.resolve(join(dir, file));
-		const mw = require(resolved); // Dynamically load @todo import()
-		return mw.main(cfg);
-	}
-
 	/**
 	 * Render all changed or new HTML content files
 	 */
@@ -130,7 +96,6 @@ export class Content {
 			targetExt: ".html",
 			excludeList: cfg.options.html.caching.exclude,
 		});
-		this.execHook(1); // Hook render-before
 		if (changeList.length > 0) {
 			let content;
 			let maxHtml = 0; // to get the latest modified HTML content
@@ -152,7 +117,6 @@ export class Content {
 				}
 			});
 		}
-		this.execHook(2); // Hook render-after
 		removeObsolete(
 			cfg.options.html.caching.removeObsolete,
 			processed,
@@ -187,7 +151,6 @@ export class Content {
 		if (opts.additionalContext) {
 			Object.assign(context, opts.additionalContext);
 		}
-		Object.assign(context, this.getCustomContext(dir, file));
 		switch (cfg.options.html.caching.engine) {
 			case "nunjucks":
 				retVal = NunjucksUtils.renderFile(dir, file, context, templateDir);

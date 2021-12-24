@@ -7,6 +7,7 @@ import {
 	FileUtils,
 	Logger,
 } from "../lib/index.mjs";
+import typedoc from "typedoc";
 import { removeObsolete } from "../lib/files.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 import { JavascriptUtils } from "./javascript.mjs";
@@ -122,7 +123,6 @@ export function generateTsDocs() {
 		tsconfig: "tsconfig.json",
 	});
 	try {
-		const typedoc = require("typedoc");
 		const app = new typedoc.Application(options);
 		const src = app.expandInputFiles([join(cfg.dirProject, "src")]);
 		log.info(`Generating API docs of TypeScript files, in ${dir}`);

@@ -2,6 +2,8 @@ import { AppConfig } from "../lib/config.mjs";
 import { Logger } from "./log.mjs";
 import bodyParser from "body-parser";
 import express from "express";
+import eUpload from "express-fileupload";
+const { fileUpload } = eUpload;
 // import cookieParser from "cookie-parser"; // Somehow blocks incoming requests
 import session from "express-session";
 import MemoryStore from "memorystore";
@@ -80,7 +82,6 @@ export class ExpressUtils {
 			// Options:
 			// - https://www.npmjs.com/package/express-fileupload
 			// - https://github.com/mscdex/busboy#api
-			const fileUpload = require("express-fileupload");
 			let opts = Object.assign(cfg.options.dependencies.express.fileUpload, {
 				tempFileDir: cfg.dirTemp,
 			});

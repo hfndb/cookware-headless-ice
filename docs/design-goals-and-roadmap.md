@@ -31,9 +31,7 @@ There's more to life and love than logic, procedures, rules, technology etc.
 
 + [Headless](https://en.wikipedia.org/wiki/Headless_software), meaning console based.
 
-+ Pluggable data providers for specific projects.
-
-+ Higly configurable. All configuration in one .json file - which was successful apart from the TypeScript tsconfig.json file which some might need for [type checking](https://en.wikipedia.org/wiki/Strong_and_weak_typing#Static_type-checking).
++ Higly configurable. All configuration in one .json file in the project root - which was initially successful apart from the TypeScript tsconfig.json file which some might need for [type checking](https://en.wikipedia.org/wiki/Strong_and_weak_typing#Static_type-checking). During further development it turned out this one file with settings can become quite large and therefore specific settings are put in the dev directory.
 
 Enjoy the ride! Or better, in view of the project name, enjoy 'cooking' your code!
 

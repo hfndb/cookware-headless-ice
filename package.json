@@ -26,6 +26,7 @@
     "deep-diff": "^1.0.2",
     "epub-gen": "^0.1.0",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
     "express-session": "^1.17.2",
     "fdir": "^5.1.0",
     "htmlcs": "^0.4.1",

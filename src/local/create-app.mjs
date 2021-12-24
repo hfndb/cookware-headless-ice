@@ -1,4 +1,5 @@
 import { createWriteStream } from "fs";
+import { Module } from "module";
 import { join } from "path";
 import { platform } from "os";
 import browserify from "browserify";
@@ -32,7 +33,7 @@ if (cfg.options.env.node_path && cfg.options.env.node_path.length > 0) {
 	paths = paths.concat(cfg.options.env.node_path);
 }
 process.env.NODE_PATH = paths.join(sep);
-require("module").Module._initPaths();
+Module._initPaths();
 
 /*
 	unassertify - Remove assert() calls

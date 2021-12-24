@@ -1,4 +1,7 @@
 import { basename, dirname, join, normalize, sep } from "path";
+import autoprefixer from "autoprefixer";
+import postcss from "postcss";
+import sass from "node-sass";
 import shelljs from "shelljs";
 import { getChangeList, AppConfig, Logger } from "../lib/index.mjs";
 import { Beautify } from "../lib/beautify.mjs";
@@ -151,8 +154,6 @@ export class SassUtils {
 	 *
 	 */
 	static addPrefixes(content) {
-		const autoprefixer = require("autoprefixer");
-		const postcss = require("postcss");
 		let result = postcss([autoprefixer]).process(content);
 		result.warnings().forEach(function(warn) {
 			log.warn("Warning autoprefixer: " + warn.toString());
@@ -249,7 +250,6 @@ export class SassUtils {
 	 * @returns success
 	 */
 	static compileFile(entry, verbose = true) {
-		const sass = require("node-sass");
 		let options = cfg.options.dependencies.nodeSass.config;
 		let session = SessionVars.getInstance();
 		if (SassFiles.isImport(entry.source) || !SassUtils.beautify(entry)) {

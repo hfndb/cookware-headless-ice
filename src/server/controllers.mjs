@@ -78,21 +78,6 @@ function sysTemplate(res, path, context, content) {
 	res.send(data);
 }
 
-async function getCustomContext(req, res, dir, url) {
-	let cfg = AppConfig.getInstance();
-	let file = join(
-		cfg.dirProject,
-		cfg.options.javascript.dirs.output,
-		"server",
-		"data-provider.js",
-	);
-	if (!cfg.isProject) return {};
-	if (cfg.isProject && !test("-f", file)) return {};
-	// const resolved = require.resolve(file);
-	const mw = require(file); // Dynamically load
-	return await mw.getAdditionalContext(req, res, dir, url, cfg);
-}
-
 async function controllerGeneric(
 	req,
 	res,
@@ -159,12 +144,6 @@ async function controllerGeneric(
 				context = Object.assign(context, { report: generateStats() });
 				sysTemplate(res, "project-overview.html", context, content);
 			} else {
-				let tmp = await getCustomContext(req, res, contentDir, url);
-				if (tmp == null) {
-					ExpressUtils.logRequest(req, res);
-					return;
-				}
-				context = Object.assign(context, tmp);
 				// Prevent browser caching
 				let lastModified = date.format(
 					new Date(),
