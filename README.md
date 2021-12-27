@@ -165,7 +165,6 @@ HTML and Markdown:
 + [nunjucks](https://www.npmjs.com/package/nunjucks) HTML template engine - a Mozilla project, heavily inspired by [Jinja2](http://jinja.pocoo.org/)
 
 Sass:
-+ [bootstrap-sass v3](https://www.npmjs.com/package/bootstrap-sass) for your convenience, not used in this project
 + [node-sass](https://www.npmjs.com/package/node-sass) transpiler (Sass to CSS)
 
 JavaScript:
@@ -178,7 +177,6 @@ JavaScript:
 TypeScript:
 + [ts-node](https://www.npmjs.com/package/ts-node) for live TypeScript execution during debugging
 + [typedoc](https://www.npmjs.com/package/typedoc) for generating TypeScript API documentation
-+ [TypeScript](https://www.npmjs.com/package/TypeScript) type checker
 
 Epub:
 + [epub-gen](https://www.npmjs.com/package/epub-gen) to generate ePub files
