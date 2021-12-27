@@ -1,7 +1,5 @@
 **cookware-headless-ice** is a console based working environment, constructed as a [Node.js](https://en.wikipedia.org/wiki/Node.js) project. Like a chef, you can use this gear to 'cook' your own code for projects. So... in Case Of Emergency (ICE), feeling an itch to write some code, you could use this 'integrated cooking environment' (ice) 😉
 
-This project was originally written in [TypeScript](https://en.wikipedia.org/wiki/TypeScript) (.ts) and later transformed to pure [JavaScript](https://en.wikipedia.org/wiki/JavaScript) (.mjs), ES module code introduced in [ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript), so transcompiling of any kind is no longer necessary, to run this Node.js project.
-
 For background information like **project philosophy**, see [design goals and roadmap](./docs/design-goals-and-roadmap.md).
 
 The **command line toolbox**
@@ -129,6 +127,15 @@ CC BY-NC 4.0, see [license](./LICENSE.md).
 More information [here](./docs/contribute.md).
 
 
+## Versions
+
+I prefer [rolling releases](https://en.wikipedia.org/wiki/Rolling_release) above typical [version numbering](https://en.wikipedia.org/wiki/Software_versioning). However... version numbers can mark milestones:
+
++ **Version 1.0.0** was about experimenting with [TypeScript](https://en.wikipedia.org/wiki/TypeScript). My first and last experiment with that language 😀
+
++ (Current) **version 1.0.1** was introduced after transforming this project from TypeScript (.ts) to pure [JavaScript](https://en.wikipedia.org/wiki/JavaScript) JavaScript (.mjs) as 'ES modules'. More about that in [Used languages](./docs/languages.md).
+
+
 ## Bug reports
 
 Please use the github [issues page](https://github.com/hfndb/cookware-headless-ice/issues).
@@ -186,6 +193,7 @@ Web:
 ## Read more
 + [Design goals and roadmap](./docs/design-goals-and-roadmap.md)
 + [Configuration](./docs/configuration.md)
++ [Used languages](./docs/languages.md)
 + [Usage](./docs/usage.md)
 + [Contribute](./docs/contribute.md)
 + [Tiny budget hosting](./docs/tiny-budget-hosting.md)
