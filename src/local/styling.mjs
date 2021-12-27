@@ -35,6 +35,9 @@ Double.reg = {};
 
 /**
  * Handling of Sass files
+ *
+ * @todo Implement Dart Sass, since node-sass is depricated  - see /docs/languages.md
+ * @todo Implement Rust version of Sass transcompiler - see /docs/languages.md
  */
 export class SassFiles {
 	constructor() {

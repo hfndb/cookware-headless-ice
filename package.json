@@ -1,6 +1,6 @@
 {
   "name": "cookware-headless-ice",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A console based working environment with a command line toolbox and a local development server",
   "homepage": "https://github.com/hfndb/cookware-headless-ice#README.md",
   "main": "src/index.mjs",

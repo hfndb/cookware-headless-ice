@@ -86,6 +86,9 @@ export function compile(verbose) {
  *
  * @returns success
  * @todo Decorators (such as for package json2typescript) don't work yet. Apparently due to bugs in this plugin
+ *
+ * @todo Implement Rust version for faster transcompiling like Deno - see /docs/languages.md
+ *
  */
 export function compileFile(entry, verbose = true) {
 	let cfg = AppConfig.getInstance();

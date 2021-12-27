@@ -35,6 +35,8 @@ export class Beautify {
 	 *
 	 * @param file name
 	 * @param content of file
+	 *
+	 * @todo Implement Rust version, faster - see /docs/languages.md
 	 */
 	static content(file, content) {
 		let cfg = AppConfig.getInstance();
