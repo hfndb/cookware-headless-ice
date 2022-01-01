@@ -32,7 +32,7 @@ class JsWatch extends FileWatcher {
 		let isTypescript = ext.endsWith("ts");
 		if ([".cjs", ".mjs"].includes(ext)) {
 			let source = FileUtils.readFile(fullPath);
-			source = Beautify.content(join(dir, file), source);
+			source = Beautify.content(file, source);
 			if (source) {
 				FileUtils.writeFile(dir, file, source, false);
 			}

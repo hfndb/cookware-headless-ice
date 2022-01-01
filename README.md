@@ -39,7 +39,7 @@ This project is developed on a Linux platform and should also run on BSD and App
 Please note that installation in Windows boxes is not tested yet. See [contribute](./docs/contribute.md).
 
 Installation of prerequisites in **Linux and Apple** boxes:
-```
+```bash
 apt-get install git gitk nodejs nodejs-doc npm pgpgpg gpgsm kgpg mplayer
 ```
 
@@ -48,7 +48,7 @@ Note: Do not use the version delivered by your package manager, since it has les
 
 For testing and TypeScript convenience, install global packages; might be executed as root user:
 
-```
+```bash
 $ npm install -g jsdoc mocha typescript ts-node dts-gen
 ```
 
@@ -59,7 +59,7 @@ In case you experience problems while installing global packages, look [here](ht
 
 The advised way to install is git cloning or downloading:
 
-```
+```bash
 $ cd /opt
 $ git clone https://github.com/hfndb/cookware-headless-ice
 $ cd cookware-headless-ice
@@ -69,7 +69,7 @@ $ npm build
 
 Add an alias like below in your ~/.bashrc, for your convenience:
 
-```
+```bash
 alias cookware=/opt/cookware/bin/starter.sh
 ```
 
@@ -81,7 +81,7 @@ You might want to change the default configuration. Details about configuration 
 Some packages might complain after some time, that they are outdated. In that case run:
 
 
-```
+```bash
 npm run-script update # To update package browserlist postcss node-sass
 
 npm run-script rebuild-sass # To only update the sass binary
@@ -89,7 +89,7 @@ npm run-script rebuild-sass # To only update the sass binary
 
 Install missing packages (dependencies), incremental update installed packages if needed:
 
-```
+```bash
 npm run-script update-deps
 ```
 
@@ -98,19 +98,19 @@ npm run-script update-deps
 
 + Start development server:
 
-	```
+	```bash
 	$ cookware -r
 	```
 
 + Overview of commands to run another tool:
 
-	```
+	```bash
 	$ cookware -h
 	```
 
 + Run tests:
 
-	```
+	```bash
 	npm test
 	```
 
