@@ -392,15 +392,6 @@ let DefaultConfig = {
 				},
 			},
 		},
-		nodeSass: {
-			config: {
-				includePaths: ["sass"],
-				indentedSyntax: true,
-				indentType: "tabs",
-				indentWidth: 1,
-				outputStyle: "nested", // nested, expanded, compact, compressed
-			},
-		},
 		nunjucks: {
 			config: {
 				throwOnUndefined: false,

@@ -80,7 +80,7 @@ The structure of this file is invalid, meaning, messed up.
 		let data = "";
 		try {
 			data = readFileSync(path, {
-				encoding: FileUtils.ENCODING_UTF8
+				encoding: FileUtils.ENCODING_UTF8,
 			});
 		} catch (err) {
 			let log = Logger.getInstance();
@@ -461,7 +461,7 @@ export function removeObsolete(removeObsolete, processed, outputDir, ext) {
  * let lr = new LineReader("example.txt");
  * do {
  *     let line = lr.next(); // Returns array: [ line number,  ]
- *     if (line[1] === false) break; // End of file
+ *     if (line === false) break; // End of file
  *     if ( <some condition> ) {
  *         lr.stop();
  *         break;

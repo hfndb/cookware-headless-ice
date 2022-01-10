@@ -14,6 +14,9 @@ import { playGround } from "./dev/playground.mjs";
 import { coatRack } from "./server/index.mjs";
 import { initWatches } from "./server/watches.mjs";
 import { SessionVars } from "./sys/session.mjs";
+import { check } from "./sys/upgrades.mjs";
+
+if (!check()) process.exit(0); // Check required binaries
 
 let am = AppMenu.getInstance();
 

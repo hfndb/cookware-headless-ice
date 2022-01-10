@@ -1,7 +1,7 @@
 import { join } from "path";
 import shelljs from "shelljs";
 import { AppConfig, FileUtils, Logger } from "../lib/index.mjs";
-import { stripJs, Shrinker } from "../lib/stripping.mjs";
+import { Stripper, Shrinker } from "../lib/stripping.mjs";
 const { exec, rm, test } = shelljs;
 
 let cfg = AppConfig.getInstance();
@@ -95,7 +95,6 @@ export class Bundle {
 			path = join(cfg.dirProject, "dev", "apps.json");
 			Bundle.apps = test("-f", join(path)) ? FileUtils.readJsonFile(path) : null;
 		}
-
 	}
 
 	/**
@@ -147,7 +146,7 @@ export class Bundle {
 
 		FileUtils.writeFile(outDir, bundle.output, toWrite, false);
 		if (cfg.options.stripping.auto || bundle.compress) {
-			toWrite = stripJs(toWrite);
+			toWrite = Stripper.stripJs(toWrite);
 			let file = FileUtils.getSuffixedFile(
 				bundle.output,
 				cfg.options.stripping.suffix,

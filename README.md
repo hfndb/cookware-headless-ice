@@ -38,21 +38,29 @@ This project is developed on a Linux platform and should also run on BSD and App
 **Windows boxes**: Look [here](./docs/installation-windows.md) for prerequisites, installation and usage.
 Please note that installation in Windows boxes is not tested yet. See [contribute](./docs/contribute.md).
 
-Installation of prerequisites in **Linux and Apple** boxes:
+Installation of prerequisites in **Linux and Apple** boxes, use a package manager as you like:
+
 ```bash
-apt-get install git gitk nodejs nodejs-doc npm pgpgpg gpgsm kgpg mplayer
+# Source control, encryption, mp3 player
+$ apt-get install git gitk pgpgpg gpgsm kgpg mplayer yui-compressor
+
+# Make sure you always have the latest Node.js version
+$ cd /tmp
+$ wget https://deb.nodesource.com/setup_current.x
+$ FILE=./setup_current.x
+$ chmod +x $FILE
+$ sudo $FILE
+$ rm $FILE
+$ sudo apt-get install -y nodejs # Including npm
+
+# Global node package(s) for convenience
+$ sudo npm install -g dts-gen jsdoc mocha typescript ts-node zx
 ```
+
+In case you don't want to install npm packages as root user, look [here](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally).
 
 For PDF file creation, download and install [wkhtmltopdf](http://wkhtmltopdf.org/downloads.html).
 Note: Do not use the version delivered by your package manager, since it has less functionality.
-
-For testing and TypeScript convenience, install global packages; might be executed as root user:
-
-```bash
-$ npm install -g jsdoc mocha typescript ts-node dts-gen
-```
-
-In case you experience problems while installing global packages, look [here](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally).
 
 
 ## Installation
@@ -75,6 +83,15 @@ alias cookware=/opt/cookware/bin/starter.sh
 
 You might want to change the default configuration. Details about configuration [here](./docs/configuration.md).
 
+For installation of a binary sass transcompiler, see the [releases page](https://github.com/sass/dart-sass/releases/) for an URL. Then downlad and install the version you want like this:
+
+```bash
+$ cd /tmp
+$ wget [url to file]
+$ tar -xf [downloaded .tar.gz file]
+$ cd -
+$ mv /tmp/dart-sass/sass ./bin/
+```
 
 ## Update
 
@@ -82,16 +99,17 @@ Some packages might complain after some time, that they are outdated. In that ca
 
 
 ```bash
-npm run-script update # To update package browserlist postcss node-sass
-
-npm run-script rebuild-sass # To only update the sass binary
+$ npm run-script update # To update package browserlist postcss
 ```
 
 Install missing packages (dependencies), incremental update installed packages if needed:
 
 ```bash
-npm run-script update-deps
+$ npm run-script update-deps
 ```
+
++ [Node-sass](https://www.npmjs.com/package/node-sass) is replaced by Dart Sass. See above for installation of the binary.
++ The currently used Node.js version includes a bug, affecting CSS stripping aka campacting aka compression. Therefore, for now yui-compressor needs to be installed. See above.
 
 
 ## Usage
@@ -111,7 +129,7 @@ npm run-script update-deps
 + Run tests:
 
 	```bash
-	npm test
+	$ npm test
 	```
 
 Detailed usage information [here](./docs/usage.md).
@@ -164,9 +182,6 @@ HTML and Markdown:
 + [marked](https://www.npmjs.com/package/marked ) Markdown rendering engine
 + [nunjucks](https://www.npmjs.com/package/nunjucks) HTML template engine - a Mozilla project, heavily inspired by [Jinja2](http://jinja.pocoo.org/)
 
-Sass:
-+ [node-sass](https://www.npmjs.com/package/node-sass) transpiler (Sass to CSS)
-
 JavaScript:
 [babel](https://www.npmjs.com/package/@babel/core) with [Flow preset](https://www.npmjs.com/package/@babel/preset-flow), [preset-react](https://www.npmjs.com/package/@babel/preset-react) and [TypeScript preset](https://www.npmjs.com/package/@babel/preset-typescript) to transcompile Flow, TypeScript or JavaScript to backwards compatible version of JavaScript
 + [babel-plugin-source-map-support](https://www.npmjs.com/package/babel-plugin-source-map-support) and [source-map-support](https://www.npmjs.com/package/source-map-support) for debugging transcompiled code
@@ -200,10 +215,6 @@ Web:
 ### Philosophically, about software architecture
 + [Reference](./docs/design-goals-and-roadmap.md) to debate about strong vs. loose typing. Though rigid or even loose typing (designated types) is not always necessary.
 + [Compacting files](./docs/philosophical/compacting-files.md) as an art
-
-
-### Funding
-This project is a gift to you and others, not funded, paid by others to produce. In case you like the principle of giving and want to communicate about that, you can contact me using the email address in [this file](./package.json).
 
 
 [comment]: <> (No comments here)

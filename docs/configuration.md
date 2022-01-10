@@ -547,7 +547,6 @@ tsc -w
 
 In this section, you'll find configuration options for integrated packages. Relevant settings can be found here:
 + [typedoc](https://typedoc.org/guides/installation/#node-module)
-+ [nodeSass](https://github.com/sass/node-sass)
 + [nunjucks](https://mozilla.github.io/nunjucks/api.html#configure)
 + [prettier](https://prettier.io/docs/en/options.html)
 + [htmlcs](https://github.com/ecomfe/htmlcs/blob/master/lib/default/htmlcsrc)

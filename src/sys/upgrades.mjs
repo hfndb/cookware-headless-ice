@@ -1,15 +1,26 @@
 import { join } from "path";
+import shelljs from "shelljs";
 import { FileUtils } from "../lib/index.mjs";
 import { AppConfig } from "../lib/config.mjs";
+const { test } = shelljs;
 
-/**
- * @todo Perhaps this file is obsolte, unless settings.json will need specal conversions in the future
- */
+export function check() {
+	let cfg = AppConfig.getInstance();
+	let ok = test("-f", join(cfg.dirMain, "bin", "sass"));
+
+	if (!ok) {
+		console.error(
+			"Sass binary not available yet. For installation, see README.md of this project\n",
+		);
+	}
+
+	return ok;
+}
 
 /**
  * Perform upgrade to a newer version of the config file
  */
-export function upgrade(cfg: AppConfig, system: boolean = false): boolean {
+export function upgrade(cfg, system = false) {
 	let dir = system ? cfg.dirMain : cfg.dirProject;
 	let needsUpdate = false;
 	let options = FileUtils.readJsonFile(join(dir, "settings.json"));

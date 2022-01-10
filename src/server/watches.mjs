@@ -116,8 +116,7 @@ class SassWatch extends FileWatcher {
 		status.setTarget(SassUtils.getOutputDir(), ".css");
 
 		if (SassFiles.isImport(file)) {
-			// Import, compile everything
-			SassUtils.beautify(status);
+			// Uses import(s), compile all top level files
 			SassUtils.compile(true, true);
 		} else {
 			SassUtils.compileFile(status);

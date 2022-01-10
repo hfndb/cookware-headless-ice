@@ -1,15 +1,15 @@
 {
-	"compileOnSave": true,
 	"compilerOptions": {
+		"checkJs": true,
 		"esModuleInterop": true,
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
 		"lib": [
 			"dom",
-			"es2017"
+			"es2020"
 		],
-		"module": "commonjs",
-		"moduleResolution": "Node",
+		"module": "ES2020",
+		"moduleResolution": "node12",
 		"noEmit": true,
 		"noImplicitAny": true,
 		"noUnusedLocals": true,
@@ -17,20 +17,17 @@
 		"noImplicitReturns": true,
 		"outDir": "./dist/static/js",
 		"preserveConstEnums": true,
-		"removeComments": true,
 		"rootDir": "./src",
-		"sourceMap": true,
-		"sourceRoot": "./src",
 		"strict": true,
-		"target": "es2017",
+		"target": "es2020",
 		"typeRoots" : [
 			"./node_modules/@types",
 			"./src/@types"
 			]
 	},
 	"include": [
-		"src/*.ts",
-		"src/**/*.ts"
+		"src/*.mjs",
+		"src/**/*.mjs"
 	],
 	"exclude": [
 		"node_modules"

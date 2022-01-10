@@ -16,10 +16,16 @@ Some tiny [bash scripts](https://en.wikipedia.org/wiki/Bash_%28Unix_shell%29) we
 
 ## Binaries
 
-Binaries compiled for a specific platform go faster than interpreted languages. See articles like [Rust Is The Future of JavaScript Infrastructure](https://leerob.io/blog/rust) - [Rust](https://en.wikipedia.org/wiki/Rust_%28programming_language%29) was originally designed by Graydon Hoare at Mozilla Research, with contributions from others.
+Binaries compiled for a specific platform ([Native code](https://en.wikipedia.org/wiki/Native_code)) go faster than interpreted languages. See articles like [Rust Is The Future of JavaScript Infrastructure](https://leerob.io/blog/rust).
+
+Binaries integrated in this project are written in:
+
+- [Dart](https://en.wikipedia.org/wiki/Dart_%28programming_language%29), by Google. For transcompiling [Sass](https://en.wikipedia.org/wiki/Sass_%28stylesheet_language%29), [dart-sass](https://github.com/sass/dart-sass/) is integrated.
+
+- [Rust](https://en.wikipedia.org/wiki/Rust_%28programming_language%29), originally designed by Graydon Hoare at Mozilla Research, with contributions from others.
+
+Next steps:
 
 Beautifying code using [prettier](https://www.npmjs.com/package/prettier) - a pure JavaScript implementation - works smoothly. However, it seems integration of a Rust project could increase speed, with projects like [dprint](https://github.com/devongovett/dprint-node).
-
-For transcompiling [Sass](https://en.wikipedia.org/wiki/Sass_%28stylesheet_language%29), [node-sass](https://www.npmjs.com/package/node-sass) was written in C++. However, that project is now depricated. [Dart Sass](https://www.npmjs.com/package/sass), written in [Dart](https://dart.dev/overview) still needs to be implemented.
 
 Transcompiling [TypeScript](https://en.wikipedia.org/wiki/TypeScript) using the [Microsoft compiler](https://www.typescriptlang.org/download) proved to be terribly slow and quite memory consuming. [Babel](https://www.npmjs.com/package/@babel/core) improved that using a pure JavaScript implementation. Next step would be transcompiling by a Rust project to further increase speed, with projects like [Deno](https://deno.land/manual@v1.17.1/tools/formatter).

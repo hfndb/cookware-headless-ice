@@ -37,7 +37,6 @@
     "minify-stream": "^1.2.1",
     "n-readlines": "^1.0.1",
     "node": "^16.1.0",
-    "node-sass": "^6.0.1",
     "npm": "^8.1.0",
     "nunjucks": "^3.2.2",
     "postcss": "^7.0.35",
@@ -59,7 +58,6 @@
     "@types/marked": "^0.6.1",
     "@types/mocha": "^5.2.6",
     "@types/node": "^10.17.51",
-    "@types/node-sass": "^3.10.32",
     "@types/prettier": "^1.19.1",
     "@types/shelljs": "^0.8.8",
     "chai": "^4.2.0",
@@ -68,8 +66,7 @@
   },
   "scripts": {
     "postinstall": "./node_modules/node/bin/node src/sys/postinstall.mjs",
-    "rebuild-sass": "npm rebuild node-sass",
-    "update": "npm update browserlist postcss node-sass",
+    "update": "npm update browserlist postcss",
     "test": "find ./src/lib ./src/local -name '*-test.mjs' | xargs mocha -R spec --no-colors --throw-deprecation",
     "test-server": "find ./src/server  -name '*-test.mjs' | xargs mocha -R spec --no-colors --throw-deprecation",
     "update-deps": "node src/sys/packages.mjs"

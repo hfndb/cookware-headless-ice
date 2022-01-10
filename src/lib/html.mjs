@@ -3,7 +3,7 @@ import shelljs from "shelljs";
 import { getChangeList, AppConfig, FileUtils, Logger } from "../lib/index.mjs";
 import { removeObsolete } from "./files.mjs";
 import { NunjucksUtils } from "./nunjucks.mjs";
-import { stripHtml } from "./stripping.mjs";
+import { Stripper } from "./stripping.mjs";
 import { Formatter, StringExt } from "./utils.mjs";
 const { test, touch } = shelljs;
 
@@ -155,7 +155,7 @@ export class Content {
 			case "nunjucks":
 				retVal = NunjucksUtils.renderFile(dir, file, context, templateDir);
 		}
-		retVal = stripHtml(retVal);
+		retVal = Stripper.stripHtml(retVal);
 		return retVal;
 	}
 

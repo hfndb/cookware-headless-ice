@@ -4,6 +4,120 @@ import { StringExt } from "../lib/utils.mjs";
 import { AppConfig, FileUtils } from "../lib/index.mjs";
 const { test } = shelljs;
 
+// ----------------------------------------------------
+// Section: For internal usage
+// ----------------------------------------------------
+
+/**
+ * Carefully deal with the content of CSS selectors with rule sets,
+ * while processing output of the Dart Sass transcompiler.
+ *
+ * This needs specific attention, to not mess up selectors and
+ * property declarations with values using filter() and url().
+ */
+class CssRuleSet {
+	/**
+	 * @private
+	 */
+	canContinue = false;
+
+	/**
+	 * @private
+	 */
+	ruleNr = 0;
+
+	/**
+	 * @private
+	 */
+	isFirst = true;
+
+	/**
+	 * @private
+	 */
+	needsRemainder = false;
+	/**
+	 * @private
+	 * Status:
+	 * - 0 Beginning of selector
+	 * - 1 Somewhere in selector
+	 * - 2 Within rule set
+	 */
+	status = 0;
+
+	/**
+	 * @private
+	 */
+	inSelector(line, prefixSpaceAdded) {
+		this.canContinue = false;
+		let last = line.endsWith("{");
+		if (!prefixSpaceAdded) {
+			// Don't mess up selectors, preserve space between 'em
+			line = " " + line;
+		}
+		if (last) {
+			this.status = 2;
+		}
+		this.canContinue = true;
+
+		return line;
+	}
+
+	/**
+	 * @private
+	 */
+	inRuleSet(line) {
+		this.canContinue = true;
+		let last = line.endsWith("}");
+
+		// Remove space after 1st : between property and property value
+		line = line.replace(": ", ":"); // Will only replace first occurence
+
+		if (last) {
+			// End of rule sets
+			this.canContinue = false;
+			this.ruleNr++;
+			this.status = 0;
+			return line;
+		}
+
+		return line;
+	}
+
+	/**
+	 * @param {string} line
+	 * @returns {string} for line
+	 */
+	processLine(line) {
+		let prefixSpaceAdded = false;
+
+		// At the beginning of a selector
+		if (this.status == 0) {
+			// Space as prefix, necessary?
+			if (!this.isFirst) {
+				line = " " + line;
+				prefixSpaceAdded = true;
+			}
+			if (this.isFirst) this.isFirst = false;
+			this.status = 1;
+		}
+
+		switch (this.status) {
+			case 1:
+				line = this.inSelector(line, prefixSpaceAdded);
+				break;
+			case 2:
+				line = this.inRuleSet(line);
+				break;
+		}
+
+		return line;
+	}
+}
+
+// ----------------------------------------------------
+// Section: Exported
+// ----------------------------------------------------
+
 /**
  * Compact an already rendered or transcompiled file.
  * Known as file compression, minifying, to reduce bytes to send to browser.
@@ -14,21 +128,77 @@ const { test } = shelljs;
  * - Removing spaces as in space needed to think about what's next
  */
 export class Stripper {
-	constructor(after, around, before) {
+	/**
+	 * @param {string} ft File type; css, html or js
+	 * @param {string[]} [after] List of commands which needs space after them
+	 * @param {string[]} [around] Dito but around
+	 * @param {string[]} [before[] Dito but before
+	 */
+	constructor(ft, after, around, before) {
+		this.fileType = ft;
 		this.after = after || [];
 		this.around = around || [];
 		this.before = before || [];
+
+		this.cm = {
+			sl: "//", // Single line comment starts with
+			mss: "/*", // Multi line comment starts with
+			mse: "*/", // Multi line comment end with
+		};
+		// For css and js the same.
+		// Html ignored since comments shoul be filtered out by template engine
 	}
 
+	/**
+	 * @todo Bug in Array.split() within Node.js, affecting CSS stripping
+	 */
 	stripFile(src) {
-		let mlnTemplate = 0;
-		let lines = src.split("\n");
+		let crs = this.fileType == "css" ? new CssRuleSet() : null;
+		let mlnComment = false; // Is in multi line comment
+		let mlnTemplate = 0; // Status of multi line templates in js
+		let lines = src.split(/\r?\n/); // @todo Bug here affects CSS only - url() with data
 		let toReturn = "";
 		for (let i = 0; i < lines.length; i++) {
 			let line = lines[i].trim();
+
+			if (i == 0) {
+				// First line with charset
+				toReturn += line;
+				continue;
+			}
+			if (line.includes(this.cm.sl)) {
+				// Strip single line comment
+				line = line.substring(0, line.indexOf(this.cm.sl) - 1).trim();
+			}
 			if (!line) continue; // Empty line
-			// Handle multiline string templates
-			if (!mlnTemplate && line.includes("multiline template")) {
+
+			// Handle multi line comments
+			if (line.startsWith(this.cm.mss)) {
+				if (!line.endsWith(this.cm.mse)) mlnComment = true;
+				continue;
+			}
+			if (mlnComment) {
+				if (line.endsWith(this.cm.mse)) mlnComment = false;
+				continue;
+			}
+
+			// Make sure that there's a space between rule sets
+			// and only what's WITHIN a rule sets is stripped
+			if (crs) {
+				line = crs.processLine(line);
+				if (crs.canContinue) {
+					toReturn += line;
+					continue;
+				}
+			}
+
+			// Handle multiline string templates in JavaScript
+			if (
+				this.fileType == "js" &&
+				!mlnTemplate &&
+				line.includes("`") &&
+				StringExt.occurrences(line, "`") == 1
+			) {
 				// Comment indicating that a multiline string template begins @ next line
 				mlnTemplate = 1;
 				continue;
@@ -110,23 +280,29 @@ export class Stripper {
 		}
 		return lines.join("\n");
 	}
-}
 
-/**
- * @todo Also consider content of HTML code and pre tags
- */
-export function stripHtml(source) {
-	let cfg = AppConfig.getInstance();
-	if (!cfg.options.html.stripper.active) return source;
-	let s = new Stripper();
-	return s.stripFile(source);
-}
+	static stripCss(source) {
+		let cfg = AppConfig.getInstance();
+		let s = new Stripper("css");
+		return s.stripFile(source);
+	}
 
-export function stripJs(source) {
-	let cfg = AppConfig.getInstance();
-	let spaces = cfg.options.javascript.lineStripping.needsSpace;
-	let s = new Stripper(spaces.after, spaces.around, spaces.before);
-	return s.stripFile(source);
+	/**
+	 * @todo Also consider content of HTML code and pre tags
+	 */
+	static stripHtml(source) {
+		let cfg = AppConfig.getInstance();
+		if (!cfg.options.html.stripper.active) return source;
+		let s = new Stripper("html");
+		return s.stripFile(source);
+	}
+
+	static stripJs(source) {
+		let cfg = AppConfig.getInstance();
+		let spaces = cfg.options.javascript.lineStripping.needsSpace;
+		let s = new Stripper("js", spaces.after, spaces.around, spaces.before);
+		return s.stripFile(source);
+	}
 }
 
 /**

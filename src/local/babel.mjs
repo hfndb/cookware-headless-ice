@@ -5,7 +5,7 @@ import { getChangeList, AppConfig, Logger } from "../lib/index.mjs";
 import { Beautify } from "../lib/beautify.mjs";
 import { FileUtils, removeObsolete } from "../lib/files.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
-import { stripJs, Shrinker, Stripper } from "../lib/stripping.mjs";
+import { Shrinker, Stripper } from "../lib/stripping.mjs";
 import { JavascriptUtils } from "./javascript.mjs";
 import { Tags } from "./tags.mjs";
 const { exec, rm, test } = shelljs;
@@ -200,7 +200,7 @@ export function compileFile(entry, verbose = true) {
 		}
 		FileUtils.writeFile(entry.targetDir, entry.target, results.code, verbose);
 		if (forBrowser && cfg.options.stripping.auto) {
-			let toWrite = stripJs(results.code);
+			let toWrite = Stripper.stripJs(results.code);
 			let file = FileUtils.getSuffixedFile(
 				entry.target,
 				cfg.options.stripping.suffix,
