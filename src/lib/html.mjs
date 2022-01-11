@@ -70,7 +70,7 @@ export class Content {
 		 */
 		let lastChanged = FileUtils.getLastModifiedDate(entry.dir, entry.source);
 		// @ts-ignore
-		touch({ "-d": lastChanged }, join(entry.targetDir, entry.target));
+		touch(join(entry.targetDir, entry.target));
 	}
 
 	/**
@@ -84,6 +84,7 @@ export class Content {
 		let outputDir = Content.getOutputDir();
 		if (cfg.options.html.caching.engine == "nunjucks") {
 			nj = new NunjucksUtils();
+			nj.setSearchPaths();
 		} else {
 			log.error(`Unkown template engine ${cfg.options.html.caching.engine}`);
 		}
@@ -108,7 +109,6 @@ export class Content {
 					nj.isChanged(entry.dir, entry.source, entry.lastModified)
 				) {
 					entry.status = "modified";
-					touch(join(entry.dir, entry.source)); // To prevent this from happening again
 				}
 				if (entry.isNewOrModified()) {
 					content = this.render(entry.dir, entry.source, opts);
@@ -153,7 +153,9 @@ export class Content {
 		}
 		switch (cfg.options.html.caching.engine) {
 			case "nunjucks":
-				retVal = NunjucksUtils.renderFile(dir, file, context, templateDir);
+				let nj = new NunjucksUtils();
+				nj.setSearchPaths();
+				retVal = nj.renderFile(dir, file, context, templateDir);
 		}
 		retVal = Stripper.stripHtml(retVal);
 		return retVal;

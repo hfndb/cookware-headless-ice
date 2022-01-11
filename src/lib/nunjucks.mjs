@@ -6,6 +6,10 @@ import { Logger } from "./log.mjs";
 import nunjucks from "nunjucks";
 const { test } = shelljs;
 
+// ----------------------------------------------------------------------------------
+// Section: Internal
+// ----------------------------------------------------------------------------------
+
 /**
  * Structure for items in cache. Parent, template and includes filled with arrays [dir, file]
  */
@@ -25,124 +29,224 @@ class CacheItem {
 }
 
 /**
+ * Structure for options passed to an instance
+ */
+class NjOpts {
+	constructor(opts) {
+		if (!opts) opts = {};
+		this.opts = {
+			checkTemplate: opts.checkTemplate || true,
+			debug: opts.debug || false,
+			inclIncludes: opts.inclIncludes || false,
+			readBlocks: opts.readBlocks || true,
+			readVariables: opts.readVariables || true,
+			stripFoundTags: opts.stripFoundTags || false,
+		};
+	}
+}
+
+/**
  * Class to analyze or gather info for a template file
  */
 export class NunjucksUtils {
-	constructor() {
-		this.cache = [];
-		this.debug = false;
-	}
+	// ----------------------------------------------
+	// Section: Basic Nunjucks usage
+	// ----------------------------------------------
 
 	/**
-	 * Sets a template (extends)
+	 * @property {CacheItem[]}
 	 */
-	static setExtends(template, trimBegin = false, trimEnd = false) {
-		return `{%${trimBegin ? "- " : ""} extends "${template}" ${
-			trimEnd ? " -" : ""
-		}%}\n`;
+	cache = [];
+
+	/**
+	 * @property {NjOpts}
+	 */
+	opts;
+
+	/**
+	 * @property {string[]}
+	 */
+	searchPaths = [];
+
+	constructor(opts) {
+		this.opts = new NjOpts(opts);
 	}
 
 	/**
-	 * Sets a template variable
+	 * Set search paths for templates and perhaps add one path to the beginning
 	 *
-	 * @param string type Can be boolean,  number, object, string
+	 * @param {string} [templateDir]
 	 */
-	static setVariable(name, value, type, trimBegin = false, trimEnd = false) {
-		switch (type) {
-			case "boolean":
-				value = value ? "true" : "false";
-				break;
-			case "number":
-				break;
-			case "object":
-				value = JSON.stringify(value, null, "\t");
-				break;
-			case "string":
-				value = `"${value}"`;
-				break;
-			default:
-				console.log(
-					`Unknown type ${type} for variable ${name} received in NunjucksUtils.setVariable()`,
-				);
-				break;
+	setSearchPaths(templateDir) {
+		let cfg = AppConfig.getInstance();
+		for (let i = 0; i < cfg.options.html.dirs.templates.length; i++) {
+			this.searchPaths.push(
+				join(cfg.dirProject, cfg.options.html.dirs.templates[i]),
+			);
 		}
-		return `{% set${trimBegin ? "- " : ""} ${name} = ${value} ${
-			trimEnd ? " -" : ""
-		}%}\n`;
-	}
-
-	/**
-	 * Sets a template block
-	 */
-	static setBlock(
-		name,
-		value,
-		trimBegin = false,
-		trimEnd = false,
-		closingTrimBegin = false,
-		closingTrimEnd = false,
-	) {
-		return `{%${trimBegin ? "- " : ""} block ${name} ${trimEnd ? " -" : ""}%}
-${value}
-{%${closingTrimBegin ? "- " : ""} endblock ${closingTrimEnd ? " -" : ""}%}\n`;
+		for (let i = 0; i < cfg.options.html.dirs.includes.length; i++) {
+			this.searchPaths.push(
+				join(cfg.dirProject, cfg.options.html.dirs.includes[i]),
+			);
+		}
 	}
 
 	/**
 	 * @private
 	 */
-	static getEnvironment(searchPaths) {
+	getEnvironment() {
 		let cfg = AppConfig.getInstance();
 		let env = nunjucks.configure(
-			searchPaths[0],
+			this.searchPaths[0],
 			cfg.options.dependencies.nunjucks.config,
 		);
-		for (let i = 1; i < searchPaths.length; i++) {
-			env.loaders[0].searchPaths.push(searchPaths[i]);
+		for (let i = 1; i < this.searchPaths.length; i++) {
+			env.loaders[0].searchPaths.push(this.searchPaths[i]);
 		}
+
+		NunjucksUtils.addGlobalFunctions(env);
+
 		return env;
 	}
 
 	/**
-	 * @private
+	 * Add a bunch of convenience function to Nunjucks environment
 	 */
-	static getSearchPaths() {
-		let cfg = AppConfig.getInstance();
-		let searchPaths = [];
-		for (let i = 0; i < cfg.options.html.dirs.templates.length; i++) {
-			searchPaths.push(join(cfg.dirProject, cfg.options.html.dirs.templates[i]));
-		}
-		for (let i = 0; i < cfg.options.html.dirs.includes.length; i++) {
-			searchPaths.push(join(cfg.dirProject, cfg.options.html.dirs.includes[i]));
-		}
-		return searchPaths;
+	static addGlobalFunctions(env) {
+		// To dump all vars in template
+		env.globals["getVars"] = function() {
+			return this.getVariables();
+		};
+		// To pretty print a variable
+		env.globals["pprint"] = function(arg) {
+			return JSON.stringify(arg, null, "    ");
+		};
+		// To test for string type
+		env.globals["isString"] = function(arg) {
+			return typeof arg == "string";
+		};
 	}
 
 	/**
-	 * Sets item.extends
-	 *
-	 * @private
+	 * Render a content file to a string
 	 */
-	static readExtends(item, searchPaths) {
-		let log = Logger.getInstance();
-		let regex = new RegExp('{%([-\\s]+)extends\\s*"(.*)"([-\\s]+)%}', "gim"); // Global, case insensitive, multiline
-		let result = regex.exec(item.rawData) || [];
-		let found = result.length > 0;
-		while (found) {
-			let exists = false;
-			// result: idx 0 full string, 1 "-" or empty string, 2 file name, 3 "-" or empty string
-			let fname = result[2];
-			for (let i = 0; i < searchPaths.length; i++) {
-				if (test("-f", join(searchPaths[i], fname))) {
-					exists = true;
-					item.extends = [searchPaths[i], fname];
+	renderFile(dir, file, context) {
+		try {
+			let env = this.getEnvironment();
+			let data = FileUtils.readFile(join(dir, file));
+			return nunjucks.renderString(data, context);
+		} catch (err) {
+			let log = Logger.getInstance();
+			log.warn(`- Failed to render file ${file}`, Logger.error2string(err));
+			return "";
+		}
+	}
+
+	// ----------------------------------------------
+	// Section: Advanced Nunjucks usage
+	// ----------------------------------------------
+
+	/**
+	 * Add an array of search paths for templates
+	 *
+	 * @param {string[]} paths
+	 */
+	addSearchPaths(paths) {
+		for (let i = 0; i < paths.length; i++) {
+			this.searchPaths.push(paths[i]);
+		}
+	}
+
+	/**
+	 * Get index of file in cache. If not in cache yet... cache the file
+	 */
+	getCacheIdx(dir, file) {
+		for (let i = 0; i < this.cache.length; i++) {
+			if (this.cache[i].template[1] == file) return i; // Found
+		}
+
+		// Not in cache yet
+		let item = new CacheItem(dir, file, this.opts.stripFoundTags);
+		NunjucksUtils.readExtends(item, this.searchPaths, this.opts.checkTemplate);
+		if (this.opts.inclIncludes)
+			NunjucksUtils.readIncludes(item, this.searchPaths);
+		this.cache.push(item);
+		return this.cache.length - 1;
+	}
+
+	/**
+	 * See if a template file needs an update
+	 */
+	isChanged(dir, file, lastModified) {
+		let changed = false;
+		let idx = this.getCacheIdx(dir, file, true);
+		let item = this.cache[idx];
+		if (!lastModified) {
+			lastModified = FileUtils.getLastModified(dir, file);
+		}
+		item.lastModified = lastModified;
+
+		while (!changed && item.extends[1]) {
+			// Current item
+			if (item.lastModified > lastModified) {
+				this.cache[idx].changedExtends = item.template[1];
+				changed = true; // Parent has changed after requested template
+				break;
+			}
+
+			// Used includes
+			for (let i = 0; !changed && i < item.includes.length; i++) {
+				if (item.includes[i][2] > lastModified) {
+					this.cache[idx].changedExtends = item.includes[i][1];
+					changed = true; // Some include has changed after requested template
 					break;
 				}
 			}
-			if (!exists) {
-				log.warn(`File ${item.template[1]} extends non-existing file ${fname}`);
+
+			// Go to parent
+			if (!changed) {
+				let i = this.getCacheIdx(item.extends[0], item.extends[1]);
+				item = this.cache[i];
 			}
-			result = regex.exec(item.rawData) || [];
-			found = result.length > 0;
+		}
+
+		if (changed && this.debug) {
+			let tmp = Object.assign({}, item);
+			Reflect.deleteProperty(tmp, "rawData");
+			let log = Logger.getInstance();
+			log.info(`Info collected about changed file ${file}: `, tmp);
+		}
+
+		return changed;
+	}
+
+	/**
+	 * Reads from content in item.rawData, sets variable item.extends
+	 */
+	static readExtends(item, searchPaths, checkExtends = true) {
+		let log = Logger.getInstance();
+		// Global, case insensitive, multiline
+		let regex = new RegExp('{%([-\\s]+)extends\\s*"(.*)"([-\\s]+)%}', "gim");
+		let result = regex.exec(item.rawData) || null;
+		// result: idx 0 full string, 1 "-" or empty string, 2 file name, 3 "-" or empty string
+		if (result == null) {
+			//log.warn(`File ${item.template[1]} doesn't contain an extends tag`);
+			return;
+		}
+		let exists = false;
+		let fname = result[2];
+		for (let i = 0; checkExtends && i < searchPaths.length; i++) {
+			if (test("-f", join(searchPaths[i], fname))) {
+				exists = true;
+				item.extends = [searchPaths[i], fname];
+				break;
+			}
+		}
+		if (checkExtends) {
+			if (!exists)
+				log.warn(`File ${item.template[1]} extends non-existing file ${fname}`);
+		} else {
+			item.extends = ["", fname];
 		}
 		if (item.stripFoundTags) {
 			item.rawData = item.rawData.replace(regex, "").trim();
@@ -156,12 +260,10 @@ ${value}
 	 *   - 1 include file name<br>
 	 *   - 2 time stamp last modified
 	 * </p>
-	 *
-	 * @private
 	 */
 	static readIncludes(item, searchPaths) {
-		let log = Logger.getInstance();
-		let regex = new RegExp('{%([-\\s]+)include\\s*"(.*)"([-\\s]+)%}', "gim"); // Global, case insensitive, multiline
+		// Global, case insensitive, multiline
+		let regex = new RegExp('{%([-\\s]+)include\\s*"(.*)"([-\\s]+)%}', "gim");
 		let result = regex.exec(item.rawData) || [];
 		let found = result.length > 0;
 		while (found) {
@@ -281,150 +383,76 @@ ${value}
 	}
 
 	/**
-	 * Render a content file to a string
-	 */
-	static renderFile(dir, file, context, templateDir) {
-		let log = Logger.getInstance();
-		let searchPaths = [];
-		if (templateDir) searchPaths.push(templateDir);
-		searchPaths = searchPaths.concat(NunjucksUtils.getSearchPaths());
-		try {
-			let env = NunjucksUtils.getEnvironment(searchPaths);
-			NunjucksUtils.addGlobalFunctions(env);
-			let data = FileUtils.readFile(join(dir, file));
-			return nunjucks.renderString(data, context);
-		} catch (err) {
-			log.warn(`- Failed to render file ${file}`, Logger.error2string(err));
-			return "";
-		}
-	}
-
-	/**
-	 * Add a bunch of convenience function to Nunjucks environment
-	 */
-	static addGlobalFunctions(env) {
-		// To dump all vars in template
-		env.globals["getVars"] = function() {
-			return this.getVariables();
-		};
-		// To pretty print a variable
-		env.globals["pprint"] = function(arg) {
-			return JSON.stringify(arg, null, "    ");
-		};
-		// To test for string type
-		env.globals["isString"] = function(arg) {
-			return typeof arg == "string";
-		};
-	}
-
-	/**
-	 * Get index of file in cache. If not in cache yet... cache the file
-	 */
-	getCacheIdx(dir, file, readIncludes = false, stripFoundTags = false) {
-		for (let i = 0; i < this.cache.length; i++) {
-			if (this.cache[i].template[1] == file) {
-				return i;
-			}
-		}
-		let item = new CacheItem(dir, file, stripFoundTags);
-		let searchPaths = NunjucksUtils.getSearchPaths();
-		NunjucksUtils.readExtends(item, searchPaths);
-		if (readIncludes) NunjucksUtils.readIncludes(item, searchPaths);
-		this.cache.push(item);
-		return this.cache.length - 1;
-	}
-
-	/**
-	 * See if a template file needs an update
-	 */
-	isChanged(dir, file, lastModified) {
-		let log = Logger.getInstance();
-		let changed = false;
-		if (!lastModified) {
-			lastModified = FileUtils.getLastModified(dir, file);
-		}
-		let idx = this.getCacheIdx(dir, file, true);
-		let item = this.cache[idx];
-		item.lastModified = FileUtils.getLastModified(dir, file);
-		while (!changed && item.extends[1]) {
-			// Current item
-			if (item.lastModified > lastModified) {
-				this.cache[idx].changedExtends = item.template[1];
-				changed = true; // Parent has changed after requested template
-				break;
-			}
-			// Used includes
-			for (let i = 0; !changed && i < item.includes.length; i++) {
-				if (item.includes[i][2] > lastModified) {
-					this.cache[idx].changedExtends = item.includes[i][1];
-					changed = true; // Some include has changed after requested template
-					break;
-				}
-			}
-			// Go to parent
-			if (!changed) {
-				let i = this.getCacheIdx(item.extends[0], item.extends[1]);
-				item = this.cache[i];
-			}
-		}
-		if (changed && this.debug) {
-			let tmp = Object.assign({}, item);
-			Reflect.deleteProperty(tmp, "rawData");
-			log.info(`Info collected about changed file ${file}: `, tmp);
-		}
-		return changed;
-	}
-
-	/**
 	 * Retrieve parent, variables and blocks from file
 	 */
-	getUserData(dir, file, opts) {
-		// Defaults
-		if (opts == undefined) opts = {};
-		if (opts.debug != undefined) this.debug = opts.debug;
-		if (opts.inclIncludes == undefined) opts.inclIncludes = false;
-		if (opts.stripFoundTags == undefined) opts.stripFoundTags = false;
-		let log = Logger.getInstance();
-		let idx = this.getCacheIdx(dir, file, opts.inclIncludes, opts.stripFoundTags);
+	getUserData(dir, file) {
+		let idx = this.getCacheIdx(dir, file);
 		let item = this.cache[idx];
-		NunjucksUtils.readBlocks(item);
-		NunjucksUtils.readVariables(item);
+		if (this.opts.readBlocks) NunjucksUtils.readBlocks(item);
+		if (this.opts.readVariables) NunjucksUtils.readVariables(item);
+
 		let tmp = Object.assign({}, item);
-		if (!opts.stripFoundTags) {
+		if (!this.opts.stripFoundTags) {
 			Reflect.deleteProperty(tmp, "rawData");
 		}
-		if (this.debug) {
+		if (this.opts.debug) {
+			let log = Logger.getInstance();
 			log.info("User data", tmp);
 		}
 		return tmp;
 	}
+
+	/**
+	 * Get tag for extends
+	 */
+	static getTagExtends(template, trimBegin = false, trimEnd = false) {
+		return `{%${trimBegin ? "- " : ""} extends "${template}" ${
+			trimEnd ? " -" : ""
+		}%}\n`;
+	}
+
+	/**
+	 * Get tag for a template variable
+	 *
+	 * @param string type Can be boolean,  number, object, string
+	 */
+	static getTagVariable(name, value, type, trimBegin = false, trimEnd = false) {
+		switch (type) {
+			case "boolean":
+				value = value ? "true" : "false";
+				break;
+			case "number":
+				break;
+			case "object":
+				value = JSON.stringify(value, null, "\t");
+				break;
+			case "string":
+				value = `"${value}"`;
+				break;
+			default:
+				console.log(
+					`Unknown type ${type} for variable ${name} received in NunjucksUtils.setVariable()`,
+				);
+				break;
+		}
+		return `{% set${trimBegin ? "- " : ""} ${name} = ${value} ${
+			trimEnd ? " -" : ""
+		}%}\n`;
+	}
+
+	/**
+	 * Get tag for a template a template block
+	 */
+	static getTagBlock(
+		name,
+		value,
+		trimBegin = false,
+		trimEnd = false,
+		closingTrimBegin = false,
+		closingTrimEnd = false,
+	) {
+		return `{%${trimBegin ? "- " : ""} block ${name} ${trimEnd ? " -" : ""}%}
+${value}
+{%${closingTrimBegin ? "- " : ""} endblock ${closingTrimEnd ? " -" : ""}%}\n`;
+	}
 }
-/*
-
-Test: see nunjucks-test.ts
-
-For playground:
-
-import { join } from "path";
-import { AppConfig, Logger } from "../lib/index.mjs";
-import { NunjucksUtils } from "../lib/nunjucks";
-
-    let contentDir = join(cfg.dirProject, cfg.options.html.dirs.content, "test-pages/nunjucks");
-    let nj = new NunjucksUtils();
-    nj.debug = true;
-    let files = [
-        "index.html"
-    ];
-
-    // Put test templates in search path
-    cfg.options.html.dirs.templates = [
-        join(cfg.options.html.dirs.content, "test-pages/nunjucks")
-    ].concat(cfg.options.html.dirs.templates);
-
-    if (!nj.isChanged(contentDir, files[0])) {
-        log.info(`No changes for file ${files[0]}`);
-    }
-
-    let result = nj.getUserData(contentDir, files[0]);
-
-*/
