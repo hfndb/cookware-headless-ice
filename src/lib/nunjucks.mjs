@@ -31,13 +31,14 @@ class CacheItem {
 /**
  * Structure for options passed to an instance
  */
+
 class NjOpts {
 	constructor(opts) {
 		if (!opts) opts = {};
 		this.opts = {
 			checkTemplate: opts.checkTemplate || true,
 			debug: opts.debug || false,
-			inclIncludes: opts.inclIncludes || false,
+			inclIncludes: opts.inclIncludes || true,
 			readBlocks: opts.readBlocks || true,
 			readVariables: opts.readVariables || true,
 			stripFoundTags: opts.stripFoundTags || false,
@@ -79,6 +80,7 @@ export class NunjucksUtils {
 	 */
 	setSearchPaths(templateDir) {
 		let cfg = AppConfig.getInstance();
+		if (templateDir) this.searchPaths.push(templateDir);
 		for (let i = 0; i < cfg.options.html.dirs.templates.length; i++) {
 			this.searchPaths.push(
 				join(cfg.dirProject, cfg.options.html.dirs.templates[i]),

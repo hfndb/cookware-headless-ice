@@ -31,7 +31,11 @@ function parseLine(line, item, isInComment) {
 	let ext = extname(item.description);
 	switch (ext) {
 		case ".js":
+		case ".cjs":
+		case ".mjs":
 		case ".ts":
+		case ".cts":
+		case ".mts":
 			cmtStart.push("/*");
 			cmtEnd.push("*/");
 			cmtSingleLine.push("//");
@@ -111,7 +115,7 @@ export function generateStats() {
 		addGroup(
 			report,
 			"Source Code",
-			[".js", ".ts"],
+			[".js", ".cjs", ".mjs", ".ts", ".cts", ".mts"],
 			cfg.options.javascript.dirs.source,
 		);
 	}

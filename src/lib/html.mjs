@@ -154,8 +154,8 @@ export class Content {
 		switch (cfg.options.html.caching.engine) {
 			case "nunjucks":
 				let nj = new NunjucksUtils();
-				nj.setSearchPaths();
-				retVal = nj.renderFile(dir, file, context, templateDir);
+				nj.setSearchPaths(templateDir);
+				retVal = nj.renderFile(dir, file, context);
 		}
 		retVal = Stripper.stripHtml(retVal);
 		return retVal;
