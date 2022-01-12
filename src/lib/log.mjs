@@ -143,7 +143,7 @@ export class Logger {
 			data.line = sp[3];
 			data.pos = sp[4];
 			data.stack = stacklist;
-			["dist/src", "static/js"].forEach(search => {
+			["dist/src", "static/js", "src"].forEach(search => {
 				let idx = data.path.indexOf(search);
 				let len = search.length;
 				if (idx >= 0) {
