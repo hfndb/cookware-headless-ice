@@ -1,4 +1,4 @@
-import { extname, join } from "path";
+import { basename, extname, join } from "path";
 import shelljs from "shelljs";
 import { FileUtils, FileWatcher, FileStatus, Logger } from "../lib/index.mjs";
 import { compileFile } from "../local/babel.mjs";
@@ -8,12 +8,26 @@ import { JavascriptUtils } from "../local/javascript.mjs";
 import { PhpUtils } from "../local/php.mjs";
 import { Double, SassFiles, SassUtils } from "../local/styling.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
-const { cp, exec, grep } = shelljs;
+const { cp, exec } = shelljs;
 
 let cfg = AppConfig.getInstance();
 let log = Logger.getInstance();
 
+/**
+ * Active watches
+ */
+let watches = {
+	config: null,
+	js: null,
+	php: null,
+	sass: null,
+};
+
 class ConfigWatch extends FileWatcher {
+	/**
+	 * @param {any} event
+	 * @param {string} file
+	 */
 	change(event, file) {
 		event; // Fool compiler - unused variable
 		file;
@@ -23,6 +37,10 @@ class ConfigWatch extends FileWatcher {
 }
 
 class JsWatch extends FileWatcher {
+	/**
+	 * @param {any} event
+	 * @param {string} file
+	 */
 	change(event, file) {
 		event; // Fool compiler - unused variable
 		if (Double.is(file)) return;
@@ -77,6 +95,10 @@ class JsWatch extends FileWatcher {
 }
 
 class PhpWatch extends FileWatcher {
+	/**
+	 * @param {any} event
+	 * @param {string} file
+	 */
 	change(event, file) {
 		event; // Fool compiler - unused variable
 		if (extname(file) != ".php") {
@@ -98,6 +120,10 @@ class PhpWatch extends FileWatcher {
 }
 
 class SassWatch extends FileWatcher {
+	/**
+	 * @param {any} event
+	 * @param {string} file
+	 */
 	change(event, file) {
 		event; // Fool compiler - unused variable
 		if (extname(file) != ".scss") {
@@ -115,8 +141,19 @@ class SassWatch extends FileWatcher {
 		status.setSource(file, ".scss");
 		status.setTarget(SassUtils.getOutputDir(), ".css");
 
+		let ext = extname(file);
+		let stem = basename(file, ext);
+		if (stem.startsWith("_")) {
+			// Include
+			let dir = join(cfg.dirProject, cfg.options.sass.dirs.source);
+			let source = FileUtils.readFile(join(dir, file));
+			source = Beautify.content(file, source);
+			if (source) {
+				FileUtils.writeFile(dir, file, source, false);
+			}
+		}
 		if (SassFiles.isImport(file)) {
-			// Uses import(s), compile all top level files
+			// Used import(s), compile all top level files
 			SassUtils.compile(true, true);
 		} else {
 			SassUtils.compileFile(status);
@@ -133,7 +170,7 @@ class SassWatch extends FileWatcher {
  * done
  */
 export function initWatches() {
-	ConfigWatch.instance = new ConfigWatch(
+	watches.config = new ConfigWatch(
 		cfg.dirProject,
 		"",
 		"settings.json",
@@ -151,7 +188,7 @@ export function initWatches() {
 				tp = "TypeScript";
 				break;
 		}
-		JsWatch.instance = new JsWatch(
+		watches.js = new JsWatch(
 			cfg.dirProject,
 			cfg.options.javascript.dirs.source,
 			"",
@@ -161,7 +198,7 @@ export function initWatches() {
 	}
 
 	if (cfg.options.php.useWatch) {
-		PhpWatch.instance = new PhpWatch(
+		watches.php = new PhpWatch(
 			cfg.dirProject,
 			cfg.options.php.dirs.source,
 			"",
@@ -170,7 +207,7 @@ export function initWatches() {
 		);
 	}
 
-	SassWatch.instance = new SassWatch(
+	watches.sass = new SassWatch(
 		cfg.dirProject,
 		cfg.options.sass.dirs.source,
 		"",
@@ -181,15 +218,8 @@ export function initWatches() {
 
 export function terminateWatches() {
 	// Stop all active file watching
-	if (ConfigWatch.instance instanceof Object) {
-		ConfigWatch.instance.stop();
-	}
-
-	if (SassWatch.instance instanceof Object) {
-		SassWatch.instance.stop();
-	}
-
-	if (JsWatch.instance instanceof Object) {
-		JsWatch.instance.stop();
-	}
+	if (watches.config) watches.config.stop();
+	if (watches.js) watches.js.stop();
+	if (watches.php) watches.php.stop();
+	if (watches.sass) watches.sass.stop();
 }

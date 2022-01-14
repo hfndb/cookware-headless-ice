@@ -100,6 +100,7 @@ export class AppConfig {
 	 * Singleton factory to get instance
 	 * @param name of project
 	 * @param dirProject set to true in case of call from project middleware.js
+	 * @returns {AppConfig}
 	 */
 	static getInstance(name = "", dirProject = "") {
 		if (!AppConfig.instance) {
