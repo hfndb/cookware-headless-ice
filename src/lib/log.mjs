@@ -6,6 +6,18 @@ import { Formatter } from "./utils.mjs";
 import colors from "colors";
 
 /**
+ * About colors, see article
+ * JavaScript dev deliberately screws up own popular npm packages to make a point
+ * of some sort. Faker.js and colors.js sabotaged by maker
+ * @see https://www.theregister.com/2022/01/10/npm_fakerjs_colorsjs/
+ *
+ * What NPM Should Do Today To Stop A New Colors Attack Tomorrow
+ * @see https://research.swtch.com/npm-colors
+ *
+ * Don't upgrade to version 1.4.44-liberty-2, so... frozen in package.json
+ */
+
+/**
  * Organize logging to application logfiles and possibly console
  */
 export class Logger {

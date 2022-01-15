@@ -37,12 +37,9 @@ Double.reg = {};
 /**
  * Handling of Sass files
  *
- * @todo Implement Dart Sass, since node-sass is depricated  - see /docs/languages.md
- *
- * @todo Implement Rust version of Sass transcompiler - see /docs/languages.md and
+ * @todo Perhaps implement Rust version of Sass transcompiler - see /docs/languages.md and
  * @see https://www.npmjs.com/package/@connorskees/grass
  * @see https://github.com/kaj/rsass
- *
  */
 export class SassFiles {
 	constructor() {
@@ -271,6 +268,10 @@ export class SassUtils {
 	 * Transcompile Sass file, using the configuration in settings.json
 	 *
 	 * @returns success
+	 *
+	 * @todo Perhaps implement Parcel minifier and vendor prefixer written in Rust
+	 * @see https://github.com/parcel-bundler/parcel-css
+	 * @see https://parceljs.org/
 	 */
 	static compileFile(entry, verbose = true) {
 		let session = SessionVars.getInstance();

@@ -1,5 +1,5 @@
 import { basename, join } from "path";
-import markdown from "marked";
+import { marked } from "marked";
 import { FileUtils } from "../lib/index.mjs";
 import { Html } from "./markup.mjs";
 
@@ -10,17 +10,23 @@ import { Html } from "./markup.mjs";
  * @param path request URL
  *
  * @returns array with content in 1st element, extracted title in 2nd element
+ * @see https://marked.js.org/
  */
 export function renderMarkdownFile(dir, path) {
-	markdown.setOptions({
-		renderer: new markdown.Renderer(),
+	/**
+	 * @see https://marked.js.org/using_advanced
+	 */
+	marked.setOptions({
+		renderer: new marked.Renderer(),
 		gfm: true,
 		tables: true,
 		breaks: true,
 		sanitize: false,
+		smartLists: true,
 		xhtml: false,
 	});
-	let content = markdown(FileUtils.readFile(join(dir, path)));
+	let md = FileUtils.readFile(join(dir, path));
+	let content = marked.parse(md);
 	// Try to strip the content within h1 tags
 	let title = Html.getTagContent(content, "h1")[0];
 	if (!title) {
