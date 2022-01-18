@@ -127,7 +127,6 @@ export class Bundle {
 		let shr = new Shrinker();
 		let toWrite = "";
 		let useStrictNeeded = true; // Only use once, at the top
-		Shrinker.init();
 
 		rm("-f", join(outDir, bundle.output));
 		if (bundle.header) {
@@ -145,7 +144,9 @@ export class Bundle {
 		});
 
 		FileUtils.writeFile(outDir, bundle.output, toWrite, false);
-		if (cfg.options.stripping.auto || bundle.compress) {
+
+		// Also write a stripped version
+		if (bundle.compress) {
 			toWrite = Stripper.stripJs(toWrite);
 			let file = FileUtils.getSuffixedFile(
 				bundle.output,

@@ -199,7 +199,9 @@ export function compileFile(entry, verbose = true) {
 			// https://hackernoon.com/babel-your-first-code-transformations-2d1a9a2f3bc4
 		}
 		FileUtils.writeFile(entry.targetDir, entry.target, results.code, verbose);
-		if (forBrowser && cfg.options.stripping.auto) {
+
+		// Also write a stripped version
+		if (forBrowser) {
 			let toWrite = Stripper.stripJs(results.code);
 			let file = FileUtils.getSuffixedFile(
 				entry.target,

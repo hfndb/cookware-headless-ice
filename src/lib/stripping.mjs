@@ -317,6 +317,11 @@ export class Stripper {
  *
  */
 export class Shrinker {
+	/**
+	 * @type {Shrinker}
+	 */
+	static cfg;
+
 	constructor() {
 		this.codeZero = "0".charCodeAt(0);
 		this.codeNine = "9".charCodeAt(0);
@@ -339,13 +344,13 @@ export class Shrinker {
 		for (let nr = 0; nr < 10; nr++) {
 			this.numeric.push(nr.toString());
 		}
+		Shrinker.init();
 	}
 
 	static init() {
-		let cfg = AppConfig.getInstance();
-		let path;
 		if (!Shrinker.cfg) {
-			path = join(cfg.dirProject, "dev", "shrink.json");
+			let cfg = AppConfig.getInstance();
+			let path = join(cfg.dirProject, "dev", "shrink.json");
 			Shrinker.cfg = test("-f", join(path)) ? FileUtils.readJsonFile(path) : null;
 		}
 	}

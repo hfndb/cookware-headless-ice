@@ -204,7 +204,6 @@ let DefaultConfig = {
 		exclude: [],
 	},
 	stripping: {
-		auto: true,
 		suffix: "stripped",
 	},
 	sys: {

@@ -447,14 +447,13 @@ Settings for what is known as file compression, minifying.
 ```javascript
 {
 	"stripping": {
-		"auto": true,
 		"suffix": "stripped"
 	}
 }
 ```
 
 Entries:
-+ *auto*: Automatically also generate stripped versions, ignore HTML and JavaScript settings.
++ *suffix*: Added to stem of filename
 
 
 ## Sys
