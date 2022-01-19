@@ -1,15 +1,16 @@
 import { basename, dirname, join, normalize, sep } from "path";
 import autoprefixer from "autoprefixer";
+import parcelCss from "@parcel/css";
 import postcss from "postcss";
 import shelljs from "shelljs";
-import { getChangeList, AppConfig, Logger } from "../lib/index.mjs";
+import { getChangeList, FileStatus, AppConfig, Logger } from "../lib/index.mjs";
 import { Beautify } from "../lib/beautify.mjs";
 import { FileUtils, removeObsolete } from "../lib/files.mjs";
 import { Stripper } from "../lib/stripping.mjs";
 import { StringExt } from "../lib/utils.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 import { Colors } from "./misc.mjs";
-const { cp, exec, test, touch } = shelljs;
+const { cp, exec, test } = shelljs;
 
 let cfg = AppConfig.getInstance();
 let log = Logger.getInstance(cfg.options.logging);
@@ -20,6 +21,9 @@ let colorCfg;
  * For principle, see switches and 'contact bounce'
  */
 export class Double {
+	/**
+	 * @param {string} file
+	 */
 	static is(file) {
 		let now = new Date().getTime();
 		let last = Double.reg[file] || now - Double.interval - 10;
@@ -61,6 +65,8 @@ export class SassFiles {
 
 	/**
 	 * Get an entry in this.changelist based on source file
+	 *
+	 * @param {string} file
 	 */
 	getEntry(file) {
 		return this.changeList.find(el => el.source == file);
@@ -68,6 +74,9 @@ export class SassFiles {
 
 	/**
 	 * Translate an imported name to a file name
+	 *
+	 * @param {string} fromDir
+	 * @param {string} file
 	 */
 	getImport(fromDir, file) {
 		let [d, f] = this.getDirFile(fromDir, file);
@@ -78,6 +87,8 @@ export class SassFiles {
 	}
 
 	/**
+	 * @param {string} fromDir
+	 * @param {string} file
 	 * @returns {string[]} [dir name, file name]
 	 */
 	getDirFile(fromDir, file) {
@@ -95,7 +106,7 @@ export class SassFiles {
 	 * See if file needs transcompiling.
 	 *
 	 * @param {number} compareWith Highest level last modification
-	 * @param {file} file
+	 * @param {string} file
 	 */
 	importChanged(compareWith, file) {
 		return compareWith < this.importsLatestChange(file);
@@ -112,7 +123,7 @@ export class SassFiles {
 	 *
 	 * Recursive introspection of imports in retrospective 😀
 	 *
-	 * @param {file} file
+	 * @param {string} file
 	 */
 	importsLatestChange(file) {
 		let imports = this.deps.get(file) || [];
@@ -132,12 +143,16 @@ export class SassFiles {
 
 	/**
 	 * See if a file is an import (prefix _)
+	 *
+	 * @param {string} file
 	 */
 	static isImport(file) {
 		return basename(file).startsWith("_");
 	}
 	/**
 	 * Extract imports from a file
+	 *
+	 * @param {FileStatus} entry
 	 */
 	read(entry) {
 		let fullPath = join(entry.dir, entry.source);
@@ -163,6 +178,8 @@ export class SassUtils {
 	/**
 	 * Auto-prefix CSS with vendor specifics
 	 *
+	 * @param {string} content
+	 *
 	 */
 	static addPrefixes(content) {
 		let result = postcss([autoprefixer]).process(content);
@@ -176,6 +193,8 @@ export class SassUtils {
 
 	/**
 	 * Beautify a .scss file. Read from disk and write
+	 *
+	 * @param {FileStatus} entry
 	 * @returns {boolean} if any transcompiling error on the way
 	 */
 	static beautify(entry) {
@@ -200,6 +219,9 @@ export class SassUtils {
 
 	/**
 	 * Transcompile all changed or new Sass files
+	 *
+	 * @param {boolean} verbose
+	 * @param {boolean} isWatching
 	 */
 	static compile(verbose, isWatching = false) {
 		let srcDir = join(cfg.dirProject, cfg.options.sass.dirs.source);
@@ -267,10 +289,10 @@ export class SassUtils {
 	/**
 	 * Transcompile Sass file, using the configuration in settings.json
 	 *
+	 * @param {FileStatus} entry
+	 * @param {boolean} verbose
 	 * @returns success
 	 *
-	 * @todo Perhaps implement Parcel minifier and vendor prefixer written in Rust
-	 * @see https://github.com/parcel-bundler/parcel-css
 	 * @see https://parceljs.org/
 	 */
 	static compileFile(entry, verbose = true) {
@@ -306,19 +328,30 @@ export class SassUtils {
 				entry.target,
 				cfg.options.stripping.suffix,
 			);
+			let out = join(entry.targetDir, file);
 
-			// See Node.js bug @ Stripper.stripCss()
-			// let stripped = Stripper.stripCss(prefixed);
-			// FileUtils.writeFile(entry.targetDir, file, stripped, false);
-			cmd = `yui-compressor -o ${join(entry.targetDir, file)} ${join(
-				entry.targetDir,
-				entry.target,
-			)}`;
+			switch (cfg.options.sass.stripper) {
+				case "parcel-css":
+					let { code } = parcelCss.transform({
+						filename: out,
+						code: Buffer.from(prefixed),
+						minify: true,
+					});
+					FileUtils.writeFile(entry.targetDir, file, code, false);
+					break;
+				case "stripper":
+					// See Node.js bug @ Stripper.stripCss()
+					let stripped = Stripper.stripCss(prefixed);
+					FileUtils.writeFile(entry.targetDir, file, stripped, false);
+					break;
+				case "yui-compressor":
+					cmd = `yui-compressor -o ${out} ${join(entry.targetDir, entry.target)}`;
 
-			result = exec(cmd, { async: false, silent: true });
-			if (result.code != 0) {
-				log.warn(result.stderr);
-				return;
+					result = exec(cmd, { async: false, silent: true });
+					if (result.code != 0) {
+						throw new Error(result.stderr);
+					}
+					break;
 			}
 		} catch (err) {
 			log.warn(

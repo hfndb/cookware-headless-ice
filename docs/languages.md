@@ -22,7 +22,7 @@ Binaries integrated in this project are written in:
 
 + [Dart](https://en.wikipedia.org/wiki/Dart_%28programming_language%29), by Google. For transcompiling [Sass](https://en.wikipedia.org/wiki/Sass_%28stylesheet_language%29), [dart-sass](https://github.com/sass/dart-sass/) is integrated.
 
-+ [Rust](https://en.wikipedia.org/wiki/Rust_%28programming_language%29), originally designed by Graydon Hoare at Mozilla Research, with contributions from others.
++ [Rust](https://en.wikipedia.org/wiki/Rust_%28programming_language%29), originally designed by Graydon Hoare at Mozilla Research, with contributions from others. For file stripping aka compression of generated CSS, [@parcel/css](https://www.npmjs.com/package/@parcel/css) is integrated.
 
 Next steps:
 

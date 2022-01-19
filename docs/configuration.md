@@ -400,7 +400,9 @@ Switches parts of the project overview on or off and sets output directory for p
 		"removeObsolete": {
 			"active": true,
 			"exclude": []
-		}
+		},
+		"stripper": "parcel-css"
+
 	}
 }
 ```
@@ -410,6 +412,7 @@ Entries:
 + *dirs / source*: Location of your Sass files.
 + *dirs / output*: Where to put your CSS files.
 + *removeObsolete*: See as HTML.
++ *stripper*: How to strip aka compress. Value parcel-css, stripper or yui-compressor. Due to a Node.js bug in Array.split(), see [stripping.mjs](../src/lib/stripping.mjs), stripper cannot be used yet.
 
 See [compacting files](./philosophical/compacting-files.md) for more information about... compacting output.
 

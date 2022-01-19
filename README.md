@@ -109,7 +109,7 @@ $ npm run-script update-deps
 ```
 
 + [Node-sass](https://www.npmjs.com/package/node-sass) is replaced by Dart Sass. See above for installation of the binary.
-+ The currently used Node.js version includes a bug, affecting CSS stripping aka campacting aka compression. Therefore, for now yui-compressor needs to be installed. See above.
++ If you want to use yui-compressor for CSS stripping aka campacting aka compression, that needs to be intalled.See above.
 
 
 ## Usage
@@ -175,6 +175,7 @@ Generic:
 + [shelljs](https://www.npmjs.com/package/shelljs) for Linux-like commands, made portable to Windows
 
 CSS:
++ [@parcel/css](https://www.npmjs.com/package/@parcel/css) for compression
 + [postcss](https://www.npmjs.com/package/postcss) with [autoprefixer](https://www.npmjs.com/package/autoprefixer) to add vendor-specific prefixes to CSS rules
 
 HTML and Markdown:

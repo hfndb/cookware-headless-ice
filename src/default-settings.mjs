@@ -189,6 +189,7 @@ let DefaultConfig = {
 			active: true,
 			exclude: [],
 		},
+		stripper: "parcel-css", // parcel-css, stripper, yui-compressor
 	},
 	server: {
 		backupInterval: 0,
