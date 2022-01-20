@@ -215,6 +215,8 @@ See [compacting files](./philosophical/compacting-files.md) for more information
 		},
 		"sourceMapping": true,
 		"sourceVersion": "es2017",
+		"stripper": "stripper"
+		"transcompiler": "babel",
 		"useWatch": true
 	}
 }
@@ -233,6 +235,8 @@ Entries:
 + *removeObsolete / exclude*: An array with files which will be excluded from auto-removal.
 + *sourceMapping*: For Babel. Output source maps and fullfil requirements for [source-map-support](https://www.npmjs.com/package/source-map-support)
 + *sourceVersion*: For Babel. Possible values: es2015, es2016, es2017, es2018.
++ *stripper*: How to strip aka compress. Value stripper or yui-compressor.
++ *transcompiler*: Which transcompiler to use. Currently only Babel.
 + *useWatch*: For local development server. If true, will transcompile if a source file changes.
 
 
@@ -402,7 +406,6 @@ Switches parts of the project overview on or off and sets output directory for p
 			"exclude": []
 		},
 		"stripper": "parcel-css"
-
 	}
 }
 ```

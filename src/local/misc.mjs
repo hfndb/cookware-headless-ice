@@ -7,12 +7,11 @@ import { FileStatus } from "../lib/file-diff.mjs";
 import { Content } from "../lib/html.mjs";
 import { Sitemap } from "../lib/sitemap.mjs";
 import { Formatter } from "../lib/utils.mjs";
-import { compile as compileJs } from "./babel.mjs";
+import { SourceUtils } from "./source.mjs";
 import { SassUtils } from "./styling.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 const { exec, test } = shelljs;
 
-// import { compileTypeScript } from "./typescript.mjs";
 let cfg = AppConfig.getInstance();
 let log = Logger.getInstance(cfg.options.logging);
 
@@ -103,14 +102,14 @@ export class Colors {
 
 /**
  * Create local website:
- * - Transcompile changed Scss, Flow and TypeScript
+ * - Transcompile changed Scss, JavaScript, Flow and TypeScript
  * - Render changed .html using template engine
  * - Generate Google sitemap
  *
  */
 export function generateWeb(verbose) {
 	let session = SessionVars.getInstance();
-	compileJs(verbose);
+	SourceUtils.compile(verbose);
 	SassUtils.compile(verbose);
 	let dir = join(cfg.dirProject, cfg.options.html.dirs.content);
 	if (test("-d", dir)) {

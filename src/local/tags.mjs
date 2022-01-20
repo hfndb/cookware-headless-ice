@@ -28,7 +28,7 @@ export class Tags {
 		return fileTags.join("\n");
 	}
 
-	static forProject(dir) {
+	static forProject(dir, verbose = true) {
 		if (!cfg.options.tags.active) return;
 		let cmd = "";
 		switch (cfg.options.tags.generator) {
@@ -51,7 +51,7 @@ export class Tags {
 			tags,
 			false,
 		);
-		FileUtils.writeFile(cfg.dirProject, "tags", Tags.filterFlags(), true);
+		FileUtils.writeFile(cfg.dirProject, "tags", Tags.filterFlags(), verbose);
 	}
 
 	static forFile(file) {

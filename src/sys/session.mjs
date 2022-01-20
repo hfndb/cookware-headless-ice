@@ -1,16 +1,15 @@
 /**
  * For registration of during session processed files
  */
-export var ProcessingTypes;
-(function(ProcessingTypes) {
-	ProcessingTypes["epub"] = "epub";
-	ProcessingTypes["html"] = "html";
-	ProcessingTypes["javascript"] = "javascript";
-	ProcessingTypes["pdf"] = "pdf";
-	ProcessingTypes["php"] = "php";
-	ProcessingTypes["sass"] = "sass";
-	ProcessingTypes["typescript"] = "typescript";
-})((ProcessingTypes = ProcessingTypes || (ProcessingTypes = {})));
+export let ProcessingTypes = {
+	epub: "epub",
+	html: "html",
+	javascript: "javascript",
+	pdf: "pdf",
+	php: "php",
+	sass: "sass",
+	typescript: "typescript"
+};
 
 /**
  * Class with session variables, in seperate file to prevent recursive import loop

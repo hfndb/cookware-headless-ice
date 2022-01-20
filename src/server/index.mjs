@@ -8,7 +8,7 @@ import { AppConfig } from "../lib/config.mjs";
 import { Logger } from "../lib/index.mjs";
 import { ExpressUtils } from "../lib/express.mjs";
 import { backupChangedSource } from "../local/misc.mjs";
-import { compile as compileJs } from "../local/babel.mjs";
+import { SourceUtils } from "../local/source.mjs";
 import { SassUtils } from "../local/styling.mjs";
 import { SessionVars } from "../sys/session.mjs";
 // import { STATUS_CODES } from "http";
@@ -23,7 +23,7 @@ export function gracefulShutdown() {
 	terminateWatches();
 	log.info(session.toString()); // Statistics about processed files
 	// Perhaps overkill, but... these function calls will delete obsolete files - due to renaming files
-	compileJs(false);
+	SourceUtils.compile(false);
 	SassUtils.compile(false);
 	ExpressUtils.shutdown();
 }

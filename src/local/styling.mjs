@@ -345,8 +345,10 @@ export class SassUtils {
 					FileUtils.writeFile(entry.targetDir, file, stripped, false);
 					break;
 				case "yui-compressor":
-					cmd = `yui-compressor -o ${out} ${join(entry.targetDir, entry.target)}`;
-
+					cmd = `yui-compressor --type css -o ${out} ${join(
+						entry.targetDir,
+						entry.target,
+					)}`;
 					result = exec(cmd, { async: false, silent: true });
 					if (result.code != 0) {
 						throw new Error(result.stderr);

@@ -5,7 +5,7 @@ import { removeObsolete } from "../lib/files.mjs";
 import { Content } from "../lib/html.mjs";
 import { signFile } from "../lib/pgp.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
-import { compile as compileJs } from "./babel.mjs";
+import { SourceUtils } from "./source.mjs";
 import { SassUtils } from "./styling.mjs";
 const { exec } = shelljs;
 
@@ -18,7 +18,7 @@ export function renderPdf() {
 	let log = Logger.getInstance(cfg.options.logging);
 	if (cfg.options.pdf.firstUpdateWeb) {
 		log.info("Checking (and updating) sources and content");
-		compileJs(false);
+		SourceUtils.compile(false);
 		SassUtils.compile(false);
 		let content = new Content();
 		content.renderAll(false);

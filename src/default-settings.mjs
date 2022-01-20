@@ -94,6 +94,8 @@ let DefaultConfig = {
 		},
 		sourceMapping: true,
 		sourceVersion: "es2017",
+		stripper: "stripper", // stripper, yui-compressor
+		transcompiler: "babel",
 		useWatch: true,
 	},
 	logging: {

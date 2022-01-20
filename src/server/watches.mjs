@@ -1,14 +1,13 @@
 import { basename, extname, join } from "path";
-import shelljs from "shelljs";
 import { FileUtils, FileWatcher, FileStatus, Logger } from "../lib/index.mjs";
-import { compileFile } from "../local/babel.mjs";
 import { Beautify } from "../lib/beautify.mjs";
 import { AppConfig } from "../lib/config.mjs";
 import { JavascriptUtils } from "../local/javascript.mjs";
 import { PhpUtils } from "../local/php.mjs";
+import { SourceUtils } from "../local/source.mjs";
 import { Double, SassFiles, SassUtils } from "../local/styling.mjs";
+import { Tags } from "../local/tags.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
-const { cp, exec } = shelljs;
 
 let cfg = AppConfig.getInstance();
 let log = Logger.getInstance();
@@ -66,31 +65,16 @@ class JsWatch extends FileWatcher {
 			".js",
 		);
 
-		switch (cfg.options.javascript.compiler) {
-			case "":
-				cp(
-					join(dir, file),
-					join(cfg.dirProject, cfg.options.javascript.dirs.output, file),
-				);
-			default:
-				let session = SessionVars.getInstance();
-				session.add(
-					isTypescript ? ProcessingTypes.typescript : ProcessingTypes.javascript,
-					file,
-				);
+		let session = SessionVars.getInstance();
+		session.add(
+			isTypescript ? ProcessingTypes.typescript : ProcessingTypes.javascript,
+			file,
+		);
 
-				compileFile(status, true);
-				JavascriptUtils.bundle();
-				if (cfg.options.javascript.generateTags) {
-					exec(
-						`ctags-exuberant --fields=nksSaf --file-scope=yes -R  ${join(
-							cfg.dirProject,
-							cfg.options.javascript.dirs.source,
-						)}`,
-						{ async: true },
-					);
-				}
-		}
+		SourceUtils.compileFile(status, true);
+		JavascriptUtils.bundle();
+		Tags.forProject(cfg.options.javascript.dirs.source, false);
+		Tags.forFile(join(cfg.options.javascript.dirs.source, status.source));
 	}
 }
 
