@@ -1,7 +1,8 @@
 import { join } from "path";
 import shelljs from "shelljs";
-import { AppConfig, FileUtils, Logger } from "../lib/index.mjs";
+import { AppConfig, FileStatus, FileUtils, Logger } from "../lib/index.mjs";
 import { Stripper, Shrinker } from "../lib/stripping.mjs";
+import { SourceUtils } from "./source.mjs";
 const { exec, rm, test } = shelljs;
 
 let cfg = AppConfig.getInstance();
@@ -81,6 +82,9 @@ export class JavascriptUtils {
  * Class to handle JavaScript bundles
  */
 export class Bundle {
+	static apps;
+	static bundles;
+
 	static init() {
 		let path;
 
@@ -99,6 +103,9 @@ export class Bundle {
 
 	/**
 	 * Internal method to check need for writing bundle
+	 *
+	 * @param {Object} bundle
+	 * @param {string} outDir
 	 */
 	static isChanged(bundle, outDir) {
 		if (!test("-f", join(outDir, bundle.output))) return true;
@@ -119,11 +126,15 @@ export class Bundle {
 
 	/**
 	 * If necessary, write bundle
+	 *
+	 * @param {Object} bundle
+	 * @param {boolean} writeDict
 	 */
 	static create(bundle, writeDict) {
 		let outDir = JavascriptUtils.getOutputDir();
 		if (!Bundle.isChanged(bundle, outDir)) return;
 		let content = "";
+		let dir = join(cfg.dirProject, cfg.options.javascript.dirs.source);
 		let shr = new Shrinker();
 		let toWrite = "";
 		let useStrictNeeded = true; // Only use once, at the top
@@ -135,35 +146,35 @@ export class Bundle {
 		}
 
 		bundle.source.forEach(item => {
-			content = FileUtils.readFile(join(outDir, item));
+			content = FileUtils.readFile(join(dir, item));
 			if (!useStrictNeeded) {
 				content = content.replace('"use strict";', "");
+			}
+			if (bundle.removeImports) {
+				content = Stripper.stripImports(content);
 			}
 			useStrictNeeded = false;
 			toWrite += content.trim() + "\n";
 		});
 
-		FileUtils.writeFile(outDir, bundle.output, toWrite, false);
-
-		// Also write a stripped version
-		if (bundle.compress) {
-			toWrite = Stripper.stripJs(toWrite);
-			let file = FileUtils.getSuffixedFile(
-				bundle.output,
-				cfg.options.stripping.suffix,
-			);
-			FileUtils.writeFile(outDir, file + "~", toWrite, false); // todo remove
-			toWrite = shr.shrinkFile(toWrite, writeDict);
-			FileUtils.writeFile(outDir, file, toWrite, false);
+		// Write bundle
+		let status = new FileStatus(dir);
+		status.setSource(bundle.output, ".js");
+		status.setTarget(
+			join(cfg.dirProject, cfg.options.javascript.dirs.output),
+			".js",
+		);
+		if (SourceUtils.compileFile(status, toWrite, false, true)) {
+			log.info(`- written Javascript bundle ${bundle.output}`);
 		}
-
-		log.info(`- written Javascript bundle ${bundle.output}`);
 
 		return;
 	}
 
 	/**
 	 * Detect where a specific source file needs stripping of imports
+	 *
+	 * @param {string} file
 	 */
 	static needsStripping(file) {
 		let toReturn = false;

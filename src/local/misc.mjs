@@ -134,7 +134,7 @@ export function getStamp() {
 /**
  * Initialization of auto-backup for dev server
  *
- * @param isFirst First file gets another file name
+ * @param {boolean} isFirst First file gets another file name
  */
 export function backupChangedSource(isFirst = false) {
 	let name = isFirst ? "first" : "changes";
@@ -185,7 +185,8 @@ export function renderSysTemplate(path, context, content) {
 /**
  * Search project files for a string
  *
- * @param html If true, return HTML code
+ * @param {string} searchFor
+ * @param {boolean} html If true, return HTML code
  * @returns nested object with found entries
  */
 export function searchProject(searchFor, html) {

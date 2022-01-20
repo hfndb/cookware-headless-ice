@@ -45,7 +45,9 @@ export class FileStatus {
 	setSource(file, ext) {
 		this.source = file;
 		this.ext = ext;
-		this.lastModified = FileUtils.getLastModified(this.dir, this.source);
+		if (test("-e", join(this.dir, this.source))) {
+			this.lastModified = FileUtils.getLastModified(this.dir, this.source);
+		}
 		this.status = "unknown";
 	}
 

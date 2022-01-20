@@ -71,7 +71,7 @@ class JsWatch extends FileWatcher {
 			file,
 		);
 
-		SourceUtils.compileFile(status, true);
+		SourceUtils.compileFile(status, "", true);
 		JavascriptUtils.bundle();
 		Tags.forProject(cfg.options.javascript.dirs.source, false);
 		Tags.forFile(join(cfg.options.javascript.dirs.source, status.source));
