@@ -1,3 +1,4 @@
+"use strict";
 import { join } from "path";
 import shelljs from "shelljs";
 import { FileUtils } from "../lib/index.mjs";

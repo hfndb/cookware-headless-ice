@@ -1,3 +1,5 @@
+"use strict";
+
 import shelljs from "shelljs";
 import { Logger } from "./log.mjs";
 const { exec, mv, rm } = shelljs;

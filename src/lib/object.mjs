@@ -1,3 +1,5 @@
+"use strict";
+
 import { Logger } from "./log.mjs";
 import { AppConfig } from "./config.mjs";
 import qi from "q-i";

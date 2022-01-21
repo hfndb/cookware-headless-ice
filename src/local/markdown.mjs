@@ -1,3 +1,5 @@
+"use strict";
+
 import { basename, join } from "path";
 import { marked } from "marked";
 import { FileUtils } from "../lib/index.mjs";

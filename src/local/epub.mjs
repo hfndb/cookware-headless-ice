@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * Render all changed or new ePub files
  *

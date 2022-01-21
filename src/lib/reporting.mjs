@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * Generic reporting mechanism, consisting of 3 classes: Report, Group, Item.
  *

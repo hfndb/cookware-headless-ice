@@ -1,3 +1,5 @@
+"use strict";
+
 import { basename, extname, join } from "path";
 import shelljs from "shelljs";
 import { AppConfig, FileUtils, StringExt } from "../lib/index.mjs";

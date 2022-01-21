@@ -1,3 +1,5 @@
+"use strict";
+
 import date from "date-and-time";
 import { AppConfig } from "./config.mjs";
 

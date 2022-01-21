@@ -1,3 +1,5 @@
+"use strict";
+
 import { statSync } from "fs";
 import { join } from "path";
 import shelljs from "shelljs";

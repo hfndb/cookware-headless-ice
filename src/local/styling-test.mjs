@@ -1,3 +1,5 @@
+"use strict";
+
 import { join } from "path";
 import { expect } from "chai";
 import shelljs from "shelljs";

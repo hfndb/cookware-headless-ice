@@ -1,3 +1,5 @@
+"use strict";
+
 import { basename, extname, join } from "path";
 import date from "date-and-time";
 import shelljs from "shelljs";

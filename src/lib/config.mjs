@@ -1,3 +1,5 @@
+"use strict";
+
 import { Module } from "module";
 import { homedir, platform, tmpdir } from "os";
 import { dirname, join, normalize, sep } from "path";

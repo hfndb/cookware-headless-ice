@@ -1,3 +1,5 @@
+"use strict";
+
 import { join } from "path";
 import { platform } from "os";
 // import { EOL } from 'os'

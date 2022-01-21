@@ -1,3 +1,5 @@
+"use strict";
+
 import { join, dirname } from "path";
 import shelljs from "shelljs";
 import htmlcs from "htmlcs";

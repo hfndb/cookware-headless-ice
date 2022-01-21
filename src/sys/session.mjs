@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * For registration of during session processed files
  */

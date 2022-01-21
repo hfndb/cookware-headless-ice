@@ -1,3 +1,5 @@
+"use strict";
+
 import { basename, join } from "path";
 import shelljs from "shelljs";
 import { transformSync } from "@babel/core";

@@ -1,3 +1,5 @@
+"use strict";
+
 import { createWriteStream } from "fs";
 import { Module } from "module";
 import { join } from "path";

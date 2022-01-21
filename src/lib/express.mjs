@@ -1,3 +1,5 @@
+"use strict";
+
 import { AppConfig } from "../lib/config.mjs";
 import { Logger } from "./log.mjs";
 import bodyParser from "body-parser";

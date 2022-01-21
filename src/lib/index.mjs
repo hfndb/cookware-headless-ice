@@ -1,3 +1,5 @@
+"use strict";
+
 export { AppConfig } from "./config.mjs";
 export { createDirTree } from "./dirs.mjs";
 export { FileUtils, FileWatcher } from "./files.mjs";

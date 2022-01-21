@@ -1,3 +1,5 @@
+"use strict";
+
 import { readFileSync, statSync, watch, writeFileSync } from "fs";
 import { basename, dirname, extname, join, sep } from "path";
 import { fdir } from "fdir";

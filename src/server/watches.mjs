@@ -1,3 +1,5 @@
+"use strict";
+
 import { basename, extname, join } from "path";
 import { FileUtils, FileWatcher, FileStatus, Logger } from "../lib/index.mjs";
 import { Beautify } from "../lib/beautify.mjs";

@@ -1,3 +1,5 @@
+"use strict";
+
 let DefaultConfig = {
 	version: "0.0.1",
 	projects: [],

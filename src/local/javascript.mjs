@@ -1,3 +1,5 @@
+"use strict";
+
 import { join } from "path";
 import shelljs from "shelljs";
 import { AppConfig, FileStatus, FileUtils, Logger } from "../lib/index.mjs";

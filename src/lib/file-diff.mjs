@@ -1,3 +1,5 @@
+"use strict";
+
 import { basename, dirname, extname, join } from "path";
 import shelljs from "shelljs";
 import { FileUtils } from "./files.mjs";

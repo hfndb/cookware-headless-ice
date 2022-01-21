@@ -1,3 +1,5 @@
+"use strict";
+
 import { join } from "path";
 import { DefaultConfig } from "./default-settings.mjs";
 import { Lint } from "./local/markup.mjs";

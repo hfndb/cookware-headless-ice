@@ -1,3 +1,5 @@
+"use strict";
+
 import {
 	controllerContent,
 	controllerStatic,

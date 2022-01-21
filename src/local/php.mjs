@@ -1,3 +1,5 @@
+"use strict";
+
 import { join } from "path";
 import { AppConfig, FileUtils, Logger } from "../lib/index.mjs";
 import { Beautify } from "../lib/beautify.mjs";

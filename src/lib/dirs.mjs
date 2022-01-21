@@ -1,3 +1,5 @@
+"use strict";
+
 import { join, sep } from "path";
 import { fdir } from "fdir";
 import shelljs from "shelljs";
