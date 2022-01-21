@@ -109,7 +109,7 @@ $ npm run-script update-deps
 ```
 
 + [Node-sass](https://www.npmjs.com/package/node-sass) is replaced by Dart Sass. See above for installation of the binary.
-+ If you want to use Yahoo [yui-compressor](https://yui.github.io/yuicompressor/) for CSS and JavaScript stripping aka campacting aka compression, that needs to be intalled. See above.
++ If you want to use the Yahoo [yui-compressor](https://yui.github.io/yuicompressor/) for CSS and JavaScript stripping aka campacting aka compression, that needs to be intalled. See above.
 
 
 ## Usage

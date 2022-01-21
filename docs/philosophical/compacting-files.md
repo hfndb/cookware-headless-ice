@@ -16,7 +16,7 @@ Files that you keep to yourself (in this case, not leaving a computer) should re
 
 ## Stripping
 
-Stripping is the first step in compacting files. For which the file [stripping.ts](../src/lib/stripping.ts) is 'responsible'. In most cases. This mostly involves:
+Stripping aka compacting or compression is the first step in compacting files. For which the file [stripping.mjs](../src/lib/stripping.mjs) is 'responsible'. In most cases. This mostly involves:
 + Merging all lines of code into 1 line
 + Stripping hierarchy (code indenting)
 + Removing spaces as in space needed to think about what's next.
@@ -29,14 +29,14 @@ Put differently: Do not err yourself 😉
 
 ### Sass
 
-Cookware-headless-ice uses [node-sass](https://www.npmjs.com/package/node-sass) to not only compile 'nested' CSS output, but also to compile 'compressed' output.
+Cookware-headless-ice uses [dart-sass](https://github.com/sass/dart-sass/) to transcompile to 'nested' CSS output. From there, a stripped CSS file will be generated. Due to a Node.js bug in Array.split() using the Yahoo [yui-compressor](https://yui.github.io/yuicompressor/).
 
 Example: If you change a file like 'styles.scss', then the files 'styles.css' and 'styles-stripped.css' will be written to your HD.
 
 
 ### HTML
 
-If you set your project settings, html > stripper > active to true (see [configuration](./configuration.md)), generated HTML will be stripped using [stripping.ts](../src/lib/stripping.ts).
+If you set your project settings, html > stripper > active to true (see [configuration](./configuration.md)), generated HTML will be stripped using [stripping.mjs](../src/lib/stripping.mjs).
 
 
 ### JavaScript or TypeScript
@@ -44,11 +44,11 @@ If you set your project settings, html > stripper > active to true (see [configu
 If you look at JavaScript in your project settings (see [configuration](./configuration.md)), the 'browser' and 'bundles' section include options to activate stripping.
 
 The *workflow* I use is as follows:
-+ For browsers, removal of imports can be activated in your projects settings. To prepare for composing a bundle. Coded in [javascript.ts](../src/local/javascript.ts).
-+ [Babel](https://babeljs.io/docs/en/) transcompiles JavaScript or TypeScript files, controlled by [babel.ts](../src/local/babel.ts).
-+ In case of a transcompiled file for browsers, also a stripped file will be written. Example: If you change a file like 'example.js', then the files 'example.js' and 'example-stripped.js' will be written to your HD. Coded in [stripping.ts](../src/lib/stripping.ts).
++ For browsers, removal of imports can be activated in your projects settings. To prepare for composing a bundle. Coded in [javascript.mjs](../src/local/javascript.mjs) and [source.mjs](../src/local/source.mjs).
++ [Babel](https://babeljs.io/docs/en/) transcompiles JavaScript or TypeScript files, controlled by [babel.mjs](../src/local/babel.mjs).
++ In case of a transcompiled file for browsers, also a stripped file will be written. Example: If you change a file like 'example.js', then the files 'example.js' and 'example-stripped.js' will be written to your HD. Coded in [stripping.mjs](../src/lib/stripping.mjs).
 + In case a transcompiled file is included in a browser bundle, the whole bundle will be created or rewritten. Which means reading transcompiled files, put them all into one file like 'bundle.js'.
-+ For such composed bundles, also a stripped version will be written. For example, if the file 'bundle.js' is created or rewritten, also 'bundle-stripped.js' will be written to your HD. Coded in [stripping.ts](../src/lib/stripping.ts).
++ For such composed bundles, also a stripped version will be written. For example, if the file 'bundle.js' is created or rewritten, also 'bundle-stripped.js' will be written to your HD. Coded in [stripping.mjs](../src/lib/stripping.mjs).
 
 A browser bundle generated like this does not need to resolve internal references, since all imports (and by that, also requires) are stripped. Thus reducing the size of such a browser bundle.
 
@@ -104,20 +104,39 @@ Coding is like thinking. You need to know what you were thinking or coding and w
 
 ### Settings for your mindset
 
-For code sent to a web browser, I don't use a standard class syntax. Which I only use for reasons of namespacing. Instead a syntax like this which prevents [Babel](https://babeljs.io) from generating too much words while transcompiling:
+For code sent to a web browser, I don't use a standard class syntax. Which I only use for reasons of namespacing. Instead a syntax like this which prevents a transcompiler like [Babel](https://babeljs.io) from generating too much words while transcompiling:
 
 ```javascript
 let someCategory = {
-   act: function() {
-      // What about acting?
+   actSober: function() {
+      // Acting soberly here
+   },
+   actThoughtful: function() {
+      // Acting thoughtfully  here
    }
 }
+
+function retrieveInfo() {
+	return true;
+}
+
 ```
 
-To initiate shrinking of such words: In your JavaScript project settings, you can define an object array for shrinking. Like this:
+To initiate shrinking of such words: First create a file dev/shrinking/project.json to point to configuration files in the same directory to work with:
+
 
 ```javascript
-"shrink": [
+// File: dev/shrinking/project.json
+[
+	"various.json"
+]
+```
+
+Then create files like various.json, in which you can define an object array for shrinking. Like this:
+
+```javascript
+// File: dev/shrinking/various.json
+[
    {
       "class": "Namespace",
       "methods": [ "actSober", "actThoughtful"]
@@ -127,6 +146,7 @@ To initiate shrinking of such words: In your JavaScript project settings, you ca
    }
 ]
 ```
+
 You won't get away easy with what you wrote. Code. You'll need to complete this settings to shorten words, names. For specific projects, I did not rely on an auto-generated tags file but wrote a tiny shell script to retrieve the exact information I wanted: [shorten.sh](../tools/shorten.sh).
 
 After doing your homework like this, a changed JavaScript file will not only be transcompiled and stripped, but also words in code will be shortened. A translation table (dictionary) will be written to [project directory]/notes/translate-table.txt.
