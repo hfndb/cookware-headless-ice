@@ -31,7 +31,7 @@ export class FileUtils {
 	 * Method to safely read a json file
 	 *
 	 * @param path to json file to read
-	 * @returns with read json content
+	 * @returns {*} with read json content
 	 */
 	static readJsonFile(path, ignoreErrors = true) {
 		let parsed = {};

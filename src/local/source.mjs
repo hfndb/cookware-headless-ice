@@ -145,7 +145,7 @@ export class SourceUtils {
 			let shr = new Shrinker();
 			let tmpFile = join(cfg.dirTemp, "temp.js");
 
-			// First shorten
+			// First shrink aka shorten
 			source = shr.shrinkFile(source, false);
 
 			// The shrink aka compress

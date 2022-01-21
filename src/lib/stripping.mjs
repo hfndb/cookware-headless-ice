@@ -3,7 +3,7 @@
 import { join } from "path";
 import shelljs from "shelljs";
 import { StringExt } from "../lib/utils.mjs";
-import { AppConfig, FileUtils } from "../lib/index.mjs";
+import { AppConfig, FileUtils, Logger } from "../lib/index.mjs";
 const { test } = shelljs;
 
 // ----------------------------------------------------
@@ -18,9 +18,6 @@ const { test } = shelljs;
  * property declarations with values using filter() and url().
  */
 class CssRuleSet {
-	/**
-	 * @private
-	 */
 	canContinue = false;
 
 	/**
@@ -48,6 +45,8 @@ class CssRuleSet {
 
 	/**
 	 * @private
+	 * @param {string} line
+	 * @param {boolean} prefixSpaceAdded
 	 */
 	inSelector(line, prefixSpaceAdded) {
 		this.canContinue = false;
@@ -66,6 +65,7 @@ class CssRuleSet {
 
 	/**
 	 * @private
+	 * @param {string} line
 	 */
 	inRuleSet(line) {
 		this.canContinue = true;
@@ -134,7 +134,7 @@ export class Stripper {
 	 * @param {string} ft File type; css, html or js
 	 * @param {string[]} [after] List of commands which needs space after them
 	 * @param {string[]} [around] Dito but around
-	 * @param {string[]} [before[] Dito but before
+	 * @param {string[]} [before[]] Dito but before
 	 */
 	constructor(ft, after, around, before) {
 		this.fileType = ft;
@@ -148,10 +148,11 @@ export class Stripper {
 			mse: "*/", // Multi line comment end with
 		};
 		// For css and js the same.
-		// Html ignored since comments shoul be filtered out by template engine
+		// Html ignored since comments should be filtered out by template engine
 	}
 
 	/**
+	 * @param {string} src File type; css, html or js
 	 * @todo Bug in Array.split() within Node.js, affecting CSS stripping
 	 */
 	stripFile(src) {
@@ -220,6 +221,8 @@ export class Stripper {
 
 	/**
 	 * Strip empty space within a line
+	 *
+	 * @param {string} line
 	 */
 	stripLine(line) {
 		let lastIdx = -1;
@@ -239,6 +242,7 @@ export class Stripper {
 	/**
 	 * Check whether space is within encapculated string
 	 *
+	 * @param {string} str
 	 * @todo Within template string, escaped double quotes also count. Fix.
 	 */
 	isInString(str) {
@@ -250,6 +254,9 @@ export class Stripper {
 
 	/**
 	 * Check wether spaces is to be preserved based on defined keywords
+	 *
+	 * @param {string} part1
+	 * @param {string} part2
 	 */
 	preserveSpace(part1, part2) {
 		let r = false;
@@ -265,6 +272,8 @@ export class Stripper {
 	/**
 	 * Remove imports at the top of a source file.
 	 * While doing so, also strip exports.
+	 *
+	 * @param {string} src
 	 */
 	static stripImports(src) {
 		let lines = src.split("\n");
@@ -283,13 +292,16 @@ export class Stripper {
 		return lines.join("\n");
 	}
 
+	/**
+	 * @param {string} source
+	 */
 	static stripCss(source) {
-		let cfg = AppConfig.getInstance();
 		let s = new Stripper("css");
 		return s.stripFile(source);
 	}
 
 	/**
+	 * @param {string} source
 	 * @todo Also consider content of HTML code and pre tags
 	 */
 	static stripHtml(source) {
@@ -299,6 +311,9 @@ export class Stripper {
 		return s.stripFile(source);
 	}
 
+	/**
+	 * @param {string} source
+	 */
 	static stripJs(source) {
 		let cfg = AppConfig.getInstance();
 		let spaces = cfg.options.javascript.lineStripping.needsSpace;
@@ -320,7 +335,7 @@ export class Stripper {
  */
 export class Shrinker {
 	/**
-	 * @type {Shrinker}
+	 * @type {*}
 	 */
 	static cfg;
 
@@ -346,20 +361,40 @@ export class Shrinker {
 		for (let nr = 0; nr < 10; nr++) {
 			this.numeric.push(nr.toString());
 		}
-		Shrinker.init();
-	}
 
-	static init() {
-		if (!Shrinker.cfg) {
-			let cfg = AppConfig.getInstance();
-			let path = join(cfg.dirProject, "dev", "shrink.json");
-			Shrinker.cfg = test("-f", join(path)) ? FileUtils.readJsonFile(path) : null;
+		if (Shrinker.cfg) return;
+
+		// Initialize config
+		let cfg = AppConfig.getInstance();
+		let log = Logger.getInstance(cfg.options.logging);
+		let mp = join(cfg.dirProject, "dev", "shrinking"); // main path
+		let path = join(mp, "project.json"); // List of .json files
+		if (!test("-f", path)) return; // No such list
+
+		let files = FileUtils.readJsonFile(path);
+		Shrinker.cfg = [];
+		/**
+		 * @type {*[]}
+		 */
+		let tms = [];
+
+		for (let i = 0; i < files.length; i++) {
+			let f = files[i];
+			if (!test("-f", join(mp, f))) {
+				log.warn(`Config file ${f} not found`);
+				continue;
+			}
+			tms = tms.concat(FileUtils.readJsonFile(join(mp, f)));
 		}
+		Shrinker.cfg = tms;
 	}
 
 	/**
 	 * Magic here:
 	 * Get a 'different' character, though not different enough to be truly unique.
+	 *
+	 * @param {*} what
+	 * @todo Also consider content of HTML code and pre tags
 	 */
 	getChar(what) {
 		let charCode = what.single.charCodeAt(0);
@@ -429,6 +464,10 @@ export class Shrinker {
 
 	/**
 	 * Shorten some word in this.content
+	 *
+	 * @param {string} search
+	 * @param {string} replace
+	 * @param {boolean} all
 	 */
 	shorten(search, replace, all = true) {
 		if (all) {
@@ -452,6 +491,8 @@ export class Shrinker {
 	 *
 	 * Pre-condition: For reasons of replacing only a first occurence,
 	 * names to shorten should be defined in the same order as they are bundled
+	 *
+	 * @param {*} act
 	 */
 	classes(act) {
 		// Properties of act: One class name, string list of methods
@@ -464,16 +505,20 @@ export class Shrinker {
 		for (let i = 0; i < methods.length; i++) {
 			let mS = methods[i]; // method search for
 			let mR = this.getNext(); // method replace with
+
 			// Call class using static method
 			this.shorten(act.class + "." + mS, cR + "." + mR);
+
 			// Object with functions as methods syntax, replace only first occurence
-			// Function name inserted by Babel, like interpolation to roll back
-			if (this.content.includes(`var ${act.class}=`)) {
-				// Only replace if class is included in content file
-				this.shorten(mS + ":function " + mS, mR + ":function ", false);
-			}
+
+			// Function name inserted by transcompiler, like interpolation to roll back
+			this.shorten(mS + ": function " + mS, mR + ":function ", false);
+			// In case function name was not inserted by transcompiler
+			this.shorten(mS + ": function ", mR + ":function ", false);
+
 			// In case of prototyping
 			this.shorten(act.class + ".prototype." + mS, cR + ".prototype." + mR);
+
 			// Internal
 			this.shorten("this." + mS, "this." + mR);
 			this.dictTxt += `- ${mR}: ${mS}\n`;
@@ -483,6 +528,8 @@ export class Shrinker {
 
 	/**
 	 * Act: Functions
+	 *
+	 * @param {*} act
 	 */
 	functions(act) {
 		// Act: String list of functions
@@ -496,6 +543,8 @@ export class Shrinker {
 
 	/**
 	 * Write dictionary, resulting of project settings, to file
+	 *
+	 * @param {boolean} removeOld
 	 */
 	writeDict(removeOld = false) {
 		let cfg = AppConfig.getInstance();
@@ -512,12 +561,16 @@ export class Shrinker {
 
 	/**
 	 * Main entry: Shrink words so they are not too long any more
+	 *
+	 * @param {string} content
+	 * @param {boolean} writeDict
 	 */
 	shrinkFile(content, writeDict) {
+		if (!Shrinker.cfg) return content;
 		this.content = content;
 		this.dictTxt = "";
 		let cfg = AppConfig.getInstance();
-		for (let i = 0; Shrinker.cfg && i < Shrinker.cfg.length; i++) {
+		for (let i = 0; i < Shrinker.cfg.length; i++) {
 			let act = Shrinker.cfg[i];
 			if (act.class != undefined && act.class) {
 				this.classes(act);
