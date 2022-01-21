@@ -121,8 +121,15 @@ export class ArrayUtils {
 export class ObjectUtils {
 	/**
 	 * Safely clone an object
+	 *
+	 * As from Node.js v17.0.0... uses structuredClone()
+	 * @see https://developer.mozilla.org/en-US/docs/Web/API/structuredClone
 	 */
 	static clone(obj) {
+		let ver = parseInt(process.versions.node.split(".")[0]);
+		if (ver >= 17) {
+			return structuredClone(obj);
+		}
 		return JSON.parse(JSON.stringify(obj));
 	}
 
