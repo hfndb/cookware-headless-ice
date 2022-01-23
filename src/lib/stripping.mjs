@@ -367,11 +367,10 @@ export class Shrinker {
 		// Initialize config
 		let cfg = AppConfig.getInstance();
 		let log = Logger.getInstance(cfg.options.logging);
+		let files = cfg.options.javascript.shrinker.defs;
+		if (files.length == 0) return;
 		let mp = join(cfg.dirProject, "dev", "shrinking"); // main path
-		let path = join(mp, "project.json"); // List of .json files
-		if (!test("-f", path)) return; // No such list
-
-		let files = FileUtils.readJsonFile(path);
+		let path;
 		Shrinker.cfg = [];
 		/**
 		 * @type {*[]}

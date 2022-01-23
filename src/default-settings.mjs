@@ -94,6 +94,9 @@ let DefaultConfig = {
 			active: true,
 			exclude: [],
 		},
+		shrinker: {
+			defs: []
+		},
 		sourceMapping: true,
 		sourceVersion: "es2017",
 		stripper: "stripper", // stripper, yui-compressor
