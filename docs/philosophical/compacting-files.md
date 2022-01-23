@@ -104,50 +104,7 @@ Coding is like thinking. You need to know what you were thinking or coding and w
 
 ### Settings for your mindset
 
-For code sent to a web browser, I don't use a standard class syntax. Which I only use for reasons of namespacing. Instead a syntax like this which prevents a transcompiler like [Babel](https://babeljs.io) from generating too much words while transcompiling:
-
-```javascript
-let someCategory = {
-   actSober: function() {
-      // Acting soberly here
-   },
-   actThoughtful: function() {
-      // Acting thoughtfully  here
-   }
-}
-
-function retrieveInfo() {
-	return true;
-}
-
-```
-
-To initiate shrinking of such words: First create a file dev/shrinking/project.json to point to configuration files in the same directory to work with:
-
-
-```javascript
-// File: dev/shrinking/project.json
-[
-	"various.json"
-]
-```
-
-Then create files like various.json, in which you can define an object array for shrinking. Like this:
-
-```javascript
-// File: dev/shrinking/various.json
-[
-   {
-      "class": "Namespace",
-      "methods": [ "actSober", "actThoughtful"]
-   },
-   {
-   	"functions": ["retrieveInfo"]
-   }
-]
-```
-
-You won't get away easy with what you wrote. Code. You'll need to complete this settings to shorten words, names. For specific projects, I did not rely on an auto-generated tags file but wrote a tiny shell script to retrieve the exact information I wanted: [shorten.sh](../tools/shorten.sh).
+You won't get away easy with what you wrote. Code. You'll need to complete this settings to shorten words, names. For specific projects, I did not rely on an auto-generated tags file but wrote a tiny shell script to retrieve the exact information I wanted: [shorten.sh](../tools/shorten.sh). See [configuration](../configuration.md), section JavaScript, for how to setup configuration for specific shrinking aka shortering.
 
 After doing your homework like this, a changed JavaScript file will not only be transcompiled and stripped, but also words in code will be shortened. A translation table (dictionary) will be written to [project directory]/notes/translate-table.txt.
 

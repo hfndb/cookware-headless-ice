@@ -213,6 +213,9 @@ See [compacting files](./philosophical/compacting-files.md) for more information
 			"active": true,
 			"exclude": []
 		},
+		"shrinker": {
+			"defs": []
+		},
 		"sourceMapping": true,
 		"sourceVersion": "es2017",
 		"stripper": "stripper"
@@ -233,12 +236,50 @@ Entries:
 + *lineStripping*: In case of compression of an already transcompiled file for usage in a web browser, keywords which need space after or around can be set here.
 + *nodeVersion*: For Babel. Possible values: current or version number.
 + *removeObsolete / exclude*: An array with files which will be excluded from auto-removal.
++ *shrinker / dev*: Array with list of files, stem only, pointing to definitions for shortening in the directory /dev/shrinker
 + *sourceMapping*: For Babel. Output source maps and fullfil requirements for [source-map-support](https://www.npmjs.com/package/source-map-support)
 + *sourceVersion*: For Babel. Possible values: es2015, es2016, es2017, es2018.
 + *stripper*: How to strip aka compress. Value stripper or yui-compressor.
 + *transcompiler*: Which transcompiler to use. Currently only Babel.
 + *useWatch*: For local development server. If true, will transcompile if a source file changes.
 
+### Definitions for shrinking
+
+See [compacting files](./philosophical/compacting-files.md) for more information about... compacting output and shrinking. Example configuration for code:
+
+```javascript
+// Syntax like a class with static methods, preventing
+// Babel to generate too much code while transcompiling:
+let SomeCategory = {
+   actSoberly: function() {
+      // Acting soberly here
+   },
+   actThoughtfully: function() {
+      // Acting thoughtfully  here
+   }
+}
+
+function retrieveInfo() {
+	return true;
+}
+```
+
+A configuration file for shrinking then looks like this:
+
+```javascript
+// File: dev/shrinking/various.json
+[
+   {
+      "class": "SomeCategory",
+      "methods": [ "actSoberly", "actThoughtfully"]
+   },
+   {
+   	"functions": ["retrieveInfo"]
+   }
+]
+```
+
+Back to settings.json:
 
 ## Known projects
 
