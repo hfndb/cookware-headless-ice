@@ -166,7 +166,7 @@ export class Bundle {
 			join(cfg.dirProject, cfg.options.javascript.dirs.output),
 			".js",
 		);
-		if (SourceUtils.compileFile(status, toWrite, false, true)) {
+		if (SourceUtils.compileFile(status, toWrite, false, bundle)) {
 			log.info(`- written Javascript bundle ${bundle.output}`);
 		}
 

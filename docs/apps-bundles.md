@@ -32,6 +32,7 @@ An array with JavaScript bundles, merged and compressed for usage in a web brows
 [
 	{
 		"compress": true,
+		"copyTo": "/absolute/path/to/bundle.js",
 		"header": "dist/static/js/some-file.js",
 		"output": "browser/generic.js",
 		"removeImports": true,
@@ -39,4 +40,11 @@ An array with JavaScript bundles, merged and compressed for usage in a web brows
 	}
 ]
 ```
-The header file is relative to the project root, 'output' as the target file relative to the output directory, and 'source' as an array with input files relative to the source directory.
+
+Entries:
++ *compress*: Also produce a shrunken, stripped aka compressed version of the bundle.
++ *copyTo*: Optional. Make an extra copy of generated bundle.
++ *header*: Optional. File to include at the top of a generated bundle. Relative to the project root.
++ *output*: Target file relative to the output directory.
++ *removeImports*: Remove all import (and export) statements from bundle.
++ *source*: An array with input files relative to the source directory.

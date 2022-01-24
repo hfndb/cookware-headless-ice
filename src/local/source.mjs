@@ -1,6 +1,6 @@
 "use strict";
 
-import { dirname, join } from "path";
+import { basename, dirname, join } from "path";
 import shelljs from "shelljs";
 import { Beautify } from "../lib/beautify.mjs";
 import { getChangeList, AppConfig, Logger } from "../lib/index.mjs";
@@ -11,7 +11,7 @@ import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 import { compileFile } from "./babel.mjs";
 import { JavascriptUtils } from "./javascript.mjs";
 import { Tags } from "./tags.mjs";
-const { exec, test } = shelljs;
+const { cp, exec, test } = shelljs;
 
 /**
  * Class to handle JavaScript, Flow and TypeScript source
@@ -103,12 +103,21 @@ export class SourceUtils {
 	 * @param {FileStatus} entry
 	 * @param {string} source
 	 * @param {boolean} verbose
-	 * @param {boolean} isBundle
+	 * @param {Object} [bundle]
 	 */
-	static compileFile(entry, source, verbose = true, isBundle = false) {
+	static compileFile(entry, source, verbose = true, bundle) {
 		let cfg = AppConfig.getInstance();
+		let file = FileUtils.getSuffixedFile(
+			entry.target,
+			cfg.options.stripping.suffix,
+		);
 		let log = Logger.getInstance();
-		let forBrowser = dirname(entry.target).includes("browser") || isBundle;
+		let forBrowser = dirname(entry.target).includes("browser");
+		let isBundle = false;
+		if (bundle) {
+			forBrowser = isBundle = true;
+		}
+		let output = join(entry.targetDir, entry.target);
 		if (!source) source = FileUtils.readFile(join(entry.dir, entry.source));
 
 		// First beautify
@@ -138,10 +147,6 @@ export class SourceUtils {
 
 		// Write a stripped version or else... write
 		if (isBundle || forBrowser) {
-			let file = FileUtils.getSuffixedFile(
-				entry.target,
-				cfg.options.stripping.suffix,
-			);
 			let shr = new Shrinker();
 			let tmpFile = join(cfg.dirTemp, "temp.js");
 
@@ -157,7 +162,6 @@ export class SourceUtils {
 				case "yui-compressor":
 					FileUtils.writeFile("", tmpFile, source, false);
 
-					let output = join(entry.targetDir, entry.target);
 					let cmd = `yui-compressor --type js -o ${output} ${tmpFile}`;
 					let result = exec(cmd, { async: false, silent: true });
 					if (result.code != 0) {
@@ -173,6 +177,21 @@ export class SourceUtils {
 			// Not for a browser, write transcompiled code
 			FileUtils.writeFile(entry.targetDir, entry.target, source, false);
 		}
+
+		if (isBundle && bundle.copyTo) {
+			// Make extra copy
+			cp("-f", output, bundle.copyTo);
+			let stripped = FileUtils.getSuffixedFile(
+				bundle.copyTo,
+				cfg.options.stripping.suffix,
+			);
+			cp(
+				"-f",
+				join(entry.targetDir, file),
+				join(dirname(bundle.copyTo), basename(stripped)),
+			);
+		}
+
 		return true;
 	}
 }
