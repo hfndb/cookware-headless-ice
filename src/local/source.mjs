@@ -108,7 +108,7 @@ export class SourceUtils {
 	static compileFile(entry, source, verbose = true, isBundle = false) {
 		let cfg = AppConfig.getInstance();
 		let log = Logger.getInstance();
-		let forBrowser = dirname(entry.target).includes("browser");
+		let forBrowser = dirname(entry.target).includes("browser") || isBundle;
 		if (!source) source = FileUtils.readFile(join(entry.dir, entry.source));
 
 		// First beautify
