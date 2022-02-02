@@ -1,5 +1,4 @@
 "use strict";
-
 import {
 	controllerContent,
 	controllerStatic,
@@ -46,7 +45,7 @@ export function coatRack() {
 	let log = Logger.getInstance(cfg.options.logging);
 	if (cfg.options.server.firstUpdateSources) {
 		log.info("Checking (and updating) sources");
-		compileJs(false);
+		SourceUtils.compile(false);
 		SassUtils.compile(false);
 		log.info("... done");
 	}

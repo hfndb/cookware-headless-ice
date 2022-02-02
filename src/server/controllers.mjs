@@ -1,5 +1,4 @@
 "use strict";
-
 import { basename, extname, join } from "path";
 import date from "date-and-time";
 import shelljs from "shelljs";
@@ -23,6 +22,7 @@ export function controllerSys(req, res, next) {
 	let cfg = AppConfig.getInstance();
 	let root =
 		extname(req.path) == ".md" ? cfg.dirMain : join(cfg.dirMain, "content");
+
 	controllerGeneric(req, res, next, root, false, "/sys");
 }
 
@@ -53,10 +53,12 @@ export function controllerStatic(req, res, next) {
 		url = url.replace("/static/sys", "/static");
 		forceMain = true;
 	}
+
 	let inProject = join(Content.getOutputDir(), url);
 	let inMain = join(cfg.dirMain, "dist", url);
 	let pdf = join(cfg.dirProject, cfg.options.pdf.dirs.output, file);
 	let ePub = join(cfg.dirProject, cfg.options.epub.dirs.output, file);
+
 	if (!forceMain && test("-f", inProject)) {
 		res.sendFile(inProject);
 	} else if (test("-f", inMain)) {
@@ -77,6 +79,7 @@ export function controllerStatic(req, res, next) {
  */
 function sysTemplate(res, path, context, content) {
 	let data = renderSysTemplate(path, context, content);
+
 	res.send(data);
 }
 
@@ -94,15 +97,18 @@ async function controllerGeneric(
 	let additionalContext = [];
 	let url = req.path.endsWith("/") ? req.path.concat("index.html") : req.path;
 	let ext = extname(url).toLowerCase();
+
 	if (prefix.length > 0) {
 		// Strip prefix
 		url = url.substr(prefix.length);
 	}
 	url = url.substr(1); // strip leading "/" from URL path
+
 	if (!test("-e", join(contentDir, url))) {
 		next();
 		return;
 	}
+
 	if (prefix == "/sys" && url == "index.html") {
 		additionalContext = Object.assign(additionalContext, {
 			isProject: false,
@@ -110,6 +116,7 @@ async function controllerGeneric(
 			projectPackages: Packages.getPackageReadmeFiles(false),
 		});
 	}
+
 	switch (ext) {
 		case ".md":
 			let md = renderMarkdownFile(contentDir, url);
@@ -126,6 +133,7 @@ async function controllerGeneric(
 			let entry;
 			let context = Content.getDefaultContext(req.url);
 			context = Object.assign(context, additionalContext);
+
 			if (ext != ".md" && req.query && req.query.lint) {
 				context = Object.assign(context, {
 					files: [
@@ -138,12 +146,14 @@ async function controllerGeneric(
 						},
 					],
 				});
+
 				sysTemplate(res, "lint.html", context, content);
 			} else if (url == "todo.html") {
 				context = Object.assign(context, searchProject("todo", true));
 				sysTemplate(res, "todo.html", context, content);
 			} else if (url == "project-overview.html") {
 				context = Object.assign(context, { report: generateStats() });
+
 				sysTemplate(res, "project-overview.html", context, content);
 			} else {
 				// Prevent browser caching
@@ -151,6 +161,7 @@ async function controllerGeneric(
 					new Date(),
 					"ddd, DD MMM YYYY hh:mm:00 [GMT]",
 				); // Sun, 22 Sep 2019 10:13:00 GMT
+
 				res.set({
 					Pragma: "public",
 					"Last-Modified": lastModified,
@@ -158,18 +169,22 @@ async function controllerGeneric(
 					"Cache-Control":
 						"no-cache, no-store, must-revalidate, post-check=0, pre-check=0, private",
 				});
+
 				entry = new FileStatus(contentDir);
 				entry.setSource(url, ".html");
+
 				data = content.render(entry.dir, entry.source, {
 					additionalContext: context,
 					useProjectTemplates: useProjectTemplates,
 				});
-				if (!data && cfg.options.sys.notifications.compileIssue.html)
-					SysUtils.notify("Html issue");
+				if (!data) SysUtils.notifyCode("html");
+
 				content.rendered.forEach(file => {
 					session.add(ProcessingTypes.html, file);
 				});
+
 				res.send(data);
+
 				break;
 			}
 	}

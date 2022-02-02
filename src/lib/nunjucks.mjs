@@ -37,14 +37,12 @@ class CacheItem {
 class NjOpts {
 	constructor(opts) {
 		if (!opts) opts = {};
-		this.opts = {
-			checkTemplate: opts.checkTemplate || true,
-			debug: opts.debug || false,
-			inclIncludes: opts.inclIncludes || true,
-			readBlocks: opts.readBlocks || true,
-			readVariables: opts.readVariables || true,
-			stripFoundTags: opts.stripFoundTags || false,
-		};
+		this.checkTemplate = opts.checkTemplate || true;
+		this.debug = opts.debug || false;
+		this.inclIncludes = opts.inclIncludes || true;
+		this.readBlocks = opts.readBlocks || true;
+		this.readVariables = opts.readVariables || true;
+		this.stripFoundTags = opts.stripFoundTags || false;
 	}
 }
 

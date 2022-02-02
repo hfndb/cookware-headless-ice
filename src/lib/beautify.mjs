@@ -1,5 +1,4 @@
 "use strict";
-
 import { extname, join } from "path";
 import shelljs from "shelljs";
 import { AppConfig, FileUtils, Logger } from "../lib/index.mjs";
@@ -13,6 +12,8 @@ let log = Logger.getInstance(cfg.options.logging);
 export class Beautify {
 	/**
 	 * Stand-alone version to beautify a file or directory with content
+	 *
+	 * @param {string} path
 	 */
 	static standAlone(path) {
 		if (path.endsWith("/")) path = path.substr(0, path.length - 1);
@@ -35,8 +36,8 @@ export class Beautify {
 	 * Beautify html, js, ts or scss file(s)
 	 * Uses configuration in settings.json
 	 *
-	 * @param file name
-	 * @param content of file
+	 * @param {string} file name
+	 * @param {string} content of file
 	 *
 	 * @todo Implement Rust version, faster - see /docs/languages.md
 	 */
@@ -78,21 +79,7 @@ export class Beautify {
 			return data;
 		} catch (err) {
 			log.warn(`- Failed to render file ${file} `, Logger.error2string(err));
-			switch (parser) {
-				case "css":
-					if (cfg.options.sys.notifications.compileIssue.sass)
-						SysUtils.notify("Sass issue");
-					break;
-				case "html":
-					if (cfg.options.sys.notifications.compileIssue.html)
-						SysUtils.notify("Html issue");
-					break;
-				case "babel":
-				case "typescript":
-					if (cfg.options.sys.notifications.compileIssue.code)
-						SysUtils.notify("Code issue");
-					break;
-			}
+			SysUtils.notifyCode(parser);
 			return "";
 		}
 	}

@@ -6,6 +6,7 @@ import { transformSync } from "@babel/core";
 import { AppConfig, Logger } from "../lib/index.mjs";
 import { FileUtils } from "../lib/files.mjs";
 import { FileStatus } from "../lib/file-diff.mjs";
+import { SysUtils } from "../lib/sys.mjs";
 const { rm, test } = shelljs;
 // https://babeljs.io/docs/en/
 
@@ -89,7 +90,8 @@ export function compileFile(entry, source, forBrowser, verbose = true) {
 			sourceMaps: true,
 		});
 		if (!results) {
-			throw new Error("");
+			SysUtils.notifyCode("javascript");
+			return "";
 		}
 		if (process.env.NODE_ENV == "production") {
 			// For production use

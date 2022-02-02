@@ -1,5 +1,4 @@
 "use strict";
-
 import { basename, dirname, join, normalize, sep } from "path";
 import autoprefixer from "autoprefixer";
 import parcelCss from "@parcel/css";
@@ -9,6 +8,7 @@ import { getChangeList, FileStatus, AppConfig, Logger } from "../lib/index.mjs";
 import { Beautify } from "../lib/beautify.mjs";
 import { FileUtils, removeObsolete } from "../lib/files.mjs";
 import { Stripper } from "../lib/stripping.mjs";
+import { SysUtils } from "../lib/sys.mjs";
 import { StringExt } from "../lib/utils.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 import { Colors } from "./misc.mjs";
@@ -319,6 +319,7 @@ export class SassUtils {
 			let result = exec(`cd ${sassDir}; ${cmd}`, { async: false, silent: true });
 			if (result.code != 0) {
 				log.warn(result.stderr);
+				SysUtils.notifyCode("sass");
 				return;
 			}
 			let prefixed = SassUtils.addPrefixes(result.stdout);

@@ -1,5 +1,4 @@
 "use strict";
-
 import { basename, dirname, join } from "path";
 import shelljs from "shelljs";
 import { Beautify } from "../lib/beautify.mjs";
@@ -123,9 +122,8 @@ export class SourceUtils {
 		// First beautify
 		if (!isBundle && cfg.options.server.beautify.includes("src")) {
 			source = Beautify.content(entry.source, source);
-			if (!source) {
-				return false;
-			}
+			if (!source) return false;
+
 			FileUtils.writeFile(entry.dir, entry.source, source, false);
 		}
 
@@ -139,6 +137,7 @@ export class SourceUtils {
 		switch (cfg.options.javascript.transcompiler) {
 			case "babel":
 				source = compileFile(entry, source, forBrowser, verbose);
+				if (!source) return false;
 				break;
 		}
 		if (!source) {

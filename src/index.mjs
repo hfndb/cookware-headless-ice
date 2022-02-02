@@ -1,5 +1,4 @@
 "use strict";
-
 import { join } from "path";
 import { DefaultConfig } from "./default-settings.mjs";
 import { Lint } from "./local/markup.mjs";
@@ -171,7 +170,7 @@ if (choice.beautify) {
 			break;
 		case "src":
 			dir = cfg.options.javascript.dirs.source;
-			allow.push(".js", ".ts");
+			allow.push(".js", ".cjs", ".mjs", ".ts", ".cts", ".mts");
 			break;
 		default:
 			log.error(`Unknown type ${choice.touch}`);

@@ -1,5 +1,4 @@
 "use strict";
-
 import { join } from "path";
 import shelljs from "shelljs";
 import { AppConfig } from "./config.mjs";
@@ -13,7 +12,7 @@ export class SysUtils {
 	/**
 	 * Play an audio file
 	 *
-	 * @param file Relative to program dir
+	 * @param {string} file Relative to program dir
 	 * @todo Bug, package cannot find mplayer
 	 */
 	static async playFile(file) {
@@ -35,6 +34,9 @@ export class SysUtils {
 		}
 	}
 
+	/**
+	 * @param {string} msg
+	 */
 	static notify(msg) {
 		let cfg = AppConfig.getInstance();
 		if (!cfg.options.sys.notifications.command) return;
@@ -48,5 +50,29 @@ export class SysUtils {
 			cfg.options.sys.notifications.title +
 			'"';
 		exec(cmd, { async: true });
+	}
+
+	/**
+	 * Shortcut
+	 * @param {string} tp Type of notification
+	 */
+	static notifyCode(tp) {
+		let cfg = AppConfig.getInstance();
+		switch (tp) {
+			case "css":
+			case "sass":
+				if (cfg.options.sys.notifications.compileIssue.sass)
+					SysUtils.notify("Sass issue");
+				break;
+			case "html":
+				if (cfg.options.sys.notifications.compileIssue.html)
+					SysUtils.notify("Html issue");
+				break;
+			case "babel":
+			case "javascript":
+			case "typescript":
+				if (cfg.options.sys.notifications.compileIssue.code)
+					SysUtils.notify("Code issue");
+		}
 	}
 }
