@@ -1,9 +1,7 @@
 "use strict";
-
 import { readFileSync, statSync, watch, writeFileSync } from "fs";
 import { basename, dirname, extname, join, sep } from "path";
 import { fdir } from "fdir";
-import lineByLine from "n-readlines";
 import shelljs from "shelljs";
 import { AppConfig } from "./config.mjs";
 import { getDirList } from "./dirs.mjs";
@@ -41,6 +39,7 @@ export class FileUtils {
 			log.warn(`File ${file} not found in directory ${dirname(path)}`);
 			return {};
 		}
+
 		let data = FileUtils.readFile(path);
 		if (data) {
 			try {
@@ -66,6 +65,7 @@ The structure of this file is invalid, meaning, messed up.
 	static writeJsonFile(content, dir, file, verbose = true) {
 		let data = JSON.stringify(content, null, "\t");
 		let log = Logger.getInstance();
+
 		if (
 			FileUtils.writeFile(dir, file, data, false) &&
 			verbose &&
@@ -107,6 +107,7 @@ The structure of this file is invalid, meaning, messed up.
 		let log = Logger.getInstance();
 		let fullPath = join(dir, file);
 		let dir4sure = dirname(fullPath);
+
 		if (dir4sure && !test("-d", dir4sure)) {
 			FileUtils.mkdir(dir4sure);
 		}
@@ -122,6 +123,7 @@ The structure of this file is invalid, meaning, messed up.
 			log.error(`- Failed to write file ${fullPath}`, Logger.error2string(err));
 			throw err;
 		}
+
 		return true;
 	}
 
@@ -145,15 +147,20 @@ The structure of this file is invalid, meaning, messed up.
 		};
 		if (!recursive) Object.assign(tns, { maxDepth: 0 }); // No effect
 		const fl = new fdir().crawlWithOptions(path, tns).sync();
+
 		for (let d = 0; d < fl.length; d++) {
 			let dir = fl[d].dir;
+
 			if (dir.startsWith(cfg.dirProject)) {
 				dir = dir.substring(path.length + 1);
 			}
+
 			if (!recursive && dir.length > 0) continue;
+
 			for (let f = 0; f < fl[d].files.length; f++) {
 				let file = fl[d].files[f];
 				if (excludeList.includes(file)) continue;
+
 				if (
 					allowedExtensions.length == 0 ||
 					allowedExtensions.includes(extname(file))
@@ -237,10 +244,12 @@ The structure of this file is invalid, meaning, messed up.
 	static getUniqueFileName(dir, file, ext) {
 		let orgFile = file;
 		let i = 1;
+
 		while (test("-f", join(dir, file + ext))) {
 			file = orgFile + "-" + i.toString().padStart(2, "0");
 			i++;
 		}
+
 		return file + ext;
 	}
 
@@ -252,38 +261,6 @@ The structure of this file is invalid, meaning, messed up.
 	static getTempFileName(lengthSuffix) {
 		// Date.now is updated every millisecond
 		return Date.now() + "-" + StringExt.getRandom(lengthSuffix);
-	}
-
-	/**
-	 * Search for occurences of a string in a file
-	 * In opts.markFound a placeholder $ to insert the search string
-	 *
-	 * @returns array with arrays; 1st element line #, 2nd element data of line
-	 */
-	static searchInFile(path, searchFor, opts) {
-		const regex = new RegExp(searchFor, opts.ignoreCase ? "i" : undefined);
-		if (opts.markFound != "") {
-			opts.markFound = opts.markFound.replace("$", searchFor);
-		}
-		let lr = new LineReader(path);
-		let lineNr = 0;
-		let retVal = [];
-		do {
-			let line = lr.next();
-			if (line === false) break; // End of file
-			lineNr++;
-			let matched = line.match(regex);
-			if ((opts.inverse && !matched) || (!opts.inverse && matched)) {
-				if (opts.markFound != "") {
-					line = line.replace(regex, opts.markFound);
-				}
-				if (opts.processor != undefined) {
-					line = opts.processor(line);
-				}
-				retVal.push([lineNr, line.replace("\t", "")]);
-			}
-		} while (true);
-		return retVal;
 	}
 
 	/**
@@ -302,6 +279,7 @@ The structure of this file is invalid, meaning, messed up.
 	static touchRecursive(path, opts) {
 		if (!opts) opts = {};
 		if (opts.recursive == undefined) opts.recursive = true;
+
 		let files = FileUtils.getFileList(path, opts);
 		for (let i = 0; i < files.length; i++) {
 			touch(join(path, files[i]));
@@ -331,6 +309,7 @@ export class FileWatcher {
 	addWatch(workingDir, projectDir, path, verbose = true) {
 		let log = Logger.getInstance();
 		let fullPath = join(workingDir, projectDir, path);
+
 		if (!test("-e", fullPath)) {
 			log.info(
 				`Path ./${join(projectDir, path)} doesn't exist. Request to watch ${
@@ -343,6 +322,7 @@ export class FileWatcher {
 		if (!isDir) {
 			fullPath = join(workingDir, projectDir); // Watch directory, not file (workaround for bug in Node.js)
 		}
+
 		this.watchers.push(
 			watch(
 				fullPath,
@@ -367,15 +347,18 @@ export class FileWatcher {
 						// Seems to be a buffer file
 						return;
 					}
+
 					// Delaying mechanisme to prevent a phenomenon like "contact bounce"
 					// https://en.wikipedia.org/wiki/Switch#Contact_bounce
 					if (this.nowChanging.includes(file)) return;
+
 					let recycle = this.nowChanging.indexOf("-");
 					if (recycle >= 0) {
 						this.nowChanging[recycle] = file;
 					} else {
 						this.nowChanging.push(file);
 					}
+
 					// Bug in node.js (respond time)
 					// See https://github.com/gruntjs/grunt-contrib-watch/issues/13
 					setTimeout(() => {
@@ -432,6 +415,7 @@ export function removeObsolete(removeObsolete, processed, outputDir, ext) {
 		cfg.options.stripping && cfg.options.stripping.suffix
 			? cfg.options.stripping.suffix
 			: "";
+
 	sources.forEach(file => {
 		let ext = extname(file);
 		let fl = basename(file, ext);
@@ -443,6 +427,7 @@ export function removeObsolete(removeObsolete, processed, outputDir, ext) {
 		// Is stripped file?
 		skip = skip || (stripped && fl.endsWith(stripped));
 		if (skip) return;
+
 		let trashFile = join(cfg.dirTemp, file);
 		FileUtils.mkdir(dirname(trashFile));
 		mv(join(outputDir, file), trashFile);
@@ -451,77 +436,6 @@ export function removeObsolete(removeObsolete, processed, outputDir, ext) {
 			log.info(`Moved obsolete file ${file} to ${trashFile} `);
 		}
 	});
-	return 1;
-}
 
-/**
- * Read lines in a file synchronously, for strictly sequential parsing.
- *
- * Usage of this class:
- *
- * ```
- * let lr = new LineReader("example.txt");
- * do {
- *     let line = lr.next(); // Returns array: [ line number,  ]
- *     if (line === false) break; // End of file
- *     if ( <some condition> ) {
- *         lr.stop();
- *         break;
- *     }
- * } while (true);
- * ```
- *
- * In case of loops with multiple files to read:
- *
- * ```
- * let lr = new LineReader();
- * // begin loop files
- * if (lr.initialize(path)) {
- *     // Loop lines
- * }
- * // end loop files
- * ```
- *
- * @see FileUtils.searchInFile() in this file for implementation example
- *
- * Notes:
- *
- * + Using a Transform stream seems overkill. The package n-readlines follows the
- * [KISS principle](https://en.wikipedia.org/wiki/KISS_principle)
- *
- * + [Example](https://medium.com/@wietsevenema/node-js-using-for-await-to-read-lines-from-a-file-ead1f4dd8c6f)
- * of workaround for old Node.js callback in createInterface(), using async, await and Transform Stream.
- *
- *
- */
-export class LineReader {
-	constructor(file = null, encoding = "utf8") {
-		this.encoding = encoding;
-		this.reader = null;
-		if (file != null) {
-			this.initialize(file);
-		}
-	}
-
-	initialize(file) {
-		if (!test("-f", file)) {
-			let log = Logger.getInstance();
-			log.warn(`File ${file} doesn't exist`);
-			return false;
-		}
-		this.reader = new lineByLine(file);
-		return true;
-	}
-
-	next() {
-		if (this.reader == null) return false;
-		let line = this.reader.next();
-		return line === false ? false : line.toString(this.encoding);
-	}
-
-	stop() {
-		if (this.reader != null) {
-			this.reader.close();
-		}
-	}
+	return;
 }

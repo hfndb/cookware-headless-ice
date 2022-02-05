@@ -10,7 +10,7 @@ import { SysUtils } from "../lib/sys.mjs";
 import { Packages } from "../lib/package-json.mjs";
 import { renderMarkdownFile } from "../local/markdown.mjs";
 import { Lint } from "../local/markup.mjs";
-import { searchProject, renderSysTemplate } from "../local/misc.mjs";
+import { renderSysTemplate } from "../local/misc.mjs";
 import { generateStats } from "../local/overview.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 const { test } = shelljs;
@@ -148,9 +148,6 @@ async function controllerGeneric(
 				});
 
 				sysTemplate(res, "lint.html", context, content);
-			} else if (url == "todo.html") {
-				context = Object.assign(context, searchProject("todo", true));
-				sysTemplate(res, "todo.html", context, content);
 			} else if (url == "project-overview.html") {
 				context = Object.assign(context, { report: generateStats() });
 

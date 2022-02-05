@@ -1,5 +1,4 @@
 "use strict";
-
 import { join } from "path";
 import { platform } from "os";
 // import { EOL } from 'os'
@@ -55,8 +54,10 @@ export class Colors {
 		let keys = Object.keys(json.projects);
 		for (let i = 0; i < keys.length; i++) {
 			let key = keys[i];
+
 			if (key == "Cookware" && cfg.isProject) continue;
 			let colors = json.projects[key];
+
 			for (let c = 0; c < colors.length; c++) {
 				if (c == 0) {
 					// Project header
@@ -65,6 +66,7 @@ export class Colors {
 					src.content += `colors["${key}"] = {};\n`;
 					continue;
 				}
+
 				// Color
 				let cmt = colors[c].comment ? " // " + colors[c].comment : "";
 				sass.content += `$${colors[c].name}: #${colors[c].hex};${cmt}\n`;
@@ -77,12 +79,14 @@ export class Colors {
 			"\nvar looks = " +
 			JSON.stringify(cfg.options.sass.looks, null, "\t") +
 			";\n";
+
 		// See if files need to be written, if so do do
 		let fullPath = join(
 			cfg.dirProject,
 			cfg.options.sass.dirs.source,
 			sass.outFile,
 		);
+
 		let needsWrite =
 			!test("-f", fullPath) ||
 			FileUtils.readFile(fullPath).trim() != sass.content.trim();
@@ -173,85 +177,18 @@ export function renderSysTemplate(path, context, content) {
 	let cfg = AppConfig.getInstance();
 	if (!content) content = new Content();
 	let session = SessionVars.getInstance();
+
 	let entry = new FileStatus(join(cfg.dirMain, "content"));
 	entry.setSource(path, ".html");
+
 	let data = content.render(entry.dir, entry.source, {
 		additionalContext: context,
 		useProjectTemplates: false,
 	});
+
 	content.rendered.forEach(file => {
 		session.add(ProcessingTypes.html, file);
 	});
-	return data;
-}
 
-/**
- * Search project files for a string
- *
- * @param {string} searchFor
- * @param {boolean} html If true, return HTML code
- * @returns nested object with found entries
- */
-export function searchProject(searchFor, html) {
-	let retVal = { dirs: [] };
-	const dirs = [
-		cfg.options.javascript.dirs.source,
-		cfg.options.sass.dirs.source,
-		cfg.options.html.dirs.content,
-	];
-	for (let i = 0; i < cfg.options.html.dirs.templates.length; i++) {
-		if (!dirs.includes(cfg.options.html.dirs.templates[i])) {
-			dirs.push(cfg.options.html.dirs.templates[i]);
-		}
-	}
-	if (test("-d", join(cfg.dirProject, "notes"))) dirs.push("notes");
-	if (test("-d", join(cfg.dirProject, "docs"))) dirs.push("docs");
-	function stripHeaders(data) {
-		return data.replace(/<h\d>/, "").replace(/<\/h\d>/, "");
-	}
-	for (let i = 0; i < dirs.length; i++) {
-		let dir = dirs[i];
-		let files = FileUtils.getFileList(join(cfg.dirProject, dir), {
-			allowedExtensions: [
-				".txt",
-				".md",
-				".scss",
-				".css",
-				".ts",
-				".cts",
-				".mts",
-				".js",
-				".cjs",
-				".mjs",
-				".njk",
-				".html",
-			],
-		});
-		let dirContent = {
-			name: dir,
-			files: [],
-		};
-		files.forEach(file => {
-			let fileContent = {
-				name: file,
-				results: FileUtils.searchInFile(
-					join(cfg.dirProject, dir, file),
-					searchFor,
-					{
-						inverse: false,
-						ignoreCase: true,
-						markFound: html ? `<span style="color: red;">$</span>` : "",
-						processor: stripHeaders,
-					},
-				),
-			};
-			if (fileContent.results.length > 0) {
-				dirContent.files.push(fileContent);
-			}
-		});
-		if (dirContent.files.length > 0) {
-			retVal.dirs.push(dirContent);
-		}
-	}
-	return retVal;
+	return data;
 }

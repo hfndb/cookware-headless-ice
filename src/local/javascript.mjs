@@ -52,30 +52,6 @@ export class JavascriptUtils {
 			lst.push(bundle.output);
 		}
 
-		// Generate apps
-		for (let i = 0; Bundle.apps && i < Bundle.apps.length; i++) {
-			let bundle = Bundle.apps[i];
-			let outfile = join(outDir, bundle.output);
-			lst.push(bundle.output);
-			rm("-f", outfile);
-
-			let cmd =
-				`${nodeExec} ${join(execPath, "create-app.mjs")} ${cfg.dirProject}` +
-				` ${i}`;
-			if (process.env.NODE_ENV == "production") {
-				cmd += " 1";
-			}
-			exec(cmd);
-
-			// Cleanup obsolete directories and files
-			for (let i = 0; bundle.cleanup && i < bundle.cleanup.length; i++) {
-				let file = join(outDir, bundle.cleanup[i]);
-				if (test("-e", file)) rm("-rf", file); // Could be directory
-				file += ".map";
-				if (test("-e", file)) rm(file); // Related source map
-			}
-		}
-
 		return lst;
 	}
 }
@@ -84,7 +60,6 @@ export class JavascriptUtils {
  * Class to handle JavaScript bundles
  */
 export class Bundle {
-	static apps;
 	static bundles;
 
 	static init() {
@@ -95,11 +70,6 @@ export class Bundle {
 			Bundle.bundles = test("-f", join(path))
 				? FileUtils.readJsonFile(path)
 				: null;
-		}
-
-		if (!Bundle.apps) {
-			path = join(cfg.dirProject, "dev", "apps.json");
-			Bundle.apps = test("-f", join(path)) ? FileUtils.readJsonFile(path) : null;
 		}
 	}
 

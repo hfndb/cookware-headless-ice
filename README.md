@@ -22,7 +22,6 @@ The **local development server**
 s+ generates tag files,
 + lints HTML,
 + displays a *system home page*, providing access to:
-  - a project *todo list*,
   - a *project overview*, with files, statistics and a count of integrated Node.js packages, and
   + a documentation browser, to project and system README.md files, and README.md files in integrated Node.js packages.
 
@@ -170,7 +169,6 @@ Generic:
 + [deep-diff](https://www.npmjs.com/package/deep-diff) to check and display overridden settings in project config.json
 + [fdir](https://www.npmjs.com/package/fdir) to scan directories and files
 + [Mocha](https://www.npmjs.com/package/mocha) and [Chai](https://www.chaijs.com/) for unit testing
-+ [n-readlines](https://www.npmjs.com/package/n-readlines) to synchronically read lines from a file, for strictly sequential parsing - [linearizability](https://en.wikipedia.org/wiki/Linearizability)
 + [q-i](https://www.npmjs.com/package/q-i) to display a colored and formatted version of objects with json structure
 + [shelljs](https://www.npmjs.com/package/shelljs) for Linux-like commands, made portable to Windows
 
@@ -186,8 +184,6 @@ HTML and Markdown:
 JavaScript:
 [babel](https://www.npmjs.com/package/@babel/core) with [Flow preset](https://www.npmjs.com/package/@babel/preset-flow), [preset-react](https://www.npmjs.com/package/@babel/preset-react) and [TypeScript preset](https://www.npmjs.com/package/@babel/preset-typescript) to transcompile Flow, TypeScript or JavaScript to backwards compatible version of JavaScript
 + [babel-plugin-source-map-support](https://www.npmjs.com/package/babel-plugin-source-map-support) and [source-map-support](https://www.npmjs.com/package/source-map-support) for debugging transcompiled code
-+ [browserify](https://www.npmjs.com/package/browserify) with [tinyify](https://www.npmjs.com/package/tinyify) to generate compressed JavaScript browser bundles
-(you can, but I don't in view of my method for [compacting files](../docs/philosophical/compacting-files.md))
 + [jsdoc](https://www.npmjs.com/package/jsdoc) with [minami](https://github.com/Nijikokun/minami) template for generating JavaScript API documentation
 
 TypeScript:

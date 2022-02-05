@@ -10,7 +10,7 @@ export let ProcessingTypes = {
 	pdf: "pdf",
 	php: "php",
 	sass: "sass",
-	typescript: "typescript"
+	typescript: "typescript",
 };
 
 /**

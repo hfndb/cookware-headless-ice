@@ -1,9 +1,7 @@
 "use strict";
-
 import { basename, extname, join } from "path";
 import shelljs from "shelljs";
 import { AppConfig, FileUtils, StringExt } from "../lib/index.mjs";
-import { LineReader } from "../lib/files.mjs";
 import { Content } from "../lib/html.mjs";
 import { getStamp, renderSysTemplate } from "./misc.mjs";
 import { ArrayUtils } from "../lib/object.mjs";
@@ -14,14 +12,15 @@ const { test } = shelljs;
 let cfg = AppConfig.getInstance();
 
 function readFile(dir, file, group, report) {
-	let lr = new LineReader(join(cfg.dirProject, dir, file));
+	let src = FileUtils.readFile(join(cfg.dirProject, dir, file));
+	let lines = src.split(/\r?\n/);
 	let item = new Item(report, file);
 	let isInComment = false;
-	do {
-		let line = lr.next();
-		if (line === false) break; // End of file
-		isInComment = parseLine(line, item, isInComment);
-	} while (true);
+
+	for (let i = 0; i < lines.length; i++) {
+		isInComment = parseLine(lines[i], item, isInComment);
+	}
+
 	group.addItem(report, item);
 }
 
@@ -31,6 +30,7 @@ function parseLine(line, item, isInComment) {
 	let cmtStart = []; // Start of multi-line comments
 	let cmtEnd = []; // End of multi-line comments
 	let ext = extname(item.description);
+
 	switch (ext) {
 		case ".js":
 		case ".cjs":
