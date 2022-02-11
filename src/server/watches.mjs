@@ -1,10 +1,6 @@
 "use strict";
 import { join } from "path";
-import {
-	FileUtils,
-	FileStatus,
-	Logger,
-} from "../generic/index.mjs";
+import { FileUtils, FileStatus, Logger } from "../generic/index.mjs";
 import { Beautify } from "../generic/beautify.mjs";
 import { AppConfig } from "../generic/config.mjs";
 import { FileWatcher } from "../generic/file-system/watch.mjs";
@@ -53,12 +49,12 @@ class JsWatch extends FileWatcher {
 		let dir = join(cfg.dirProject, cfg.options.javascript.dirs.source);
 		let fi = FileUtils.getFileInfo(dir, file);
 		let isTypescript = fi.file.ext.endsWith("ts");
+		let status = new FileStatus(dir);
+		status.setSource(file, fi.file.ext);
 
 		dir = join(cfg.dirProject, cfg.options.javascript.dirs.output);
 
 		log.info(`- ${file} changed`);
-		let status = new FileStatus(dir);
-		status.setSource(file, fi.file.ext);
 		status.setTarget(dir, ".js");
 
 		if ([".cjs", ".mjs"].includes(fi.file.ext)) {
@@ -156,13 +152,12 @@ class SassWatch extends FileWatcher {
  * done
  */
 export function initWatches() {
-	watches.config = new ConfigWatch(
-		cfg.dirProject,
-		"",
-		"settings.json",
-		cfg.options.server.watchTimeout,
-		"project settings file (settings.json)",
-	);
+	watches.config = new ConfigWatch({
+		workingDir: cfg.dirProject,
+		path: "settings.json",
+		description: "project settings file (settings.json)",
+		timeout: cfg.options.server.watchTimeout,
+	});
 
 	if (cfg.options.javascript.useWatch) {
 		let tp = "JavaScript";
@@ -174,32 +169,29 @@ export function initWatches() {
 				tp = "TypeScript";
 				break;
 		}
-		watches.js = new JsWatch(
-			cfg.dirProject,
-			cfg.options.javascript.dirs.source,
-			"",
-			cfg.options.server.watchTimeout,
-			`${tp} files`,
-		);
+		watches.js = new JsWatch({
+			workingDir: cfg.dirProject,
+			path: cfg.options.javascript.dirs.source,
+			description: "JavaScript files",
+			timeout: cfg.options.server.watchTimeout,
+		});
 	}
 
 	if (cfg.options.php.useWatch) {
-		watches.php = new PhpWatch(
-			cfg.dirProject,
-			cfg.options.php.dirs.source,
-			"",
-			cfg.options.server.watchTimeout,
-			"Php files",
-		);
+		watches.php = new PhpWatch({
+			workingDir: cfg.dirProject,
+			path: cfg.options.php.dirs.source,
+			description: "Php files",
+			timeout: cfg.options.server.watchTimeout,
+		});
 	}
 
-	watches.sass = new SassWatch(
-		cfg.dirProject,
-		cfg.options.sass.dirs.source,
-		"",
-		cfg.options.server.watchTimeout,
-		"Sass files",
-	);
+	watches.sass = new SassWatch({
+		workingDir: cfg.dirProject,
+		path: cfg.options.sass.dirs.source,
+		description: "Sass files",
+		timeout: cfg.options.server.watchTimeout,
+	});
 }
 
 export function terminateWatches() {
