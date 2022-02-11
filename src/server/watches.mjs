@@ -2,12 +2,12 @@
 import { join } from "path";
 import {
 	FileUtils,
-	FileWatcher,
 	FileStatus,
 	Logger,
 } from "../generic/index.mjs";
 import { Beautify } from "../generic/beautify.mjs";
 import { AppConfig } from "../generic/config.mjs";
+import { FileWatcher } from "../generic/file-system/watch.mjs";
 import { JavascriptUtils } from "../local/javascript.mjs";
 import { PhpUtils } from "../local/php.mjs";
 import { SourceUtils } from "../local/source.mjs";
