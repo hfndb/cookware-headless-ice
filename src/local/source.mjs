@@ -34,7 +34,7 @@ export class SourceUtils {
 		let sourceExt =
 			cfg.options.javascript.compiler == ProcessingTypes.typescript
 				? [".ts", ".cts"]
-				: [".js", ".cjs"];
+				: [".js", ".cjs", ".mjs"];
 		let path = join(cfg.dirProject, cfg.options.javascript.dirs.source);
 		if (!test("-e", path)) {
 			log.info(
@@ -51,7 +51,11 @@ export class SourceUtils {
 				saydHello = true;
 				log.info(`Transcompiling ${cfg.options.javascript.compiler}`);
 			}
-			SourceUtils.compileFile(entry, "", true);
+			if (entry.source.endsWith(".mjs")) {
+				SourceUtils.stripModule(entry, true);
+			} else {
+				SourceUtils.compileFile(entry, "", true);
+			}
 		}
 
 		let ro = Object.assign({}, cfg.options.javascript.removeObsolete); // Copy object
@@ -62,6 +66,7 @@ export class SourceUtils {
 			sourceExt: sourceExt,
 			targetExt: ".js",
 			excludeList: ro.exclude,
+			correctMjs: true,
 		});
 
 		changeList.forEach(entry => {
@@ -192,5 +197,28 @@ export class SourceUtils {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Special treatment for .mjs files:
+	 * - Beautify and rewrite source
+	 * - Remove all comments, indenting and write to output dir,
+	 *     thus compacting & preserving line numbering for debugging
+	 */
+	static stripModule(entry, verbose = true) {
+		let cfg = AppConfig.getInstance();
+		let dir = join(cfg.dirProject, cfg.options.javascript.dirs.output);
+		let fi = FileUtils.getFileInfo(entry.dir, entry.source);
+		//console.log(entry, fi);
+		let source = FileUtils.readFile(fi.full);
+
+		source = Beautify.content(fi.full, source);
+		if (source) {
+			FileUtils.writeFile(fi.path.full, fi.file.full, source, false);
+			if (fi.file.ext == ".mjs") {
+				source = Stripper.stripJs(source, true);
+				FileUtils.writeFile(join(dir, fi.path.next), fi.file.full, source, false);
+			}
+		}
 	}
 }

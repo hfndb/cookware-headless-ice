@@ -11,6 +11,13 @@ import { StringExt } from "./utils.mjs";
 const { mkdir, mv, rm, test, touch } = shelljs;
 
 /**
+ * This file is created for and maintained in cookware-headless-ice
+ *
+ * @see https://github.com/hfndb/cookware-headless-ice
+ * @see src/lib/files.mjs
+ */
+
+/**
  * Utility class with static utility methods for files and directories
  */
 export class FileUtils {
@@ -33,10 +40,10 @@ export class FileUtils {
 	 */
 	static readJsonFile(path, ignoreErrors = true) {
 		let parsed = {};
-		let file = basename(path);
 		if (!test("-f", path)) {
+			let fi = FileUtils.getFileInfo("", path);
 			let log = Logger.getInstance();
-			log.warn(`File ${file} not found in directory ${dirname(path)}`);
+			log.warn(`File ${fi.file.full} not found in directory ${fi.path.full}`);
 			return {};
 		}
 
@@ -108,9 +115,7 @@ The structure of this file is invalid, meaning, messed up.
 		let fullPath = join(dir, file);
 		let dir4sure = dirname(fullPath);
 
-		if (dir4sure && !test("-d", dir4sure)) {
-			FileUtils.mkdir(dir4sure);
-		}
+		FileUtils.mkdir(dir4sure);
 		try {
 			writeFileSync(fullPath, content, {
 				encoding: FileUtils.ENCODING_UTF8,
@@ -172,9 +177,68 @@ The structure of this file is invalid, meaning, messed up.
 		return files;
 	}
 
+	static getFileInfo(path, file, includeSize = false) {
+		let rt = {
+			path: {
+				base: path,
+				full: "",
+				next: "",
+			},
+			file: {
+				ext: "",
+				full: "",
+				size: 0,
+				stem: "",
+			},
+			full: "",
+		};
+
+		if (file.includes(sep)) {
+			rt.path.next = dirname(file);
+			file = basename(file);
+		}
+
+		if (file.includes(".")) {
+			rt.file.ext = extname(file);
+			rt.file.stem = basename(file, rt.file.ext);
+		} else {
+			rt.file.stem = file;
+		}
+		rt.file.full = rt.file.stem + rt.file.ext;
+		rt.path.full = join(rt.path.base, rt.path.next);
+		rt.full = join(rt.path.full, rt.file.full);
+
+		if (includeSize) {
+			rt.file.size = FileUtils.getFileSize(rt.full);
+		}
+
+		return rt;
+	}
+
+	/**
+	 * Get filesize in bytes
+	 */
 	static getFileSize(file) {
-		let info = statSync(file);
-		return info.size;
+		if (test("-f", file)) {
+			let info = statSync(file);
+			return info.size;
+		} else return -1;
+	}
+
+	/**
+	 * @returns Last modified timestamp
+	 */
+	static getLastModified(path, file) {
+		let fullPath = join(path, file);
+		return statSync(fullPath).mtimeMs;
+	}
+
+	/**
+	 * @returns Last modified
+	 */
+	static getLastModifiedDate(path, file) {
+		let fullPath = join(path, file);
+		return statSync(fullPath).mtime;
 	}
 
 	/**
@@ -183,10 +247,8 @@ The structure of this file is invalid, meaning, messed up.
 	 */
 	static getSuffixedFile(path, suffix) {
 		let dir = path.includes(sep) || path.includes("/") ? dirname(path) : "";
-		let file = basename(path);
-		let ext = extname(file); // Including dot
-		file = basename(file, ext); // forget source file name and get stem only
-		return join(dir, `${file}-${suffix}${ext}`);
+		let fi = FileUtils.getFileInfo("", path);
+		return join(fi.path.full, `${fi.file.stem}-${suffix}${fi.file.ext}`);
 	}
 
 	/**
@@ -211,22 +273,6 @@ The structure of this file is invalid, meaning, messed up.
 			lst.set(file, entry);
 		}
 		return lst;
-	}
-
-	/**
-	 * @returns Last modified timestamp
-	 */
-	static getLastModified(path, file) {
-		let fullPath = join(path, file);
-		return statSync(fullPath).mtimeMs;
-	}
-
-	/**
-	 * @returns Last modified
-	 */
-	static getLastModifiedDate(path, file) {
-		let fullPath = join(path, file);
-		return statSync(fullPath).mtime;
 	}
 
 	static getLastChangeInDirectory(path, extensions, startAt = 0) {
@@ -417,15 +463,14 @@ export function removeObsolete(removeObsolete, processed, outputDir, ext) {
 			: "";
 
 	sources.forEach(file => {
-		let ext = extname(file);
-		let fl = basename(file, ext);
+		let fi = FileUtils.getFileInfo("", file);
 		// In exclude list, in list of processed files, backup file?
 		let skip =
 			ArrayUtils.inExcludeList(removeObsolete.exclude, file) ||
 			processed.includes(file) ||
-			ext.endsWith("~");
+			fi.file.ext.endsWith("~");
 		// Is stripped file?
-		skip = skip || (stripped && fl.endsWith(stripped));
+		skip = skip || (stripped && fi.file.stem.endsWith(stripped));
 		if (skip) return;
 
 		let trashFile = join(cfg.dirTemp, file);

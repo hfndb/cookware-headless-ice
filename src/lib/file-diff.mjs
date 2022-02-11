@@ -1,5 +1,4 @@
 "use strict";
-
 import { basename, dirname, extname, join } from "path";
 import shelljs from "shelljs";
 import { FileUtils } from "./files.mjs";
@@ -45,10 +44,11 @@ export class FileStatus {
 	 * @param ext
 	 */
 	setSource(file, ext) {
-		this.source = file;
+		let fi = FileUtils.getFileInfo(this.dir, file);
+		this.source = join(fi.path.next, fi.file.full);
 		this.ext = ext;
-		if (test("-e", join(this.dir, this.source))) {
-			this.lastModified = FileUtils.getLastModified(this.dir, this.source);
+		if (test("-e", fi.full)) {
+			this.lastModified = FileUtils.getLastModified(fi.path.full, fi.file.full);
 		}
 		this.status = "unknown";
 	}
@@ -62,18 +62,18 @@ export class FileStatus {
 	setTarget(path, ext, flatten = false) {
 		this.targetDir = path;
 		this.targetExt = ext;
+		let fi = FileUtils.getFileInfo(this.dir, this.source);
+
 		if (flatten) {
-			this.target = join(basename(this.source, this.ext).concat(this.targetExt));
+			this.target = fi.file.stem.concat(this.targetExt);
 		} else {
-			this.target = join(
-				dirname(this.source),
-				basename(this.source, this.ext),
-			).concat(this.targetExt);
+			this.target = join(fi.path.next, fi.file.stem).concat(this.targetExt);
 		}
-		if (test("-e", join(this.targetDir, this.target))) {
+		fi = FileUtils.getFileInfo(this.targetDir, this.target);
+		if (test("-e", fi.full)) {
 			this.targetLastModified = FileUtils.getLastModified(
-				this.targetDir,
-				this.target,
+				fi.path.full,
+				fi.file.full,
 			);
 			this.status =
 				this.lastModified > this.targetLastModified ? "modified" : "unchanged";
@@ -98,13 +98,22 @@ export function getChangeList(opts) {
 	let sources = FileUtils.getFileList(opts.sourcePath, {
 		allowedExtensions: opts.sourceExt,
 	});
+
 	sources.forEach(file => {
 		if (ArrayUtils.inExcludeList(opts.excludeList || [], file)) return;
+		let ext = {
+			src: extname(file),
+			tar: opts.targetExt,
+		};
+		if (opts.correctMjs && ext.src == ".mjs") {
+			ext.tar = ".mjs";
+		}
 		let status = new FileStatus(opts.sourcePath);
-		status.setSource(file, extname(file));
+
+		status.setSource(file, ext.src);
 		status.setTarget(
 			opts.targetPath,
-			opts.targetExt,
+			ext.tar,
 			opts.flatten != undefined && opts.flatten,
 		);
 		changes.push(status);

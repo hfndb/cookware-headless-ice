@@ -151,6 +151,34 @@ export class Stripper {
 		// Html ignored since comments should be filtered out by template engine
 	}
 
+	/** Remove comments, leave line numbering as is
+	 * @param {string} src File type js
+	 */
+	removeComments(src) {
+		let mlnComment = false; // Is in multi line comment
+		let lines = src.split(/\r?\n/); // @todo Bug here affects CSS only - url() with data
+		let toReturn = "";
+		for (let i = 0; i < lines.length; i++) {
+			let line = lines[i].trim();
+			if (line.includes(this.cm.sl)) {
+				// Strip single line comment
+				line = line.substring(0, line.indexOf(this.cm.sl) - 1).trim();
+			}
+
+			// Handle multi line comments
+			if (line.startsWith(this.cm.mss)) {
+				if (!line.endsWith(this.cm.mse)) mlnComment = true;
+				line = "";
+			}
+			if (mlnComment) {
+				if (line.endsWith(this.cm.mse)) mlnComment = false;
+				line = "";
+			}
+			toReturn += line + "\n";
+		}
+		return toReturn;
+	}
+
 	/**
 	 * @param {string} src File type; css, html or js
 	 * @todo Bug in Array.split() within Node.js, affecting CSS stripping
@@ -314,11 +342,11 @@ export class Stripper {
 	/**
 	 * @param {string} source
 	 */
-	static stripJs(source) {
+	static stripJs(source, removeComments = false) {
 		let cfg = AppConfig.getInstance();
 		let spaces = cfg.options.javascript.lineStripping.needsSpace;
 		let s = new Stripper("js", spaces.after, spaces.around, spaces.before);
-		return s.stripFile(source);
+		return removeComments ? s.removeComments(source) : s.stripFile(source);
 	}
 }
 

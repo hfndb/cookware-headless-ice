@@ -5,17 +5,19 @@
  * Cookware headless ice 
  ****************************/
 .hide-text {
- font: 0/0 a;
- color: transparent;
- text-shadow: none;
- background-color: transparent;
- border: 0; }
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
 
 .input-block-level {
- display: block;
- width: 100%;
- min-height: 28px;
- box-sizing: border-box; }
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  box-sizing: border-box;
+}
 
 article,
 aside,
@@ -29,211 +31,260 @@ main,
 nav,
 section,
 summary {
- display: block; }
+  display: block;
+}
 
 audio,
 canvas,
 progress,
 video {
- display: inline-block;
- vertical-align: baseline; }
+  display: inline-block;
+  vertical-align: baseline;
+}
 
 a {
- color: #08c;
- text-decoration: none; }
+  color: #08c;
+  text-decoration: none;
+}
 
 a {
- background: transparent; }
+  background: transparent;
+}
 
 a:active,
 a:hover {
- outline: 0; }
+  outline: 0;
+}
 
 code,
 kbd,
 pre,
 samp {
- font-family: "Courier New", Courier, monospace;
- font-size: 1em; }
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1em;
+}
 
 pre {
- overflow: auto; }
+  overflow: auto;
+}
 
 strong {
- font-weight: bold; }
+  font-weight: bold;
+}
 
 small {
- font-size: 80%; }
+  font-size: 80%;
+}
 
 sub,
 sup {
- font-size: 75%;
- line-height: 0;
- position: relative;
- vertical-align: baseline; }
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
 
 sup {
- top: -0.5em; }
+  top: -0.5em;
+}
 
 sub {
- bottom: -0.25em; }
+  bottom: -0.25em;
+}
 
 img {
- border: 0; }
+  border: 0;
+}
 
 /***********************************************************************
  * Generic
  ***********************************************************************/
 body {
- box-sizing: border-box;
- color: #333;
- counter-reset: h1-counter;
- font-family: Arial, serif;
- font-size: 13pt;
- position: relative; }
+  box-sizing: border-box;
+  color: #333;
+  counter-reset: h1-counter;
+  font-family: Arial, serif;
+  font-size: 13pt;
+  position: relative;
+}
 
 blockquote {
- background-image: url("../img/quote.png");
- background-position: left top;
- background-repeat: no-repeat;
- border: 0;
- color: #909090;
- margin-left: 0;
- min-height: 25px;
- padding-left: 40px; }
- blockquote p {
+  background-image: url("../img/quote.png");
+  background-position: left top;
+  background-repeat: no-repeat;
+  border: 0;
+  color: #909090;
+  margin-left: 0;
+  min-height: 25px;
+  padding-left: 40px;
+}
+blockquote p {
   color: #808080;
-  margin-bottom: 15px; }
- blockquote small:before {
-  content: "-- "; }
+  margin-bottom: 15px;
+}
+blockquote small:before {
+  content: "-- ";
+}
 
 code {
- background-color: #eef;
- border-radius: 6px;
- display: block;
- font-family: monospace, Courier, "Courier New";
- font-size: 0.9em;
- padding: 10px;
- word-wrap: break-word; }
+  background-color: #eef;
+  border-radius: 6px;
+  display: block;
+  font-family: monospace, Courier, "Courier New";
+  font-size: 0.9em;
+  padding: 10px;
+  word-wrap: break-word;
+}
 
 h1,
 h2,
 h3,
 h4,
 h5 {
- margin: 20px 0, 20px, 0; }
+  margin: 20px 0, 20px, 0;
+}
 
 h1.center {
- margin-bottom: 20px;
- text-align: center; }
+  margin-bottom: 20px;
+  text-align: center;
+}
 
 hr {
- border-top: 1px solid black;
- width: 100%; }
+  border-top: 1px solid black;
+  width: 100%;
+}
 
 li {
- margin-bottom: 10px; }
+  margin-bottom: 10px;
+}
 
 header,
 footer,
 container {
- position: relative; }
+  position: relative;
+}
 
 footer {
- clear: both; }
+  clear: both;
+}
 
 h1 {
- font-size: 2em; }
+  font-size: 2em;
+}
 
 h2 {
- font-size: 1.7em; }
+  font-size: 1.7em;
+}
 
 h3 {
- font-size: 1.4em; }
+  font-size: 1.4em;
+}
 
 h4 {
- font-size: 1.1em; }
+  font-size: 1.1em;
+}
 
 noscript {
- display: block;
- padding: 5px;
- position: absolute;
- /* in case fixed isn't supported */
- position: fixed;
- right: 0px;
- top: 250px;
- width: 260px;
- z-index: 20; }
+  display: block;
+  padding: 5px;
+  position: absolute;
+  /* in case fixed isn't supported */
+  position: fixed;
+  right: 0px;
+  top: 250px;
+  width: 260px;
+  z-index: 20;
+}
 
 p.list {
- margin-bottom: 0px; }
+  margin-bottom: 0px;
+}
 
 ul,
 ol {
- margin-bottom: 20px;
- margin-top: 0; }
+  margin-bottom: 20px;
+  margin-top: 0;
+}
 
 ul ul,
 ul ol,
 ol ol,
 ol ul {
- margin-top: 10px; }
+  margin-top: 10px;
+}
 
 table {
- margin: 0;
- margin-bottom: 20px; }
+  margin: 0;
+  margin-bottom: 20px;
+}
 
 /* For ol and ul styling */
 .named-items > li > p:first-child {
- font-style: italic;
- margin-bottom: 0; }
+  font-style: italic;
+  margin-bottom: 0;
+}
 
 /***********************************************************************
  * Screens
  ***********************************************************************/
 @media only screen {
- header nav,
- footer nav {
-  text-align: right;
-  width: 100%; }
- .noview {
-  display: none; } }
+  header nav,
+footer nav {
+    text-align: right;
+    width: 100%;
+  }
 
+  .noview {
+    display: none;
+  }
+}
 @media only screen and (min-width: 576px) {
- #contact-form {
-  margin-top: 20px; } }
-
+  #contact-form {
+    margin-top: 20px;
+  }
+}
 @media only screen and (min-width: 992px) {
- #container,
- .content-width {
-  margin-left: auto;
-  margin-right: auto;
-  width: 1080px; } }
-
+  #container,
+.content-width {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1080px;
+  }
+}
 /***********************************************************************
  * Printing
  ***********************************************************************/
 @media only print {
- blockquote {
-  /*	border-left: 1px solid black; */
-  font-style: italic;
-  font-size: 0.9em;
-  margin-left: 10px;
-  padding-left: 10px; }
+  blockquote {
+    /*	border-left: 1px solid black; */
+    font-style: italic;
+    font-size: 0.9em;
+    margin-left: 10px;
+    padding-left: 10px;
+  }
   blockquote p,
-  blockquote li,
-  blockquote ul,
-  blockquote ol {
-   color: #909090;
-   font-size: inherit;
-   font-style: italic; }
+blockquote li,
+blockquote ul,
+blockquote ol {
+    color: #909090;
+    font-size: inherit;
+    font-style: italic;
+  }
   blockquote small {
-   color: #909090;
-   display: block;
-   margin-top: -10px; }
- body {
-  color: black; }
- fieldset {
-  page-break-inside: auto; }
- .noprint {
-  display: none; } }
+    color: #909090;
+    display: block;
+    margin-top: -10px;
+  }
+
+  body {
+    color: black;
+  }
+
+  fieldset {
+    page-break-inside: auto;
+  }
+
+  .noprint {
+    display: none;
+  }
+}

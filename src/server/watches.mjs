@@ -1,6 +1,5 @@
 "use strict";
-
-import { basename, extname, join } from "path";
+import { join } from "path";
 import { FileUtils, FileWatcher, FileStatus, Logger } from "../lib/index.mjs";
 import { Beautify } from "../lib/beautify.mjs";
 import { AppConfig } from "../lib/config.mjs";
@@ -45,36 +44,31 @@ class JsWatch extends FileWatcher {
 	change(event, file) {
 		event; // Fool compiler - unused variable
 		if (Double.is(file)) return;
+
 		let dir = join(cfg.dirProject, cfg.options.javascript.dirs.source);
-		let ext = extname(file);
-		let fullPath = join(dir, file);
-		let isTypescript = ext.endsWith("ts");
-		if ([".cjs", ".mjs"].includes(ext)) {
-			let source = FileUtils.readFile(fullPath);
-			source = Beautify.content(file, source);
-			if (source) {
-				FileUtils.writeFile(dir, file, source, false);
-			}
-			return;
-		}
-		if (![".js", ".ts", ".cts", ".mts"].includes(ext)) return;
+		let fi = FileUtils.getFileInfo(dir, file);
+		let isTypescript = fi.file.ext.endsWith("ts");
+
+		dir = join(cfg.dirProject, cfg.options.javascript.dirs.output);
 
 		log.info(`- ${file} changed`);
 		let status = new FileStatus(dir);
-		status.setSource(file, ext);
-		status.setTarget(
-			join(cfg.dirProject, cfg.options.javascript.dirs.output),
-			".js",
-		);
+		status.setSource(file, fi.file.ext);
+		status.setTarget(dir, ".js");
 
-		let session = SessionVars.getInstance();
-		session.add(
-			isTypescript ? ProcessingTypes.typescript : ProcessingTypes.javascript,
-			file,
-		);
+		if ([".cjs", ".mjs"].includes(fi.file.ext)) {
+			SourceUtils.stripModule(status, true);
+		} else if ([".js", ".ts", ".cts", ".mts"].includes(fi.file.ext)) {
+			let session = SessionVars.getInstance();
+			session.add(
+				isTypescript ? ProcessingTypes.typescript : ProcessingTypes.javascript,
+				file,
+			);
 
-		SourceUtils.compileFile(status, "", true);
-		JavascriptUtils.bundle();
+			SourceUtils.compileFile(status, "", true);
+			JavascriptUtils.bundle();
+		}
+
 		Tags.forProject(cfg.options.javascript.dirs.source, false);
 		Tags.forFile(join(cfg.options.javascript.dirs.source, status.source));
 	}
@@ -87,19 +81,22 @@ class PhpWatch extends FileWatcher {
 	 */
 	change(event, file) {
 		event; // Fool compiler - unused variable
-		if (extname(file) != ".php") {
-			return;
-		}
 		if (Double.is(file)) return;
 
-		log.info(`- ${file} changed`);
 		let dir = join(cfg.dirProject, cfg.options.php.dirs.source);
+		let fi = FileUtils.getFileInfo(dir, file);
+
+		if (fi.file.ext != ".php") {
+			return;
+		}
+
+		log.info(`- ${file} changed`);
 		let session = SessionVars.getInstance();
-		session.add(ProcessingTypes.php, file);
+		session.add(ProcessingTypes.php, fi.file.full);
 
 		// Setup inplace editing
 		let status = new FileStatus(dir);
-		status.setSource(file, ".php");
+		status.setSource(fi.file.full, ".php");
 		status.setTarget(dir, ".php");
 		PhpUtils.beautify(status);
 	}
@@ -112,30 +109,28 @@ class SassWatch extends FileWatcher {
 	 */
 	change(event, file) {
 		event; // Fool compiler - unused variable
-		if (extname(file) != ".scss") {
-			return;
-		}
 		if (Double.is(file)) return;
+
+		let dir = join(cfg.dirProject, cfg.options.sass.dirs.source);
+		let fi = FileUtils.getFileInfo(dir, file);
+		if (fi.file.ext != ".scss") return;
 
 		log.info(`- ${file} changed`);
 		let session = SessionVars.getInstance();
-		session.add(ProcessingTypes.sass, file);
+		session.add(ProcessingTypes.sass, fi.file.full);
 
 		let status = new FileStatus(
 			join(cfg.dirProject, cfg.options.sass.dirs.source),
 		);
-		status.setSource(file, ".scss");
+		status.setSource(fi.file.full, ".scss");
 		status.setTarget(SassUtils.getOutputDir(), ".css");
 
-		let ext = extname(file);
-		let stem = basename(file, ext);
-		if (stem.startsWith("_")) {
+		if (fi.file.stem.startsWith("_")) {
 			// Include
-			let dir = join(cfg.dirProject, cfg.options.sass.dirs.source);
-			let source = FileUtils.readFile(join(dir, file));
-			source = Beautify.content(file, source);
+			let source = FileUtils.readFile(fi.full);
+			source = Beautify.content(fi.full, source);
 			if (source) {
-				FileUtils.writeFile(dir, file, source, false);
+				FileUtils.writeFile(fi.path.full, fi.file.full, source, false);
 			}
 		}
 		if (SassFiles.isImport(file)) {
