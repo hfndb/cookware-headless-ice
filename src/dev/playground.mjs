@@ -1,4 +1,4 @@
-import { AppConfig, Logger } from "../lib/index.mjs";
+import { AppConfig, Logger } from "../generic/index.mjs";
 
 /**
  * For development purposes: Play with functionality.

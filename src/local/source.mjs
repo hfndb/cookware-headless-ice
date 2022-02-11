@@ -212,7 +212,7 @@ export class SourceUtils {
 		//console.log(entry, fi);
 		let source = FileUtils.readFile(fi.full);
 
-		source = Beautify.content(fi.full, source);
+		source = Beautify.content(fi.next, source);
 		if (source) {
 			FileUtils.writeFile(fi.path.full, fi.file.full, source, false);
 			if (fi.file.ext == ".mjs") {

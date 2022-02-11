@@ -129,7 +129,7 @@ class SassWatch extends FileWatcher {
 		if (fi.file.stem.startsWith("_")) {
 			// Include
 			let source = FileUtils.readFile(fi.full);
-			source = Beautify.content(fi.full, source);
+			source = Beautify.content(fi.next, source);
 			if (source) {
 				FileUtils.writeFile(fi.path.full, fi.file.full, source, false);
 			}
