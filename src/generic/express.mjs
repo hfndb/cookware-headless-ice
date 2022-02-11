@@ -1,6 +1,6 @@
 "use strict";
 
-import { AppConfig } from "../lib/config.mjs";
+import { AppConfig } from "../generic/config.mjs";
 import { Logger } from "./log.mjs";
 import bodyParser from "body-parser";
 import express from "express";

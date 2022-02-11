@@ -3,8 +3,8 @@
 import { join, dirname } from "path";
 import shelljs from "shelljs";
 import htmlcs from "htmlcs";
-import { AppConfig, FileStatus, FileUtils, Logger } from "../lib/index.mjs";
-import { Content } from "../lib/html.mjs";
+import { AppConfig, FileStatus, FileUtils, Logger } from "../generic/index.mjs";
+import { Content } from "../generic/html.mjs";
 const { cd, pwd, rm, test } = shelljs;
 
 export class Lint {

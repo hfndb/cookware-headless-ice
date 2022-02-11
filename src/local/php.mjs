@@ -1,8 +1,8 @@
 "use strict";
 
 import { join } from "path";
-import { AppConfig, FileUtils, Logger } from "../lib/index.mjs";
-import { Beautify } from "../lib/beautify.mjs";
+import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
+import { Beautify } from "../generic/beautify.mjs";
 
 let cfg = AppConfig.getInstance();
 let log = Logger.getInstance(cfg.options.logging);

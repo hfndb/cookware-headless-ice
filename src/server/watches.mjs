@@ -1,8 +1,13 @@
 "use strict";
 import { join } from "path";
-import { FileUtils, FileWatcher, FileStatus, Logger } from "../lib/index.mjs";
-import { Beautify } from "../lib/beautify.mjs";
-import { AppConfig } from "../lib/config.mjs";
+import {
+	FileUtils,
+	FileWatcher,
+	FileStatus,
+	Logger,
+} from "../generic/index.mjs";
+import { Beautify } from "../generic/beautify.mjs";
+import { AppConfig } from "../generic/config.mjs";
 import { JavascriptUtils } from "../local/javascript.mjs";
 import { PhpUtils } from "../local/php.mjs";
 import { SourceUtils } from "../local/source.mjs";

@@ -5,7 +5,7 @@ import { expect } from "chai";
 import shelljs from "shelljs";
 const { touch } = shelljs;
 import { SassUtils } from "./styling.mjs";
-import { AppConfig, Logger } from "../lib/index.mjs";
+import { AppConfig, Logger } from "../generic/index.mjs";
 import { SessionVars } from "../sys/session.mjs";
 
 // mocha -R spec --no-colors --throw-deprecation ./dist/static/js/local/styling-test.js

@@ -3,7 +3,7 @@
 import { statSync } from "fs";
 import { join } from "path";
 import shelljs from "shelljs";
-import { AppConfig, FileUtils, Logger } from "../lib/index.mjs";
+import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
 import { ArrayUtils } from "./object.mjs";
 import { Content } from "./html.mjs";
 import { Formatter } from "./utils.mjs";

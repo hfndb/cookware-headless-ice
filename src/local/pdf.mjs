@@ -2,10 +2,15 @@
 
 import { basename, join } from "path";
 import shelljs from "shelljs";
-import { getChangeList, AppConfig, FileUtils, Logger } from "../lib/index.mjs";
-import { removeObsolete } from "../lib/files.mjs";
-import { Content } from "../lib/html.mjs";
-import { signFile } from "../lib/pgp.mjs";
+import {
+	getChangeList,
+	AppConfig,
+	FileUtils,
+	Logger,
+} from "../generic/index.mjs";
+import { removeObsolete } from "../generic/file-system/files.mjs";
+import { Content } from "../generic/html.mjs";
+import { signFile } from "../generic/pgp.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 import { SourceUtils } from "./source.mjs";
 import { SassUtils } from "./styling.mjs";

@@ -443,7 +443,7 @@ export { DefaultConfig };
 For playground:
 
 import { DefaultConfig } from "../default-config";
-import { FileUtils } from "../lib/files.mjs";
+import { FileUtils } from "../generic/file-system/files.mjs";
 
 FileUtils.writeJsonFile(DefaultConfig, cfg.dirTemp, "default-settings.json", true);
 

@@ -2,8 +2,8 @@
 
 import { join } from "path";
 import shelljs from "shelljs";
-import { AppConfig, FileStatus, FileUtils, Logger } from "../lib/index.mjs";
-import { Stripper, Shrinker } from "../lib/stripping.mjs";
+import { AppConfig, FileStatus, FileUtils, Logger } from "../generic/index.mjs";
+import { Stripper, Shrinker } from "../generic/stripping.mjs";
 import { SourceUtils } from "./source.mjs";
 const { exec, rm, test } = shelljs;
 

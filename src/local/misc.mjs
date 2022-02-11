@@ -3,12 +3,12 @@ import { join } from "path";
 import { platform } from "os";
 // import { EOL } from 'os'
 import shelljs from "shelljs";
-import { AppConfig, FileUtils, Logger } from "../lib/index.mjs";
-import { FileStatus } from "../lib/file-diff.mjs";
-import { Content } from "../lib/html.mjs";
-import { Sitemap } from "../lib/sitemap.mjs";
-import { SysUtils } from "../lib/sys.mjs";
-import { Formatter } from "../lib/utils.mjs";
+import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
+import { FileStatus } from "../generic/file-system/diff.mjs";
+import { Content } from "../generic/html.mjs";
+import { Sitemap } from "../generic/sitemap.mjs";
+import { SysUtils } from "../generic/sys.mjs";
+import { Formatter } from "../generic/utils.mjs";
 import { SourceUtils } from "./source.mjs";
 import { SassUtils } from "./styling.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";

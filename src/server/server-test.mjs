@@ -2,8 +2,8 @@
 
 import chai from "chai";
 import chaiHttp from "chai-http";
-import { AppConfig } from "../lib/config.mjs";
-import { ExpressUtils } from "../lib/express.mjs";
+import { AppConfig } from "../generic/config.mjs";
+import { ExpressUtils } from "../generic/express.mjs";
 import {
 	gracefulShutdown as stopDevServer,
 	coatRack as startDevServer,

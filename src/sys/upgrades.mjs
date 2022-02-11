@@ -1,8 +1,8 @@
 "use strict";
 import { join } from "path";
 import shelljs from "shelljs";
-import { FileUtils } from "../lib/index.mjs";
-import { AppConfig } from "../lib/config.mjs";
+import { FileUtils } from "../generic/index.mjs";
+import { AppConfig } from "../generic/config.mjs";
 const { test } = shelljs;
 
 export function check() {

@@ -1,7 +1,7 @@
 "use strict";
 
-import { AppConfig } from "../lib//config.mjs";
-import { Packages } from "../lib/package-json.mjs";
+import { AppConfig } from "../generic//config.mjs";
+import { Packages } from "../generic/package-json.mjs";
 
 let cfg = AppConfig.getInstance("cookware");
 

@@ -1,11 +1,11 @@
 "use strict";
 import { join } from "path";
 import { DefaultConfig } from "./default-settings.mjs";
+import { FileUtils, Logger } from "./generic/index.mjs";
+import { AppConfig, AppMenu } from "./generic/config.mjs";
+import { Beautify } from "./generic/beautify.mjs";
 import { Lint } from "./local/markup.mjs";
 import { renderEpub } from "./local/epub.mjs";
-import { FileUtils, Logger } from "./lib/index.mjs";
-import { AppConfig, AppMenu } from "./lib/config.mjs";
-import { Beautify } from "./lib/beautify.mjs";
 import { generateJsDocs } from "./local/javascript.mjs";
 import { Colors, generateWeb } from "./local/misc.mjs";
 import { writeStats } from "./local/overview.mjs";

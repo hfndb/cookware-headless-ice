@@ -5,9 +5,9 @@ import {
 	controllerSys,
 } from "./controllers.mjs";
 import { initWatches, terminateWatches } from "./watches.mjs";
-import { AppConfig } from "../lib/config.mjs";
-import { Logger } from "../lib/index.mjs";
-import { ExpressUtils } from "../lib/express.mjs";
+import { AppConfig } from "../generic/config.mjs";
+import { Logger } from "../generic/index.mjs";
+import { ExpressUtils } from "../generic/express.mjs";
 import { backupChangedSource } from "../local/misc.mjs";
 import { SourceUtils } from "../local/source.mjs";
 import { SassUtils } from "../local/styling.mjs";

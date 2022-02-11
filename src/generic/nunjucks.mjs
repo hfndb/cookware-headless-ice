@@ -3,7 +3,7 @@
 import { join } from "path";
 import shelljs from "shelljs";
 import { AppConfig } from "./config.mjs";
-import { FileUtils } from "./files.mjs";
+import { FileUtils } from "./file-system/files.mjs";
 import { Logger } from "./log.mjs";
 import nunjucks from "nunjucks";
 const { test } = shelljs;

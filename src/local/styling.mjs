@@ -4,12 +4,17 @@ import autoprefixer from "autoprefixer";
 import parcelCss from "@parcel/css";
 import postcss from "postcss";
 import shelljs from "shelljs";
-import { getChangeList, FileStatus, AppConfig, Logger } from "../lib/index.mjs";
-import { Beautify } from "../lib/beautify.mjs";
-import { FileUtils, removeObsolete } from "../lib/files.mjs";
-import { Stripper } from "../lib/stripping.mjs";
-import { SysUtils } from "../lib/sys.mjs";
-import { StringExt } from "../lib/utils.mjs";
+import {
+	getChangeList,
+	FileStatus,
+	AppConfig,
+	Logger,
+} from "../generic/index.mjs";
+import { Beautify } from "../generic/beautify.mjs";
+import { FileUtils, removeObsolete } from "../generic/file-system/files.mjs";
+import { Stripper } from "../generic/stripping.mjs";
+import { SysUtils } from "../generic/sys.mjs";
+import { StringExt } from "../generic/utils.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 import { Colors } from "./misc.mjs";
 const { cp, exec, test } = shelljs;

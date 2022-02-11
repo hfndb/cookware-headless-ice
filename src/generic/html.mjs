@@ -2,8 +2,13 @@
 
 import { join } from "path";
 import shelljs from "shelljs";
-import { getChangeList, AppConfig, FileUtils, Logger } from "../lib/index.mjs";
-import { removeObsolete } from "./files.mjs";
+import {
+	getChangeList,
+	AppConfig,
+	FileUtils,
+	Logger,
+} from "../generic/index.mjs";
+import { removeObsolete } from "./file-system/files.mjs";
 import { NunjucksUtils } from "./nunjucks.mjs";
 import { Stripper } from "./stripping.mjs";
 import { Formatter, StringExt } from "./utils.mjs";

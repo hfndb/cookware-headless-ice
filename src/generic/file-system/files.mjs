@@ -3,18 +3,18 @@ import { readFileSync, statSync, watch, writeFileSync } from "fs";
 import { basename, dirname, extname, join, sep } from "path";
 import { fdir } from "fdir";
 import shelljs from "shelljs";
-import { AppConfig } from "./config.mjs";
+import { AppConfig } from "../config.mjs";
+import { Logger } from "../log.mjs";
+import { ArrayUtils } from "../object.mjs";
+import { StringExt } from "../utils.mjs";
 import { getDirList } from "./dirs.mjs";
-import { Logger } from "./log.mjs";
-import { ArrayUtils } from "./object.mjs";
-import { StringExt } from "./utils.mjs";
 const { mkdir, mv, rm, test, touch } = shelljs;
 
 /**
  * This file is created for and maintained in cookware-headless-ice
  *
  * @see https://github.com/hfndb/cookware-headless-ice
- * @see src/lib/files.mjs
+ * @see src/lib/file-system/files.mjs
  */
 
 /**

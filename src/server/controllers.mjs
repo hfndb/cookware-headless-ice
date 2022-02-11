@@ -2,12 +2,12 @@
 import { basename, extname, join } from "path";
 import date from "date-and-time";
 import shelljs from "shelljs";
-import { AppConfig } from "../lib/config.mjs";
-import { ExpressUtils } from "../lib/express.mjs";
-import { FileStatus } from "../lib/file-diff.mjs";
-import { Content } from "../lib/html.mjs";
-import { SysUtils } from "../lib/sys.mjs";
-import { Packages } from "../lib/package-json.mjs";
+import { AppConfig } from "../generic/config.mjs";
+import { ExpressUtils } from "../generic/express.mjs";
+import { FileStatus } from "../generic/file-system/diff.mjs";
+import { Content } from "../generic/html.mjs";
+import { SysUtils } from "../generic/sys.mjs";
+import { Packages } from "../generic/package-json.mjs";
 import { renderMarkdownFile } from "../local/markdown.mjs";
 import { Lint } from "../local/markup.mjs";
 import { renderSysTemplate } from "../local/misc.mjs";

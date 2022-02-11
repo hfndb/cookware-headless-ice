@@ -4,8 +4,8 @@ import { join } from "path";
 import { expect } from "chai";
 import shelljs from "shelljs";
 import { Lint } from "./markup.mjs";
-import { Content } from "../lib/html.mjs";
-import { AppConfig, FileUtils, Logger } from "../lib/index.mjs";
+import { Content } from "../generic/html.mjs";
+import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
 import { SessionVars } from "../sys/session.mjs";
 const { rm, test, touch } = shelljs;
 

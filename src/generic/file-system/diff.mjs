@@ -1,8 +1,8 @@
 "use strict";
 import { basename, dirname, extname, join } from "path";
 import shelljs from "shelljs";
+import { ArrayUtils } from "../object.mjs";
 import { FileUtils } from "./files.mjs";
-import { ArrayUtils } from "./object.mjs";
 const { test } = shelljs;
 
 /**

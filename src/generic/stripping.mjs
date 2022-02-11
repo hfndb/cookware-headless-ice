@@ -2,8 +2,8 @@
 
 import { join } from "path";
 import shelljs from "shelljs";
-import { StringExt } from "../lib/utils.mjs";
-import { AppConfig, FileUtils, Logger } from "../lib/index.mjs";
+import { StringExt } from "../generic/utils.mjs";
+import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
 const { test } = shelljs;
 
 // ----------------------------------------------------

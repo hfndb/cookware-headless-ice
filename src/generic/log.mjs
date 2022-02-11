@@ -1,7 +1,7 @@
 "use strict";
 import { basename, dirname, join } from "path";
 import { SysUtils } from "./sys.mjs";
-import { FileUtils } from "./files.mjs";
+import { FileUtils } from "./file-system/files.mjs";
 import { ObjectUtils } from "./object.mjs";
 import { Formatter } from "./utils.mjs";
 import colors from "colors";
@@ -10,7 +10,7 @@ import colors from "colors";
  * This file is created for and maintained in cookware-headless-ice
  *
  * @see https://github.com/hfndb/cookware-headless-ice
- * @see src/lib/files.mjs
+ * @see src/lib/file-system/files.mjs
  *
  * About colors, see article
  * JavaScript dev deliberately screws up own popular npm packages to make a point

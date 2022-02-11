@@ -2,7 +2,7 @@
 
 import { basename, join } from "path";
 import { marked } from "marked";
-import { FileUtils } from "../lib/index.mjs";
+import { FileUtils } from "../generic/index.mjs";
 import { Html } from "./markup.mjs";
 
 /**

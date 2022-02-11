@@ -2,7 +2,7 @@
 
 import { join } from "path";
 import shelljs from "shelljs";
-import { AppConfig, FileUtils, Logger } from "../lib/index.mjs";
+import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
 const { exec, test } = shelljs;
 
 let cfg = AppConfig.getInstance();

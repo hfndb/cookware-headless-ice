@@ -1,11 +1,11 @@
 "use strict";
 import { basename, dirname, join } from "path";
 import shelljs from "shelljs";
-import { Beautify } from "../lib/beautify.mjs";
-import { getChangeList, AppConfig, Logger } from "../lib/index.mjs";
-import { FileUtils, removeObsolete } from "../lib/files.mjs";
-import { FileStatus } from "../lib/file-diff.mjs";
-import { Shrinker, Stripper } from "../lib/stripping.mjs";
+import { Beautify } from "../generic/beautify.mjs";
+import { getChangeList, AppConfig, Logger } from "../generic/index.mjs";
+import { FileUtils, removeObsolete } from "../generic/file-system/files.mjs";
+import { FileStatus } from "../generic/file-system/diff.mjs";
+import { Shrinker, Stripper } from "../generic/stripping.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 import { compileFile } from "./babel.mjs";
 import { JavascriptUtils } from "./javascript.mjs";

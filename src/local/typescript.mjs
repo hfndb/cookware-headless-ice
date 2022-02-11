@@ -8,9 +8,9 @@ import {
 	FileStatus,
 	FileUtils,
 	Logger,
-} from "../lib/index.mjs";
+} from "../generic/index.mjs";
 import typedoc from "typedoc";
-import { removeObsolete } from "../lib/files.mjs";
+import { removeObsolete } from "../generic/file-system/files.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 import { JavascriptUtils } from "./javascript.mjs";
 const { cp, exec, rm, test } = shelljs;

@@ -3,10 +3,10 @@
 import { basename, join } from "path";
 import shelljs from "shelljs";
 import { transformSync } from "@babel/core";
-import { AppConfig, Logger } from "../lib/index.mjs";
-import { FileUtils } from "../lib/files.mjs";
-import { FileStatus } from "../lib/file-diff.mjs";
-import { SysUtils } from "../lib/sys.mjs";
+import { AppConfig, Logger } from "../generic/index.mjs";
+import { FileUtils } from "../generic/file-system/files.mjs";
+import { FileStatus } from "../generic/file-system/diff.mjs";
+import { SysUtils } from "../generic/sys.mjs";
 const { rm, test } = shelljs;
 // https://babeljs.io/docs/en/
 

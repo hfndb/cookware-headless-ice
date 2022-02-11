@@ -1,8 +1,8 @@
 "use strict";
 import { extname, join } from "path";
 import shelljs from "shelljs";
-import { AppConfig, FileUtils, Logger } from "../lib/index.mjs";
-import { SysUtils } from "../lib/sys.mjs";
+import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
+import { SysUtils } from "../generic/sys.mjs";
 import prettier from "prettier";
 const { test } = shelljs;
 
