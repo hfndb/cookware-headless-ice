@@ -32,7 +32,7 @@ export class Double {
 	 * @param {string} file
 	 */
 	static is(file) {
-		let now = new Date().getTime();
+		let now = Date.now();
 		let last = Double.reg[file] || now - Double.interval - 10;
 
 		if (now - last > Double.interval) {

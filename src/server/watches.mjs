@@ -112,6 +112,7 @@ class SassWatch extends FileWatcher {
 		event; // Fool compiler - unused variable
 		if (Double.is(file)) return;
 
+
 		let dir = join(cfg.dirProject, cfg.options.sass.dirs.source);
 		let fi = FileUtils.getFileInfo(dir, file);
 		if (fi.file.ext != ".scss") return;
@@ -123,13 +124,13 @@ class SassWatch extends FileWatcher {
 		let status = new FileStatus(
 			join(cfg.dirProject, cfg.options.sass.dirs.source),
 		);
-		status.setSource(fi.file.full, ".scss");
+		status.setSource(file, ".scss");
 		status.setTarget(SassUtils.getOutputDir(), ".css");
 
 		if (fi.file.stem.startsWith("_")) {
 			// Include
 			let source = FileUtils.readFile(fi.full);
-			source = Beautify.content(fi.next, source);
+			source = Beautify.content(file, source);
 			if (source) {
 				FileUtils.writeFile(fi.path.full, fi.file.full, source, false);
 			}
