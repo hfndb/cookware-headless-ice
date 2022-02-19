@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Test page for diagrams</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+	<link rel="stylesheet" type="text/css" href="../../dist/static/css/generic.css" />
+	<link rel="stylesheet" type="text/css" href="../../dist/static/css/project.css" />
+	<script src="../../node_modules/mermaid/dist/mermaid.min.js"></script>
+	<style type="text/css">
+		#container {
+			margin-bottom: 60px;
+		}
+		result {
+		}
+		textarea {
+			height: 150px;
+			font-size: 12px;
+			width: 750px;
+		}
+		@media only print {
+			#container {
+				padding: 0 5%;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="content">
+			<h1>Test page for diagrams</h1>
+			<p>
+				In Markdown files on github.com, you can add <a href="https://github.com/mermaid-js/mermaid#readme">Mermaid</a> diagrams. Mermaid is a text-to-diagrams library, see <a href="https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/">this article</a>. An official life editor to test can be found <a href="https://mermaid-js.github.io/mermaid-live-editor/">here</a>. Also in this test page, you can test diagrams. Just use the textarea to write the structure, then click the button to display the resulting diagram.
+			</p>
+			<textarea id="input">
+graph TD
+    A[Wish] -->|Require| B(Action)
+    B --> C{Outcome}
+    C -->|1st option| D[As wished]
+    C -->|2nd option| E[Other 'special effects']
+			</textarea>
+			<p>
+				<button class="button green-bg" id="render">Test</button>
+			</p>
+			<div id="output"></div>
+		</div>
+	</div>
+	<script>
+		var input = document.getElementById("input");
+		var output = document.getElementById("output");
+		var renderBtn = document.getElementById("render");
+
+		mermaid.mermaidAPI.initialize({startOnLoad: false});
+
+		renderBtn.onclick = function() {
+			mermaid.mermaidAPI.render('testDiagram', input.value, function(svgCode) {
+				output.innerHTML = svgCode;
+			});
+		}
+	</script>
+</body>
+</html>

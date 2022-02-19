@@ -61,10 +61,82 @@ export class StringExt {
 	 * Convert number of bytes to readable
 	 */
 	static bytesToSize(bytes) {
-		let sizes = ["Bytes", "KB", "MB", "GB", "TB"];
 		if (bytes == 0) return "0 Byte";
-		let i = Math.floor(Math.log(bytes) / Math.log(1024));
-		return Math.round(bytes / Math.pow(1024, i)) + " " + sizes[i];
+		let sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+
+		// Values
+		let vals = new Array(sizes.length);
+		vals.fill(0, 0, sizes.length);
+
+		let factor = 1024,
+			prev = bytes;
+		for (let i = 0; bytes > 0 && i < sizes.length; i++) {
+			bytes = Math.floor(bytes / factor);
+			vals[i] = prev - bytes * factor;
+			prev = bytes;
+		}
+
+		let rt = [];
+		for (let i = sizes.length - 1; i >= 0; i--) {
+			if (vals[i] == 0) continue;
+			rt.push(`${vals[i]} ${sizes[i]}`);
+		}
+
+		return new Intl.ListFormat("en").format(rt);
+	}
+
+	/**
+	 * Micro- or milliseconds to readable
+	 *
+	 * @param {number} bytes
+	 * @param {boolean} isMicro True if micro, false if micro
+	 */
+	static microSeconds2string(ms, isMicro = true) {
+		ms = Math.floor(ms);
+		let nts = [
+			"microseconds",
+			"milliseconds",
+			"seconds",
+			"minutes",
+			"hours",
+			"days",
+		];
+		let start = isMicro ? 0 : 1;
+
+		// Values
+		let vals = new Array(nts.length);
+		vals.fill(0, 0, nts.length);
+
+		let factor,
+			prev = ms;
+		for (let i = start; ms > 0 && i < nts.length; i++) {
+			switch (i) {
+				case 0: // micro
+				case 1: // milli
+				case 2: // seconds
+					factor = 1000;
+					break;
+				case 3: // minutes
+				case 4: // hours
+					factor = 60;
+					break;
+				case 5: // days
+					factor = 24;
+					break;
+			}
+
+			ms = Math.floor(ms / factor);
+			vals[i] = prev - ms * factor;
+			prev = ms;
+		}
+
+		let rt = [];
+		for (let i = nts.length - 1; i >= 0; i--) {
+			if (vals[i] == 0) continue;
+			rt.push(`${vals[i]} ${nts[i]}`);
+		}
+
+		return new Intl.ListFormat("en").format(rt);
 	}
 
 	/**
@@ -123,11 +195,7 @@ export class Formatter {
 		let minus = nr < 0 ? "-" : "";
 		let part = nr % 1;
 		let rem = nr - part;
-		if (decimals) {
-			// @ts-ignore
-			part = part.toPrecision(decimals);
-		}
-		part *= 100;
+		part = decimals ? part * 100 : 0;
 		let toReturn =
 			decimals == 0
 				? ""
@@ -140,11 +208,7 @@ export class Formatter {
 			part = rem % 1000;
 			rem = (rem - part) / 1000;
 			// @ts-ignore
-			part = part.toString();
-			if (rem) {
-				// @ts-ignore
-				part = part.padStart(3, "0");
-			}
+			part = part.toString().padStart(3, "0");
 			toReturn = this.thousandsSeparator + part + toReturn;
 		}
 		if (toReturn.startsWith(this.thousandsSeparator)) {

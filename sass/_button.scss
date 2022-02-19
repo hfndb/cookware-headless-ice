@@ -1,0 +1,35 @@
+@import "colors";
+
+.button {
+	border: none transparent;
+	border-radius: 6px;
+	box-sizing: border-box;
+	color: white;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 1em;
+	margin: 0;
+	overflow: visible;
+	padding: 0.5em 1em;
+	text-align: center;
+	text-transform: none;
+	text-decoration: none;
+	user-select: none;
+	vertical-align: middle;
+	white-space: nowrap;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-webkit-appearance: button;
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	-webkit-box-sizing: border-box;
+
+	&.green-bg {
+		background-color: $green;
+		transition: background-color 1s;
+
+		&:hover {
+			background-color: lighten($green, 20%);
+		}
+	}
+}

@@ -1,6 +1,7 @@
 @import "colors";
 @import "variables";
 /* @import "mixins"; */
+@import "button";
 @import "table";
 
 body {
@@ -9,6 +10,18 @@ body {
 
 h1 {
 	text-align: center;
+}
+
+textarea {
+	background: transparent;
+	border-radius: 4px;
+	box-sizing: border-box;
+	display: inline-block;
+	font-size: 1em;
+	margin: 0;
+	padding: 3px 6px;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+	width: 100%;
 }
 
 // Reports in general

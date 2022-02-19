@@ -33,6 +33,7 @@
     "lodash": "^4.17.21",
     "marked": "^4.0.10",
     "memorystore": "^1.6.4",
+    "mermaid": "^8.14.0",
     "minami": "^1.2.3",
     "minify-stream": "^1.2.1",
     "node": "^17.3.1",

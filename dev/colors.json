@@ -28,6 +28,10 @@
 				"name": "blue-040"
 			},
 			{
+				"hex": "28a745",
+				"name": "green"
+			},
+			{
 				"comment": "Background color for the code element",
 				"hex": "eef",
 				"name": "bg-code"
