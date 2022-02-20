@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Test page for diagrams</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+	<base target="_blank">
+	<link rel="stylesheet" type="text/css" href="../../dist/static/css/generic.css" />
+	<link rel="stylesheet" type="text/css" href="../../dist/static/css/project.css" />
+	<script src="../../node_modules/@pintora/standalone/lib/pintora-standalone.umd.js"></script>
+	<style type="text/css">
+		#container {
+			margin-bottom: 60px;
+		}
+		#output {
+			text-align: center;
+		}
+		textarea {
+			height: 150px;
+			font-size: 12px;
+			width: 750px;
+		}
+		@media only print {
+			#container {
+				padding: 0 5%;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="content">
+			<h1>Test page for diagrams</h1>
+			<p>
+				<a href="https://pintorajs.vercel.app/docs/intro/">Pintora</a> is a text-to-diagrams library. An official life editor to test can be found <a href="https://pintorajs.vercel.app/demo/live-editor">here</a>. Also in this test page, you can test diagrams. Just use the textarea to write the structure, then click the button to display the resulting diagram.
+			</p>
+			<p>
+				<em>Bug report:</em><br>
+				For some reason, the standalone version of Pintora deletes the textarea from this page when drawing a diagram. After an update of Pintora, I will delete this notification.
+			</p>
+			<p>
+				<em>Side note:</em><br>
+				The name Pintora comes from Spanish word for 'female painter'. In view of various cross-cultural influences, the word could also be an English-Egyptian hybrid of 'pin to <a href="https://en.wikipedia.org/wiki/Ra">Ra</a>'. A phrase for believers in a supreme god like the Egyptian Ra, 'connecting people' as a famous <a href="https://www.youtube.com/watch?v=Igej_bEKqvo">slogan</a> about <a href="https://www.nokia.com/">Nokia</a> phones goes.
+			</p>
+			<textarea id="input" class="pintora">
+mindmap
+  * Wish
+  ** Require
+  *** Outcome as expected?
+  **** As wished
+  **** Other 'special effects'
+</textarea>
+			<p>
+				<input type="checkbox" id="auto-refresh"> Auto-refresh while typing
+			</p>
+			<p>
+				<button class="button green-bg" id="render">Test</button>
+			</p>
+			<div id="output"></div>
+		</div>
+	</div>
+	<script>
+		var auto = document.getElementById("auto-refresh");
+		var input = document.getElementById("input");
+		var output = document.getElementById("output");
+		var renderBtn = document.getElementById("render");
+
+		function render() {
+			pintora.default.initBrowser();
+			/**
+			 * TODO bug in renderTo() method
+			 * After upgrading pintora standalone, test
+			 */
+			//pintora.default.renderTo(input.value, output);
+		}
+
+		input.onkeyup = function() {
+			if (auto.checked) render();
+		}
+
+		renderBtn.onclick = function() {
+			if (!auto.checked) render();
+		}
+	</script>
+</body>
+</html>

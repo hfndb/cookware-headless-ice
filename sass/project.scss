@@ -12,6 +12,13 @@ h1 {
 	text-align: center;
 }
 
+input[type="checkbox"] {
+	border: 1px solid black;
+	display: inline-block;
+	margin: 0 0.5em 0 0;
+	padding: 0;
+}
+
 textarea {
 	background: transparent;
 	border-radius: 4px;
@@ -65,17 +72,6 @@ textarea {
  * Screens
  ***********************************************************************/
 @media only screen {
-	a[href^="http:"],
-	a[href^="https:"],
-	a[href^="http:"]:visited,
-	a[href^="https:"]:visited {
-		background-position: right center;
-		background-repeat: no-repeat;
-		margin: -2px 0;
-		padding: 2px 15px 2px 0;
-		background-image: url("../img/external.gif");
-	}
-
 	// Extra large devices (large desktops, 1200px and up)
 	@media (min-width: $breakpoint-xl) {
 		.container {

@@ -4,6 +4,7 @@
 	<title>Test page for diagrams</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+	<base target="_blank">
 	<link rel="stylesheet" type="text/css" href="../../dist/static/css/generic.css" />
 	<link rel="stylesheet" type="text/css" href="../../dist/static/css/project.css" />
 	<script src="../../node_modules/mermaid/dist/mermaid.min.js"></script>
@@ -11,7 +12,8 @@
 		#container {
 			margin-bottom: 60px;
 		}
-		result {
+		#output {
+			text-align: center;
 		}
 		textarea {
 			height: 150px;
@@ -30,7 +32,11 @@
 		<div id="content">
 			<h1>Test page for diagrams</h1>
 			<p>
-				In Markdown files on github.com, you can add <a href="https://github.com/mermaid-js/mermaid#readme">Mermaid</a> diagrams. Mermaid is a text-to-diagrams library, see <a href="https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/">this article</a>. An official life editor to test can be found <a href="https://mermaid-js.github.io/mermaid-live-editor/">here</a>. Also in this test page, you can test diagrams. Just use the textarea to write the structure, then click the button to display the resulting diagram.
+				Mermaid is a text-to-diagrams library, see <a href="https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/">this article</a>. An official life editor to test can be found <a href="https://mermaid-js.github.io/mermaid-live-editor/">here</a>. Also in this test page, you can test producing diagrams. Just use the textarea to write the structure, then click the button to display the resulting diagram.
+			</p>
+			<p>
+				<em>Side note:</em><br>
+				The name Mermaid refers to a <a href="https://en.wikipedia.org/wiki/Mermaid">mermaid</a> in folklore. A hybrid of a fish and a woman, though also <a href="https://en.wikipedia.org/wiki/Merman">mermen</a> are invented. The <a href="https://en.wikipedia.org/wiki/Coat_of_arms_of_Warsaw">Coat of Arms of Warsaw</a>, capital of Poland, includes a mermaid. Which seems to refer to the story about <a href="https://en.wikipedia.org/wiki/Wars_and_Sawa">Wars and Sawa</a>.
 			</p>
 			<textarea id="input">
 graph TD
@@ -40,23 +46,36 @@ graph TD
     C -->|2nd option| E[Other 'special effects']
 			</textarea>
 			<p>
+				<input type="checkbox" id="auto-refresh"> Auto-refresh while typing
+			</p>
+			<p>
 				<button class="button green-bg" id="render">Test</button>
 			</p>
 			<div id="output"></div>
 		</div>
 	</div>
 	<script>
+		var auto = document.getElementById("auto-refresh");
 		var input = document.getElementById("input");
 		var output = document.getElementById("output");
 		var renderBtn = document.getElementById("render");
 
 		mermaid.mermaidAPI.initialize({startOnLoad: false});
 
-		renderBtn.onclick = function() {
+		function render() {
 			mermaid.mermaidAPI.render('testDiagram', input.value, function(svgCode) {
 				output.innerHTML = svgCode;
 			});
 		}
+
+		input.onkeyup = function() {
+			if (auto.checked) render();
+		}
+
+		renderBtn.onclick = function() {
+			if (!auto.checked) render();
+		}
+
 	</script>
 </body>
 </html>

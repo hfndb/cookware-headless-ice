@@ -27,8 +27,8 @@ s+ generates tag files,
 
 **Other**
 + In the dev/local-tools directory you'll find some tools to:
-	- Experiment with colors and styles.
-	- Test [Mermaid](https://www.npmjs.com/package/mermaid) diagrams to publish on Github.com.
+	- 'Laboratory' to experiment with colors and styles.
+	- Diagrams: Test pages for [Mermaid](https://github.com/mermaid-js/mermaid) (used by Github.com), and [Pintora](https://pintorajs.vercel.app/docs/intro/)
 
 This project is developed on a Linux platform and should also run on BSD and Apple platforms. With some additional effort on Windows too 😉 See [contribute](./docs/contribute.md).
 
@@ -54,7 +54,7 @@ $ rm $FILE
 $ sudo apt-get install -y nodejs # Including npm
 
 # Global node package(s) for convenience
-$ sudo npm install -g dts-gen jsdoc mocha typescript ts-node zx
+$ sudo npm install -g dts-gen jsdoc mocha @pintora/cli typescript ts-node zx
 ```
 
 In case you don't want to install npm packages as root user, look [here](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally).
@@ -199,6 +199,10 @@ Code, generic:
 
 Web:
 + [express](https://www.npmjs.com/package/express) for local development server, with [body-parser](https://www.npmjs.com/package/body-parser) to process POST requests. For sessions [express-session](https://www.npmjs.com/package/express-session) with [memorystore](https://www.npmjs.com/package/memorystore)
+
+Diagrams:
++ [mermaid](https://www.npmjs.com/package/mermaid), a text-to-diagrams library. Global installation of a CLI version is described by makers as buggy, so also a local [@mermaid-js/mermaid-cli](https://www.npmjs.com/package/@mermaid-js/mermaid-cli)
++ [@pintora/standalone](https://www.npmjs.com/package/@pintora/standalone) which combines browser and Node.js parts of Pintora
 
 
 ## Read more
