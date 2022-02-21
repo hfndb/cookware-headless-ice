@@ -26,9 +26,9 @@ s+ generates tag files,
   + a documentation browser, to project and system README.md files, and README.md files in integrated Node.js packages.
 
 **Other**
-+ In the dev/local-tools directory you'll find some tools to:
++ In the dev/local-tools directory you'll find some tools:
 	- 'Laboratory' to experiment with colors and styles.
-	- Diagrams: Test pages for [Mermaid](https://github.com/mermaid-js/mermaid) (used by Github.com), and [Pintora](https://pintorajs.vercel.app/docs/intro/)
+	- Diagrams: Test pages for [Mermaid](https://github.com/mermaid-js/mermaid) (used by Github.com), and [Pintora](https://pintorajs.vercel.app/docs/intro/). In the tools directory also a bash script to generate diagrams in the project directory, which creates a 'diagrams' directory if not exits yet and renders all new or updated diagrams in that directory.
 
 This project is developed on a Linux platform and should also run on BSD and Apple platforms. With some additional effort on Windows too 😉 See [contribute](./docs/contribute.md).
 
