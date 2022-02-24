@@ -1,5 +1,4 @@
 "use strict";
-
 import { AppConfig } from "../generic/config.mjs";
 import { Logger } from "./log.mjs";
 import bodyParser from "body-parser";
@@ -10,7 +9,11 @@ import session from "express-session";
 import MemoryStore from "memorystore";
 
 /**
- * Utility class for Express
+ * Utility class for Express.
+ *
+ * Some code in this file is written for another project. Which is switched to Fastify,
+ * meaning that these parts are no longer maintained, as from feb 2022.
+ * Only code written for cookware-headless-ice in this file is maintained.
  *
  * @example
  * // Function to cleanup and shutdown application
@@ -28,6 +31,7 @@ import MemoryStore from "memorystore";
  */
 export class ExpressUtils {
 	static instance = null;
+
 	constructor(devMode) {
 		/**
 		 * @private
@@ -45,6 +49,7 @@ export class ExpressUtils {
 			ExpressUtils.instance.app = express();
 			ExpressUtils.instance.activateMiddleware();
 		}
+
 		return ExpressUtils.instance;
 	}
 
@@ -59,14 +64,16 @@ export class ExpressUtils {
 		// -------------------------------------------------
 		// Logging
 		// -------------------------------------------------
-		// if added for cookware-texts
+		// if added for another project, see note in header
 		if (cfg.options.dependencies.express.activate.logging) {
 			this.app.use(ExpressUtils.requestLogger);
 		}
+
 		// -------------------------------------------------
 		// Cookie parsing - see above, require
 		// -------------------------------------------------
 		// this.app.use(cookieParser);
+
 		// -------------------------------------------------
 		// Body parsing
 		// -------------------------------------------------
@@ -77,7 +84,8 @@ export class ExpressUtils {
 				extended: true,
 			}),
 		);
-		// Added for cookware-texts
+
+		// Two options, added for another project, see note in header
 		if (cfg.options.dependencies.express.activate.uploads) {
 			// Usage example: https://attacomsian.com/blog/uploading-files-nodejs-express
 			// Options:
@@ -88,6 +96,7 @@ export class ExpressUtils {
 			});
 			this.app.use(fileUpload(opts));
 		}
+
 		if (cfg.options.dependencies.express.activate.sessions) {
 			this.activateSessions();
 		}
@@ -98,11 +107,11 @@ export class ExpressUtils {
 		let log = Logger.getInstance();
 		let sess = cfg.options.dependencies.express.session;
 		/*
-            Default values of express-session:
-            { path: '/', httpOnly: true, secure: false, maxAge: null }
-                genid: uses uid-safe
-                name:  connect.sid
-        */
+			Default values of express-session:
+			{ path: '/', httpOnly: true, secure: false, maxAge: null }
+					genid: uses uid-safe
+					name:  connect.sid
+		*/
 		if (
 			!this.devMode &&
 			cfg.options.domain.url.startsWith("https") &&
@@ -113,9 +122,11 @@ export class ExpressUtils {
 		} else {
 			sess.cookie.secure = false;
 		}
+
 		if (this.devMode) {
 			log.info(sess);
 		}
+
 		switch (cfg.options.dependencies.express.memoryStore.type) {
 			case "memoryStore":
 				let S = MemoryStore(session); // @todo check
@@ -126,6 +137,7 @@ export class ExpressUtils {
 			default:
 				break;
 		}
+
 		this.app.use(session(sess));
 		this.app.use(function(req, res, next) {
 			res; // Fool compiler - unused variable
@@ -161,6 +173,7 @@ export class ExpressUtils {
 		let cfg = AppConfig.getInstance();
 		let eu = ExpressUtils.getInstance();
 		let log = Logger.getInstance();
+
 		// ---------------------------------------------------------------------------------------------------
 		// Naked server - begin
 		// ---------------------------------------------------------------------------------------------------
@@ -168,8 +181,10 @@ export class ExpressUtils {
 		// The app.listen() method returns an(node) http.Server object
 		// https://nodejs.org/api/net.html#net_server_close_callback
 		this.server = this.app.listen(cfg.options.server.port);
+
 		process.on("SIGINT", gracefulShutdown); // Ctrl-c
 		process.on("SIGTERM", gracefulShutdown); // Kill process otherwise
+
 		this.server.on("connection", function(conn) {
 			let key = conn.remoteAddress + ":" + conn.remotePort;
 			// console.log(`Key added: ${key}`);
@@ -179,12 +194,14 @@ export class ExpressUtils {
 				// console.log(`Key deleted: ${key}`);
 			});
 		});
+
 		this.server.destroy = function(cb) {
 			eu.server.close(cb);
 			for (let key in eu.connectionPool.keys()) {
 				eu.connectionPool.get(key).destroy();
 			}
 		};
+
 		this.server.on("error", e => {
 			if (e.code === "EADDRINUSE") {
 				log.error(
@@ -195,7 +212,8 @@ export class ExpressUtils {
 				}
 			}
 		});
-		// if added for cookware-texts
+
+		// if added for another project, see note in header
 		if (cfg.options.dependencies.express.activate.logging) {
 			setTimeout(() => {
 				// Take some time to know for sure the 'address in use' error didn't occur
@@ -211,12 +229,14 @@ export class ExpressUtils {
 	 */
 	static shutdown() {
 		let eu = ExpressUtils.getInstance();
+
 		eu.server.close(function() {
 			if (process.env.NODE_ENV != "test") {
 				console.log("Bye!\n");
 				process.exit(0);
 			}
 		});
+
 		setImmediate(function() {
 			eu.server.emit("close");
 		}); // Inspired by https://stackoverflow.com/questions/14626636/how-do-i-shutdown-a-node-js-https-server-immediately
@@ -230,6 +250,7 @@ export class ExpressUtils {
 		let log = Logger.getInstance();
 		let str = `${req.method.padEnd(5, " ")}${res.statusCode} ${req.url}`;
 		// ${ res.statusMessage }  ${res.get("Content-Length") || 0}b
+
 		if (res.statusCode == 404) {
 			log.warn(str);
 		} else {
@@ -254,7 +275,9 @@ export class ExpressUtils {
 			} else {
 				ExpressUtils.logRequest(req, res);
 			}
+
 			res.removeListener("finish", ExpressUtils.requestLogger);
+
 			let eu = ExpressUtils.getInstance();
 			if (eu.devMode && !req.path.startsWith("/static")) {
 				let log = Logger.getInstance();
@@ -266,7 +289,9 @@ export class ExpressUtils {
 
 	static getCookie(req) {
 		let cookie = {};
+
 		if (!req.headers || !req.headers.cookie) return cookie;
+
 		/**
 		 * Remainder of code = modified version of code in js-cookie
 		 * @see https://github.com/js-cookie/js-cookie
@@ -274,6 +299,7 @@ export class ExpressUtils {
 		function decode(s) {
 			return s.replace(/(%[0-9A-Z]{2})+/g, decodeURIComponent);
 		}
+
 		let entries = req.headers.cookie.split("; ");
 		for (let i = 0; i < entries.length; i++) {
 			let parts = entries[i].split("=");
@@ -281,12 +307,14 @@ export class ExpressUtils {
 			if (entry.charAt(0) === '"') {
 				entry = entry.slice(1, -1);
 			}
+
 			try {
 				let name = decode(parts[0]);
 				entry = decode(entry);
 				cookie[name] = entry;
 			} catch (e) {}
 		}
+
 		return cookie;
 	}
 }
