@@ -189,32 +189,50 @@ export class Formatter {
 		return date.format(dt, format ? format : this.formatDateTime);
 	}
 
-	// Number type
+	// Number type, could also be done using Intl.NumberFormat()
 	decimal(nr, decimals, prefix = "", suffix = "") {
 		if (!nr) return "";
-		let minus = nr < 0 ? "-" : "";
-		let part = nr % 1;
-		let rem = nr - part;
-		part = decimals ? part * 100 : 0;
-		let toReturn =
-			decimals == 0
-				? ""
-				: this.decimalSeparator +
-				  part
-						.toString()
-						.substring(0, decimals - 1)
-						.padEnd(decimals, "0");
-		while (rem) {
-			part = rem % 1000;
-			rem = (rem - part) / 1000;
-			// @ts-ignore
-			part = part.toString().padStart(3, "0");
-			toReturn = this.thousandsSeparator + part + toReturn;
+		let vars = {
+			behindComma: "",
+			minus: nr < 0 ? "-" : "",
+			part: 0,
+			rem: nr,
+			org: nr.toString(),
+			pos: -1,
+		}; // Object like this is handy for debugging
+
+		// Remainder % causes float difference. So...
+		vars.pos = vars.org.indexOf(".");
+		if (vars.pos > 0 && decimals) {
+			vars.behindComma =
+				this.decimalSeparator +
+				vars.org.substring(vars.pos + 1).padEnd(decimals, "0");
 		}
-		if (toReturn.startsWith(this.thousandsSeparator)) {
-			toReturn = toReturn.substring(1);
+		if (vars.pos > 0) {
+			vars.rem = parseInt(vars.org.substring(0, vars.pos));
 		}
-		return prefix + minus + toReturn + suffix;
+
+		// First collect parts in groups of thousands
+		let parts = [];
+		while (vars.rem) {
+			vars.part = vars.rem % 1000;
+			vars.rem = (vars.rem - vars.part) / 1000;
+			parts.unshift(vars.part);
+		}
+
+		// Then compose a return value
+		let rt = prefix + vars.minus;
+		for (let i = 0; i < parts.length; i++) {
+			vars.part = parts[i];
+			if (i == 0) {
+				rt += vars.part.toString();
+			} else {
+				rt += vars.part.toString().padStart(3, "0");
+			}
+			if (parts[i + 1]) rt += this.thousandsSeparator;
+		}
+
+		return rt + vars.behindComma + suffix;
 	}
 
 	int(nr) {
