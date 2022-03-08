@@ -112,7 +112,6 @@ class SassWatch extends FileWatcher {
 		event; // Fool compiler - unused variable
 		if (Double.is(file)) return;
 
-
 		let dir = join(cfg.dirProject, cfg.options.sass.dirs.source);
 		let fi = FileUtils.getFileInfo(dir, file);
 		if (fi.file.ext != ".scss") return;

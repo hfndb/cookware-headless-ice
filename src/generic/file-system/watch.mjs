@@ -76,11 +76,7 @@ export class FileWatcher {
 					if (!file || file.endsWith("swp")) return;
 					let changed, fullPath, tmp;
 
-					let scenario = [
-						"",
-						settings.file,
-						join(settings.file, file),
-					]
+					let scenario = ["", settings.file, join(settings.file, file)];
 
 					for (let i = 0; !fullPath && i < scenario.length; i++) {
 						tmp = join(this.workingDir, settings.path, scenario[i]);

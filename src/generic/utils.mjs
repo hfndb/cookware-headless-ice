@@ -204,9 +204,16 @@ export class Formatter {
 		// Remainder % causes float difference. So...
 		vars.pos = vars.org.indexOf(".");
 		if (vars.pos > 0 && decimals) {
+			let tmp = vars.org.substring(vars.pos + 1); // To string behind comma
+			// Insert comma for rounding
+			tmp = tmp.substring(0, decimals) + "." + tmp.substring(decimals);
+			tmp = parseFloat(tmp); // To float for rounding
+
 			vars.behindComma =
 				this.decimalSeparator +
-				vars.org.substring(vars.pos + 1).padEnd(decimals, "0");
+				Math.round(tmp)
+					.toString()
+					.padEnd(decimals, "0");
 		}
 		if (vars.pos > 0) {
 			vars.rem = parseInt(vars.org.substring(0, vars.pos));

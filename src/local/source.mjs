@@ -87,6 +87,7 @@ export class SourceUtils {
 		});
 
 		removeObsolete(ro, processed, outDir, ".js");
+		removeObsolete(ro, processed, outDir, ".mjs");
 
 		if (saydHello && verbose) {
 			Tags.forProject(cfg.options.javascript.dirs.source);

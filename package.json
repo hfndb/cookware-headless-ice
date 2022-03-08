@@ -36,6 +36,7 @@
     "marked": "^4.0.10",
     "memorystore": "^1.6.4",
     "mermaid": "^8.14.0",
+    "mime-types": "^2.1.34",
     "minami": "^1.2.3",
     "minify-stream": "^1.2.1",
     "node": "^17.3.1",
