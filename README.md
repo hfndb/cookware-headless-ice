@@ -1,11 +1,11 @@
-**cookware-headless-ice** is a console based working environment, constructed as a [Node.js](https://en.wikipedia.org/wiki/Node.js) project. Like a chef, you can use this gear to 'cook' your own code for projects. So... in Case Of Emergency (ICE), feeling an itch to write some code, you could use this 'integrated cooking environment' (ice) 😉
+**cookware-headless-ice** is a console based working environment, constructed as a [Node.js](https://en.wikipedia.org/wiki/Node.js) project. Like a chef, you can use this gear to 'cook' your own code for projects. So... In Case of Emergency (ICE), feeling an itch to write some code, you could use this 'integrated cooking environment' (ice) 😉
 
 For background information like **project philosophy**, see [design goals and roadmap](./docs/design-goals-and-roadmap.md).
 
 The **command line toolbox**
 +  transcompiles (changed or new) [Sass](https://en.wikipedia.org/wiki/Sass_%28stylesheet_language%29) files to [CSS](https://en.wikipedia.org/wikiCascading_Style_Sheets),
 +  transcompiles (changed or new) [Flow](https://flow.org/), [JavaScript](https://en.wikipedia.org/wiki/JavaScript) (.js) and [TypeScript](https://en.wikipedia.org/wiki/TypeScript) (.ts, .cts, .mts) files to [CommonJS](https://en.wikipedia.org/wiki/CommonJS) (.js)
-+ generates Sass and JavaScript files with definitions of configured colors and looks, the JavaScript for standalone tools colors.html and project.html in./dev/local-tools/,
++ generates Sass and JavaScript files with definitions of configured colors and looks, see 'Laboratory' below,
 + generates [tag files](https://en.wikipedia.org/wiki/Ctags#Tags_file_formats), using [ctags-exuberant](http://ctags.sourceforge.net/) or [universal-ctags](https://ctags.io/) (more details, see [here](./docs/configuration.md)),
 + renders (changed or new) template based HTML-content to static .html disk files,
 + [lints](https://en.wikipedia.org/wiki/Lint_%28software%29) HTML content files,
@@ -18,8 +18,7 @@ The **command line toolbox**
 The **local development server**
 + renders HTML and [Markdown](https://en.wikipedia.org/wiki/Markdown) files on the fly, without caching to disk files,
 + beautifies (changed) Sass, Flow, TypeScript and PHP,
-+ transcompiles (changed or new) Sass, Flow and TypeScript,
-s+ generates tag files,
++ transcompiles (changed or new) Sass, Flow and TypeScript, generates tag files,
 + lints HTML,
 + displays a *system home page*, providing access to:
   - a *project overview*, with files, statistics and a count of integrated Node.js packages, and
@@ -27,8 +26,8 @@ s+ generates tag files,
 
 **Other**
 + In the dev/local-tools directory you'll find some tools:
-	- 'Laboratory' to experiment with colors and styles.
-	- Diagrams: Test pages for [Mermaid](https://github.com/mermaid-js/mermaid) (used by Github.com), and [Pintora](https://pintorajs.vercel.app/docs/intro/). In the tools directory also a bash script to generate diagrams in the project directory, which creates a 'diagrams' directory if not exits yet and renders all new or updated diagrams in that directory.
+	- **Laboratory** to experiment with colors and styles.
+	- **Diagrams**: Test pages for [Mermaid](https://github.com/mermaid-js/mermaid) (used by Github.com), and [Pintora](https://pintorajs.vercel.app/docs/intro/). In the tools directory also a bash script to generate diagrams in the project directory, which creates a 'diagrams' directory if not exits yet and renders all new or updated diagrams in that directory.
 
 This project is developed on a Linux platform and should also run on BSD and Apple platforms. With some additional effort on Windows too 😉 See [contribute](./docs/contribute.md).
 

@@ -130,6 +130,29 @@ export class NunjucksUtils {
 	}
 
 	/**
+	 * Check a content file or template
+	 *
+	 * @param {string} dir
+	 * @param {string} file
+	 * @param {Object} context
+	 * @returns {boolean} for ok
+	 */
+	checkFile(dir, file, context) {
+		let path = join(dir, file);
+		let ok = true;
+		try {
+			this.getEnvironment();
+			let data = FileUtils.readFile(path);
+			data = nunjucks.renderString(data, context);
+		} catch (err) {
+			let log = Logger.getInstance();
+			log.warn(`Check file ${file}`, Logger.error2string(err));
+			ok = false;
+		}
+		return ok;
+	}
+
+	/**
 	 * Render a content file to a string
 	 */
 	renderFile(dir, file, context) {
