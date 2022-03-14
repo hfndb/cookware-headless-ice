@@ -10,7 +10,7 @@ import { SysUtils } from "../generic/sys.mjs";
 import { Packages } from "../generic/package-json.mjs";
 import { renderMarkdownFile } from "../local/markdown.mjs";
 import { Lint } from "../local/markup.mjs";
-import { renderSysTemplate } from "../local/misc.mjs";
+import { Misc } from "../local/misc.mjs";
 import { generateStats } from "../local/overview.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 const { test } = shelljs;
@@ -78,7 +78,7 @@ export function controllerStatic(req, res, next) {
  * Render a system template in the content dir
  */
 function sysTemplate(res, path, context, content) {
-	let data = renderSysTemplate(path, context, content);
+	let data = Misc.renderSysTemplate(path, context, content);
 
 	res.send(data);
 }

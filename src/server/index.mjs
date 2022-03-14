@@ -8,7 +8,7 @@ import { initWatches, terminateWatches } from "./watches.mjs";
 import { AppConfig } from "../generic/config.mjs";
 import { Logger } from "../generic/index.mjs";
 import { ExpressUtils } from "../generic/express.mjs";
-import { backupChangedSource } from "../local/misc.mjs";
+import { Git, Misc } from "../local/misc.mjs";
 import { SourceUtils } from "../local/source.mjs";
 import { SassUtils } from "../local/styling.mjs";
 import { SessionVars } from "../sys/session.mjs";
@@ -53,9 +53,9 @@ export function coatRack() {
 	initWatches();
 	// Setup incremental autobackup of changed sources
 	if (cfg.options.server.backupInterval > 0) {
-		backupChangedSource(true);
+		Misc.backupChangedSource(true);
 		setInterval(
-			backupChangedSource,
+			Misc.backupChangedSource,
 			cfg.options.server.backupInterval * 60 * 1000,
 		);
 	}

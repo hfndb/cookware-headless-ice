@@ -64,6 +64,19 @@ $ cookware --generate
 
 Shortcut -g. Transcompile changed ts and scss, render changed .html using template engine, generate Google sitemap.
 
+## Git reporting
+
+```
+# Read commits from repository
+$ cookware --git-init [--file=file.mjs]
+
+# List commits
+$ cookware --git-list [--file=file.mjs]
+
+# Show details about a specific commit and write a .diff file
+$ cookware --git-show [--file=file.mjs] hash
+```
+
 
 ## Init
 

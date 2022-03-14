@@ -3,7 +3,7 @@ import { basename, extname, join } from "path";
 import shelljs from "shelljs";
 import { AppConfig, FileUtils, StringExt } from "../generic/index.mjs";
 import { Content } from "../generic/html.mjs";
-import { getStamp, renderSysTemplate } from "./misc.mjs";
+import { Misc } from "./misc.mjs";
 import { ArrayUtils } from "../generic/object.mjs";
 import { Packages } from "../generic/package-json.mjs";
 import { Item, Group, Report } from "../generic/reporting.mjs";
@@ -148,7 +148,7 @@ export function writeStats() {
 	let pg = "project-overview.html";
 	let context = Content.getDefaultContext(pg);
 	context = Object.assign(context, { report: generateStats() });
-	let data = renderSysTemplate(pg, context);
+	let data = Misc.renderSysTemplate(pg, context);
 	let rootDir = Content.getOutputDir();
 	// Correct path of CSS in HTML
 	// @todo Works fine in Linux, not in Windows
@@ -160,6 +160,6 @@ export function writeStats() {
 	let dir = join(rootDir, cfg.options.projectOverview.dir);
 	FileUtils.mkdir(dir);
 	// Write file
-	let path = join(cfg.options.projectOverview.dir, getStamp() + ".html");
+	let path = join(cfg.options.projectOverview.dir, Misc.getStamp() + ".html");
 	FileUtils.writeFile(rootDir, path, data, true);
 }

@@ -7,7 +7,7 @@ import { Beautify } from "./generic/beautify.mjs";
 import { Lint } from "./local/markup.mjs";
 import { renderEpub } from "./local/epub.mjs";
 import { generateJsDocs } from "./local/javascript.mjs";
-import { Colors, generateWeb } from "./local/misc.mjs";
+import { Colors, Git, Misc } from "./local/misc.mjs";
 import { writeStats } from "./local/overview.mjs";
 import { renderPdf } from "./local/pdf.mjs";
 import { generateTsDocs } from "./local/typescript.mjs";
@@ -105,6 +105,30 @@ am.addOption({
 	description: "Generate color files",
 });
 am.addOption({
+	name: "git-read",
+	type: Boolean,
+	description:
+		"Read commits from git. With parameter --file= for a specific file",
+});
+am.addOption({
+	name: "git-list",
+	type: Boolean,
+	description:
+		"List commits in this project. With parameter --file= for a specific file",
+});
+am.addOption({
+	name: "git-show",
+	type: String,
+	description: "Show details of a commit and write a .diff file",
+	typeLabel: "<hash>",
+});
+am.addOption({
+	name: "file",
+	type: String,
+	description: "Flag to pass a file name",
+	typeLabel: "<file>",
+});
+am.addOption({
 	name: "production",
 	type: Boolean,
 	description: "Flag to compile and compress for production use",
@@ -145,12 +169,18 @@ if (choice.beautify) {
 } else if (choice.epub) {
 	renderEpub();
 } else if (choice.generate) {
-	generateWeb(true);
+	Misc.generateWeb(true);
 	stats = true;
 } else if (choice.lint) {
 	Lint.content();
 } else if (choice.overview) {
 	writeStats();
+} else if (choice.gitRead) {
+	Git.read(choice.file);
+} else if (choice.gitList) {
+	Git.list(choice.file);
+} else if (choice.gitShow) {
+	Git.show(choice.gitShow);
 } else if (choice.pdf) {
 	renderPdf();
 } else if (choice.run) {
