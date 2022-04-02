@@ -118,6 +118,36 @@ export class ArrayUtils {
 	}
 }
 
+export class DateUtils {
+	/**
+	 * @returns {number} minute in ms
+	 */
+	static getMinuteAsMs() {
+		return 1000 * 60;
+	}
+
+	/**
+	 * @returns {number} hour in ms
+	 */
+	static getHourAsMs() {
+		return DateUtils.getMinuteAsMs() * 60;
+	}
+
+	/**
+	 * @returns {number} natural day of 24 hrs in ms
+	 */
+	static getDayAsMs() {
+		return DateUtils.getHourAsMs() * 24;
+	}
+
+	/**
+	 * @returns {number} week of 7 natural days in ms
+	 */
+	static getWeekAsMs() {
+		return DateUtils.getDayAsMs() * 7;
+	}
+}
+
 export class ObjectUtils {
 	/**
 	 * Safely clone an object

@@ -33,9 +33,29 @@ export class FileUtils {
 	}
 
 	/**
+	 * Method to safely read a json file by importing
+	 * Introduced in Node.js v17.5.0
+	 *
+	 * @param path {string} to json file to read
+	 * @returns {*} object with read json content or null
+	 */
+	static async importJsonFile(path, ignoreErrors = true) {
+		try {
+			return await import(path, {
+				assert: { type: "json" },
+			});
+		} catch (err) {
+			if (ignoreErrors) return null;
+			else {
+				throw new Error(`Error parsing ${path}\n` + Logger.error2string(err));
+			}
+		}
+	}
+
+	/**
 	 * Method to safely read a json file
 	 *
-	 * @param path to json file to read
+	 * @param {string} path to json file to read
 	 * @returns {*} with read json content
 	 */
 	static readJsonFile(path, ignoreErrors = true) {
