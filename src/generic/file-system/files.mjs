@@ -207,25 +207,25 @@ The structure of this file is invalid, meaning, messed up.
 			},
 			file: {
 				ext: "",
-				full: "",
+				full: file,
 				size: 0,
 				stem: "",
 			},
 			full: "",
 		};
 
-		if (file.includes(sep)) {
+		if (rt.file.full.includes(sep)) {
 			rt.path.next = dirname(file);
-			file = basename(file);
+			rt.file.full = basename(file);
 		}
 
-		if (file.includes(".")) {
-			rt.file.ext = extname(file);
-			rt.file.stem = basename(file, rt.file.ext);
+		if (rt.file.full.includes(".")) {
+			rt.file.ext = extname(rt.file.full);
+			rt.file.stem = basename(rt.file.full, rt.file.ext);
 		} else {
-			rt.file.stem = file;
+			rt.file.stem = basename(file);
 		}
-		rt.file.full = rt.file.stem + rt.file.ext;
+
 		rt.path.full = join(rt.path.base, rt.path.next);
 		rt.full = join(rt.path.full, rt.file.full);
 

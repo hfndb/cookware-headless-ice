@@ -146,6 +146,39 @@ export class DateUtils {
 	static getWeekAsMs() {
 		return DateUtils.getDayAsMs() * 7;
 	}
+
+	/**
+	 * Same calendar day?
+	 *
+	 * @param {Date} a
+	 * @param {Date} b
+	 * @returns {boolean}
+	 */
+	static isSameDay(a, b) {
+		return DateUtils.isSameMonth(a, b) && a.getDate() == b.getDate();
+	}
+
+	/**
+	 * Same calendar month?
+	 *
+	 * @param {Date} a
+	 * @param {Date} b
+	 * @returns {boolean}
+	 */
+	static isSameMonth(a, b) {
+		return a.getMonth() == b.getMonth() && isSameYear(a, b);
+	}
+
+	/**
+	 * Same calendar year?
+	 *
+	 * @param {Date} a
+	 * @param {Date} b
+	 * @returns {boolean}
+	 */
+	static isSameYear(a, b) {
+		return a.getFullYear() == b.getFullYear();
+	}
 }
 
 export class ObjectUtils {

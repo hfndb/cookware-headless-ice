@@ -64,9 +64,6 @@ export class Logger {
 		this.fileAll = "combined.log";
 		this.fileDatabase = "database.log";
 		this.fileError = "error.log";
-		if (this.opts.transports.file.active) {
-			FileUtils.mkdir(this.opts.transports.file.dir);
-		}
 	}
 
 	/**
@@ -137,7 +134,7 @@ export class Logger {
 		);
 	}
 
-	getStackInfo() {
+	static getStackInfo() {
 		// Stack trace format :
 		// https://github.com/v8/v8/wiki/Stack%20Trace%20API
 		let data = {
@@ -186,13 +183,16 @@ export class Logger {
 		if (process.env.NODE_ENV == "production" || process.env.NODE_ENV == "test") {
 			return;
 		}
-		let stack = this.getStackInfo();
+		let stack = Logger.getStackInfo();
 		args.unshift(
 			`  [ ${stack.dir}/${stack.file}:${stack.line}:${stack.pos}, ${stack.method} ]`,
 		);
 		let pars = Logger.args2string(args);
-		this.writeConsole("Debug".blue, pars);
-		this.writeFile(this.fileAll, "debug", pars + "\n");
+
+		// In view of possible monkey patching console.debug...
+		let log = Logger.getInstance();
+		log.writeConsole("Debug".blue, pars);
+		log.writeFile(log.fileAll, "debug", pars + "\n");
 	}
 
 	warn(...args) {
