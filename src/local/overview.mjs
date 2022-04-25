@@ -98,7 +98,8 @@ export function generateStats() {
 		excludeList: ["dist", "node_modules"],
 		recursive: true,
 	};
-	let report = new Report(["File", "Code", "Comments", "Empty lines"]);
+	let report = new Report(["Code", "Comments", "Empty lines"]);
+	report.description = "File"; // Utter left column
 
 	function addGroup(report, description, allowedExtensions, dir, skip = "") {
 		if (!test("-d", join(cfg.dirProject, dir))) return; // Directory doesn't exist

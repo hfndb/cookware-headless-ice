@@ -1,0 +1,84 @@
+{%- macro getHeader(class, includeTotal, report, txt) %}
+	<tr>
+	{%- if report.description != '' %}
+	<th>{{ report.description }}</th>
+	{%- endif %}
+	{%- for cell in report.columnHeaders %}
+		<th{% if not loop.first %} class="{{ class }}"{% endif %}>{{ cell }}</th>
+	{%- endfor %}			{#- for loop cell in report.columnHeaders #}
+		{%- if includeTotal %}
+		<th class="{{ class }}">{{ txt.total }}</th>
+		{%- endif %}
+	</tr>
+{%- endmacro %}
+
+{%- macro getGroupBody(columnCount, classItemCount, frmt, group, includeTotal, itemCaption) %}
+	<tr>
+		<td colspan="{{ columnCount + 1 if includeTotal else columnCount }}">&nbsp;</td>
+	</tr>
+	<tr>
+		<th colspan="{{ columnCount + 1 if includeTotal else columnCount }}">{{ group.description }} <span class="{{ classItemCount }}"> - {{ group.itemCount }} {{ itemCaption }}</span></th>
+	</tr>
+	{%- for cell in group.items %}
+	<tr>
+		<td>{{ cell.description }}</td>
+		{%- for column in cell.columns %}
+		<td>{{ frmt.int(column) }}</td>
+		{%- endfor %}		{#- for loop cell in cell.columns #}
+		{%- if includeTotal %}
+		<td>{{ cell.total}}</td>
+		{%- endif %}
+	</tr>
+	{%- endfor %}			{#- for loop cell in group.items #}
+{%- endmacro %}
+
+{%- macro getGroupSummary(frmt, group, includeTotal) %}
+	<tr>
+		<td>{{ group.description }}</td>
+		{%- for cell in group.columns %}
+		<td>{{ frmt.int(cell) }}</td>
+		{%- endfor %}		{#- for loop cell in group.columns #}
+		{%- if includeTotal %}
+		<td>{{ group.total}}</td>
+		{%- endif %}
+	</tr>
+{%- endmacro %}
+
+{%- macro getAggregate(classLast, frmt, includeTotal, type, arr, th = false, total = 0) %}
+{%- set tp = 'th' if th else 'td' %}
+		{%- for cell in arr %}
+		{%- if not loop.last or (loop.last and includeTotal) %}
+		<{{ tp }}{%- if not total and loop.last %} class="{{ classLast }}"{% endif %}>{{
+			frmt.int(cell) if type == "int" else frmt.decimal(cell, 2)
+			}}</{{ tp }}>
+		{%- endif %}
+		{%- endfor %}
+		{%- if total != 0 %}
+		<{{ tp }} class="{{ classLast }}">{{
+			frmt.int(cell) if type == "int" else frmt.decimal(cell, 2)
+			}}</{{ tp }}>
+		{%- endif %}
+{%- endmacro %}
+
+{%- macro getAggregates(classLast, frmt, includeTotal, registrar, txt) %}
+	<tr>
+		<th>{{ txt.totals }}</th>
+		{{- getAggregate(classLast, frmt, includeTotal, "int", registrar.columns, true, registrar.total) }}
+	</tr>
+	<tr>
+		<td>{{ txt.percentages }}</td>
+		{{- getAggregate(classLast, frmt, includeTotal, "decimal", registrar.percentages) }}
+	</tr>
+	<tr>
+		<td>{{ txt.averages }}</td>
+		{{- getAggregate(classLast, frmt, includeTotal, "int", registrar.averages) }}
+	</tr>
+	<tr>
+		<td>{{ txt.min }}</td>
+		{{- getAggregate(classLast, frmt, includeTotal, "int", registrar.min) }}
+	</tr>
+	<tr>
+		<td>{{ txt.max }}</td>
+		{{- getAggregate(classLast, frmt, includeTotal, "int", registrar.max) }}
+	</tr>
+{%- endmacro %}

@@ -1,61 +1,17 @@
 {% extends "base.njk" %}
 {% set blockLintLink = true %}
 {% set title = "Project overview" %}
+{% import "reports/macros.njk" as macros %}
+{% from "reports/vars-en.njk" import txt %}
+
 {% block content %}
 <div class="report-stamp">{{ createdDateTime }}</div>
 <h1>Project overview</h1>
 <table class="project-overview center-vertically">
-	<tr>
-	{%- for cell in report.columnHeaders %}
-		<th{% if not loop.first %} class="padl15"{% endif %}>{{ cell }}</th>
-	{%- endfor %}			{#- for loop cell in report.columnHeaders #}
-		<th class="padl15">Total</th>
-	</tr>
+{{- macros.getHeader("padl15", true, report, txt) }}
 	{%- for group in report.groups %}
-	<tr>
-		<td colspan="5">&nbsp;</td>
-	</tr>
-	<tr>
-		<th colspan="5">{{ group.description }} <span class="plain"> - {{ group.itemCount }} files</span></th>
-	</tr>
-	{%- for cell in group.items %}
-	<tr>
-		<td>{{ cell.description }}</td>
-		{%- for column in cell.columns %}
-		<td>{{ frmt.int(column) }}</td>
-		{%- endfor %}		{#- for loop cell in cell.columns #}
-	</tr>
-	{%- endfor %}			{#- for loop cell in group.items #}
-	<tr>
-		<th>Totals</th>
-		{%- for cell in group.columns %}
-		<th>{{ frmt.int(cell) }}</th>
-		{%- endfor %}		{#- for loop cell in group.columns #}
-	</tr>
-	<tr>
-		<td>Percentages</td>
-		{%- for cell in group.percentages %}
-		<td{% if loop.last %} class="plain"{% endif %}>{{ frmt.decimal(cell, 2) }}</td>
-		{%- endfor %}		{#- for loop cell in group.percentages #}
-	</tr>
-	<tr>
-		<td>Averages</td>
-		{%- for cell in group.averages %}
-		<td{% if loop.last %} class="plain"{% endif %}>{{ frmt.int(cell) }}</td>
-		{%- endfor %}		{#- for loop cell in group.averages #}
-	</tr>
-	<tr>
-		<td>Least</td>
-		{%- for cell in group.min %}
-		<td{% if loop.last %} class="plain"{% endif %}>{{ frmt.int(cell) }}</td>
-		{%- endfor %}		{#- for loop cell in group.min #}
-	</tr>
-	<tr>
-		<td>Most</td>
-		{%- for cell in group.max %}
-		<td{% if loop.last %} class="plain"{% endif %}>{{ frmt.int(cell) }}</td>
-		{%- endfor %}		{#- for loop cell in group.max #}
-	</tr>
+		{{- macros.getGroupBody(5, "plain", frmt, group, true, "files") }}
+		{{- macros.getAggregates("plain", frmt, true, group, txt) }}
 	{%- endfor %}			{#- for loop group in groups #}
 	<tr class="noprint">
 		<td colspan="5">&nbsp;</td>
@@ -64,12 +20,7 @@
 		<th colspan="5">Groups summary</th>
 	</tr>
 	{%- for group in report.groups %}
-	<tr>
-		<td>{{ group.description }}</td>
-		{%- for cell in group.columns %}
-		<td>{{ frmt.int(cell) }}</td>
-		{%- endfor %}		{#- for loop cell in group.columns #}
-	</tr>
+		{{- macros.getGroupSummary(frmt, group, true) }}
 	{%- endfor %}			{#- for loop group in groups #}
 	<tr>
 		<td colspan="5">&nbsp;</td>
@@ -77,36 +28,7 @@
 	<tr>
 		<th colspan="5">Report summary <span class="plain"> - {{ report.itemCount }} files in {{ report.groups.length }} groups</span></th>
 	</tr>
-	<tr>
-		<td>Totals</td>
-		{%- for cell in report.columns %}
-		<td{% if loop.last %} class="plain"{% endif %}>{{ frmt.int(cell) }}</td>
-		{%- endfor %}
-	</tr>
-	<tr>
-		<td>Percentages</td>
-		{%- for cell in report.percentages %}
-		<td{% if loop.last %} class="plain"{% endif %}>{{ frmt.decimal(cell, 2) }}</td>
-		{%- endfor %}
-	</tr>
-	<tr>
-		<td>Averages</td>
-		{%- for cell in report.averages %}
-		<td{% if loop.last %} class="plain"{% endif %}>{{ frmt.int(cell) }}</td>
-		{%- endfor %}
-	</tr>
-	<tr>
-		<td>Least</td>
-		{%- for cell in report.min %}
-		<td{% if loop.last %} class="plain"{% endif %}>{{ frmt.int(cell, 2) }}</td>
-		{%- endfor %}		{#- for loop cell in report.min #}
-	</tr>
-	<tr>
-		<td>Most</td>
-		{%- for cell in report.max %}
-		<td{% if loop.last %} class="plain"{% endif %}>{{ frmt.int(cell, 2) }}</td>
-		{%- endfor %}		{#- for loop cell in report.max #}
-	</tr>
+	{{- macros.getAggregates("plain", frmt, true, report, txt) }}
 </table>
 <p>
 	Number of integrated external Node.js packages: {{ report.packages.length }}

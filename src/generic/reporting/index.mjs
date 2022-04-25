@@ -91,9 +91,10 @@ export class Group extends Item {
 export class Report extends Group {
 	/**
 	 * @param {string[]} columnHeaders
+	 * @param {string} description Of descriptive left column
 	 */
-	constructor(columnHeaders) {
-		super(columnHeaders, "");
+	constructor(columnHeaders, description = "") {
+		super(columnHeaders, description);
 		this.columnHeaders = columnHeaders;
 		this.groups = [];
 	}
@@ -156,6 +157,7 @@ export class Report extends Group {
 		item.total = sum; // Total of all columns in item
 
 		// Registrar: Update percentages[], averages[], total of all items
+		registrar.total += sum; // Total of all columns in item
 		for (let col = 0; col < cols; col++) {
 			let ratio = 0;
 			let total = registrar.total;
@@ -167,7 +169,6 @@ export class Report extends Group {
 			}
 			registrar.averages[col] = registrar.columns[col] / registrar.itemCount;
 		}
-		registrar.total += sum; // Total of all columns in item
 	}
 
 	/**
