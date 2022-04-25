@@ -466,11 +466,22 @@ See [compacting files](./philosophical/compacting-files.md) for more information
 {
 	"server": {
 		"backupInterval": 0,
-		"beautify": ["src"],
+		"beautify": ["php", "sass", "src"],
+		"cookies": {
+			// See https://www.npmjs.com/package/cookie
+			"cookieName": "cookware-headless-ice",
+			"maxAge": 60 * 60 * 12, // In seconds, now set to 12 hours
+			"httpOnly": true,
+			"path": "/",
+			"sameSite": true,
+			"signed": false
+		},
 		"firstUpdateSources": true,
-		"logStatic": false,
 		"port": 8000,
-		"staticUrl": "static",
+		"static": {
+			"log": false, // Log request for statics
+			"url": "static" // Prefix relative to html.dirs.output
+		},
 		"watchTimeout": 100
 	},
 }
@@ -479,11 +490,12 @@ See [compacting files](./philosophical/compacting-files.md) for more information
 Entries:
 + *backupInterval*: Interval for automatic backups of recently changed source code to backups directory. Unit: min. If set to 0, the auto-backup functionality is ignored.
 + "beautify": Array with kinds of code to beautify on the fly, when file change is detected. Possible values: saas, src
++ *cookies*: Not used in this project (yet?)
 + *firstUpdateSources*: Before running the server, first update sources and sass.
-+ *logStatic*: Log static files; css, js and pictures. If set to false, only html, markdown, epub and pdf requests will be logged.
 + *port*: The HTTP port number of your website.
 Example: If set to 8000, this website can be opened with http://localhost:8000/
-+ *staticUrl*: Directory for static files; css, js and pictures.
++ *static / log*: Log static files; css, js and pictures. If set to false, only html, markdown, epub and pdf requests will be logged.
++ *static / url*: Directory for static files; css, js and pictures.
 + *watchTimeout*: A timeout for filewatching using fs.watch(). Unit: ms. If you observe multiple changes in the console output, while you changed a file only once, then you could increase this timeout a bit.
 
 

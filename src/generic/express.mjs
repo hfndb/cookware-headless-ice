@@ -271,7 +271,7 @@ export class ExpressUtils {
 		res.on("finish", () => {
 			let cfg = AppConfig.getInstance();
 			if (req.path.startsWith("/static")) {
-				if (cfg.options.server.logStatic) ExpressUtils.logRequest(req, res);
+				if (cfg.options.server.static.log) ExpressUtils.logRequest(req, res);
 			} else {
 				ExpressUtils.logRequest(req, res);
 			}

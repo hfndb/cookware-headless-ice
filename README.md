@@ -183,7 +183,7 @@ HTML and Markdown:
 + [nunjucks](https://www.npmjs.com/package/nunjucks) HTML template engine - a Mozilla project, heavily inspired by [Jinja2](http://jinja.pocoo.org/)
 
 JavaScript:
-[babel](https://www.npmjs.com/package/@babel/core) with [Flow preset](https://www.npmjs.com/package/@babel/preset-flow), [preset-react](https://www.npmjs.com/package/@babel/preset-react) and [TypeScript preset](https://www.npmjs.com/package/@babel/preset-typescript) to transcompile Flow, TypeScript or JavaScript to backwards compatible version of JavaScript
++ [babel](https://www.npmjs.com/package/@babel/core) with [Flow preset](https://www.npmjs.com/package/@babel/preset-flow), [preset-react](https://www.npmjs.com/package/@babel/preset-react) and [TypeScript preset](https://www.npmjs.com/package/@babel/preset-typescript) to transcompile Flow, TypeScript or JavaScript to backwards compatible version of JavaScript
 + [babel-plugin-source-map-support](https://www.npmjs.com/package/babel-plugin-source-map-support) and [source-map-support](https://www.npmjs.com/package/source-map-support) for debugging transcompiled code
 + [jsdoc](https://www.npmjs.com/package/jsdoc) with [minami](https://github.com/Nijikokun/minami) template for generating JavaScript API documentation
 
@@ -196,9 +196,6 @@ Epub:
 
 Code, generic:
 + [prettier](https://www.npmjs.com/package/prettier) and [@prettier/plugin-php](https://www.npmjs.com/package/@prettier/plugin-php) for beautifying css, scss, html, JavaScript, TypeScript and PHP files
-
-Web:
-+ [express](https://www.npmjs.com/package/express) for local development server, with [body-parser](https://www.npmjs.com/package/body-parser) to process POST requests. For sessions [express-session](https://www.npmjs.com/package/express-session) with [memorystore](https://www.npmjs.com/package/memorystore)
 
 Diagrams:
 + [mermaid](https://www.npmjs.com/package/mermaid), a text-to-diagrams library. Global installation of a CLI version is described by makers as buggy, so also a local [@mermaid-js/mermaid-cli](https://www.npmjs.com/package/@mermaid-js/mermaid-cli)

@@ -166,7 +166,7 @@ export class DateUtils {
 	 * @returns {boolean}
 	 */
 	static isSameMonth(a, b) {
-		return a.getMonth() == b.getMonth() && isSameYear(a, b);
+		return a.getMonth() == b.getMonth() && DateUtils.isSameYear(a, b);
 	}
 
 	/**
@@ -178,6 +178,52 @@ export class DateUtils {
 	 */
 	static isSameYear(a, b) {
 		return a.getFullYear() == b.getFullYear();
+	}
+
+	/**
+	 * Add days to a date
+	 *
+	 * @param {Date} dt
+	 * @param (number) days
+	 * @param (boolean) change Change existiting instance or return new instance
+	 */
+	static addDays(dt, days, change = true) {
+		// Pointer to original or new instance?
+		let rt = change ? dt : new Date(dt.valueOf());
+		// Set to go
+		rt.setDate(rt.getDate() + days);
+
+		return rt;
+	}
+
+	/**
+	 * Go from a Date instance to string parts in an object
+	 *
+	 * @param {Date} dt
+	 * @returns {Object}
+	 */
+	static date2parts(dt) {
+		return {
+			year: dt.getFullYear().toString(),
+			// Month index starts with 0, so correct
+			month: (dt.getMonth() + 1).toString().padStart(2, "0"),
+			day: dt
+				.getDate()
+				.toString()
+				.padStart(2, "0"),
+			hours: dt
+				.getHours()
+				.toString()
+				.padStart(2, "0"),
+			minutes: dt
+				.getMinutes()
+				.toString()
+				.padStart(2, "0"),
+			seconds: dt
+				.getSeconds()
+				.toString()
+				.padStart(2, "0"),
+		};
 	}
 }
 

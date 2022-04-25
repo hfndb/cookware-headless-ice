@@ -6,7 +6,7 @@ import { Content } from "../generic/html.mjs";
 import { Misc } from "./misc.mjs";
 import { ArrayUtils } from "../generic/object.mjs";
 import { Packages } from "../generic/package-json.mjs";
-import { Item, Group, Report } from "../generic/reporting.mjs";
+import { Item, Group, Report } from "../generic/reporting/index.mjs";
 const { test } = shelljs;
 
 let cfg = AppConfig.getInstance();
@@ -30,6 +30,7 @@ function parseLine(line, item, isInComment) {
 	let cmtStart = []; // Start of multi-line comments
 	let cmtEnd = []; // End of multi-line comments
 	let ext = extname(item.description);
+	let newComment = false;
 
 	switch (ext) {
 		case ".js":
@@ -64,7 +65,7 @@ function parseLine(line, item, isInComment) {
 		case ".bat":
 			cmtSingleLine.push("#");
 	}
-	let newComment = false;
+
 	if (line.length == 0) {
 		item.columns[2]++; // empty line
 	} else if (isInComment) {
@@ -83,9 +84,11 @@ function parseLine(line, item, isInComment) {
 			item.columns[0]++; // code
 		}
 	}
+
 	if (newComment && ArrayUtils.endsWith(line, cmtEnd)) {
 		isInComment = false;
 	}
+
 	return isInComment;
 }
 
@@ -96,10 +99,12 @@ export function generateStats() {
 		recursive: true,
 	};
 	let report = new Report(["File", "Code", "Comments", "Empty lines"]);
+
 	function addGroup(report, description, allowedExtensions, dir, skip = "") {
-		let group = new Group(report, description);
-		options.allowedExtensions = allowedExtensions;
 		if (!test("-d", join(cfg.dirProject, dir))) return; // Directory doesn't exist
+		options.allowedExtensions = allowedExtensions;
+
+		let group = new Group(report, description);
 		let files = FileUtils.getFileList(join(cfg.dirProject, dir), options);
 		files.forEach(file => {
 			let base = basename(file);
@@ -108,11 +113,13 @@ export function generateStats() {
 				return;
 			readFile(dir, file, group, report);
 		});
+
 		report.addGroup(group);
 	}
 	if (cfg.options.projectOverview.configuration) {
 		addGroup(report, "Configuration", [".json"], "", "config");
 	}
+
 	if (cfg.options.projectOverview.code) {
 		addGroup(
 			report,
@@ -121,25 +128,33 @@ export function generateStats() {
 			cfg.options.javascript.dirs.source,
 		);
 	}
+
 	if (cfg.options.projectOverview.content) {
 		addGroup(report, "Content pages", [".html"], "");
 	}
+
 	if (cfg.options.projectOverview.templates) {
 		addGroup(report, "Template pages", [".njk"], "");
 	}
+
 	if (cfg.options.projectOverview.styling) {
 		addGroup(report, "Styling", [".css", ".scss"], "");
 	}
+
 	if (cfg.options.projectOverview.documentation) {
 		addGroup(report, "Documentation", [".md"], "");
 	}
+
 	if (cfg.options.projectOverview.goodies) {
 		addGroup(report, "Goodies", [".bat", ".sh"], "");
 	}
+
 	Object.assign(report, {
 		showPackages: cfg.options.projectOverview.showPackages,
 	});
+
 	Object.assign(report, { packages: Packages.getPackages(cfg.dirProject) });
+
 	return report;
 }
 
@@ -149,17 +164,14 @@ export function writeStats() {
 	let context = Content.getDefaultContext(pg);
 	context = Object.assign(context, { report: generateStats() });
 	let data = Misc.renderSysTemplate(pg, context);
-	let rootDir = Content.getOutputDir();
+
 	// Correct path of CSS in HTML
-	// @todo Works fine in Linux, not in Windows
 	data = data.replace(
 		new RegExp("/static/sys/css/", "g"),
 		join(cfg.dirMain, "dist", "static", "css") + "/",
 	);
-	// Create dir, if needed
-	let dir = join(rootDir, cfg.options.projectOverview.dir);
-	FileUtils.mkdir(dir);
+
 	// Write file
-	let path = join(cfg.options.projectOverview.dir, Misc.getStamp() + ".html");
-	FileUtils.writeFile(rootDir, path, data, true);
+	let file = join(cfg.options.projectOverview.dir, Misc.getStamp() + ".html");
+	FileUtils.writeFile(Content.getOutputDir(), file, data, true);
 }

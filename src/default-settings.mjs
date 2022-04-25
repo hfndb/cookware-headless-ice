@@ -201,10 +201,21 @@ let DefaultConfig = {
 	server: {
 		backupInterval: 0,
 		beautify: ["php", "sass", "src"],
+		cookies: {
+			// See https://www.npmjs.com/package/cookie
+			cookieName: "cookware-headless-ice",
+			maxAge: 60 * 60 * 12, // In seconds, now set to 12 hours
+			httpOnly: true,
+			path: "/",
+			sameSite: true,
+			signed: false,
+		},
 		firstUpdateSources: true,
-		logStatic: false,
 		port: 8000,
-		staticUrl: "static",
+		static: {
+			log: false, // Log request for statics
+			url: "static", // Prefix relative to html.dirs.output
+		},
 		watchTimeout: 100,
 	},
 	sitemap: {

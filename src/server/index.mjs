@@ -65,9 +65,9 @@ export function coatRack() {
 	eu.app.all(/^\/.*.html$/, controllerContent); // HTML pages, to GET or POST
 	eu.app.get(/^\/.*.md$/, controllerContent); // Markdown
 	eu.app.get(/^\/sys\//, controllerSys); // System start page
-	if (cfg.isProject && cfg.options.server.staticUrl != "static") {
+	if (cfg.isProject && cfg.options.server.static.url != "static") {
 		eu.app.get(
-			new RegExp(`^\/${cfg.options.server.staticUrl}\/`),
+			new RegExp(`^\/${cfg.options.server.static.url}\/`),
 			controllerStatic,
 		);
 	}
