@@ -6,6 +6,7 @@ import { Content } from "../generic/html.mjs";
 import { Misc } from "./misc.mjs";
 import { ArrayUtils } from "../generic/object.mjs";
 import { Packages } from "../generic/package-json.mjs";
+import { Ascii } from "../generic/reporting/ascii.mjs";
 import { Item, Group, Report } from "../generic/reporting/index.mjs";
 const { test } = shelljs;
 
@@ -162,17 +163,49 @@ export function generateStats() {
 export function writeStats() {
 	// Get data
 	let pg = "project-overview.html";
+	let rprt = generateStats();
+	rprt.finalize();
+
+	// ---------------------------------------------------------
+	// Produce HTML output
+	// ---------------------------------------------------------
 	let context = Content.getDefaultContext(pg);
-	context = Object.assign(context, { report: generateStats() });
+	context = Object.assign(context, { report: rprt });
+
 	let data = Misc.renderSysTemplate(pg, context);
 
-	// Correct path of CSS in HTML
+	// Correct path of CSS in HTML for offline usage
 	data = data.replace(
 		new RegExp("/static/sys/css/", "g"),
 		join(cfg.dirMain, "dist", "static", "css") + "/",
 	);
 
-	// Write file
-	let file = join(cfg.options.projectOverview.dir, Misc.getStamp() + ".html");
-	FileUtils.writeFile(Content.getOutputDir(), file, data, true);
+	// Write HTML file
+	let file = join(cfg.options.projectOverview.dir, Misc.getStamp());
+	FileUtils.writeFile(Content.getOutputDir(), file + ".html", data, true);
+
+	// ---------------------------------------------------------
+	// Produce TSV output for usage in for example spreadsheet
+	// ---------------------------------------------------------
+	let sc = new Ascii({
+		autoWidth: true, // Aka no ascii fixed length
+		columns: [
+			{
+				caption: "Code",
+				type: "int",
+			},
+			{
+				caption: "Comments",
+				type: "int",
+			},
+			{
+				caption: "Empty lines",
+				type: "int",
+			},
+		],
+		columnSeparator: "\t",
+	});
+	data = Ascii.get(rprt, sc);
+
+	FileUtils.writeFile(Content.getOutputDir(), file + ".tsv", data, true);
 }

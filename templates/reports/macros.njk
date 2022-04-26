@@ -54,8 +54,8 @@
 		{%- endif %}
 		{%- endfor %}
 		{%- if total != 0 %}
-		<{{ tp }} class="{{ classLast }}">{{
-			frmt.int(cell) if type == "int" else frmt.decimal(cell, 2)
+		<{{ tp }}>{{
+			frmt.int(total) if type == "int" else frmt.decimal(total, 2)
 			}}</{{ tp }}>
 		{%- endif %}
 {%- endmacro %}

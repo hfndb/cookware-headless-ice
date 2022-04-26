@@ -28,6 +28,9 @@
 	<tr>
 		<th colspan="5">Report summary <span class="plain"> - {{ report.itemCount }} files in {{ report.groups.length }} groups</span></th>
 	</tr>
+	<tr>
+		<td colspan="5">&nbsp;</td>
+	</tr>
 	{{- macros.getAggregates("plain", frmt, true, report, txt) }}
 </table>
 <p>

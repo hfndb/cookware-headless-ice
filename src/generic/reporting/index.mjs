@@ -91,7 +91,7 @@ export class Group extends Item {
 export class Report extends Group {
 	/**
 	 * @param {string[]} columnHeaders
-	 * @param {string} description Of descriptive left column
+	 * @param {string} description Of descriptive left column if any
 	 */
 	constructor(columnHeaders, description = "") {
 		super(columnHeaders, description);

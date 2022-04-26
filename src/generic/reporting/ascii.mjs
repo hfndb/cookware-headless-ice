@@ -184,7 +184,7 @@ export class Ascii {
 
 		// Column data
 		if (this.aggregates.active) {
-			rt += this.getColumn(-1, "", false, this.aggregates.width);
+			rt += this.getColumn(-1, item.description, false, this.aggregates.width);
 		}
 		for (let i = 0; i < item.columns.length; i++) {
 			rt += this.getColumn(i, item.columns[i]);
@@ -265,12 +265,15 @@ export class Ascii {
 
 		// Column for aggregates
 		if (aggr.active) {
-			rt += sc.getColumn(-1, "", false, aggr.width);
+			rt += sc.getColumn(-1, report.description, false, aggr.width);
 		}
 
 		// Column headers
 		for (let i = 0; i < sc.columns.length; i++) {
 			rt += sc.getColumn(i, sc.columns[i].caption);
+		}
+		if (sc.total.active) {
+			rt += sc.getColumn(-1, sc.total.caption, sc.total.width);
 		}
 		rt += sc.getNewLine();
 
