@@ -39,7 +39,7 @@
 		<td>{{ frmt.int(cell) }}</td>
 		{%- endfor %}		{#- for loop cell in group.columns #}
 		{%- if includeTotal %}
-		<td>{{ group.total}}</td>
+		<td>{{ frmt.int(group.total) }}</td>
 		{%- endif %}
 	</tr>
 {%- endmacro %}

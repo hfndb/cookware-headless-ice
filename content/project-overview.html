@@ -16,21 +16,12 @@
 	<tr class="noprint">
 		<td colspan="5">&nbsp;</td>
 	</tr>
-	<tr style="page-break-before: always;">
-		<th colspan="5">Groups summary</th>
+	<tr>
+		<th style="page-break-before: always;" colspan="5">Report summary <span class="plain"> - {{ report.itemCount }} files in {{ report.groups.length }} groups</span></th>
 	</tr>
 	{%- for group in report.groups %}
 		{{- macros.getGroupSummary(frmt, group, true) }}
 	{%- endfor %}			{#- for loop group in groups #}
-	<tr>
-		<td colspan="5">&nbsp;</td>
-	</tr>
-	<tr>
-		<th colspan="5">Report summary <span class="plain"> - {{ report.itemCount }} files in {{ report.groups.length }} groups</span></th>
-	</tr>
-	<tr>
-		<td colspan="5">&nbsp;</td>
-	</tr>
 	{{- macros.getAggregates("plain", frmt, true, report, txt) }}
 </table>
 <p>

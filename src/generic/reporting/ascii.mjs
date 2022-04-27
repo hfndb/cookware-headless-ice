@@ -47,6 +47,9 @@ import { Group, Item, Report } from "./index.mjs";
  * let data = Ascii.getAscii(report, sc);
  */
 export class Ascii {
+	/**
+	 * @type {Formatter}
+	 */
 	static frmt;
 
 	// For column which will be inserted at the left side
@@ -71,6 +74,8 @@ export class Ascii {
 		caption: "Item count",
 	};
 
+	reportSummary = "Report summary - #0# items in #1# groups";
+
 	row = {
 		seperator: "\n",
 		prefix: "",
@@ -93,7 +98,7 @@ export class Ascii {
 		this.columnSeparator = opts.columnSeparator;
 
 		// Optional options
-		if (opts.rowSeparator != undefined) this.row.separator = opts.rowSeparator;
+		if (opts.rowSeparator != undefined) this.row.seperator = opts.rowSeparator;
 		if (opts.rowPrefix != undefined) this.row.prefix = opts.rowPrefix;
 		if (opts.rowSuffix != undefined) this.row.suffix = opts.rowSuffix;
 
@@ -115,15 +120,15 @@ export class Ascii {
 	 *
 	 * @private
 	 * @param {number} idx Of column
-	 * @param {string} value
+	 * @param {*} value
 	 * @param {string} [type]
 	 * @returns {string}
 	 */
 	getValue(idx, value, type) {
 		if (value == undefined || value == null || value == 0) return "";
 
+		let col = this.columns[idx] || {};
 		if (!type) {
-			let col = this.columns[idx] || {};
 			type = col.type;
 		}
 
@@ -151,11 +156,10 @@ export class Ascii {
 	 * @private
 	 * @param {number} idx Of column
 	 * @param {string} value
-	 * @param {boolean} [isHeader] In case of a header instead of data
-	 * @param {number} [width] In case of aggregate
+	 * @param {number} width In case of aggregate
 	 * @returns {string}
 	 */
-	getColumn(idx, value, isHeader = false, width) {
+	getColumn(idx, value, width = 0) {
 		let isAggregate = width == undefined;
 		if (!this.autoWidth && !width) {
 			let col = this.columns[idx] || {};
@@ -176,7 +180,7 @@ export class Ascii {
 	}
 
 	/**
-	 * @param {Item} columns with data
+	 * @param {Item} item with data
 	 * @returns {string}
 	 */
 	getRow(item) {
@@ -184,13 +188,13 @@ export class Ascii {
 
 		// Column data
 		if (this.aggregates.active) {
-			rt += this.getColumn(-1, item.description, false, this.aggregates.width);
+			rt += this.getColumn(-1, item.description, this.aggregates.width);
 		}
 		for (let i = 0; i < item.columns.length; i++) {
 			rt += this.getColumn(i, item.columns[i]);
 		}
 		if (this.total.active) {
-			rt += this.getColumn(-1, item.total, this.total.width);
+			rt += this.getColumn(-1, item.total.toString(), this.total.width);
 		}
 
 		return rt + this.getNewLine();
@@ -210,37 +214,40 @@ export class Ascii {
 			aggr = this.aggregates,
 			rt = "";
 
-		let addRow = arr => {
+		let addRow = (arr, total) => {
 			for (let i = 0; i < arr.length; i++) {
 				rt += ths.getColumn(i, arr[i]);
 			}
-			if (ths.total.active)
-				rt += ths.getColumn(-1, arr[arr.length], ths.total.width);
+			if (ths.total.active) {
+				rt += this.getColumn(-1, total, ths.total.width);
+			}
 			rt += ths.getNewLine();
 		};
 
 		// Totals
-		rt += this.getColumn(-1, aggr.captions.sum, false, aggr.width);
+		rt += this.getColumn(-1, aggr.captions.sum, aggr.width);
 		let arr = item.columns;
-		addRow(arr);
+		addRow(arr, item.total);
+
+		if (!all) return rt + this.getNewLine();
 
 		// Percentages
-		rt += this.getColumn(-1, aggr.captions.per, false, aggr.width);
+		rt += this.getColumn(-1, aggr.captions.per, aggr.width);
 		arr = item.percentages;
 		addRow(arr);
 
 		// Averages
-		rt += this.getColumn(-1, aggr.captions.avg, false, aggr.width);
+		rt += this.getColumn(-1, aggr.captions.avg, aggr.width);
 		arr = item.averages;
 		addRow(arr);
 
 		// Minimums
-		rt += this.getColumn(-1, aggr.captions.min, false, aggr.width);
+		rt += this.getColumn(-1, aggr.captions.min, aggr.width);
 		arr = item.min;
 		addRow(arr);
 
 		// Maximums
-		rt += this.getColumn(-1, aggr.captions.max, false, aggr.width);
+		rt += this.getColumn(-1, aggr.captions.max, aggr.width);
 		arr = item.max;
 		addRow(arr);
 
@@ -257,6 +264,7 @@ export class Ascii {
 	static get(report, sc) {
 		let aggr = sc.aggregates,
 			group,
+			nl = sc.getNewLine(),
 			rt = sc.row.prefix;
 
 		// ----------------------------------
@@ -265,17 +273,17 @@ export class Ascii {
 
 		// Column for aggregates
 		if (aggr.active) {
-			rt += sc.getColumn(-1, report.description, false, aggr.width);
+			rt += sc.getColumn(-1, report.description, aggr.width);
 		}
 
 		// Column headers
 		for (let i = 0; i < sc.columns.length; i++) {
-			rt += sc.getColumn(i, sc.columns[i].caption);
+			rt += sc.getColumn(-1, sc.columns[i].caption, sc.total.width);
 		}
 		if (sc.total.active) {
 			rt += sc.getColumn(-1, sc.total.caption, sc.total.width);
 		}
-		rt += sc.getNewLine();
+		rt += nl;
 
 		// ----------------------------------
 		// Groups
@@ -283,18 +291,18 @@ export class Ascii {
 		for (let i = 0; i < report.groups.length; i++) {
 			group = report.groups[i];
 			// Group header
-			rt += sc.getNewLine();
+			rt += nl;
 			rt += group.description + sc.getNewLine();
 
 			// Item count in group
 			if (sc.itemCount.active) {
 				rt +=
-					sc.getNewLine() +
+					nl +
 					sc.itemCount.caption +
 					sc.columnSeparator +
-					group.itemCount +
-					sc.getNewLine() +
-					sc.getNewLine();
+					group.itemCount.toString() +
+					nl +
+					nl;
 			}
 
 			// Items in group
@@ -303,15 +311,34 @@ export class Ascii {
 			}
 
 			// Group aggregates
-			rt += sc.getNewLine() + sc.getAggregates(group, true);
+			rt += nl + sc.getAggregates(group, true);
 		}
+
+		if (report.groups.length == 1) return rt + sc.getNewLine(true);
 
 		// ----------------------------------
 		// Report aggregates
 		// ----------------------------------
-		if (report.groups.length > 1) {
-			rt += sc.getAggregates(report, true);
+		rt +=
+			nl +
+			sc.reportSummary
+				.replace("#0#", report.itemCount.toString())
+				.replace("#1#", report.groups.length.toString()) +
+			nl +
+			nl;
+
+		for (let i = 0; i < report.groups.length; i++) {
+			let grp = report.groups[i];
+			rt += sc.getColumn(-1, grp.description, sc.aggregates.width);
+			for (let c = 0; c < sc.columns.length; c++) {
+				rt += sc.getColumn(c, grp.columns[c]);
+			}
+			if (sc.total.active) {
+				rt += sc.getColumn(-1, grp.total, sc.total.width);
+			}
+			rt += nl;
 		}
+		rt += sc.getAggregates(report, true);
 
 		return rt + sc.getNewLine(true);
 	}

@@ -38,6 +38,9 @@
 
 /**
  * Line in report
+ *
+ * @property {*[]} columns
+ * @property {string} columns
  */
 export class Item {
 	total = 0; // Total of all columns
@@ -55,6 +58,17 @@ export class Item {
 
 /**
  * Group in report
+ *
+ * @property {number[]} averages
+ * @property {number} itemCount
+ * @property {number[]} items 
+ * @property {number[]} min 
+ * @property {number[]} max
+ * @property {number[]} percentages 
+ *
+ * Inherited from Item
+ * @property {*[]} columns
+ * @property {string} columns
  */
 export class Group extends Item {
 	/**
@@ -86,6 +100,21 @@ export class Group extends Item {
 
 /**
  * Highest level of report
+ *
+ * @property {string[]} columnHeaders 
+ * @property {Group[]} groups 
+ *
+ * Inherited from Item
+ * @property {*[]} columns
+ * @property {string} columns
+ *
+ * Inherited from Group 
+ * @property {number[]} averages
+ * @property {number} itemCount
+ * @property {number[]} items 
+ * @property {number[]} min 
+ * @property {number[]} max
+ * @property {number[]} percentages 
  */
 
 export class Report extends Group {
@@ -175,7 +204,6 @@ export class Report extends Group {
 	 * @param {Group|Report} registrar
 	 */
 	static finalizeAggregates(registrar) {
-		let cols = registrar.columns.length; // nr of columns
 		let step = 1;
 
 		registrar.percentages.push(100);
