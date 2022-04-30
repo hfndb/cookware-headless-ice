@@ -4,9 +4,9 @@ import {
 	Http2ServerRequest as Request,
 	Http2ServerResponse as Reply,
 } from "http";
-import { readFile } from "fs/promises";
-import { join } from "path";
-import { URL } from "url";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+import { URL } from "node:url";
 import shelljs from "shelljs";
 import mime from "mime-types";
 import { AppConfig } from "../config.mjs";

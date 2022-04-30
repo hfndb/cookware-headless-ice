@@ -1,6 +1,5 @@
 "use strict";
-
-import { join } from "path";
+import { join } from "node:path";
 import { expect } from "chai";
 import shelljs from "shelljs";
 import { Lint } from "./markup.mjs";

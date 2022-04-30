@@ -1,6 +1,5 @@
 "use strict";
-
-import { join } from "path";
+import { join } from "node:path";
 import shelljs from "shelljs";
 import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
 const { exec, test } = shelljs;

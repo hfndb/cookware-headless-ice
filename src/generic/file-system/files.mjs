@@ -1,6 +1,6 @@
 "use strict";
-import { readFileSync, statSync, writeFileSync } from "fs";
-import { basename, dirname, extname, join, sep } from "path";
+import { readFileSync, statSync, writeFileSync } from "node:fs";
+import { basename, dirname, extname, join, sep } from "node:path";
 import { fdir } from "fdir";
 import shelljs from "shelljs";
 import { AppConfig } from "../config.mjs";

@@ -8,7 +8,7 @@
 # Get full path to this script
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-$SCRIPT_DIR/../node_modules/node/bin/node \
+node \
 	--preserve-symlinks \
 	$SCRIPT_DIR/../src/index.mjs $1 $2 $3 $4
 # node --preserve-symlinks ./src/index.js $1 $2 $3 $4

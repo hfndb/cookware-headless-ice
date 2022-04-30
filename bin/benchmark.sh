@@ -39,4 +39,4 @@ topp() (
 )
 
 DIR=`dirname $0`
-topp $DIR/../node_modules/node/bin/node --preserve-symlinks $DIR/../dist/static/js/index.js $2 $3 $4 $5
+topp node --preserve-symlinks $DIR/../src/index.mjs $2 $3 $4 $5

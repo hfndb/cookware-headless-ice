@@ -1,6 +1,5 @@
 "use strict";
-
-import { join } from "path";
+import { join } from "node:path";
 import shelljs from "shelljs";
 import { StringExt } from "../generic/utils.mjs";
 import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";

@@ -1,5 +1,4 @@
 "use strict";
-
 import { AppConfig } from "../generic/config.mjs";
 import { upgrade } from "./upgrades.mjs";
 

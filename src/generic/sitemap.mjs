@@ -1,7 +1,6 @@
 "use strict";
-
-import { statSync } from "fs";
-import { join } from "path";
+import { statSync } from "node:fs";
+import { join } from "node:path";
 import shelljs from "shelljs";
 import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
 import { ArrayUtils } from "./object.mjs";

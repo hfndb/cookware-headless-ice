@@ -1,5 +1,5 @@
 "use strict";
-import { basename, dirname, join } from "path";
+import { basename, dirname, join } from "node:path";
 import { SysUtils } from "./sys.mjs";
 import { FileUtils } from "./file-system/files.mjs";
 import { ObjectUtils } from "./object.mjs";

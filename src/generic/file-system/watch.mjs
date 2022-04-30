@@ -1,7 +1,7 @@
 "use strict";
-import { watch } from "fs";
+import { watch } from "node:fs";
+import { join } from "node:path";
 import shelljs from "shelljs";
-import { join } from "path";
 import { Logger } from "../log.mjs";
 import { FileUtils } from "./files.mjs";
 import { getDirList } from "./dirs.mjs";

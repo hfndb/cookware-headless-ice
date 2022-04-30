@@ -1,5 +1,5 @@
 "use strict";
-import { join } from "path";
+import { join } from "node:path";
 import { FileUtils, FileStatus, Logger } from "../generic/index.mjs";
 import { Beautify } from "../generic/beautify.mjs";
 import { AppConfig } from "../generic/config.mjs";

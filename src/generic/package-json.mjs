@@ -1,6 +1,5 @@
 "use strict";
-
-import { join } from "path";
+import { join } from "node:path";
 import shelljs from "shelljs";
 import { AppConfig } from "./config.mjs";
 import { FileUtils } from "./file-system/files.mjs";

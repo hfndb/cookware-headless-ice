@@ -1,5 +1,4 @@
 "use strict";
-
 import chai from "chai";
 import chaiHttp from "chai-http";
 import { AppConfig } from "../generic/config.mjs";

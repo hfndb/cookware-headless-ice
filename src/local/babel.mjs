@@ -1,6 +1,5 @@
 "use strict";
-
-import { basename, join } from "path";
+import { basename, join } from "node:path";
 import shelljs from "shelljs";
 import { transformSync } from "@babel/core";
 import { AppConfig, Logger } from "../generic/index.mjs";

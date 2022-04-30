@@ -1,6 +1,5 @@
 "use strict";
-
-import { join, sep } from "path";
+import { join, sep } from "node:path";
 import { fdir } from "fdir";
 import shelljs from "shelljs";
 import { FileUtils } from "./files.mjs";

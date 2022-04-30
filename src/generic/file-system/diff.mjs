@@ -1,5 +1,5 @@
 "use strict";
-import { basename, dirname, extname, join } from "path";
+import { basename, dirname, extname, join } from "node:path";
 import shelljs from "shelljs";
 import { ArrayUtils } from "../object.mjs";
 import { FileUtils } from "./files.mjs";

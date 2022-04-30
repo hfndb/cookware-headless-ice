@@ -1,5 +1,5 @@
 "use strict";
-import { basename, dirname, join } from "path";
+import { basename, dirname, join } from "node:path";
 import shelljs from "shelljs";
 import { Beautify } from "../generic/beautify.mjs";
 import { getChangeList, AppConfig, Logger } from "../generic/index.mjs";

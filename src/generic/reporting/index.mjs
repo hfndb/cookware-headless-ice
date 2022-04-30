@@ -61,10 +61,10 @@ export class Item {
  *
  * @property {number[]} averages
  * @property {number} itemCount
- * @property {number[]} items 
- * @property {number[]} min 
+ * @property {number[]} items
+ * @property {number[]} min
  * @property {number[]} max
- * @property {number[]} percentages 
+ * @property {number[]} percentages
  *
  * Inherited from Item
  * @property {*[]} columns
@@ -101,20 +101,20 @@ export class Group extends Item {
 /**
  * Highest level of report
  *
- * @property {string[]} columnHeaders 
- * @property {Group[]} groups 
+ * @property {string[]} columnHeaders
+ * @property {Group[]} groups
  *
  * Inherited from Item
  * @property {*[]} columns
  * @property {string} columns
  *
- * Inherited from Group 
+ * Inherited from Group
  * @property {number[]} averages
  * @property {number} itemCount
- * @property {number[]} items 
- * @property {number[]} min 
+ * @property {number[]} items
+ * @property {number[]} min
  * @property {number[]} max
- * @property {number[]} percentages 
+ * @property {number[]} percentages
  */
 
 export class Report extends Group {

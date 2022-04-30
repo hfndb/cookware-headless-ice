@@ -1,5 +1,5 @@
 "use strict";
-import { extname, join } from "path";
+import { extname, join } from "node:path";
 import shelljs from "shelljs";
 import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
 import { SysUtils } from "../generic/sys.mjs";

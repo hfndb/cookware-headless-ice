@@ -1,6 +1,5 @@
 "use strict";
-
-import { join, dirname } from "path";
+import { join, dirname } from "node:path";
 import shelljs from "shelljs";
 import htmlcs from "htmlcs";
 import { AppConfig, FileStatus, FileUtils, Logger } from "../generic/index.mjs";

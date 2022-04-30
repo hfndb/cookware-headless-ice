@@ -1,6 +1,5 @@
 "use strict";
-
-import { basename, join } from "path";
+import { basename, join } from "node:path";
 import { marked } from "marked";
 import { FileUtils } from "../generic/index.mjs";
 import { Html } from "./markup.mjs";

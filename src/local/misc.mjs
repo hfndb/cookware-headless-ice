@@ -1,7 +1,7 @@
 "use strict";
-import { join } from "path";
-import { platform } from "os";
-// import { EOL } from 'os'
+import { join } from "node:path";
+import { platform } from "node:os";
+// import { EOL } from 'node:os'
 import shelljs from "shelljs";
 import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
 import { FileStatus } from "../generic/file-system/diff.mjs";

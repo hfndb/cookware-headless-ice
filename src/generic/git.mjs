@@ -1,5 +1,5 @@
 #! /usr/bin/env node
-import { join } from "path";
+import { join } from "node:path";
 import shelljs from "shelljs";
 import { AppConfig, FileUtils, Logger } from "./index.mjs";
 import { Formatter } from "./utils.mjs";

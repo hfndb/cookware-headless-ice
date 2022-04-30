@@ -1,5 +1,4 @@
 "use strict";
-
 import { AppConfig } from "../generic//config.mjs";
 import { Packages } from "../generic/package-json.mjs";
 

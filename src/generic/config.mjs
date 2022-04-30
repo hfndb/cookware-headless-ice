@@ -1,12 +1,11 @@
 "use strict";
-
-import { Module } from "module";
-import { homedir, platform, tmpdir } from "os";
-import { dirname, join, normalize, sep } from "path";
-import { fileURLToPath } from "url";
+import { Module } from "node:module";
+import { homedir, platform, tmpdir } from "node:os";
+import { dirname, join, normalize, sep } from "node:path";
+import { fileURLToPath } from "node:url";
+import { Command, Option } from "commander";
 import deepdiff from "deep-diff";
 import shelljs from "shelljs";
-import { Command, Option } from "commander";
 import { DefaultConfig } from "../default-settings.mjs";
 import { Logger } from "./log.mjs";
 import { createDirTree } from "./file-system/dirs.mjs";

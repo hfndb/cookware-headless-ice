@@ -1,5 +1,5 @@
 "use strict";
-import { basename, dirname, join, normalize, sep } from "path";
+import { basename, dirname, join, normalize, sep } from "node:path";
 import autoprefixer from "autoprefixer";
 import parcelCss from "@parcel/css";
 import postcss from "postcss";
