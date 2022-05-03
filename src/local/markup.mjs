@@ -1,10 +1,9 @@
 "use strict";
 import { join, dirname } from "node:path";
-import shelljs from "shelljs";
 import htmlcs from "htmlcs";
 import { AppConfig, FileStatus, FileUtils, Logger } from "../generic/index.mjs";
 import { Content } from "../generic/html.mjs";
-const { cd, pwd, rm, test } = shelljs;
+import { cd, pwd, rm, test } from "../generic/sys.mjs";
 
 export class Lint {
 	/**

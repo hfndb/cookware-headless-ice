@@ -1,12 +1,11 @@
 "use strict";
 import { basename, join } from "node:path";
-import shelljs from "shelljs";
 import { transformSync } from "@babel/core";
 import { AppConfig, Logger } from "../generic/index.mjs";
 import { FileUtils } from "../generic/file-system/files.mjs";
 import { FileStatus } from "../generic/file-system/diff.mjs";
 import { SysUtils } from "../generic/sys.mjs";
-const { rm, test } = shelljs;
+import { rm, test } from "../generic/sys.mjs";
 // https://babeljs.io/docs/en/
 
 /**

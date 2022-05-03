@@ -1,14 +1,13 @@
 "use strict";
 import { basename, extname, join } from "node:path";
-import shelljs from "shelljs";
 import { AppConfig, FileUtils, StringExt } from "../generic/index.mjs";
 import { Content } from "../generic/html.mjs";
+import { test } from "../generic/sys.mjs";
 import { Misc } from "./misc.mjs";
 import { ArrayUtils } from "../generic/object.mjs";
 import { Packages } from "../generic/package-json.mjs";
 import { Ascii } from "../generic/reporting/ascii.mjs";
 import { Item, Group, Report } from "../generic/reporting/index.mjs";
-const { test } = shelljs;
 
 let cfg = AppConfig.getInstance();
 

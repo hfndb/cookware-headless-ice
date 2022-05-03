@@ -7,13 +7,12 @@ import {
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { URL } from "node:url";
-import shelljs from "shelljs";
 import mime from "mime-types";
 import { AppConfig } from "../config.mjs";
 import { Logger } from "../log.mjs";
+import { test } from "../sys.mjs";
 import { httpStatus, mimeType } from "./constants.mjs";
 import { Route, Routes } from "./routes.mjs";
-const { test } = shelljs;
 const { contentType, lookup } = mime;
 
 // For convenience during imports elsewhere

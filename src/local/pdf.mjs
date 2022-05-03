@@ -1,6 +1,5 @@
 "use strict";
 import { basename, join } from "node:path";
-import shelljs from "shelljs";
 import {
 	getChangeList,
 	AppConfig,
@@ -10,10 +9,10 @@ import {
 import { removeObsolete } from "../generic/file-system/files.mjs";
 import { Content } from "../generic/html.mjs";
 import { signFile } from "../generic/pgp.mjs";
+import { exec } from "../generic/sys.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 import { SourceUtils } from "./source.mjs";
 import { SassUtils } from "./styling.mjs";
-const { exec } = shelljs;
 
 /**
  * Render all changed or new PDF files

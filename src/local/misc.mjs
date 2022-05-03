@@ -2,18 +2,16 @@
 import { join } from "node:path";
 import { platform } from "node:os";
 // import { EOL } from 'node:os'
-import shelljs from "shelljs";
 import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
 import { FileStatus } from "../generic/file-system/diff.mjs";
 import { Git as GitGeneric } from "../generic/git.mjs";
 import { Content } from "../generic/html.mjs";
 import { Sitemap } from "../generic/sitemap.mjs";
-import { SysUtils } from "../generic/sys.mjs";
+import { exec, test, SysUtils } from "../generic/sys.mjs";
 import { Formatter } from "../generic/utils.mjs";
 import { SourceUtils } from "./source.mjs";
 import { SassUtils } from "./styling.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
-const { exec, test } = shelljs;
 
 let cfg = AppConfig.getInstance();
 let log = Logger.getInstance(cfg.options.logging);

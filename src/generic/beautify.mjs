@@ -1,10 +1,8 @@
 "use strict";
 import { extname, join } from "node:path";
-import shelljs from "shelljs";
-import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
-import { SysUtils } from "../generic/sys.mjs";
 import prettier from "prettier";
-const { test } = shelljs;
+import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
+import { test, SysUtils } from "../generic/sys.mjs";
 
 let cfg = AppConfig.getInstance("cookware-headless-ice");
 let log = Logger.getInstance(cfg.options.logging);

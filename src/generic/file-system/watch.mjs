@@ -1,11 +1,10 @@
 "use strict";
 import { watch } from "node:fs";
 import { join } from "node:path";
-import shelljs from "shelljs";
 import { Logger } from "../log.mjs";
+import { test } from "../sys.mjs";
 import { FileUtils } from "./files.mjs";
 import { getDirList } from "./dirs.mjs";
-const { test } = shelljs;
 
 let log = Logger.getInstance();
 

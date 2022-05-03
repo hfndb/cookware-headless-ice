@@ -5,14 +5,13 @@ import { dirname, join, normalize, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Command, Option } from "commander";
 import deepdiff from "deep-diff";
-import shelljs from "shelljs";
 import { DefaultConfig } from "../default-settings.mjs";
 import { Logger } from "./log.mjs";
 import { createDirTree } from "./file-system/dirs.mjs";
 import { FileUtils } from "./file-system/files.mjs";
 import { ObjectUtils } from "./object.mjs";
+import { cp, test } from "../generic/sys.mjs";
 const { diff } = deepdiff;
-const { cp, test } = shelljs;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 

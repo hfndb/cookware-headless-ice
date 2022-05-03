@@ -3,7 +3,6 @@ import { basename, dirname, join, normalize, sep } from "node:path";
 import autoprefixer from "autoprefixer";
 import parcelCss from "@parcel/css";
 import postcss from "postcss";
-import shelljs from "shelljs";
 import {
 	getChangeList,
 	FileStatus,
@@ -13,11 +12,10 @@ import {
 import { Beautify } from "../generic/beautify.mjs";
 import { FileUtils, removeObsolete } from "../generic/file-system/files.mjs";
 import { Stripper } from "../generic/stripping.mjs";
-import { SysUtils } from "../generic/sys.mjs";
+import { cp, exec, test, SysUtils } from "../generic/sys.mjs";
 import { StringExt } from "../generic/utils.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 import { Colors } from "./misc.mjs";
-const { cp, exec, test } = shelljs;
 
 let cfg = AppConfig.getInstance();
 let log = Logger.getInstance(cfg.options.logging);

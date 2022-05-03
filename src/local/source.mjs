@@ -1,16 +1,15 @@
 "use strict";
 import { basename, dirname, join } from "node:path";
-import shelljs from "shelljs";
 import { Beautify } from "../generic/beautify.mjs";
 import { getChangeList, AppConfig, Logger } from "../generic/index.mjs";
 import { FileUtils, removeObsolete } from "../generic/file-system/files.mjs";
 import { FileStatus } from "../generic/file-system/diff.mjs";
 import { Shrinker, Stripper } from "../generic/stripping.mjs";
+import { cp, exec, test } from "../generic/sys.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 import { compileFile } from "./babel.mjs";
 import { JavascriptUtils } from "./javascript.mjs";
 import { Tags } from "./tags.mjs";
-const { cp, exec, test } = shelljs;
 
 /**
  * Class to handle JavaScript, Flow and TypeScript source

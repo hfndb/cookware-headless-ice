@@ -1,12 +1,11 @@
 "use strict";
 import { join } from "node:path";
 import { expect } from "chai";
-import shelljs from "shelljs";
 import { Lint } from "./markup.mjs";
 import { Content } from "../generic/html.mjs";
 import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
+import { rm, test, touch } from "../generic/sys.mjs";
 import { SessionVars } from "../sys/session.mjs";
-const { rm, test, touch } = shelljs;
 
 // mocha -R spec --no-colors --throw-deprecation ./dist/static/js/local/markup-test.js
 

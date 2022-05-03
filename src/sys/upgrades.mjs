@@ -1,9 +1,8 @@
 "use strict";
 import { join } from "node:path";
-import shelljs from "shelljs";
 import { FileUtils } from "../generic/index.mjs";
 import { AppConfig } from "../generic/config.mjs";
-const { test } = shelljs;
+import { test } from "../generic/sys.mjs";
 
 export function check() {
 	let cfg = AppConfig.getInstance();

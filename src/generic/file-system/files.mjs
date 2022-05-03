@@ -2,13 +2,12 @@
 import { readFileSync, statSync, writeFileSync } from "node:fs";
 import { basename, dirname, extname, join, sep } from "node:path";
 import { fdir } from "fdir";
-import shelljs from "shelljs";
 import { AppConfig } from "../config.mjs";
 import { Logger } from "../log.mjs";
 import { ArrayUtils } from "../object.mjs";
+import { mkdir, mv, rm, test, touch } from "../sys.mjs";
 import { StringExt } from "../utils.mjs";
 import { getDirList } from "./dirs.mjs";
-const { mkdir, mv, rm, test, touch } = shelljs;
 
 /**
  * This file is created for and maintained in cookware-headless-ice

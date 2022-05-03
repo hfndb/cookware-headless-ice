@@ -1,9 +1,8 @@
 "use strict";
 import { basename, dirname, extname, join } from "node:path";
-import shelljs from "shelljs";
 import { ArrayUtils } from "../object.mjs";
+import { test } from "../sys.mjs";
 import { FileUtils } from "./files.mjs";
-const { test } = shelljs;
 
 /**
  * Utility class to get file info and compare files

@@ -1,12 +1,11 @@
 "use strict";
 import { statSync } from "node:fs";
 import { join } from "node:path";
-import shelljs from "shelljs";
-import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
+import { AppConfig, FileUtils, Logger } from "./index.mjs";
 import { ArrayUtils } from "./object.mjs";
 import { Content } from "./html.mjs";
 import { Formatter } from "./utils.mjs";
-const { rm, test } = shelljs;
+import { rm, test } from "./sys.mjs";
 
 export class Sitemap {
 	/**

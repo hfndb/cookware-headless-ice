@@ -3,12 +3,30 @@ import { join } from "node:path";
 import shelljs from "shelljs";
 import { AppConfig } from "./config.mjs";
 import { Logger } from "./log.mjs";
-const { exec, test } = shelljs;
+const { cd, chmod, cp, exec, mkdir, mv, pwd, rm, test, touch } = shelljs;
+
+// Shorthand since shelljs isn't an ESM package
+export { cd, chmod, cp, exec, mkdir, mv, pwd, rm, test, touch };
 
 /**
  * Outgoing to system level
  */
 export class SysUtils {
+	/**
+	 * Shortcut to explicitely use a bash shell
+	 *
+	 * @param {string} cmd Command
+	 * @param {boolean} silent
+	 * @param {boolean} snc Async or not
+	 * @returns {Object}
+	 */
+	static execBashCmd(cmd, silent = false, snc = false) {
+		return exec(cmd, {
+			async: snc,
+			silent: silent,
+			shell: "/usr/bin/bash",
+		});
+	}
 	/**
 	 * Play an audio file
 	 *

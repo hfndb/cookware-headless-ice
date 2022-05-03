@@ -1,9 +1,8 @@
 #! /usr/bin/env node
 import { join } from "node:path";
-import shelljs from "shelljs";
 import { AppConfig, FileUtils, Logger } from "./index.mjs";
+import { exec, test } from "../generic/sys.mjs";
 import { Formatter } from "./utils.mjs";
-const { exec, test } = shelljs;
 
 /**
  * Manage local git repository in current (project) directory

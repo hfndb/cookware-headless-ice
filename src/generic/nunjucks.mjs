@@ -1,11 +1,10 @@
 "use strict";
 import { join } from "node:path";
-import shelljs from "shelljs";
 import { AppConfig } from "./config.mjs";
 import { FileUtils } from "./file-system/files.mjs";
 import { Logger } from "./log.mjs";
+import { test } from "./sys.mjs";
 import nunjucks from "nunjucks";
-const { test } = shelljs;
 
 // ----------------------------------------------------------------------------------
 // Section: Internal

@@ -1,11 +1,10 @@
 "use strict";
 import { join } from "node:path";
 import { expect } from "chai";
-import shelljs from "shelljs";
-const { touch } = shelljs;
-import { SassUtils } from "./styling.mjs";
+import { touch } from "../generic/sys.mjs";
 import { AppConfig, Logger } from "../generic/index.mjs";
 import { SessionVars } from "../sys/session.mjs";
+import { SassUtils } from "./styling.mjs";
 
 // mocha -R spec --no-colors --throw-deprecation ./dist/static/js/local/styling-test.js
 

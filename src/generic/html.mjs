@@ -1,6 +1,5 @@
 "use strict";
 import { join } from "node:path";
-import shelljs from "shelljs";
 import {
 	getChangeList,
 	AppConfig,
@@ -10,8 +9,8 @@ import {
 import { removeObsolete } from "./file-system/files.mjs";
 import { NunjucksUtils } from "./nunjucks.mjs";
 import { Stripper } from "./stripping.mjs";
+import { test } from "./sys.mjs";
 import { Formatter, StringExt } from "./utils.mjs";
-const { test } = shelljs;
 
 /**
  * Counter to yield higher integers each time, in template

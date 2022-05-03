@@ -3,8 +3,8 @@ import { join } from "node:path";
 import shelljs from "shelljs";
 import { AppConfig, FileStatus, FileUtils, Logger } from "../generic/index.mjs";
 import { Stripper, Shrinker } from "../generic/stripping.mjs";
+import { exec, rm, test } from "../generic/sys.mjs";
 import { SourceUtils } from "./source.mjs";
-const { exec, rm, test } = shelljs;
 
 let cfg = AppConfig.getInstance();
 let log = Logger.getInstance(cfg.options.logging);

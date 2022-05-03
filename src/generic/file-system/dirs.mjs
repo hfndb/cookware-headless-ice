@@ -1,9 +1,8 @@
 "use strict";
 import { join, sep } from "node:path";
 import { fdir } from "fdir";
-import shelljs from "shelljs";
+import { test, touch } from "../sys.mjs";
 import { FileUtils } from "./files.mjs";
-const { test, touch } = shelljs;
 
 /**
  * Create a directory tree.

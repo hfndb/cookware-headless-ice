@@ -1,6 +1,5 @@
 "use strict";
 import { join } from "node:path";
-import shelljs from "shelljs";
 import {
 	getChangeList,
 	AppConfig,
@@ -12,7 +11,7 @@ import typedoc from "typedoc";
 import { removeObsolete } from "../generic/file-system/files.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 import { JavascriptUtils } from "./javascript.mjs";
-const { cp, exec, rm, test } = shelljs;
+import { cp, exec, rm, test } from "../generic/sys.mjs";
 
 /**
  * Generate HTML formatted docs from TypeScript sources in src.
