@@ -4,6 +4,7 @@ import { DefaultConfig } from "./default-settings.mjs";
 import { FileUtils, Logger } from "./generic/index.mjs";
 import { AppConfig, AppMenu } from "./generic/config.mjs";
 import { Beautify } from "./generic/beautify.mjs";
+import { CronTasks } from "./local/cron.mjs";
 import { Lint } from "./local/markup.mjs";
 import { renderEpub } from "./local/epub.mjs";
 import { generateJsDocs } from "./local/javascript.mjs";
@@ -36,6 +37,11 @@ am.addOption({
 	typeLabel: "<path>",
 });
 am.addOption(am.checkOverridesShortcutC);
+am.addOption({
+	name: "cron",
+	type: Boolean,
+	description: "Run cron tasks",
+});
 am.addOption({
 	alias: "d",
 	name: "docs",
@@ -160,6 +166,8 @@ if (choice.beautify) {
 	Beautify.standAlone(choice.beautify);
 } else if (choice.colors) {
 	Colors.generate();
+} else if (choice.cron) {
+	CronTasks.run();
 } else if (choice.docs && cfg.options.javascript.compiler == "typescript") {
 	generateTsDocs();
 } else if (choice.docs) {

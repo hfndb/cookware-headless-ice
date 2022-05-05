@@ -3,6 +3,10 @@
 let DefaultConfig = {
 	version: "0.0.1",
 	projects: [],
+	cron: {
+		notifications: [],
+		projectOverview: "",
+	},
 	domain: {
 		description: "Website name",
 		url: "http://www.yourdomain.com",

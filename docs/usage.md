@@ -36,6 +36,15 @@ $ cookware --colors
 ```
 
 
+## Cron
+
+Run cron tasks. See [settings.json](./configuration.md), header "Cron".
+
+```
+$ cookware --cron
+```
+
+
 ## Docs
 
 ```
