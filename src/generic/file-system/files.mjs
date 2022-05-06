@@ -166,7 +166,10 @@ The structure of this file is invalid, meaning, messed up.
 			opts.allowedExtensions == undefined ? [] : opts.allowedExtensions;
 		const excludeList = opts.excludeList == undefined ? [] : opts.excludeList;
 		const recursive = opts.recursive == undefined ? true : opts.recursive;
-		const fl = new fdir().crawl(path).sync();
+		const fl = new fdir()
+			.withFullPaths()
+			.crawl(path)
+			.sync();
 		let file,
 			files = [];
 

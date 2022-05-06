@@ -1,10 +1,12 @@
 "use strict";
 import { join } from "node:path";
-import { AppConfig } from "../generic/config.mjs";
+import { AppConfig, Logger } from "../generic/index.mjs";
 import { Cron } from "../generic/cron.mjs";
 import { FileUtils } from "../generic/file-system/files.mjs";
+import { test, SysUtils } from "../generic/sys.mjs";
+import { writeStats } from "./overview.mjs";
 
-let cfg;
+let cfg, log;
 
 /**
  * Organize cron tasks in a way like anacron
@@ -14,26 +16,99 @@ let cfg;
  */
 export class CronTasks {
 	constructor() {
-		let dir = join(cfg.dirProject, "dev");
-		let file = ".cron-cache.json";
+		this.changed = false; // Changes for settings.json?
+		this.dir = join(cfg.dirProject, "dev");
+		this.file = "cron-cache.json";
+		Cron.init(this.dir, this.file);
 
-		// TODO make sure tasks from settings.json are in .cron-cache.json and deleted tasks will be deleted
+		// Fresh cache file?
+		if (Cron.data.sys == undefined) Cron.data.sys = {}; // 'Plugin'
+		if (!Cron.data.notifications) Cron.data.notifications = {};
+		if (Cron.data.sys.projectOverview == undefined)
+			Cron.data.sys.projectOverview = "";
 
-		Cron.init(dir, file);
+		this.syncSettingsAndCache();
+	}
+
+	/**
+	 * After all tasks...
+	 */
+	finish() {
+		Cron.finish();
+
+		// Changes for project settings.json?
+		if (this.changed) {
+			let options = FileUtils.readJsonFile(join(cfg.dirProject, "settings.json"));
+			options.cron = cfg.options.cron;
+			FileUtils.writeJsonFile(options, cfg.dirProject, "settings.json", false);
+		}
+	}
+
+	/**
+	 * Settings are configured in project settings.json,
+	 * cache for anacron like behavior is in another file.
+	 * @private
+	 */
+	syncSettingsAndCache() {
+		let task;
+
+		// Remove tasks from cache if deleted from settings.json
+		Object.keys(Cron.data.notifications).forEach(entry => {
+			task = Cron.data.notifications[entry];
+			if (!cfg.options.cron.notifications.find(el => el.id == task.id))
+				Reflect.deleteProperty(Cron.data.notifications, entry);
+		});
 	}
 
 	/**
 	 * Show notifications
+	 *
+	 * @param {Object} task For calling class Cron
 	 */
-	notifications() {
-		if (!cfg.options.cron.notifications.length == 0) return;
+	notifications(task) {
+		if (cfg.options.cron.notifications.length == 0) return;
+
+		let path = join(cfg.dirProject, "bin", "env.sh");
+		if (!test("-f", path)) {
+			log.warn(`File for environment variables not found. \nExpected path: ${path}`)
+			return;
+		}
+
+		task.plugin = "notifications";
+
+		let id = Date.now();
+		for (let i = 0; i < cfg.options.cron.notifications.length; i++) {
+			// Make sure that there's a unique id for task
+			if (cfg.options.cron.notifications[i].id == undefined) {
+				cfg.options.cron.notifications[i].id = id++;
+				this.changed = true;
+			}
+
+			// Set crontab for task
+			task.name = cfg.options.cron.notifications[i].id.toString();
+			task.crontabs.notifications[task.name] =
+				cfg.options.cron.notifications[i].crontab;
+
+			if (Cron.shouldRun(task)) {
+				// TODO Write message to temp file, call bash script to show
+				Cron.taskCompleted(task);
+			}
+		}
 	}
 
 	/**
-	 * Generate a project overview
+	 * Generate a project overview.
+	 * First task called from CronTasks.run()
+	 *
+	 * @param {Object} task For calling class Cron
 	 */
-	projectOverview() {
+	projectOverview(task) {
 		if (!cfg.options.cron.projectOverview) return;
+
+		if (Cron.shouldRun(task)) {
+			writeStats();
+			Cron.taskCompleted(task);
+		}
 	}
 
 	/**
@@ -41,11 +116,24 @@ export class CronTasks {
 	 */
 	static run() {
 		cfg = AppConfig.getInstance();
+		log = Logger.getInstance();
 		let ct = new CronTasks();
 
-		ct.notifications();
-		ct.projectOverview();
+		let task = {
+			crontabs: {
+				notifications: {},
+				sys: {
+					projectOverview: cfg.options.cron.projectOverview,
+				},
+			},
+			name: "projectOverview",
+			plugin: "sys",
+			runAtstartup: true,
+		};
 
-		Cron.finish();
+		ct.projectOverview(task);
+		ct.notifications(task);
+
+		ct.finish();
 	}
 }

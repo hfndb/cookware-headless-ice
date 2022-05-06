@@ -4,6 +4,7 @@ let DefaultConfig = {
 	version: "0.0.1",
 	projects: [],
 	cron: {
+		timeZone: "Europe/Paris",
 		notifications: [],
 		projectOverview: "",
 	},

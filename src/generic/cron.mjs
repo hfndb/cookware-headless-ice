@@ -1,11 +1,12 @@
 "use strict";
 import { join } from "node:path";
+import { AppConfig } from "./config.mjs";
 import parser from "cron-parser";
 import { FileUtils } from "./file-system/files.mjs";
 import { Logger } from "./log.mjs";
 import { test } from "./sys.mjs";
 
-let log;
+let cfg, log;
 
 class Task {
 	/**
@@ -18,7 +19,8 @@ class Task {
 }
 
 /**
- * Manage cron tasks
+ * Manage cron tasks.
+ * Written for cookware-texts for usage with plugins.
  *
  * Format tabs:
  * *    *    *    *    *    *
@@ -32,6 +34,16 @@ class Task {
  *
  * @see http://en.wikipedia.org/wiki/Crontab
  * @see https://github.com/harrisiirak/cron-parser
+ *
+ * @property {Object} data Structure grouped by plugin name
+ * @example
+ * {
+ *   pluginName: {
+ *     taskName1: "[ crontab here ]",
+ *     taskName2: "[ crontab here ]",
+ *     taskName3: "[ crontab here ]",
+ *   }
+ * }
  */
 export class Cron {
 	static data;
@@ -47,17 +59,39 @@ export class Cron {
 	 * @param {string} file
 	 */
 	static init(dir, file) {
+		cfg = AppConfig.getInstance();
 		log = Logger.getInstance();
 
 		Cron.dir = dir;
 		Cron.file = file;
 
-		let path = join(Cron.dir, Cron.path);
+		let path = join(Cron.dir, Cron.file);
 		if (test("-f", path)) {
 			Cron.data = FileUtils.readJsonFile(path, false);
 		} else {
 			Cron.data = {};
 		}
+
+		/**
+		 * Structure of cache file:
+		 * @example
+		 * {
+		 *   pluginName: {
+		 *     taskName1: {
+		 *       last: "[ serialized datetime here ]",
+		 *       next: "[ serialized datetime here ]",
+		 *     },
+		 *     taskName2: {
+		 *       last: "[ serialized datetime here ]",
+		 *       next: "[ serialized datetime here ]",
+		 *     },
+		 *     taskName3: {
+		 *       last: "[ serialized datetime here ]",
+		 *       next: "[ serialized datetime here ]",
+		 *     }
+		 *   }
+		 * }
+		 */
 	}
 
 	/**
@@ -79,7 +113,7 @@ export class Cron {
 		let rt = null;
 		try {
 			const interval = parser.parseExpression(str, {
-				tz: "Europe/Amsterdam",
+				tz: cfg.options.cron.timeZone,
 			});
 			rt = interval.next();
 			rt = new Date(rt);
@@ -108,7 +142,7 @@ export class Cron {
 			next,
 			plgn = opts.plugin,
 			rt = false;
-		let tab = opts.crontabs[name];
+		let tab = opts.crontabs[plgn][name];
 
 		if (!Cron.data[plgn]) {
 			Cron.data[plgn] = {};
@@ -142,7 +176,7 @@ export class Cron {
 	static taskCompleted(opts) {
 		let name = opts.name,
 			plgn = opts.plugin;
-		let tab = opts.crontabs[name];
+		let tab = opts.crontabs[plgn][name];
 
 		Cron.data[plgn][name].last = new Date();
 		Cron.data[plgn][name].next = Cron.getNextCron(plgn, name, tab);
