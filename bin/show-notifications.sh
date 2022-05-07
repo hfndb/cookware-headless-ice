@@ -5,12 +5,7 @@
 # --------------------------------------------
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 cd $SCRIPT_DIR
-CONFIG=$1
-if [ "$CONFIG" == "" ]; then
-	echo "Usage: run.sh </path/to/project config>"
-	exit 1
-fi
-source $CONFIG/env.sh
+source ./env.sh
 DEBUG_LOG_FILE=$NOTIFICATIONS_TMP-debug.txt
 if [ "$NODE_PATH" == "" ]; then
 	export NODE_PATH=`npm root -g`

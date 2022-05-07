@@ -28,7 +28,7 @@ Version information. When cookware-headless-ice is upgraded, your configuration 
 
 ## Cron tasks
 
-Trigger [cron-parser](https://www.npmjs.com/package/cron-parser) using system [cron](https://en.wikipedia.org/wiki/Cron) to automatically generate a project overview and/or to show system notifications.
+Trigger [cron-parser](https://www.npmjs.com/package/cron-parser) using system [cron](https://en.wikipedia.org/wiki/Cron) to automatically generate a project overview and/or to show system notifications. See [Cron tasks](./cron.md) for some additional information.
 
 ```javascript
 	"cron": {
@@ -36,7 +36,9 @@ Trigger [cron-parser](https://www.npmjs.com/package/cron-parser) using system [c
 			"crontab": "< crontab syntax here >",
 			"message": "Text to show"
 		}],
+		"notificationsTempFile": "/tmp/notifications",
 		"projectOverview": "< crontab syntax here >",
+		"timeZone": "Europe/Paris"
 	}
 ```
 

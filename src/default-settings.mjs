@@ -4,9 +4,10 @@ let DefaultConfig = {
 	version: "0.0.1",
 	projects: [],
 	cron: {
-		timeZone: "Europe/Paris",
 		notifications: [],
+		notificationsTempFile: "/tmp/notifications",
 		projectOverview: "",
+		timeZone: "Europe/Paris",
 	},
 	domain: {
 		description: "Website name",

@@ -91,7 +91,10 @@ export function getDirList(path, recursive = true) {
 	if (!test("-e", path)) {
 		throw new Error(`Path ${path} doesn't exist`);
 	}
-	const fl = new fdir().onlyDirs().crawl(path).sync();
+	const fl = new fdir()
+		.onlyDirs()
+		.crawl(path)
+		.sync();
 	let dirs = [];
 	for (let d = 0; d < fl.length; d++) {
 		let dir = fl[d];

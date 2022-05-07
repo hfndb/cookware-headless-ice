@@ -25,4 +25,4 @@ export NOTIFICATIONS_DEBUG=0
 export NOTIFICATIONS_DIR=`/opt/project` # Put absolute path to project here
 export NOTIFICATIONS_METHOD="kde-dialog" # kde-dialog, kde-popup, notify-send or zenity
 export NOTIFICATIONS_TIMEOUT=60000 # In ms
-export NOTIFICATIONS_TMP=/tmp/notifications
+export NOTIFICATIONS_TMP=/tmp/notifications # Temp file
