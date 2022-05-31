@@ -98,7 +98,7 @@ The structure of this file is invalid, meaning, messed up.
 			verbose &&
 			process.env.NODE_ENV !== "test"
 		) {
-			log.info(`File written: ${file}`);
+			log.info(`- File written: ${file}`);
 		}
 	}
 

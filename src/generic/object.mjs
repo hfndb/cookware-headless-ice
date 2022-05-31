@@ -256,8 +256,8 @@ export class ObjectUtils {
 	/**
 	 * Merge src object into target, like .json
 	 *
-	 * @param target {Object}
-	 * @param src {Object}
+	 * @param {Object} target Passed by reference
+	 * @param {Object} src Passed by reference
 	 */
 	static mergeDeep(target, src) {
 		Object.keys(src).forEach(key => {
@@ -273,6 +273,44 @@ export class ObjectUtils {
 				target[key] = value; // Overwrite
 			}
 		});
+	}
+
+	/**
+	 * After deleting keys in an object, that object could be empty like {} or []
+	 * So... remove those empty entries as far as they aren't in a preserve list
+	 *
+	 * @param {Object} src Passed by reference
+	 * @param {number} wipes Qty of wipes after first cleaning, depends on how many levels of hierarchy
+	 * @param {string[]} preserve
+	 * @param {boolean} topLevel Internal for recursive calling
+	 */
+	static removeEmptyObjects(src, wipes = 3, preserve = [], topLevel = true) {
+		Object.keys(src).forEach(key => {
+			// Skip?
+			if (preserve.includes(key)) return;
+
+			// Array or not an object?
+			let value = src[key];
+			if (Array.isArray(value)) {
+				if (value.length == 0) Reflect.deleteProperty(src, key);
+				return;
+			}
+			if (typeof value != "object") return;
+
+			// Empty object?
+			if (Object.keys(value).length == 0) {
+				Reflect.deleteProperty(src, key);
+				return;
+			}
+
+			ObjectUtils.removeEmptyObjects(src[key], wipes, preserve, false); // Go level deeper
+		});
+
+		// Perhaps... removing an array 'created' an empty object
+		// Which could create another empty object. So... let's wipe clean
+		for (let i = 0; topLevel && i < wipes; i++) {
+			ObjectUtils.removeEmptyObjects(src, wipes, preserve, false);
+		}
 	}
 
 	/**
