@@ -98,6 +98,7 @@ export function getDirList(path, recursive = true) {
 	let dirs = [];
 	for (let d = 0; d < fl.length; d++) {
 		let dir = fl[d];
+		if (dir.endsWith(sep)) dir = dir.slice(0, -1); // strip trailing separator
 		dir = dir.substring(path.length + 1);
 		if (!dir) continue;
 		if (!recursive && dir.includes(sep)) continue;

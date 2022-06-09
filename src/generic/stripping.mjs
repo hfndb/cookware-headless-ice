@@ -141,7 +141,7 @@ export class Stripper {
 		this.before = before || [];
 
 		this.cm = {
-			sl: "//", // Single line comment starts with
+			sl: /\s\/\/\s(.)+/, // Single line comment starts with
 			mss: "/*", // Multi line comment starts with
 			mse: "*/", // Multi line comment end with
 		};
@@ -154,13 +154,17 @@ export class Stripper {
 	 */
 	removeComments(src) {
 		let mlnComment = false; // Is in multi line comment
-		let lines = src.split(/\r?\n/); // @todo Bug here affects CSS only - url() with data
-		let toReturn = "";
+		let lines = src.split(/\r?\n/);
+		let result,
+			toReturn = "";
 		for (let i = 0; i < lines.length; i++) {
 			let line = lines[i].trim();
-			if (line.includes(this.cm.sl)) {
+
+			// Handle single line comments
+			result = this.cm.sl.exec(line) || null;
+			if (result) {
 				// Strip single line comment
-				line = line.substring(0, line.indexOf(this.cm.sl) - 1).trim();
+				line = line.substring(0, result.index).trim();
 			}
 
 			// Handle multi line comments

@@ -3,10 +3,10 @@ import { join } from "node:path";
 import shelljs from "shelljs";
 import { AppConfig } from "./config.mjs";
 import { Logger } from "./log.mjs";
-const { cd, chmod, cp, exec, mkdir, mv, pwd, rm, test, touch } = shelljs;
+const { cd, chmod, cp, exec, mkdir, mv, pwd, rm, sed, test, touch } = shelljs;
 
 // Shorthand since shelljs isn't an ESM package
-export { cd, chmod, cp, exec, mkdir, mv, pwd, rm, test, touch };
+export { cd, chmod, cp, exec, mkdir, mv, pwd, rm, sed, test, touch };
 
 /**
  * Outgoing to system level
