@@ -444,6 +444,7 @@ export class AppMenu {
 	getDescr(width) {
 		// Property this.descr is set by this.showHelp()
 
+		if (!this.descr) return ""; // Just to be sure, shouldn't occur
 		let descr = this.descr.split(" "), // Transform to array with words
 			rt = "",
 			word;
@@ -458,7 +459,7 @@ export class AppMenu {
 				break;
 			}
 		}
-		this.descr = descr.join(" ").trim();
+		this.descr = descr.length == 0 ? "" : descr.join(" ").trim();
 
 		return rt;
 	}

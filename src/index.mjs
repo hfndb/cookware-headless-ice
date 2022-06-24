@@ -142,7 +142,6 @@ am.addOption({
 am.addOption(am.playgroundShortcutY);
 am.addOption(am.helpShortcutH);
 
-//am.addOption(am.helpShortcutH);
 am.setName("cookware-headless-ice");
 
 let choice = am.getUserChoice();
