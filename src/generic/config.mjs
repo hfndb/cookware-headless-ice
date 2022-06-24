@@ -3,7 +3,7 @@ import { Module } from "node:module";
 import { homedir, platform, tmpdir } from "node:os";
 import { dirname, join, normalize, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { Command, Option } from "commander";
+import { parseArgs } from "node:util";
 import deepdiff from "deep-diff";
 import { DefaultConfig } from "../default-settings.mjs";
 import { Logger } from "./log.mjs";
@@ -239,7 +239,6 @@ export class AppConfig {
 			return;
 		}
 		console.log("Initializing new project directory");
-		console.log(dir, cfg.dirProject); //@@
 		cp("-fr", join(dir, sep, "*"), join(cfg.dirProject, sep));
 		cfg.read();
 		let log = Logger.getInstance(cfg.options.logging);
@@ -253,6 +252,22 @@ export class AppConfig {
 	}
 }
 
+/** @typedef MenuOption
+ * @property {string} alias
+ * @property {string} name
+ * @property {string} description
+ * @property {Type} type
+ * @property {boolean} [hidden]
+ * @property {boolean} [multiline]
+ */
+
+/**
+ * Command line menu
+ *
+ * @property {string} name
+ * @property {string} alias
+ * @property {MenuOption[]} options
+ */
 export class AppMenu {
 	static instance = null;
 
@@ -325,41 +340,132 @@ export class AppMenu {
 				this.checkOption(toCheck, current);
 			}
 		}
-		// Build command
-		const program = new Command();
-		program.name(this.name);
+
+		/**
+		 * Build object for argument parser
+		 * @see https://nodejs.org/api/util.html#utilparseargsconfig
+		 *
+		 * Keys of options are the long names of options. Values:
+		 *
+		 * - Multiple: Can be provided multiple times (default false)
+		 *   If true, all values will be collected in an array
+		 * - Type: boolean or string
+		 *
+		 * Other:
+		 * allowPositionals: Default: false if strict is true, otherwise true.
+		 * strict: Should an error be thrown when unknown arguments are encountered,
+		 *   or when arguments are passed that do not match the type configured in options. Default: true.
+		 */
+
+		let opts = {
+			options: {},
+			allowPositionals: false, // default: false
+			strict: true, // default: true
+		};
+
+		let opt, tp;
 		for (let i = 0; i < this.options.length; i++) {
-			let opt = this.options[i];
-			let sc = opt.alias ? `-${opt.alias} ` : "";
-			let pts = {
-				hidden: opt.hidden,
-			};
-			if (opt.hidden) {
-				// @todo addOption as in docs not in package 'commander'
-				program.option(`${sc}--${opt.name}`, "");
-			} else if (opt.type == Boolean) {
-				program.option(`${sc}--${opt.name}`, opt.description);
-			} else if (opt.type == String) {
-				let lbl = opt.typeLabel ? ` ${opt.typeLabel}` : "";
-				program.option(`${sc}--${opt.name}${lbl}`, opt.description);
+			opt = this.options[i];
+			switch (opt.type) {
+				case Boolean:
+					tp = "boolean";
+					break;
+				default:
+					tp = "string";
+					break;
 			}
+
+			let toAdd = {
+				multiline: opt.multiline ? opt.multiline : false,
+				type: tp,
+			};
+			if (opt.alias) toAdd.short = opt.alias;
+
+			opts.options[opt.name] = toAdd;
 		}
-		let chosen = {};
+		//console.debug(opts);
+
+		// Get command line options as provided by user
+		let chosen;
 		try {
-			// Get command line options as provided by user
-			program.parse(process.argv);
-			// Translate 'em to usable info
-			chosen = program.opts();
+			chosen = parseArgs(opts);
 		} catch (error) {
-			// Do nothing
+			console.debug(error);
 		}
-		return chosen;
+
+		return chosen?.values || {};
 	}
 
 	setName(name) {
 		this.name = name;
 	}
 
+	showHelp() {
+		// Menu header
+		console.log(`\n\n  Options for ${this.name}:\n`);
+		let cols = [0, 6, 0],
+			short,
+			opt,
+			tp;
+
+		// First check how much space 1st column needs
+		for (let i = 0; i < this.options.length; i++) {
+			opt = this.options[i];
+			if (opt.hidden) continue;
+			cols[0] = Math.max(cols[0], opt.name.length);
+		}
+		cols[0] += 6; // Add prefix + 4 spaces to 1st column
+		cols[2] = 90 - cols[0] - cols[1]; // Total width of 3 columns 80
+
+		// Menu entries
+		for (let i = 0; i < this.options.length; i++) {
+			opt = this.options[i];
+			this.descr = opt.description;
+			if (opt.typeLabel) {
+				this.descr = `${opt.typeLabel} ${this.descr}`;
+			}
+			short = opt.alias ? "-" + opt.alias : "";
+			console.log(
+				"--".concat(opt.name).padEnd(cols[0], " ") +
+					short.padEnd(cols[1], " ") +
+					this.getDescr(cols[2]),
+			);
+			while (this.descr) {
+				console.log("".padEnd(cols[0] + cols[1], " ") + this.getDescr(cols[2]));
+			}
+		}
+		console.log(); // Empty line
+	}
+
+	/**
+	 * @private
+	 * @param {number} width
+	 */
+	getDescr(width) {
+		// Property this.descr is set by this.showHelp()
+
+		let descr = this.descr.split(" "), // Transform to array with words
+			rt = "",
+			word;
+
+		while (true) {
+			// Add first word in array?
+			if (rt.length + descr[0].length + 1 < width) {
+				word = descr.shift(); // remove 1st word in array
+				rt += word + " ";
+				if (!descr.length) break; // array empty now
+			} else {
+				break;
+			}
+		}
+		this.descr = descr.join(" ").trim();
+
+		return rt;
+	}
+
+	/**
+	 * @param {MenuOption} opt
+	 */
 	addOption(opt) {
 		if (!opt.module) opt.module = "main";
 		this.options.push(opt);

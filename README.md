@@ -161,7 +161,6 @@ Please use the github [issues page](https://github.com/hfndb/cookware-headless-i
 Generic:
 + [array-sort](https://www.npmjs.com/package/array-sort)
 + [colors](https://www.npmjs.com/package/colors) for colored console output
-+ [commander](https://www.npmjs.com/package/commander) for parsing command line options and displaying help
 + [cron-parser](https://www.npmjs.com/package/cron-parser) for cron tasks
 + [date-and-time](https://www.npmjs.com/package/date-and-time) to format and manipulate dates and times
 + [deep-diff](https://www.npmjs.com/package/deep-diff) to check and display overridden settings in project config.json

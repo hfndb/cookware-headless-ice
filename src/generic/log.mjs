@@ -76,6 +76,7 @@ export class Logger {
 			} else {
 				console.log(
 					"Programming error? Logger.getInstance() called without options",
+					Logger.getStackInfo(),
 				);
 			}
 		}

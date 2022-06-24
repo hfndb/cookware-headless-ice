@@ -153,10 +153,11 @@ export class Stripper {
 	 * @param {string} src File type js
 	 */
 	removeComments(src) {
-		let mlnComment = false; // Is in multi line comment
-		let lines = src.split(/\r?\n/);
-		let result,
+		let mlnComment = false, // Is in multi line comment
+			lines = src.split(/\r?\n/),
+			result,
 			toReturn = "";
+
 		for (let i = 0; i < lines.length; i++) {
 			let line = lines[i].trim();
 
@@ -186,11 +187,13 @@ export class Stripper {
 	 * @todo Bug in Array.split() within Node.js, affecting CSS stripping
 	 */
 	stripFile(src) {
-		let crs = this.fileType == "css" ? new CssRuleSet() : null;
-		let mlnComment = false; // Is in multi line comment
-		let mlnTemplate = 0; // Status of multi line templates in js
-		let lines = src.split(/\r?\n/); // @todo Bug here affects CSS only - url() with data
-		let toReturn = "";
+		let crs = this.fileType == "css" ? new CssRuleSet() : null,
+			mlnComment = false, // Is in multi line comment
+			mlnTemplate = 0, // Status of multi line templates in js
+			lines = src.split(/\r?\n/),
+			result,
+			toReturn = "";
+
 		for (let i = 0; i < lines.length; i++) {
 			let line = lines[i].trim();
 
@@ -199,11 +202,13 @@ export class Stripper {
 				toReturn += line;
 				continue;
 			}
-			if (line.includes(this.cm.sl)) {
-				// Strip single line comment
-				line = line.substring(0, line.indexOf(this.cm.sl) - 1).trim();
-			}
 			if (!line) continue; // Empty line
+
+			// Strip single line comment
+			result = this.cm.sl.exec(line) || null;
+			if (result) {
+				line = line.substring(0, result.index).trim();
+			}
 
 			// Handle multi line comments
 			if (line.startsWith(this.cm.mss)) {
@@ -243,7 +248,11 @@ export class Stripper {
 				if (line.includes("`")) mlnTemplate = 0; // End
 				continue;
 			}
-			line = this.stripLine(line);
+			if (this.fileType == "html") {
+				if (!line.endsWith(">")) line += " ";
+			} else {
+				line = this.stripLine(line);
+			}
 			toReturn += line;
 		}
 		return toReturn;
@@ -332,11 +341,16 @@ export class Stripper {
 
 	/**
 	 * @param {string} source
+	 * @param {boolean} [override]
 	 * @todo Also consider content of HTML code and pre tags
 	 */
-	static stripHtml(source) {
-		let cfg = AppConfig.getInstance();
-		if (!cfg.options.html.stripper.active) return source;
+	static stripHtml(source, override) {
+		let strip = override;
+		if (strip == undefined) {
+			let cfg = AppConfig.getInstance();
+			strip = cfg.options.html.stripper.active;
+		}
+		if (!strip) return source;
 		let s = new Stripper("html");
 		return s.stripFile(source);
 	}

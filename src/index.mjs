@@ -140,10 +140,13 @@ am.addOption({
 	description: "Flag to compile and compress for production use",
 });
 am.addOption(am.playgroundShortcutY);
+am.addOption(am.helpShortcutH);
+
 //am.addOption(am.helpShortcutH);
 am.setName("cookware-headless-ice");
 
 let choice = am.getUserChoice();
+console.debug(choice);
 if (choice.init) {
 	AppConfig.initNewProject();
 	process.exit(0);
@@ -183,12 +186,12 @@ if (choice.beautify) {
 	Lint.content();
 } else if (choice.overview) {
 	writeStats();
-} else if (choice.gitRead) {
+} else if (choice["git-read"]) {
 	Git.read(choice.file);
-} else if (choice.gitList) {
+} else if (choice["git-list"]) {
 	Git.list(choice.file);
-} else if (choice.gitShow) {
-	Git.show(choice.gitShow);
+} else if (choice["git-show"]) {
+	Git.show(choice["git-show"]);
 } else if (choice.pdf) {
 	renderPdf();
 } else if (choice.run) {
@@ -225,6 +228,9 @@ if (choice.beautify) {
 		cfg.dirProject,
 		"settings-default.json",
 	);
+} else {
+	am.showHelp();
+	process.exit(0);
 }
 
 if (stats) {
