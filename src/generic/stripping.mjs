@@ -262,16 +262,28 @@ export class Stripper {
 	 * Strip empty space within a line
 	 *
 	 * @param {string} line
+	 * @todo Still needs to be improved further
 	 */
 	stripLine(line) {
-		let lastIdx = -1;
-		let idx = line.indexOf(" ", lastIdx) + 1; // including trailing space
+		// In view of comments, can't use string.split() here
+		let lastIdx = -1,
+			idx = line.indexOf(" ", lastIdx) + 1, // including trailing space
+			keyword,
+			preserve,
+			strPart1,
+			strPart2;
 		while (idx >= 0 && idx > lastIdx) {
-			let strPart1 = line.substring(0, idx);
-			let strPart2 = line.substring(idx);
-			if (!this.isInString(strPart1) && !this.preserveSpace(strPart1, strPart2))
-				strPart1 = strPart1.trimRight();
-			line = strPart1 + strPart2;
+			strPart1 = line.substring(0, idx).trimRight();
+			strPart2 = line.substring(idx).trimLeft();
+			[keyword, preserve] = this.preserveSpace(strPart1);
+			if (preserve == 2) {
+				// Add space before keyword
+				strPart1 = strPart1.substring(0, idx - keyword.length - 2) + " " + keyword;
+			}
+			if (this.isInString(strPart1) || preserve > 0) {
+				// Add space after keyword
+				strPart1 += " ";
+			}
 			lastIdx = idx;
 			idx = line.indexOf(" ", lastIdx) + 1;
 		}
@@ -294,18 +306,22 @@ export class Stripper {
 	/**
 	 * Check wether spaces is to be preserved based on defined keywords
 	 *
-	 * @param {string} part1
-	 * @param {string} part2
+	 * @private
+	 * @param {string} part
 	 */
-	preserveSpace(part1, part2) {
-		let r = false;
-		for (let i = 0; i < this.after.length && !r; i++) {
-			if (part1.endsWith(this.after[i] + " ")) r = true;
+	preserveSpace(part) {
+		let rt;
+		for (let i = 0; i < this.after.length && !rt; i++) {
+			if (part.endsWith(this.after[i])) {
+				rt = [this.after[i], 1];
+			}
 		}
-		for (let i = 0; i < this.around.length && !r; i++) {
-			if (part1.endsWith(this.around[i] + " ")) r = true;
+		for (let i = 0; i < this.around.length && !rt; i++) {
+			if (part.endsWith(this.around[i])) {
+				rt = [this.around[i], 2];
+			}
 		}
-		return r;
+		return rt || ["", 0];
 	}
 
 	/**
