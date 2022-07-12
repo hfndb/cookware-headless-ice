@@ -2,7 +2,7 @@
 import { join } from "node:path";
 import shelljs from "shelljs";
 import { AppConfig, FileStatus, FileUtils, Logger } from "../generic/index.mjs";
-import { Stripper, Shrinker } from "../generic/stripping.mjs";
+import { Stripper } from "../generic/stripping.mjs";
 import { exec, rm, test } from "../generic/sys.mjs";
 import { SourceUtils } from "./source.mjs";
 
@@ -106,7 +106,6 @@ export class Bundle {
 		if (!Bundle.isChanged(bundle, outDir)) return;
 		let content = "";
 		let dir = join(cfg.dirProject, cfg.options.javascript.dirs.source);
-		let shr = new Shrinker();
 		let toWrite = "";
 		let useStrictNeeded = true; // Only use once, at the top
 

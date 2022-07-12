@@ -102,6 +102,7 @@ let DefaultConfig = {
 			exclude: [],
 		},
 		shrinker: {
+			debug: false,
 			defs: [],
 		},
 		sourceMapping: true,

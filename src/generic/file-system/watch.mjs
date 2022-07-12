@@ -6,8 +6,6 @@ import { test } from "../sys.mjs";
 import { FileUtils } from "./files.mjs";
 import { getDirList } from "./dirs.mjs";
 
-let log = Logger.getInstance();
-
 /** @typedef WatchOptions
  * @property {string} workingDir
  * @property {string} path
@@ -25,6 +23,7 @@ export class FileWatcher {
 	 * @param {WatchOptions} opts
 	 */
 	constructor(opts) {
+		let log = Logger.getInstance();
 		if (opts.verbose == undefined) opts.verbose = true;
 		if (opts.forceDirWatch == undefined) opts.forceDirWatch = false;
 
@@ -63,6 +62,7 @@ export class FileWatcher {
 	}
 
 	addWatch(settings) {
+		let log = Logger.getInstance();
 		this.watchers.push(
 			watch(
 				join(settings.workingDir, settings.path, settings.file),

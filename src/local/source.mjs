@@ -154,8 +154,8 @@ export class SourceUtils {
 			let shr = new Shrinker();
 			let tmpFile = join(cfg.dirTemp, "temp.js");
 
-			// First shrink aka shorten
-			source = shr.shrinkFile(source, false);
+			// First shorten
+			source = shr.shrinkFile(source, true);
 
 			// The shrink aka compress
 			switch (cfg.options.javascript.stripper) {
@@ -209,7 +209,6 @@ export class SourceUtils {
 		let cfg = AppConfig.getInstance();
 		let dir = join(cfg.dirProject, cfg.options.javascript.dirs.output);
 		let fi = FileUtils.getFileInfo(entry.dir, entry.source);
-		//console.log(entry, fi);
 		let source = FileUtils.readFile(fi.full);
 
 		source = Beautify.content(fi.file.full, source);

@@ -7,12 +7,61 @@ import { AppConfig } from "./config.mjs";
  */
 export class StringExt {
 	/**
+	 * Escape regular expression. There is a proposal to add such a function to RegExp.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+	 */
+	static escapeRegExp(string) {
+		return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+	}
+
+	/**
 	 * Count occurrences of a string within a string
 	 */
 	static occurrences(str, searchFor) {
 		let re = new RegExp(`(${searchFor})`, "g");
 		let result = str.match(re) || [];
 		return result.length;
+	}
+
+	/**
+	 * Replace within a specific section
+	 *
+	 * @param {string} str String to search in
+	 * @param {string|RegExp} searchFor String to search for
+	 * @param {string} replaceWith String to replace with
+	 * @param {boolean} onlyFirst Replace only first occurrence
+	 * @param {number} idxBegin. If 0, from beginning
+	 * @param {number} idxEnd. If 0, from end
+	 */
+	static replaceInSection(
+		str,
+		searchFor,
+		replaceWith,
+		onlyFirst,
+		idxBegin = 0,
+		idxEnd = 0,
+	) {
+		if (!idxEnd) idxEnd = str.length;
+
+		let data = {
+			// In which part to replace
+			prefix: idxBegin ? str.substring(0, idxBegin) : "",
+			targetZone: str.substring(idxBegin, idxEnd),
+			suffix: str.substring(idxEnd),
+			re: searchFor, // Search string or regular expression
+		};
+
+		// Need to transform search string to regular expression?
+		if (typeof data.re == "string" && !onlyFirst) {
+			data.re = new RegExp(StringExt.escapeRegExp(data.re), "gm");
+		}
+
+		// Replace within target zone. Uses:
+		// - Search string to replace only first occurrence,
+		// - Regular expression to replace all occurrences
+		data.targetZone = data.targetZone.replace(data.re, replaceWith);
+
+		return data.prefix + data.targetZone + data.suffix;
 	}
 
 	/**
