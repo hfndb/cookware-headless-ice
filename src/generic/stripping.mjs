@@ -1,5 +1,5 @@
 "use strict";
-import { join } from "node:path";
+import { isAbsolute, join } from "node:path";
 import { CodeJs } from "./source.mjs";
 import { AppConfig, FileUtils, Logger } from "./index.mjs";
 import { StringExt } from "./utils.mjs";
@@ -376,6 +376,44 @@ export class Stripper {
 		let spaces = cfg.options.javascript.lineStripping.needsSpace;
 		let s = new Stripper("js", spaces.after, spaces.around, spaces.before);
 		return removeComments ? s.removeComments(source) : s.stripFile(source);
+	}
+
+	/**
+	 * To prepare production environment; remove obsolete files.
+	 * Method written for cookware-texts.
+	 *
+	 * @param {string} dir
+	 * @param {string} ext
+	 * @param {boolean} stripped Remove originals (true) or stripped versions (false)
+	 * @param {string} suffix
+	 */
+	static removeObsoleteFiles(dir, ext, stripped, suffix = "") {
+		if (!suffix) suffix = cfg.options.stripping.suffix;
+
+		let cfg = AppConfig.getInstance(),
+			fi,
+			file,
+			files = FileUtils.getFileList(dir, {
+				allowedExtensions: [ext],
+				recursive: true,
+			});
+
+		for (let i = 0; i < files.length; i++) {
+			file = files[i];
+			fi = FileUtils.getFileInfo(isAbsolute(file) ? "" : cfg.dirProject, file);
+
+			if (stripped) {
+				if (!fi.file.stem.includes(suffix)) continue;
+				// Original to remove
+				file = fi.full.replace(`-${suffix}`, "");
+			} else {
+				if (fi.file.stem.includes(suffix)) continue;
+				// Stripped version to remove
+				file = join(fi.path.full, `${fi.file.stem}-${suffix}${fi.file.ext}`);
+			}
+
+			FileUtils.rmFile(file); // Remove if exists
+		}
 	}
 }
 
