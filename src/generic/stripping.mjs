@@ -388,10 +388,10 @@ export class Stripper {
 	 * @param {string} suffix
 	 */
 	static removeObsoleteFiles(dir, ext, stripped, suffix = "") {
+		let cfg = AppConfig.getInstance();
 		if (!suffix) suffix = cfg.options.stripping.suffix;
 
-		let cfg = AppConfig.getInstance(),
-			fi,
+		let fi,
 			file,
 			files = FileUtils.getFileList(dir, {
 				allowedExtensions: [ext],

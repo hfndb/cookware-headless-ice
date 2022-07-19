@@ -73,6 +73,13 @@ $ cookware --generate
 
 Shortcut -g. Transcompile changed ts and scss, render changed .html using template engine, generate Google sitemap.
 
+By default, content, sass and source will be generated. However, if you want to finetune that, you can use an additional option with a comma-delimited list as follows:
+
+```
+$ cookware --generate --what content,sass,src
+```
+
+
 ## Git reporting
 
 ```

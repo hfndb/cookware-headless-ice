@@ -135,6 +135,12 @@ am.addOption({
 	typeLabel: "<file>",
 });
 am.addOption({
+	name: "what",
+	type: String,
+	description:
+		"What exactly to generate, comma-delimited list, one or more of content,sass,src",
+});
+am.addOption({
 	name: "production",
 	type: Boolean,
 	description: "Flag to compile and compress for production use",
@@ -178,7 +184,7 @@ if (choice.beautify) {
 } else if (choice.epub) {
 	renderEpub();
 } else if (choice.generate) {
-	Misc.generateWeb(true);
+	Misc.generateWeb(choice.what || "", true);
 	stats = true;
 } else if (choice.lint) {
 	Lint.content();

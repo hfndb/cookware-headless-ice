@@ -144,12 +144,30 @@ export class Misc {
 	 * - Render changed .html using template engine
 	 * - Generate Google sitemap
 	 *
+	 * @param {string} what What exactly to generate, comma-delimited list, one or more of content,sass,src
+	 * @param {boolean} verbose
 	 */
-	static generateWeb(verbose) {
+	static generateWeb(what, verbose) {
 		let session = SessionVars.getInstance();
-		SourceUtils.compile(verbose);
-		SassUtils.compile(verbose);
+		if (what) {
+			// Specific instruction
+			what = what.split(",");
+		} else {
+			// Default
+			what = ["content", "sass", "src"];
+		}
+
+		if (what.includes("src")) {
+			SourceUtils.compile(verbose);
+		}
+		if (what.includes("sass")) {
+			SassUtils.compile(verbose);
+		}
 		let dir = join(cfg.dirProject, cfg.options.html.dirs.content);
+
+		if (!what.includes("content")) {
+			return;
+		}
 
 		if (test("-d", dir)) {
 			let content = new Content();
