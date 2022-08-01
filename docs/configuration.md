@@ -26,6 +26,20 @@ Settings.json in a project directory **overrides** the default program settings,
 Version information. When cookware-headless-ice is upgraded, your configuration will be converted to the latest required structure.
 
 
+## Cli
+
+```javascript
+{
+	"cli": {
+		"width": 90,
+	},
+}
+```
+
+Entries:
++ *width*: Total width for help text
+
+
 ## Cron tasks
 
 Trigger [cron-parser](https://www.npmjs.com/package/cron-parser) using system [cron](https://en.wikipedia.org/wiki/Cron) to automatically generate a project overview and/or to show system notifications. See [Cron tasks](./cron.md) for some additional information.

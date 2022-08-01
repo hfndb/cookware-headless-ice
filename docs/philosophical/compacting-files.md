@@ -2,7 +2,7 @@
 
 Back to [main  page](../README.md).
 
-Compacting files is known as [file compression](https://en.wikipedia.org/wiki/File_compressing), [minifying](https://en.wikipedia.org/wiki/Minification_(programming)) aka minification.
+Compacting files is known as [file compression](https://en.wikipedia.org/wiki/File_compressing), [minifying](https://en.wikipedia.org/wiki/Minification_(programming)) aka minification like described in articles as [obfuscation techniques by example](https://www.trickster.dev/post/javascript-obfuscation-techniques-by-example/).
 
 
 ## Philosophical point of view

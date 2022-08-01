@@ -3,6 +3,9 @@
 let DefaultConfig = {
 	version: "0.0.1",
 	projects: [],
+	cli: {
+		width: 90,
+	},
 	cron: {
 		notifications: [],
 		notificationsTempFile: "/tmp/notifications",

@@ -117,6 +117,12 @@ export class ArrayUtils {
 	}
 }
 
+/** @typedef DateDiff
+ * @property {number} days
+ * @property {number} weeks
+ * @property {number} months
+ */
+
 export class DateUtils {
 	/**
 	 * @returns {number} minute in ms
@@ -223,6 +229,37 @@ export class DateUtils {
 				.toString()
 				.padStart(2, "0"),
 		};
+	}
+
+	/**
+	 * Calculate the difference between two days in days, weeks and months
+	 *
+	 * @param {Date} dtFrom
+	 * @param {Date} dtTo
+	 * @param {boolean} floorEm Floor days and months
+	 * @returns {DateDiff}
+	 * @see https://stackoverflow.com/questions/2536379/difference-in-months-between-two-dates-in-javascript#2536445
+	 */
+	static dateDiff(dtFrom, dtTo, floorEm = true) {
+		let diffT = dtTo.getTime() - dtFrom.getTime(); // Time
+
+		let rt = {
+			days: diffT / (1000 * 60 * 60 * 24),
+			months:
+				dtTo.getMonth() -
+				dtFrom.getMonth() +
+				12 * (dtTo.getFullYear() - dtFrom.getFullYear()),
+			weeks: 0,
+		};
+
+		rt.weeks = rt.days / 7;
+
+		if (floorEm) {
+			rt.days = Math.floor(rt.days);
+			rt.weeks = Math.floor(rt.weeks);
+		}
+
+		return rt;
 	}
 }
 

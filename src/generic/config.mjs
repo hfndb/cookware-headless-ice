@@ -401,8 +401,10 @@ export class AppMenu {
 	}
 
 	showHelp() {
+		let cfg = AppConfig.getInstance();
+
 		// Menu header
-		console.log(`\n\n  Options for ${this.name}:\n`);
+		console.log(`\n  Options for ${this.name}:\n`);
 		let cols = [0, 6, 0],
 			short,
 			opt,
@@ -415,11 +417,12 @@ export class AppMenu {
 			cols[0] = Math.max(cols[0], opt.name.length);
 		}
 		cols[0] += 6; // Add prefix + 4 spaces to 1st column
-		cols[2] = 90 - cols[0] - cols[1]; // Total width of 3 columns 80
+		cols[2] = cfg.options.cli.width - cols[0] - cols[1]; // Total width of description column
 
 		// Menu entries
 		for (let i = 0; i < this.options.length; i++) {
 			opt = this.options[i];
+			if (opt.hidden) continue;
 			this.descr = opt.description;
 			if (opt.typeLabel) {
 				this.descr = `${opt.typeLabel} ${this.descr}`;
