@@ -1,6 +1,6 @@
 "use strict";
 import { join } from "node:path";
-import { StringExt } from "../generic/index.mjs";
+import { StringExt } from "../../generic/index.mjs";
 
 // ---------------------------------------------------
 // Some utilities to analyze and edit code

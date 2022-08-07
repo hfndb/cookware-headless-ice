@@ -2,7 +2,8 @@
 import { join } from "node:path";
 import { DefaultConfig } from "./default-settings.mjs";
 import { FileUtils, Logger } from "./generic/index.mjs";
-import { AppConfig, AppMenu } from "./generic/config.mjs";
+import { CliMenu } from "./generic/cli-menu.mjs";
+import { AppConfig } from "./generic/config.mjs";
 import { Beautify } from "./generic/beautify.mjs";
 import { CronTasks } from "./local/cron.mjs";
 import { Lint } from "./local/markup.mjs";
@@ -20,7 +21,7 @@ import { check } from "./sys/upgrades.mjs";
 
 if (!check()) process.exit(0); // Check required binaries
 
-let am = AppMenu.getInstance();
+let am = CliMenu.getInstance();
 
 /**
  * Note for software architects and developers:

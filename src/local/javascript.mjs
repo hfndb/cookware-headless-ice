@@ -2,7 +2,7 @@
 import { join } from "node:path";
 import shelljs from "shelljs";
 import { AppConfig, FileStatus, FileUtils, Logger } from "../generic/index.mjs";
-import { Stripper } from "../generic/stripping.mjs";
+import { Stripper } from "../generic/source/stripping.mjs";
 import { exec, rm, test } from "../generic/sys.mjs";
 import { SourceUtils } from "./source.mjs";
 

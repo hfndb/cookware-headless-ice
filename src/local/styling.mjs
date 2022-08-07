@@ -11,7 +11,7 @@ import {
 } from "../generic/index.mjs";
 import { Beautify } from "../generic/beautify.mjs";
 import { FileUtils, removeObsolete } from "../generic/file-system/files.mjs";
-import { Stripper } from "../generic/stripping.mjs";
+import { Stripper } from "../generic/source/stripping.mjs";
 import { cp, exec, test, SysUtils } from "../generic/sys.mjs";
 import { StringExt } from "../generic/utils.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";

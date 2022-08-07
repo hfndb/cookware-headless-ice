@@ -8,7 +8,7 @@ import {
 } from "../generic/index.mjs";
 import { removeObsolete } from "./file-system/files.mjs";
 import { NunjucksUtils } from "./nunjucks.mjs";
-import { Stripper } from "./stripping.mjs";
+import { Stripper } from "./source/stripping.mjs";
 import { test } from "./sys.mjs";
 import { Formatter, StringExt } from "./utils.mjs";
 
