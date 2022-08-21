@@ -1,7 +1,7 @@
 "use strict";
 import { join } from "node:path";
 import { AppConfig, FileUtils, Logger } from "../index.mjs";
-import { test } from "../sys.mjs";
+import { test, touch } from "../sys.mjs";
 import { StringExt } from "../utils.mjs";
 import { CodeJs } from "./javascript.mjs";
 
@@ -227,7 +227,7 @@ export class Shrinker {
 		this.replaceMode.bi = biClass; // Null if class definition not found
 		if (this.replaceMode.bi) this.replaceMode.bi.container = act.class;
 
-		let methods = act.methods;
+		let methods = Object.keys(act.methods);
 		for (let i = 0; i < methods.length; i++) {
 			let mS = methods[i]; // method search for
 			let mR = this.getNext(); // method replace with
@@ -346,5 +346,84 @@ export class Shrinker {
 		}
 
 		return this.content;
+	}
+
+	/**
+	 * Update configuration for shrinking
+	 *
+	 * @private
+	 * @param {Object} cfgPart .json of part
+	 * @param {number} lm Config of part last modified
+	 * @param {string[]} files
+	 * @returns {boolean} Changed
+	 */
+	static scanPart(cfgPart, lm, files) {
+		let cfg = AppConfig.getInstance(),
+			classes,
+			cls,
+			idx,
+			entry,
+			file,
+			rt = false,
+			src;
+
+		for (let f = 0; f < files.length; f++) {
+			file = join(cfg.dirProject, cfg.options.javascript.dirs.source, files[f]);
+
+			// When modified? Ignore?
+			if (FileUtils.getLastModified("", file) < lm) continue;
+
+			// Scan file
+			src = FileUtils.readFile(file);
+			classes = CodeJs.getClasses(src);
+			for (let c = 0; c < classes.length; c++) {
+				cls = classes[c];
+				entry = {
+					class: cls,
+					methods: CodeJs.getMethods(src, cls),
+					location: files[f],
+				};
+				idx = cfgPart.findIndex(el => el?.class == entry.class);
+				if (idx >= 0) {
+					cfgPart[idx] = entry; // Overwrite entry
+				} else {
+					cfgPart.push(entry); // Add entry
+				}
+				rt = true;
+			}
+		}
+
+		return rt;
+	}
+
+	/**
+	 * Update configuration for shrinking as far as necessary
+	 */
+	static scanFiles2shrink() {
+		let cfg = AppConfig.getInstance(),
+			cfgPart,
+			changed,
+			files,
+			filePart,
+			fileSrc,
+			path = join(cfg.dirProject, "dev", "shrinking", "files2scan.json");
+
+		if (!test("-f", path)) return;
+
+		let lm2scan = FileUtils.getLastModified("", path); // files2scan.json
+		let toScan = FileUtils.readJsonFile(path);
+		let parts = Object.keys(toScan);
+		for (let p = 0; p < parts.length; p++) {
+			filePart = join("dev", "shrinking", parts[p] + ".json");
+			files = toScan[parts[p]];
+			cfgPart = test("-f", filePart)
+				? FileUtils.readJsonFile(join(cfg.dirProject, filePart))
+				: [];
+			changed = Shrinker.scanPart(cfgPart, lm2scan, files);
+			if (changed) {
+				FileUtils.writeJsonFile(cfgPart, cfg.dirProject, filePart, true);
+				touch(path);
+			}
+		}
 	}
 }

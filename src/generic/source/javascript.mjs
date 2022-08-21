@@ -66,8 +66,9 @@ export class CodeJs {
 			}\n`;
 			return; // Class or method not found
 		}
+
 		// Index for start of class body
-		data.idxBegin = data.idxEnd = result.result?.index;
+		data.idxBegin = data.idxEnd = result?.index;
 		// Find index of end of class body
 		while (data.idxEnd >= 0) {
 			data.idxEnd = block.indexOf("}", data.idxEnd) + 1; // End of some block, perhaps inner
@@ -92,6 +93,7 @@ export class CodeJs {
 	 * @param {string} name Of class
 	 * @param {boolean} debug
 	 * @returns {BlockInfo|null}
+	 * @todo Prototype syntax
 	 */
 	static getClassIndices(source, name, debug = false) {
 		let bi = new BlockInfo("", "", "");
@@ -99,6 +101,12 @@ export class CodeJs {
 		bi.idxEnd = source.length;
 		let re = new RegExp(`${name}[\\s=]*{`, "m");
 		let rt = CodeJs.getBlock(source, bi, name, re, "Class");
+		let p = rt.block.indexOf("{");
+		if (rt.idxBegin > 0 && p > 0) {
+			// Strip part untill {
+			rt.block = rt.block.substring(p);
+			rt.idxBegin += p;
+		}
 		if (!debug && rt) rt.stripDebug();
 		return rt || null;
 	}
@@ -110,12 +118,91 @@ export class CodeJs {
 	 * @param {string} name Of class
 	 * @param {BlockInfo} biClass
 	 * @param {boolean} debug
-	 * @returns {}
+	 * @returns {BlockInfo}
 	 */
 	static getMethodIndices(source, name, biClass, debug = false) {
 		let re = new RegExp(`${name}.*{`, "dgm");
 		let rt = CodeJs.getBlock(source, biClass, name, re, "Method");
 		if (!debug) rt.stripDebug();
+		return rt;
+	}
+
+	/**
+	 * Get all classes defined in source - as in src directory
+	 *
+	 * @param {string} source
+	 * @returns {string[]}
+	 */
+	static getClasses(source) {
+		let fu = RegExp("[A-Z]"), // Is upper case?
+			name,
+			re = [
+				new RegExp(`class[\\s]*(\\w*)[\\s]*{`, "gm"), // 'Modern' class definition
+				new RegExp(`let[\\s]*(\\w*)[\\s=]*{`, "gm"), // Style: let classname = {
+			],
+			results,
+			rt = [];
+
+		for (let i = 0; i < re.length; i++) {
+			while ((results = re[i].exec(source)) !== null) {
+				name = results[1];
+				if (fu.test(name[0])) rt.push(name); // Add if first character upper case
+			}
+		}
+
+		return rt;
+	}
+
+	/**
+	 * Get all methods defined in class - as in src directory
+	 *
+	 * @param {string} source
+	 * @param {string} cls Class name
+	 */
+	static getMethods(source, cls) {
+		let biCls = CodeJs.getClassIndices(source, cls),
+			collected = [],
+			ignore = ["do", "if", "for", "function", "get", "set", "switch", "while"], // loops and statements
+			indent, // Indent level
+			line,
+			name,
+			re = [
+				//new RegExp(`\n([\\s\\w]*)[\\s]*\\(.*{`, "gm"), // In 'modern' class definition methodname(
+				new RegExp(`\n([\\s\\w]*): function[\\s]*\.*{`, "gm"), // Style: methodname: function(
+			],
+			results,
+			rt = {},
+			skip;
+
+		let srcClass = source.substring(biCls.idxBegin, biCls.idxEnd);
+		for (let i = 0; i < re.length; i++) {
+			while ((results = re[i].exec(srcClass)) !== null) {
+				// Strip newline and return codes
+				line = results[1].replace(/\r/gm, "").replace(/\n/gm, "");
+				name = line.trim();
+				skip = name.includes("\r");
+				for (let s = 0; s < ignore.length; s++) {
+					if (name == ignore[s]) skip = true;
+				}
+				if (skip) continue;
+
+				collected.push([i, line.trimEnd().length - name.length, name]); // Incl. indent level
+			}
+		}
+
+		// Which indent level is relevant?
+		indent = collected.reduce((acc, current) => {
+			if (acc == -1 && current[1] == 0) return acc; // Ignore indent level 0
+			if (acc > 0 && current[1] > acc) return acc; // Ignore deeper level than found
+			return current[1]; // Found relevant level
+		}, -1);
+
+		for (let i = 0; i < collected.length; i++) {
+			if (collected[i][1] != indent) continue;
+			name = collected[i][2];
+			rt[name] = [];
+		}
+
 		return rt;
 	}
 }

@@ -301,21 +301,27 @@ function retrieveInfo() {
 }
 ```
 
-A configuration file for shrinking then looks like this:
+The configuration file files2scan.json with files for shrinking, split into parts, looks like this:
 
 ```javascript
-// File: dev/shrinking/various.json
-[
-   {
-      "class": "SomeCategory",
-      "methods": [ "actSoberly", "actThoughtfully"],
-      "location": "generic" // Optional. Directory relative to JavaScript source directory
-   },
-   {
-   	"functions": ["retrieveInfo"]
-   }
-]
+{
+	"part-generic": [
+		"generic/browser/some-file-1.js",
+		"generic/browser/some-file-2.js"
+	],
+	"part-specific": [
+		"local/browser/some-file-1.js",
+		"local/browser/some-file-2.js"
+	],
+}
 ```
+
+Note: In this way you can configure multiple parts, for example to split configuration for generic code and plugins. Based on configuration as above, the file part-generic.json will automatically be updated.
+
+Note: For now, only configuration for classes and methods will be auto-updated. If using object syntax as in the example above.
+
+**Next planned functionality is auto-updating and shrinking of variables within methods.**
+
 
 Back to settings.json:
 

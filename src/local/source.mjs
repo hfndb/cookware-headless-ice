@@ -152,6 +152,7 @@ export class SourceUtils {
 
 		// Write a stripped version or else... write
 		if (isBundle || forBrowser) {
+			Shrinker.scanFiles2shrink(); // Update config for shrinking as far as necessary
 			let shr = new Shrinker();
 			let tmpFile = join(cfg.dirTemp, "temp.js");
 

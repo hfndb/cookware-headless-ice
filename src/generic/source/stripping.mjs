@@ -163,8 +163,9 @@ export class Stripper {
 			// Handle single line comments
 			result = this.cm.sl.exec(line) || null;
 			if (result) {
-				// Strip single line comment
 				line = line.substring(0, result.index).trim();
+			} else if (line.startsWith("//")) {
+				line = "";
 			}
 
 			// Handle multi line comments
