@@ -72,6 +72,7 @@ export class Shrinker {
 
 		for (let i = 0; i < files.length; i++) {
 			let f = files[i];
+			if (f == "files2scan.json") continue;
 			if (!test("-f", join(mp, f))) {
 				log.warn(`Config file ${f} not found`);
 				continue;
@@ -317,7 +318,6 @@ export class Shrinker {
 	 * @param {string} content
 	 * @param {boolean} writeDict
 	 * @returns {string}
-	 * @todo Implement optional location (directory) in shrinking configuration file
 	 */
 	shrinkFile(content, writeDict) {
 		if (!Shrinker.cfg) return content;

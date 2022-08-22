@@ -93,7 +93,6 @@ export class CodeJs {
 	 * @param {string} name Of class
 	 * @param {boolean} debug
 	 * @returns {BlockInfo|null}
-	 * @todo Prototype syntax
 	 */
 	static getClassIndices(source, name, debug = false) {
 		let bi = new BlockInfo("", "", "");
@@ -146,8 +145,32 @@ export class CodeJs {
 		for (let i = 0; i < re.length; i++) {
 			while ((results = re[i].exec(source)) !== null) {
 				name = results[1];
-				if (fu.test(name[0])) rt.push(name); // Add if first character upper case
+				if (fu.test(name[0])) {
+					// Add if first character upper case
+					rt.push(name);
+				}
 			}
+		}
+
+		// Another approach for prototype syntax
+
+		// First look at prototyped methods to gather class names
+		let classes = [];
+		re = new RegExp(`(\\w*).prototype.`, "g");
+		while ((results = re.exec(source)) !== null) {
+			name = results[1];
+			if (fu.test(name[0]) && !classes.includes(name)) {
+				// Add if first character upper case and not found yet
+				classes.push(name);
+			}
+		}
+
+		// Now look for class definition
+		for (let i = 0; i < classes.length; i++) {
+			name = classes[i];
+			re = new RegExp(`\n[\\s\\w]*function ${name}\\(`, "g"); // Style: export function classname(
+			// Add if found - which won't in case of for example monkey patching
+			if (re.test(source)) rt.push(name);
 		}
 
 		return rt;
@@ -160,7 +183,7 @@ export class CodeJs {
 	 * @param {string} cls Class name
 	 */
 	static getMethods(source, cls) {
-		let biCls = CodeJs.getClassIndices(source, cls),
+		let biCls,
 			collected = [],
 			ignore = ["do", "if", "for", "function", "get", "set", "switch", "while"], // loops and statements
 			indent, // Indent level
@@ -172,9 +195,18 @@ export class CodeJs {
 			],
 			results,
 			rt = {},
-			skip;
+			skip,
+			srcClass;
 
-		let srcClass = source.substring(biCls.idxBegin, biCls.idxEnd);
+		// Which part of code to scan?
+		try {
+			biCls = CodeJs.getClassIndices(source, cls);
+			srcClass = source.substring(biCls.idxBegin, biCls.idxEnd);
+		} catch {
+			// Finding block fails in case of prototype syntax
+			srcClass = source;
+		}
+
 		for (let i = 0; i < re.length; i++) {
 			while ((results = re[i].exec(srcClass)) !== null) {
 				// Strip newline and return codes
@@ -200,6 +232,12 @@ export class CodeJs {
 		for (let i = 0; i < collected.length; i++) {
 			if (collected[i][1] != indent) continue;
 			name = collected[i][2];
+			rt[name] = [];
+		}
+
+		re = new RegExp(`${cls}.prototype.(\\w*)`, "g");
+		while ((results = re.exec(source)) !== null) {
+			name = results[1];
 			rt[name] = [];
 		}
 
