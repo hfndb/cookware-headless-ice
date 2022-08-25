@@ -159,6 +159,7 @@ if (choice.init) {
 
 let cfg = AppConfig.getInstance("cookware-headless-ice");
 let log = Logger.getInstance(cfg.options.logging);
+console.debug = log.debug; // Monkey patch for dev purposes
 process.chdir(cfg.dirMain); // Always work from application directory
 process.on("uncaughtException", err => {
 	if (!log.isShuttingDown) {

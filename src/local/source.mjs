@@ -16,6 +16,8 @@ import { Tags } from "./tags.mjs";
  * Class to handle JavaScript, Flow and TypeScript source
  */
 export class SourceUtils {
+	static debug = false; // Debug mode
+
 	/**
 	 * Main function to compile all source in ./src
 	 *
@@ -111,14 +113,12 @@ export class SourceUtils {
 	 * @param {Object} [bundle]
 	 */
 	static compileFile(entry, source, verbose = true, bundle) {
-		let cfg = AppConfig.getInstance();
-		let file = FileUtils.getSuffixedFile(
-			entry.target,
-			cfg.options.stripping.suffix,
-		);
-		let log = Logger.getInstance();
-		let forBrowser = dirname(entry.target).includes("browser");
-		let isBundle = false;
+		let cfg = AppConfig.getInstance(),
+			file = FileUtils.getSuffixedFile(entry.target, cfg.options.stripping.suffix),
+			log = Logger.getInstance(),
+			forBrowser = dirname(entry.target).includes("browser"),
+			isBundle = false;
+
 		if (bundle) {
 			forBrowser = isBundle = true;
 		}
@@ -152,14 +152,15 @@ export class SourceUtils {
 
 		// Write a stripped version or else... write
 		if (isBundle || forBrowser) {
-			Shrinker.scanFiles2shrink(); // Update config for shrinking as far as necessary
-			let shr = new Shrinker();
-			let tmpFile = join(cfg.dirTemp, "temp.js");
+			let shr = Shrinker.getInstance(),
+				tmpFile = join(cfg.dirTemp, "temp.js");
 
 			// First shorten
-			source = shr.shrinkFile(source, true);
+			source = shr.shrinkFile(entry.source, source);
 
-			// The shrink aka compress
+			// Then shrink aka compress
+			if (cfg.options.javascript.verbose.stripping)
+				log.info(`- Stripping ${entry.source}`);
 			switch (cfg.options.javascript.stripper) {
 				case "stripper":
 					source = Stripper.stripJs(source);

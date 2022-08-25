@@ -33,11 +33,9 @@ Cookware-headless-ice uses [dart-sass](https://github.com/sass/dart-sass/) to tr
 
 Example: If you change a file like 'styles.scss', then the files 'styles.css' and 'styles-stripped.css' will be written to your HD.
 
-
 ### HTML
 
 If you set your project settings, html > stripper > active to true (see [configuration](./configuration.md)), generated HTML will be stripped using [stripping.mjs](../src/lib/stripping.mjs).
-
 
 ### JavaScript or TypeScript
 
@@ -82,7 +80,7 @@ Stripping as in putting all code in one line, is no more than just one step on t
 
 ### Words point like names
 
-'Shortening' is about the usage of words (in code, like names). In the very first programming languages I used, [C](https://en.wikipedia.org/wiki/C_(programming_language)), you can reserve memory to remember information. Like you do, when you want to keep and retrieve 'stored' memories. Names like words point to such information, somewhere in memory. C as a language even includes explicit [pointers](https://en.wikipedia.org/wiki/Pointer_(computer_programming)), to point to a specific place in memory.
+'Shortening' is about the usage of words (in code, like names). In the very first programming language I used, [C](https://en.wikipedia.org/wiki/C_(programming_language)), you can reserve memory to remember information. Like you do, when you want to keep and retrieve 'stored' memories. Names like words point to such information, somewhere in memory. C as a language even includes explicit [pointers](https://en.wikipedia.org/wiki/Pointer_(computer_programming)), to point to a specific place in memory.
 
 When you speak with somebody, your words refer to memories. Your memories and/or the memories of others. In software, words coming from [Node.js](https://en.wikipedia.org/wiki/Node.js) software are sent to software known as a web browser. The only thing needed during that communiation is that both pieces of software 'think' about the exact same. A matter of interpretation.
 
@@ -104,9 +102,9 @@ Coding is like thinking. You need to know what you were thinking or coding and w
 
 ### Settings for your mindset
 
-You won't get away easy with what you wrote. Code. You'll need to complete this settings to shorten words, names. For specific projects, I did not rely on an auto-generated tags file but wrote a tiny shell script to retrieve the exact information I wanted: [shorten.sh](../tools/shorten.sh). See [configuration](../configuration.md), section JavaScript, for how to setup configuration for specific shrinking aka shortering.
+See [configuration](../configuration.md), section JavaScript, for how to setup configuration for specific shrinking aka shortering.
 
-After doing your homework like this, a changed JavaScript file will not only be transcompiled and stripped, but also words in code will be shortened. A translation table (dictionary) will be written to [project directory]/notes/translate-table.txt.
+After doing your homework like this, a changed JavaScript file will not only be transcompiled and stripped, but also words in code will be shortened.
 
 In case you didn't know exactly what you architected, programmed, bugs that a web browser will find during interpreting, you'll need this translation table aka dictionary to trace back what you were thinking while writing.
 

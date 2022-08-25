@@ -1,6 +1,6 @@
 "use strict";
 import { join } from "node:path";
-import { StringExt } from "../../generic/index.mjs";
+import { Logger, StringExt } from "../../generic/index.mjs";
 
 // ---------------------------------------------------
 // Some utilities to analyze and edit code
@@ -43,6 +43,57 @@ class BlockInfo {
  * Some utility methods to analyze and edit JavaScript code
  */
 export class CodeJs {
+	static fu = RegExp("[A-Z]"); // Test for initial character. Is upper case?
+
+	/**
+	 * Extract info about class with prototype syntax
+	 *
+	 * @private
+	 * @param {string} source
+	 * @param {string} [name] Of class
+	 * @returns {Object}
+	 */
+	static getPrototypeInfo(source, cls = "") {
+		// First look at prototyped methods to gather class names
+		let name,
+			method,
+			re = new RegExp(`(\\w*).prototype.(\\w*)`, "g"),
+			results,
+			rt = {};
+
+		while ((results = re.exec(source)) !== null) {
+			name = results[1];
+			method = results[2];
+			if (cls && cls != name) continue; // Ignore class we aren't looking for
+			if (!CodeJs.fu.test(name[0])) continue; // Ignore if first letter isn't uppercase
+
+			// Initial contact
+			if (!rt[name])
+				rt[name] = { idxBegin: -1, idxEnd: source.length, methods: [] };
+			// Add method
+			rt[name].methods.push([results.index, method]);
+			// Index of end class definition
+			//rt[name].idxEnd = Math.max(rt[name].idxEnd, results.index);
+		}
+
+		// Now look for class definition itself
+		let classes = Object.keys(rt);
+		for (let i = 0; i < classes.length; i++) {
+			name = classes[i];
+			re = new RegExp(`\n[\\s\\w]*function ${name}\\(`, "g"); // Style: export function classname(
+			results = re.exec(source);
+			if (results) {
+				// Add index of beginning class definition if found
+				rt[name].idxBegin = results.index;
+			} else {
+				// In case of for example monkey patching... obsolete
+				Reflect.deleteProperty(rt, name);
+			}
+		}
+
+		return rt;
+	}
+
 	/**
 	 * Get indices of beginning and end of a code block surrounded by parenthesis
 	 *
@@ -95,11 +146,32 @@ export class CodeJs {
 	 * @returns {BlockInfo|null}
 	 */
 	static getClassIndices(source, name, debug = false) {
-		let bi = new BlockInfo("", "", "");
+		let bi = new BlockInfo("", "", name),
+			log = Logger.getInstance(),
+			re = new RegExp(`${name}[\\s=]*{`, "m"),
+			rt;
 		bi.idxBegin = 0;
 		bi.idxEnd = source.length;
-		let re = new RegExp(`${name}[\\s=]*{`, "m");
-		let rt = CodeJs.getBlock(source, bi, name, re, "Class");
+
+		try {
+			if (!re.test(source)) throw err;
+			rt = CodeJs.getBlock(source, bi, name, re, "Class");
+			if (!rt) throw new Error();
+		} catch {
+			// Finding block fails in case of prototype syntax
+			let tmp = CodeJs.getPrototypeInfo(source, name);
+			if (!tmp[name]) {
+				//log.info(`Class ${name} also not found using prototype syntax`);
+				return null;
+			}
+			rt = bi;
+			rt.idxBegin = tmp[name].idxBegin;
+			rt.idxEnd = tmp[name].idxEnd;
+			rt.block = source.substring(rt.idxBegin, rt.idxEnd);
+		}
+
+		//if (typeof rt.block != "string")
+
 		let p = rt.block.indexOf("{");
 		if (rt.idxBegin > 0 && p > 0) {
 			// Strip part untill {
@@ -133,8 +205,7 @@ export class CodeJs {
 	 * @returns {string[]}
 	 */
 	static getClasses(source) {
-		let fu = RegExp("[A-Z]"), // Is upper case?
-			name,
+		let name,
 			re = [
 				new RegExp(`class[\\s]*(\\w*)[\\s]*{`, "gm"), // 'Modern' class definition
 				new RegExp(`let[\\s]*(\\w*)[\\s=]*{`, "gm"), // Style: let classname = {
@@ -145,7 +216,7 @@ export class CodeJs {
 		for (let i = 0; i < re.length; i++) {
 			while ((results = re[i].exec(source)) !== null) {
 				name = results[1];
-				if (fu.test(name[0])) {
+				if (CodeJs.fu.test(name[0])) {
 					// Add if first character upper case
 					rt.push(name);
 				}
@@ -153,25 +224,8 @@ export class CodeJs {
 		}
 
 		// Another approach for prototype syntax
-
-		// First look at prototyped methods to gather class names
-		let classes = [];
-		re = new RegExp(`(\\w*).prototype.`, "g");
-		while ((results = re.exec(source)) !== null) {
-			name = results[1];
-			if (fu.test(name[0]) && !classes.includes(name)) {
-				// Add if first character upper case and not found yet
-				classes.push(name);
-			}
-		}
-
-		// Now look for class definition
-		for (let i = 0; i < classes.length; i++) {
-			name = classes[i];
-			re = new RegExp(`\n[\\s\\w]*function ${name}\\(`, "g"); // Style: export function classname(
-			// Add if found - which won't in case of for example monkey patching
-			if (re.test(source)) rt.push(name);
-		}
+		let classes = Object.keys(CodeJs.getPrototypeInfo(source));
+		rt.push(...classes);
 
 		return rt;
 	}
@@ -181,6 +235,7 @@ export class CodeJs {
 	 *
 	 * @param {string} source
 	 * @param {string} cls Class name
+	 * @returns {string[]}
 	 */
 	static getMethods(source, cls) {
 		let biCls,
@@ -191,21 +246,26 @@ export class CodeJs {
 			name,
 			re = [
 				//new RegExp(`\n([\\s\\w]*)[\\s]*\\(.*{`, "gm"), // In 'modern' class definition methodname(
-				new RegExp(`\n([\\s\\w]*): function[\\s]*\.*{`, "gm"), // Style: methodname: function(
+				new RegExp(`\n([\\s\\w]*): function`, "gm"), // Style: methodname: function(
 			],
 			results,
-			rt = {},
+			rt = [],
 			skip,
 			srcClass;
 
-		// Which part of code to scan?
-		try {
-			biCls = CodeJs.getClassIndices(source, cls);
-			srcClass = source.substring(biCls.idxBegin, biCls.idxEnd);
-		} catch {
-			// Finding block fails in case of prototype syntax
-			srcClass = source;
+		// Prototype syntax?
+		if (source.includes(`${cls}.prototype`)) {
+			biCls = CodeJs.getPrototypeInfo(source, cls);
+			results = biCls[cls].methods;
+			for (let i = 0; i < results.length; i++) {
+				name = results[i][1];
+				rt.push(name);
+			}
+			return rt;
 		}
+
+		biCls = CodeJs.getClassIndices(source, cls);
+		srcClass = source.substring(biCls.idxBegin, biCls.idxEnd);
 
 		for (let i = 0; i < re.length; i++) {
 			while ((results = re[i].exec(srcClass)) !== null) {
@@ -232,13 +292,7 @@ export class CodeJs {
 		for (let i = 0; i < collected.length; i++) {
 			if (collected[i][1] != indent) continue;
 			name = collected[i][2];
-			rt[name] = [];
-		}
-
-		re = new RegExp(`${cls}.prototype.(\\w*)`, "g");
-		while ((results = re.exec(source)) !== null) {
-			name = results[1];
-			rt[name] = [];
+			rt.push(name);
 		}
 
 		return rt;

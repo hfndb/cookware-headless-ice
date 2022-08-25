@@ -104,9 +104,9 @@ let DefaultConfig = {
 			active: true,
 			exclude: [],
 		},
-		shrinker: {
-			debug: false,
-			defs: [],
+		verbose: {
+			shrinking: false, // Log '- Shrinking [file]'
+			stripping: false, // Log '- Stripping [file]'
 		},
 		sourceMapping: true,
 		sourceVersion: "es2017",
