@@ -1,5 +1,5 @@
 "use strict";
-import { join } from "node:path";
+import { join, sep } from "node:path";
 import { DefaultConfig } from "./default-settings.mjs";
 import { FileUtils, Logger } from "./generic/index.mjs";
 import { CliMenu } from "./generic/cli-menu.mjs";
@@ -34,7 +34,7 @@ am.addOption({
 	name: "beautify",
 	type: String,
 	description:
-		"Beautifies html, js, ts or scss file - or all such files in directory",
+		"Beautifies html content, sass or source file - or all such files in directory",
 	typeLabel: "<path>",
 });
 am.addOption(am.checkOverridesShortcutC);
@@ -132,19 +132,24 @@ am.addOption({
 am.addOption({
 	name: "file",
 	type: String,
-	description: "Flag to pass a file name",
+	description: "Parameter: Pass a file name",
 	typeLabel: "<file>",
+});
+am.addOption({
+	name: "browser",
+	type: Boolean,
+	description: "Parameter: Touch source for browser only",
+});
+am.addOption({
+	name: "production",
+	type: Boolean,
+	description: "Parameter: (Trans)compile etc for production use",
 });
 am.addOption({
 	name: "what",
 	type: String,
 	description:
-		"What exactly to generate, comma-delimited list, one or more of content,sass,src",
-});
-am.addOption({
-	name: "production",
-	type: Boolean,
-	description: "Flag to compile and compress for production use",
+		"Parameter: What exactly to generate, comma-delimited list, one or more of content,sass,src",
 });
 am.addOption(am.playgroundShortcutY);
 am.addOption(am.helpShortcutH);
@@ -205,8 +210,9 @@ if (choice.beautify) {
 } else if (choice.watch) {
 	initWatches();
 } else if (choice.touch) {
-	let allow = [];
-	let dir = cfg.options.html.dirs.content;
+	let allow = [],
+		dir = cfg.options.html.dirs.content,
+		contains = [];
 	switch (choice.touch) {
 		case "content":
 			allow.push(".html");
@@ -218,6 +224,7 @@ if (choice.beautify) {
 		case "src":
 			dir = cfg.options.javascript.dirs.source;
 			allow.push(".js", ".cjs", ".mjs", ".ts", ".cts", ".mts");
+			if (choice.browser) contains.push("browser" + sep);
 			break;
 		default:
 			log.error(`Unknown type ${choice.touch}`);
@@ -225,6 +232,7 @@ if (choice.beautify) {
 	}
 	FileUtils.touchRecursive(join(cfg.dirProject, dir), {
 		allowedExtensions: allow,
+		filterContains: contains,
 	});
 } else if (choice.playground) {
 	playGround();

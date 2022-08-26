@@ -340,10 +340,22 @@ The structure of this file is invalid, meaning, messed up.
 	 */
 	static touchRecursive(path, opts) {
 		if (!opts) opts = {};
+		if (opts.filterContains == undefined) opts.filterContains = [];
 		if (opts.recursive == undefined) opts.recursive = true;
+
+		let canIgnore = file => {
+			if (opts.filterContains.length == 0) return false;
+			let e;
+			for (let i = 0; i < opts.filterContains.length; i++) {
+				e = opts.filterContains[i];
+				if (file.includes(e)) return false;
+			}
+			return true;
+		};
 
 		let files = FileUtils.getFileList(path, opts);
 		for (let i = 0; i < files.length; i++) {
+			if (canIgnore(files[i])) continue;
 			touch(join(path, files[i]));
 		}
 	}
