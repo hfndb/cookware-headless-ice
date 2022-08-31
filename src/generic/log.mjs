@@ -131,6 +131,7 @@ export class Logger {
 			join(this.opts.transports.file.dir, file),
 			msg,
 			false,
+			false,
 			"a",
 		);
 	}

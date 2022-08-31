@@ -9,27 +9,33 @@ import { rm, test } from "./sys.mjs";
 
 export class Sitemap {
 	/**
-	 * @param dir of output file
-	 * @param file name of output file
-	 * @param baseUrl of website
+	 * @param {string} dir of output file
+	 * @param {string} file name of output file
+	 * @param {string} baseUrl of website
 	 */
 	constructor(dir, file, baseUrl) {
 		this.baseUrl = baseUrl;
+		this.content = "";
 		this.dir = dir;
 		this.file = file;
 		this.entries = 0;
 		rm("-f", join(dir, file));
-		this.write('<?xml version="1.0" ?>');
-		this.write('<urlset xmlns="http://www.google.com/schemas/sitemap/0.84">');
-	}
-
-	write(entry) {
-		FileUtils.writeFile(this.dir, this.file, entry + "\n", false, "a");
+		this.add2content('<?xml version="1.0" ?>');
+		this.add2content(
+			'<urlset xmlns="http://www.google.com/schemas/sitemap/0.84">',
+		);
 	}
 
 	/**
-	 * @param entry relative from website root
-	 * @param lastMod last modification date
+	 * @param {string} entry
+	 */
+	add2content(entry) {
+		this.content += entry + "\n";
+	}
+
+	/**
+	 * @param {string} entry relative from website root
+	 * @param {Date} lastMod last modification date
 	 */
 	addEntry(entry, lastMod) {
 		const frmtr = Formatter.getInstance();
@@ -37,25 +43,30 @@ export class Sitemap {
 		if (url.endsWith("index.html")) {
 			url = url.replace("index.html", "");
 		}
-		this.write("\t<url>");
-		this.write(`\t\t<loc>${url}</loc>`);
-		this.write(`\t\t<lastmod>${frmtr.date(lastMod, "YYYY-MM-DD")}</lastmod>`);
-		this.write("\t</url>");
+		this.add2content("\t<url>");
+		this.add2content(`\t\t<loc>${url}</loc>`);
+		this.add2content(
+			`\t\t<lastmod>${frmtr.date(lastMod, "YYYY-MM-DD")}</lastmod>`,
+		);
+		this.add2content("\t</url>");
 		this.entries++;
 	}
 
 	/**
 	 * Close the file
 	 *
-	 * @returns number of entries in sitemap
+	 * @returns {number} of entries in sitemap
 	 */
 	finish() {
-		this.write("</urlset>");
+		this.add2content("</urlset>");
+		FileUtils.writeFile(this.dir, this.file, this.content, false);
 		return this.entries;
 	}
 
 	/**
 	 * Generate Google sitemap
+	 *
+	 * @param {boolean} verbose
 	 */
 	static generate(verbose) {
 		let cfg = AppConfig.getInstance();

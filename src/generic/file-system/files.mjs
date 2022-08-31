@@ -86,20 +86,23 @@ The structure of this file is invalid, meaning, messed up.
 	/**
 	 * Method to safely write a json file. Overwrites existing file
 	 *
-	 * @param content for json file to write
-	 * @param path of file
+	 * @param {Object} content
+	 * @param {string} dir
+	 * @param {string} file
+	 * @param {boolean} verbose
+	 * @param {boolean} [forceWrite]
+	 * @returns {boolean} Something was written
 	 */
-	static writeJsonFile(content, dir, file, verbose = true) {
+	static writeJsonFile(content, dir, file, verbose = true, forceWrite = false) {
 		let data = JSON.stringify(content, null, "\t");
 		let log = Logger.getInstance();
 
-		if (
-			FileUtils.writeFile(dir, file, data, false) &&
-			verbose &&
-			process.env.NODE_ENV !== "test"
-		) {
+		let changed = FileUtils.writeFile(dir, file, data, false, forceWrite);
+		if (changed && verbose && process.env.NODE_ENV !== "test") {
 			log.info(`- File written: ${file}`);
 		}
+
+		return changed;
 	}
 
 	/**
@@ -129,13 +132,31 @@ The structure of this file is invalid, meaning, messed up.
 
 	/**
 	 * Method to safely write to a file.
+	 *
+	 * @param {string} dir
+	 * @param {string} file
+	 * @param {string} content
+	 * @param {boolean} verbose
+	 * @param {boolean} [forceWrite]
+	 * @param {string} [flag]
+	 * @returns {boolean} Something was written
 	 */
-	static writeFile(dir, file, content, verbose, flag = "w") {
-		let log = Logger.getInstance();
-		let fullPath = join(dir, file);
+	static writeFile(dir, file, content, verbose, forceWrite = false, flag = "w") {
+		let log = Logger.getInstance(),
+			fullPath = join(dir, file);
 		let dir4sure = dirname(fullPath);
 
+		if (typeof forceWrite != "boolean")
+			log.error(`- Error during refactoring code; flag used`); // TODO remove if
+
 		FileUtils.mkdir(dir4sure);
+		if (
+			!forceWrite &&
+			test("-f", fullPath) &&
+			content == FileUtils.readFile(fullPath)
+		)
+			return false; // No changes since last write
+
 		try {
 			writeFileSync(fullPath, content, {
 				encoding: FileUtils.ENCODING_UTF8,

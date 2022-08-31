@@ -133,7 +133,7 @@ export class SourceUtils {
 			source = Beautify.content(entry.source, source);
 			if (!source) return false;
 			if (source != orgSource)
-				FileUtils.writeFile(entry.dir, entry.source, source, false);
+				FileUtils.writeFile(entry.dir, entry.source, source, false, true);
 		}
 
 		// In case file is browser related and removeImports is set to true...
@@ -149,7 +149,8 @@ export class SourceUtils {
 				break;
 		}
 		if (!source) return false;
-		FileUtils.writeFile(entry.targetDir, entry.target, source, false);
+
+		FileUtils.writeFile(entry.targetDir, entry.target, source, true);
 
 		if (!forBrowser) return true;
 		// ------------------------------------------------------
@@ -182,7 +183,7 @@ export class SourceUtils {
 			default:
 				return false; // Unknown
 		}
-		FileUtils.writeFile(entry.targetDir, file, source, false);
+		if (!FileUtils.writeFile(entry.targetDir, file, source, false)) return false;
 
 		if (isBundle && bundle.copyTo) {
 			// Make extra copy
@@ -208,18 +209,21 @@ export class SourceUtils {
 	 *     thus compacting & preserving line numbering for debugging
 	 */
 	static stripModule(entry, verbose = true) {
-		let cfg = AppConfig.getInstance();
-		let dir = join(cfg.dirProject, cfg.options.javascript.dirs.output);
-		let fi = FileUtils.getFileInfo(entry.dir, entry.source);
+		let cfg = AppConfig.getInstance(),
+			dir = join(cfg.dirProject, cfg.options.javascript.dirs.output),
+			fi = FileUtils.getFileInfo(entry.dir, entry.source);
 		let source = FileUtils.readFile(fi.full);
+		let orgSource = source;
 
 		source = Beautify.content(fi.file.full, source);
-		if (source) {
-			FileUtils.writeFile(fi.path.full, fi.file.full, source, false);
-			if (fi.file.ext == ".mjs") {
-				source = Stripper.stripJs(source, true);
-				FileUtils.writeFile(join(dir, fi.path.next), fi.file.full, source, false);
-			}
+		if (!source || source == orgSource) false;
+
+		if (source != orgSource)
+			FileUtils.writeFile(fi.path.full, fi.file.full, source, false, true);
+
+		if (fi.file.ext == ".mjs") {
+			source = Stripper.stripJs(source, true);
+			FileUtils.writeFile(join(dir, fi.path.next), fi.file.full, source, true);
 		}
 	}
 }
