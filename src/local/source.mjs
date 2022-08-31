@@ -27,6 +27,7 @@ export class SourceUtils {
 		let cfg = AppConfig.getInstance();
 		let log = Logger.getInstance(cfg.options.logging);
 		let outDir = JavascriptUtils.getOutputDir();
+
 		/**
 		 * @type {string[]}
 		 */
@@ -117,20 +118,22 @@ export class SourceUtils {
 			file = FileUtils.getSuffixedFile(entry.target, cfg.options.stripping.suffix),
 			log = Logger.getInstance(),
 			forBrowser = dirname(entry.target).includes("browser"),
-			isBundle = false;
+			isBundle = false,
+			orgSource = source;
 
 		if (bundle) {
 			forBrowser = isBundle = true;
 		}
 		let output = join(entry.targetDir, entry.target);
-		if (!source) source = FileUtils.readFile(join(entry.dir, entry.source));
+		if (!source)
+			source = orgSource = FileUtils.readFile(join(entry.dir, entry.source));
 
 		// First beautify
 		if (!isBundle && cfg.options.server.beautify.includes("src")) {
 			source = Beautify.content(entry.source, source);
 			if (!source) return false;
-
-			FileUtils.writeFile(entry.dir, entry.source, source, false);
+			if (source != orgSource)
+				FileUtils.writeFile(entry.dir, entry.source, source, false);
 		}
 
 		// In case file is browser related and removeImports is set to true...
@@ -143,47 +146,43 @@ export class SourceUtils {
 		switch (cfg.options.javascript.transcompiler) {
 			case "babel":
 				source = compileFile(entry, source, forBrowser, verbose);
-				if (!source) return false;
 				break;
 		}
-		if (!source) {
-			return false;
+		if (!source) return false;
+		FileUtils.writeFile(entry.targetDir, entry.target, source, false);
+
+		if (!forBrowser) return true;
+		// ------------------------------------------------------
+		// For browser from here
+		// ------------------------------------------------------
+		let shr = Shrinker.getInstance(),
+			tmpFile = join(cfg.dirTemp, "temp.js");
+
+		// First shorten
+		source = shr.shrinkFile(entry.source, source);
+
+		// Then shrink aka compress
+		if (cfg.options.javascript.verbose.stripping)
+			log.info(`- Stripping ${entry.source}`);
+		switch (cfg.options.javascript.stripper) {
+			case "stripper":
+				source = Stripper.stripJs(source);
+				break;
+			case "yui-compressor":
+				FileUtils.writeFile("", tmpFile, source, false);
+
+				let cmd = `yui-compressor --type js -o ${output} ${tmpFile}`;
+				let result = exec(cmd, { async: false, silent: true });
+				if (result.code != 0) {
+					log.warn(result.stderr);
+					return false;
+				}
+				source = FileUtils.readFile(output);
+				break;
+			default:
+				return false; // Unknown
 		}
-
-		// Write a stripped version or else... write
-		if (isBundle || forBrowser) {
-			let shr = Shrinker.getInstance(),
-				tmpFile = join(cfg.dirTemp, "temp.js");
-
-			// First shorten
-			source = shr.shrinkFile(entry.source, source);
-
-			// Then shrink aka compress
-			if (cfg.options.javascript.verbose.stripping)
-				log.info(`- Stripping ${entry.source}`);
-			switch (cfg.options.javascript.stripper) {
-				case "stripper":
-					source = Stripper.stripJs(source);
-					FileUtils.writeFile(entry.targetDir, file, source, false);
-					break;
-				case "yui-compressor":
-					FileUtils.writeFile("", tmpFile, source, false);
-
-					let cmd = `yui-compressor --type js -o ${output} ${tmpFile}`;
-					let result = exec(cmd, { async: false, silent: true });
-					if (result.code != 0) {
-						log.warn(result.stderr);
-						return false;
-					}
-					source = FileUtils.readFile(output);
-					break;
-				default:
-					return false; // Unknown
-			}
-		} else {
-			// Not for a browser, write transcompiled code
-			FileUtils.writeFile(entry.targetDir, entry.target, source, false);
-		}
+		FileUtils.writeFile(entry.targetDir, file, source, false);
 
 		if (isBundle && bundle.copyTo) {
 			// Make extra copy

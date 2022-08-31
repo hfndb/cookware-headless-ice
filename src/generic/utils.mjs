@@ -8,6 +8,9 @@ import { AppConfig } from "./config.mjs";
 export class StringExt {
 	/**
 	 * Escape regular expression. There is a proposal to add such a function to RegExp.
+	 *
+	 * @param {string} string
+	 * @returns {string}
 	 * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
 	 */
 	static escapeRegExp(string) {
@@ -16,6 +19,10 @@ export class StringExt {
 
 	/**
 	 * Count occurrences of a string within a string
+	 *
+	 * @param {string} str
+	 * @param {string} searchFor
+	 * @returns {number}
 	 */
 	static occurrences(str, searchFor) {
 		let re = new RegExp(`(${searchFor})`, "g");
@@ -32,6 +39,7 @@ export class StringExt {
 	 * @param {boolean} onlyFirst Replace only first occurrence
 	 * @param {number} idxBegin. If 0, from beginning
 	 * @param {number} idxEnd. If 0, from end
+	 * @returns {string}
 	 */
 	static replaceInSection(
 		str,
@@ -82,10 +90,15 @@ export class StringExt {
 
 	/**
 	 * Return array with all matches of a pattern with groups
+	 *
+	 * @param {RegExp} exp
+	 * @param {string} str
+	 * @param {string} [flags]
+	 * @returns {string}
 	 */
-	static matchAll(exp, str) {
+	static matchAll(exp, str, flags = "gim") {
 		let toReturn = [];
-		let re = new RegExp(exp, "gim"); // Global, case insensitive, multiline
+		let re = new RegExp(exp, flags); // Default: Global, case insensitive, multiline
 		let result;
 		while ((result = re.exec(str)) !== null) {
 			let rw = [];
@@ -100,13 +113,49 @@ export class StringExt {
 
 	/**
 	 * Capitalize only the first character
+	 *
+	 * @param {string} str
+	 * @returns {string}
 	 */
 	static initialCapitalized(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
 
 	/**
+	 * Convert string to array; lines in column
+	 *
+	 * @param {string} str
+	 * @param {number} len
+	 * @param {boolean} [fixed] Make column fixed length
+	 * @returns {string[]}
+	 */
+	static toColumn(str, len, fixed = false) {
+		let idx,
+			remainder = str,
+			rt = [],
+			toAdd;
+
+		while (remainder) {
+			if (remainder.length < len) {
+				toAdd = remainder;
+				remainder = "";
+			} else {
+				idx = remainder.lastIndexOf(" ", len);
+				toAdd = remainder.substring(0, idx);
+				remainder = remainder.substring(idx + 1);
+			}
+			if (fixed) toAdd = toAdd.padEnd(len, " ");
+			rt.push(toAdd);
+		}
+
+		return rt;
+	}
+
+	/**
 	 * Convert number of bytes to readable
+	 *
+	 * @param {number} bytes
+	 * @returns {string}
 	 */
 	static bytesToSize(bytes) {
 		if (bytes == 0) return "0 Byte";
@@ -138,6 +187,7 @@ export class StringExt {
 	 *
 	 * @param {number} bytes
 	 * @param {boolean} isMicro True if micro, false if micro
+	 * @returns {string}
 	 */
 	static microSeconds2string(ms, isMicro = true) {
 		ms = Math.floor(ms);
@@ -189,6 +239,9 @@ export class StringExt {
 
 	/**
 	 * Get a random string
+	 *
+	 * @param {number} length
+	 * @returns {string}
 	 */
 	static getRandom(length) {
 		let begin = parseInt("1".padEnd(length, "0"));
@@ -224,20 +277,49 @@ export class Formatter {
 		return Formatter.instance;
 	}
 
-	// Date type
+	/**
+	 * Date to date string
+	 *
+	 * @param {Date} dt
+	 * @param {string} format
+	 * @returns {string}
+	 */
 	date(dt, format = "") {
 		return date.format(dt, format ? format : this.formatDate);
 	}
 
+	/**
+	 * Date to time string
+	 *
+	 * @param {Date} dt
+	 * @param {string} format
+	 * @returns {string}
+	 */
 	time(dt, format = "") {
 		return date.format(dt, format ? format : this.formatTime);
 	}
 
+	/**
+	 * Date to datetime string
+	 *
+	 * @param {Date} dt
+	 * @param {string} format
+	 * @returns {string}
+	 */
 	datetime(dt, format = "") {
 		return date.format(dt, format ? format : this.formatDateTime);
 	}
 
-	// Number type, could also be done using Intl.NumberFormat()
+	/**
+	 * Number to string with decimals
+	 * Could also be done using Intl.NumberFormat()
+	 *
+	 * @param {number} nr
+	 * @param {number} decimals
+	 * @param {string} [prefix]
+	 * @param {string} [suffix]
+	 * @returns {string}
+	 */
 	decimal(nr, decimals, prefix = "", suffix = "") {
 		if (!nr) return "";
 		let vars = {
@@ -290,12 +372,22 @@ export class Formatter {
 		return rt + vars.behindComma + suffix;
 	}
 
+	/**
+	 * Number to string as int
+	 *
+	 * @param {number} nr
+	 * @returns {string}
+	 */
 	int(nr) {
 		return this.decimal(nr, 0);
 	}
 
 	/**
+	 * Slug a string
 	 * Code from https://gist.github.com/hagemann/382adfc57adbd5af078dc93feef01fe1
+	 *
+	 * @param {string} nr
+	 * @returns {string}
 	 */
 	static slugify(string) {
 		const a = "àáäâãåăæçèéëêǵḧìíïîḿńǹñòóöôœṕŕßśșțùúüûǘẃẍÿź'·/_,:;";

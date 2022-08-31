@@ -73,7 +73,7 @@ export class Beautify {
 		});
 		try {
 			let data = prettier.format(content, options || undefined);
-			log.info(`- Beautyfied ${file}`);
+			if (content != data) log.info(`- Beautyfied ${file}`);
 			return data;
 		} catch (err) {
 			log.warn(`- Failed to render file ${file} `, Logger.error2string(err));

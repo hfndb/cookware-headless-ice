@@ -1,6 +1,8 @@
 "use strict";
 import { parseArgs } from "node:util";
+//import { AsciiTable3, AlignmentEnum } from "ascii-table3";
 import { AppConfig } from "./config.mjs";
+import { StringExt } from "./utils.mjs";
 
 /** @typedef MenuOption
  * @property {string} alias
@@ -40,13 +42,13 @@ export class CliMenu {
 			alias: "y",
 			name: "playground",
 			type: Boolean,
-			description: "For developement purposes: Play with functionality.",
+			description: "For developement purposes: Play with functionality",
 		};
 		this.helpShortcutH = {
 			alias: "h",
 			name: "help",
 			type: Boolean,
-			description: "Display this usage guide.",
+			description: "Display this overview",
 		};
 		this.options = [];
 	}
@@ -158,66 +160,63 @@ export class CliMenu {
 
 		// Menu header
 		console.log(`\n  Options for ${this.name}:\n`);
-		let cols = [0, 6, 0],
+		let cols = [0, 3, 0, 0],
+			entries = [],
+			internal = true, // Use internal code (true) or package ascii-table3 (false)
 			short,
 			opt,
 			tp;
 
-		// First check how much space 1st column needs
+		// First check how much space 1st and 3th column needs
 		for (let i = 0; i < this.options.length; i++) {
 			opt = this.options[i];
 			if (opt.hidden) continue;
 			cols[0] = Math.max(cols[0], opt.name.length);
+			cols[2] = Math.max(cols[2], opt.typeLabel.length);
 		}
-		cols[0] += 6; // Add prefix + 4 spaces to 1st column
-		cols[2] = cfg.options.cli.width - cols[0] - cols[1]; // Total width of description column
+		cols[0] += 3; // Add prefix + spaces to 1st column
+		cols[2] += 1; // Add space to 3th column
+		cols[3] = cfg.options.cli.width - cols[0] - cols[1] - cols[2]; // Total width of description column
 
 		// Menu entries
 		for (let i = 0; i < this.options.length; i++) {
 			opt = this.options[i];
 			if (opt.hidden) continue;
-			this.descr = opt.description;
-			if (opt.typeLabel) {
-				this.descr = `${opt.typeLabel} ${this.descr}`;
+
+			if (!internal) {
+				entries.push([
+					"--".concat(opt.name).padEnd(cols[0], " "),
+					opt.alias ? "-" + opt.alias : "",
+					opt.typeLabel ? opt.typeLabel : "",
+					opt.description,
+				]);
+				continue;
 			}
+
+			let descr = StringExt.toColumn(opt.description, cols[3]); // string array
 			short = opt.alias ? "-" + opt.alias : "";
 			console.log(
 				"--".concat(opt.name).padEnd(cols[0], " ") +
 					short.padEnd(cols[1], " ") +
-					this.getDescr(cols[2]),
+					opt.typeLabel.padEnd(cols[2], " ") +
+					descr[0],
 			);
-			while (this.descr) {
-				console.log("".padEnd(cols[0] + cols[1], " ") + this.getDescr(cols[2]));
+			for (let i = 1; i < descr.length; i++) {
+				console.log("".padEnd(cols[0] + cols[1] + cols[2], " ") + descr[i]);
 			}
 		}
+
+		if (!internal) {
+			let tbl = new AsciiTable3()
+				.setStyle("none")
+				.addRowMatrix(entries)
+				.setWidth(4, cols[3] - 10) // Correct spaces added in other columns
+				.setWrapped(4);
+
+			console.log(tbl.toString());
+		}
+
 		console.log(); // Empty line
-	}
-
-	/**
-	 * @private
-	 * @param {number} width
-	 */
-	getDescr(width) {
-		// Property this.descr is set by this.showHelp()
-
-		if (!this.descr) return ""; // Just to be sure, shouldn't occur
-		let descr = this.descr.split(" "), // Transform to array with words
-			rt = "",
-			word;
-
-		while (true) {
-			// Add first word in array?
-			if (rt.length + descr[0].length + 1 < width) {
-				word = descr.shift(); // remove 1st word in array
-				rt += word + " ";
-				if (!descr.length) break; // array empty now
-			} else {
-				break;
-			}
-		}
-		this.descr = descr.length == 0 ? "" : descr.join(" ").trim();
-
-		return rt;
 	}
 
 	/**
@@ -225,6 +224,7 @@ export class CliMenu {
 	 */
 	addOption(opt) {
 		if (!opt.module) opt.module = "main";
+		if (!opt.typeLabel) opt.typeLabel = "";
 		this.options.push(opt);
 	}
 }

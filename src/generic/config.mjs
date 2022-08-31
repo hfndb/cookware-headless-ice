@@ -49,6 +49,7 @@ export class AppConfig {
 			this.isProject = this.dirProject != this.dirMain;
 		}
 		this.read();
+
 		// Add some paths to NODE_PATH
 		let dir = join(this.dirProject, "node_modules");
 		let paths = [];
@@ -115,6 +116,7 @@ export class AppConfig {
 				process.chdir(dirMain);
 			}
 		}
+
 		return AppConfig.instance;
 	}
 

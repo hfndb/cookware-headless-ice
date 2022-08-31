@@ -270,6 +270,8 @@ export class Shrinker {
 			part,
 			parts = Object.keys(Shrinker.entries);
 
+		this.content = content;
+
 		// Find out in which part this file is
 		this.where.dry = true;
 		this.where.part = "";

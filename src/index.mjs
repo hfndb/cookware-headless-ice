@@ -60,7 +60,7 @@ am.addOption({
 	name: "generate",
 	type: Boolean,
 	description:
-		"Transompile changed js, ts and scss, render changed .html using template engine, generate Google sitemap.",
+		"Transompile changed js, ts and scss, render changed .html using template engine, generate Google sitemap",
 });
 am.addOption(am.initializeNewProjectShortcutI);
 am.addOption({
@@ -235,7 +235,7 @@ if (choice.beautify) {
 		filterContains: contains,
 	});
 } else if (choice.playground) {
-	playGround();
+	await playGround();
 } else if (choice.write) {
 	FileUtils.writeJsonFile(
 		DefaultConfig,

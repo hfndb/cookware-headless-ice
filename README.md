@@ -160,6 +160,7 @@ Please use the github [issues page](https://github.com/hfndb/cookware-headless-i
 
 Generic:
 + [array-sort](https://www.npmjs.com/package/array-sort)
++ [ascii-table3](https://www.npmjs.com/package/ascii-table3) for usage of command line options
 + [colors](https://www.npmjs.com/package/colors) for colored console output
 + [cron-parser](https://www.npmjs.com/package/cron-parser) for cron tasks
 + [date-and-time](https://www.npmjs.com/package/date-and-time) to format and manipulate dates and times

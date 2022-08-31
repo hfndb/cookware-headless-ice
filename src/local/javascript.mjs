@@ -1,5 +1,5 @@
 "use strict";
-import { join } from "node:path";
+import { isAbsolute, join } from "node:path";
 import shelljs from "shelljs";
 import { AppConfig, FileStatus, FileUtils, Logger } from "../generic/index.mjs";
 import { Stripper } from "../generic/source/stripping.mjs";
@@ -21,7 +21,10 @@ export class JavascriptUtils {
 		if (test("-d", join(cfg.dirProject, cfg.options.javascript.dirs.output))) {
 			// In case of relative path
 			outputDir = join(cfg.dirProject, cfg.options.javascript.dirs.output);
-		} else if (test("-d", cfg.options.javascript.dirs.output)) {
+		} else if (
+			isAbsolute(cfg.options.javascript.dirs.output) &&
+			test("-d", cfg.options.javascript.dirs.output)
+		) {
 			// In case of absolute path
 			outputDir = cfg.options.javascript.dirs.output;
 		} else {

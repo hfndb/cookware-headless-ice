@@ -1,5 +1,9 @@
 "use strict";
+import { Console } from "console";
+import { createWriteStream } from "node:fs";
 import { join } from "node:path";
+import { stdin, stdout } from "node:process";
+import { createInterface } from "node:readline/promises";
 import shelljs from "shelljs";
 import { AppConfig } from "./config.mjs";
 import { Logger } from "./log.mjs";
@@ -27,6 +31,35 @@ export class SysUtils {
 			shell: "/usr/bin/bash",
 		});
 	}
+
+	/**
+	 * Get command line input
+	 *
+	 * @param {string} question
+	 * @param {string} [defaultValue]
+	 * @returns {string}
+	 */
+	static async getCliInput(question, defaultValue = "") {
+		let prompt = question;
+		const rl = createInterface({ input: stdin, output: stdout });
+		const answer = await rl.question(`${question} `);
+		rl.close();
+
+		return answer || defaultValue;
+	}
+
+	/**
+	 * Get a console to write to...
+	 *
+	 * @param {string} out File
+	 * @param {string} [err] File
+	 */
+	static getConsole(out, err) {
+		const output = createWriteStream(out);
+		const errorOutput = err ? createWriteStream(err) : stdout;
+		return new Console({ stdout: output, stderr: errorOutput });
+	}
+
 	/**
 	 * Play an audio file
 	 *

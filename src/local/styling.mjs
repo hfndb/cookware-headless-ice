@@ -1,5 +1,5 @@
 "use strict";
-import { basename, dirname, join, normalize, sep } from "node:path";
+import { basename, dirname, isAbsolute, join, normalize, sep } from "node:path";
 import autoprefixer from "autoprefixer";
 import parcelCss from "@parcel/css";
 import postcss from "postcss";
@@ -379,7 +379,10 @@ export class SassUtils {
 		if (test("-d", join(cfg.dirProject, cfg.options.sass.dirs.output))) {
 			// In case of local project
 			outputDir = join(cfg.dirProject, cfg.options.sass.dirs.output);
-		} else if (test("-d", cfg.options.sass.dirs.output)) {
+		} else if (
+			isAbsolute(cfg.options.sass.dirs.output) &&
+			test("-d", cfg.options.sass.dirs.output)
+		) {
 			// In case of hosting
 			outputDir = cfg.options.sass.dirs.output;
 		} else {
