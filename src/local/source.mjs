@@ -131,7 +131,7 @@ export class SourceUtils {
 		// First beautify
 		if (!isBundle && cfg.options.server.beautify.includes("src")) {
 			source = Beautify.content(entry.source, source);
-			if (!source) return false;
+			if (!source) return false; // Error during beautify
 			if (source != orgSource)
 				FileUtils.writeFile(entry.dir, entry.source, source, false, true);
 		}
@@ -216,7 +216,8 @@ export class SourceUtils {
 		let orgSource = source;
 
 		source = Beautify.content(fi.file.full, source);
-		if (!source || source == orgSource) false;
+		if (!source) return; // Error during beautify
+		if (source == orgSource) false;
 
 		if (source != orgSource)
 			FileUtils.writeFile(fi.path.full, fi.file.full, source, false, true);
