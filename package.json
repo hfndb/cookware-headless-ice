@@ -34,6 +34,7 @@
     "fdir": "^5.1.0",
     "htmlcs": "^0.4.1",
     "lodash": "^4.17.21",
+    "log-symbols": "^5.1.0",
     "marked": "^4.0.10",
     "memorystore": "^1.6.4",
     "mermaid": "^8.14.0",

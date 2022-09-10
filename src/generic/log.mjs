@@ -1,5 +1,6 @@
 "use strict";
 import { basename, dirname, join } from "node:path";
+import logSymbols from "log-symbols";
 import { SysUtils } from "./sys.mjs";
 import { FileUtils } from "./file-system/files.mjs";
 import { ObjectUtils } from "./object.mjs";
@@ -109,14 +110,26 @@ export class Logger {
 			.replace(new RegExp("dist/static/js", "g"), "src");
 	}
 
-	writeConsole(level, pars, line = false) {
+	writeConsole(level, pars) {
 		if (!this.opts.transports.console.active) return;
 		const frmtr = Formatter.getInstance();
 		let stamp = frmtr.date(new Date(), this.opts.transports.console.format);
-		if (line) {
-			console.log("-".repeat(this.lineLenght));
-		} else {
-			console.log(stamp, level, pars);
+		switch (level) {
+			case "error":
+				console.log(stamp, logSymbols.error, pars);
+				break;
+			case "info":
+				console.log(stamp, logSymbols.info, pars);
+				break;
+			case "success":
+				console.log(stamp, logSymbols.success, pars);
+				break;
+			case "warn":
+				console.log(stamp, logSymbols.warning, pars);
+				break;
+			default:
+				console.log(stamp, level, pars);
+				break;
 		}
 	}
 
@@ -199,7 +212,7 @@ export class Logger {
 
 	warn(...args) {
 		let pars = Logger.args2string(args);
-		this.writeConsole("Warn ".red, pars);
+		this.writeConsole("warn", pars);
 		this.writeFile(this.fileAll, "warning", pars + "\n");
 		if (this.opts.playSoundOn.warning) {
 			// Taken from https://www.soundjay.com/
@@ -209,15 +222,23 @@ export class Logger {
 
 	info(...args) {
 		let pars = Logger.args2string(args);
-		this.writeConsole("Info ".green, pars);
+		this.writeConsole("info", pars);
 		this.writeFile(this.fileAll, "info", pars + "\n");
 	}
+
+	success(...args) {
+		let pars = Logger.args2string(args);
+		this.writeConsole("success", ` ${pars}`);
+		this.writeFile(this.fileAll, "succ", `${pars}\n`);
+	}
+
+	"";
 
 	sql(...args) {
 		let tmp = this.opts.logDatabase;
 		if (!tmp) return;
 		let pars = Logger.args2string(args);
-		this.writeConsole("Info ".green, pars);
+		this.writeConsole("Info", pars);
 		this.opts.logDatabase = false;
 		this.writeFile(this.fileDatabase, "", pars + "\n");
 		this.opts.logDatabase = tmp;
@@ -225,7 +246,7 @@ export class Logger {
 
 	error(...args) {
 		let pars = Logger.args2string(args);
-		this.writeConsole("Error".red, pars);
+		this.writeConsole("error", pars);
 		this.writeFile(this.fileError, "error", pars + "\n");
 		if (this.opts.playSoundOn.error) {
 			// Taken from https://www.soundjay.com/
@@ -244,7 +265,7 @@ export class Logger {
 	 * Write a line to separate groups of log entries
 	 */
 	separatorLine(file, level) {
-		this.writeConsole(level, "", true);
+		console.log("-".repeat(this.lineLenght));
 		this.writeFile(file, level, "", true);
 	}
 }

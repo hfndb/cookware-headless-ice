@@ -16,6 +16,7 @@ The **command line toolbox**
 + generates [tag files](https://en.wikipedia.org/wiki/Ctags#Tags_file_formats), using [ctags-exuberant](http://ctags.sourceforge.net/) or [universal-ctags](https://ctags.io/) (more details, see [here](./docs/configuration.md)),
 + extracts and reports information from a local project git repository
 + executes [cron tasks](./docs/cron.md), if triggered by system [cron](https://en.wikipedia.org/wiki/Cron)
++ [Sponsors](./docs/sponsoring.md) source code to and from a generic repository, thus enabling you to use the same source files in various projects
 
 The **local development server**
 + renders HTML and [Markdown](https://en.wikipedia.org/wiki/Markdown) files on the fly, without caching to disk files,
@@ -164,8 +165,9 @@ Generic:
 + [colors](https://www.npmjs.com/package/colors) for colored console output
 + [cron-parser](https://www.npmjs.com/package/cron-parser) for cron tasks
 + [date-and-time](https://www.npmjs.com/package/date-and-time) to format and manipulate dates and times
-+ [deep-diff](https://www.npmjs.com/package/deep-diff) to check and display overridden settings in project config.json
++ [deep-diff](https://www.npmjs.com/package/deep-diff) to check and display overridden settings in project settings.json
 + [fdir](https://www.npmjs.com/package/fdir) to scan directories and files
++ [log-symbols](https://www.npmjs.com/package/log-symbols) for icons in console output
 + [Mocha](https://www.npmjs.com/package/mocha) and [Chai](https://www.chaijs.com/) for unit testing
 + [q-i](https://www.npmjs.com/package/q-i) to display a colored and formatted version of objects with json structure
 + [shelljs](https://www.npmjs.com/package/shelljs) for Linux-like commands, made portable to Windows

@@ -117,7 +117,7 @@ export class FileWatcher {
 		);
 
 		if (settings.verbose) {
-			log.info(`Watching ${settings.description} for changes`);
+			log.success(`Watching ${settings.description} for changes`);
 		}
 	}
 

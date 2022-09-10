@@ -233,6 +233,10 @@ let DefaultConfig = {
 		generate: true,
 		exclude: [],
 	},
+	sponsor: {
+		dirRemote: "/tmp",
+		fileRemote: "sponsor-repository.json",
+	},
 	stripping: {
 		suffix: "stripped",
 	},

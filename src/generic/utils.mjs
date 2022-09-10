@@ -122,6 +122,19 @@ export class StringExt {
 	}
 
 	/**
+	 * @returns {boolean} true if fully numeric string
+	 */
+	static isNumeric(str) {
+		let rt = /[\d.]+/g.test(str);
+		if (rt && str.includes(".")) {
+			// Seems numeric, but in case of decimal separator...
+			// there can only be one
+			rt = StringExt.occurrences(str, ".") == 1;
+		}
+		return rt;
+	}
+
+	/**
 	 * Convert string to array; lines in column
 	 *
 	 * @param {string} str

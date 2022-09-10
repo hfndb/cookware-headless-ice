@@ -104,6 +104,10 @@ export class AppConfig {
 	 */
 	static getInstance(name = "", dirProject = "") {
 		if (!AppConfig.instance) {
+			if (global.cfg) {
+				AppConfig.instance = global.cfg; // async trouble in action
+				return AppConfig.instance;
+			}
 			if (!name)
 				console.log(new Error("AppConfig initialized without project name"));
 			let dirMain = normalize(process.cwd());
@@ -188,7 +192,7 @@ export class AppConfig {
 			}
 			output += present.padEnd(cols[0], " ");
 			output += path.padEnd(cols[1], " ");
-			function convert(value) {
+			let convert = value => {
 				let retVal = value;
 				if (value == undefined) {
 					retVal = "";
@@ -196,7 +200,7 @@ export class AppConfig {
 					retVal = "\n" + JSON.stringify(value, null, 2);
 				}
 				return String(retVal);
-			}
+			};
 			if (isArrayChange) {
 				// output += convert(value.with);
 				output += "\n"; // Don't show nature of change. Would distort layout

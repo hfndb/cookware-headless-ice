@@ -148,6 +148,14 @@ Depending on the port set in [settings.json](./configuration.md), section "serve
 	+ Docs of some integrated packages
 
 
+## Sponsoring
+
+```
+$ cookware --sponsor
+```
+
+Shortcut -s. For information, see [sponsoring](./sponsoring.md).
+
 ## Touch
 
 ```

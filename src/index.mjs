@@ -1,5 +1,6 @@
 "use strict";
 import { join, sep } from "node:path";
+import { platform } from "node:os";
 import { DefaultConfig } from "./default-settings.mjs";
 import { FileUtils, Logger } from "./generic/index.mjs";
 import { CliMenu } from "./generic/cli-menu.mjs";
@@ -12,6 +13,7 @@ import { generateJsDocs } from "./local/javascript.mjs";
 import { Colors, Git, Misc } from "./local/misc.mjs";
 import { writeStats } from "./local/overview.mjs";
 import { renderPdf } from "./local/pdf.mjs";
+import { Sponsor } from "./local/sponsor.mjs";
 import { generateTsDocs } from "./local/typescript.mjs";
 import { playGround } from "./dev/playground.mjs";
 import { coatRack } from "./server/index.mjs";
@@ -87,6 +89,14 @@ am.addOption({
 	type: Boolean,
 	description: "Run local development server, watch file changes, transcompile",
 });
+if (platform() != "win32") {
+	am.addOption({
+		alias: "s",
+		name: "sponsor",
+		type: Boolean,
+		description: "Sponsor source code to and from repository",
+	});
+}
 am.addOption({
 	alias: "w",
 	name: "watch",
@@ -207,6 +217,8 @@ if (choice.beautify) {
 	renderPdf();
 } else if (choice.run) {
 	coatRack();
+} else if (choice.sponsor && platform() != "win32") {
+	Sponsor.main();
 } else if (choice.watch) {
 	initWatches();
 } else if (choice.touch) {

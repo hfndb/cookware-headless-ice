@@ -96,7 +96,7 @@ export class Html {
 			let regex = new RegExp(`<${tag}.*?>(.*?)</${tag}>`, "gim");
 			let result = data.match(regex);
 			if (result) {
-				result.map(function(val) {
+				result.map(val => {
 					let strip = new RegExp(`</?${tag}.*?>`, "gi");
 					retVal.push(val.replace(strip, ""));
 				});

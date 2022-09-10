@@ -8,7 +8,36 @@ import { test } from "./sys.mjs";
 
 let cfg, log;
 
-class Task {
+export class Task {
+	/**
+	 * @param {string} crontab
+	 * @param {string} name
+	 * @param {string} [plugin]
+	 * @param {boolean} [runAtstartup]
+	 *
+	 * @see http://en.wikipedia.org/wiki/Crontab
+	 * @see https://github.com/harrisiirak/cron-parser
+	 *
+	 * Format crontab:
+	 * *    *    *    *    *    *
+	 * ┬    ┬    ┬    ┬    ┬    ┬
+	 * │    │    │    │    │    └ day of week (0 - 7, 1L - 7L) (0 or 7 is Sun)
+	 * │    │    │    │    └───── month (1 - 12)
+	 * │    │    │    └────────── day of month (1 - 31, L)
+	 * │    │    └─────────────── hour (0 - 23)
+	 * │    └──────────────────── minute (0 - 59)
+	 * └───────────────────────── second (0 - 59, optional)
+	 *
+	 */
+	constructor(name, crontab, plugin = "", runAtstartup = false) {
+		this.crontab = crontab;
+		this.name = name;
+		this.plugin = plugin || "generic";
+		this.runAtstartup = runAtstartup;
+	}
+}
+
+class TaskInternal {
 	/**
 	 * @param {Date} next
 	 */
@@ -21,19 +50,6 @@ class Task {
 /**
  * Manage cron tasks.
  * Written for cookware-texts for usage with plugins.
- *
- * Format tabs:
- * *    *    *    *    *    *
- * ┬    ┬    ┬    ┬    ┬    ┬
- * │    │    │    │    │    └ day of week (0 - 7, 1L - 7L) (0 or 7 is Sun)
- * │    │    │    │    └───── month (1 - 12)
- * │    │    │    └────────── day of month (1 - 31, L)
- * │    │    └─────────────── hour (0 - 23)
- * │    └──────────────────── minute (0 - 59)
- * └───────────────────────── second (0 - 59, optional)
- *
- * @see http://en.wikipedia.org/wiki/Crontab
- * @see https://github.com/harrisiirak/cron-parser
  *
  * @property {Object} data Structure grouped by plugin name
  * @example
@@ -129,11 +145,7 @@ export class Cron {
 	/**
 	 * See whether a task should run
 	 *
-	 * @param {Object} opts
-	 * @param {string} opts.name Internal name of task
-	 * @param {string} opts.plugin Plugin, just directory name
-	 * @param {bolean} opts.runAtstartup If first call after startup, run also if not time yet
-	 * @param {Object} opts.crontabs Using cron syntax
+	 * @param {Task} opts
 	 * @returns {boolean}
 	 */
 	static shouldRun(opts) {
@@ -142,15 +154,14 @@ export class Cron {
 			next,
 			plgn = opts.plugin,
 			rt = false;
-		let tab = opts.crontabs[plgn][name];
 
 		if (!Cron.data[plgn]) {
 			Cron.data[plgn] = {};
 		}
 
 		if (!Cron.data[plgn][name]) {
-			next = Cron.getNextCron(plgn, name, tab);
-			Cron.data[plgn][name] = new Task(next);
+			next = Cron.getNextCron(plgn, name, opts.crontab);
+			Cron.data[plgn][name] = new TaskInternal(next);
 			if (opts.runAtstartup) overrule = true;
 		}
 
@@ -167,18 +178,13 @@ export class Cron {
 	/**
 	 * Register a completed task
 	 *
-	 * @param {Object} opts
-	 * @param {string} opts.plugin Plugin, just directory name
-	 * @param {string} opts.name Internal name of task
-	 * @param {Object} opts.tabs Using cron syntax
-	 * @returns {boolean}
+	 * @param {Task} opts
 	 */
 	static taskCompleted(opts) {
 		let name = opts.name,
 			plgn = opts.plugin;
-		let tab = opts.crontabs[plgn][name];
 
-		Cron.data[plgn][name].last = new Date();
-		Cron.data[plgn][name].next = Cron.getNextCron(plgn, name, tab);
+		Cron.data[plgn][name].last = Cron.data[plgn][name].next;
+		Cron.data[plgn][name].next = Cron.getNextCron(plgn, name, opts.crontab);
 	}
 }

@@ -249,14 +249,14 @@ export class SassUtils {
 			return;
 		}
 
-		function write(entry) {
+		let write = entry => {
 			if (!saydHello && verbose) {
 				saydHello = true;
 				log.info("Transcompiling Sass");
 			}
 			SassUtils.compileFile(entry, true);
 			processed.push(entry.target);
-		}
+		};
 
 		fls.changeList.forEach(entry => {
 			if (SassFiles.isImport(entry.source)) return;

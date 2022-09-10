@@ -101,7 +101,7 @@ export function generateStats() {
 	let report = new Report(["Code", "Comments", "Empty lines"]);
 	report.description = "File"; // Utter left column
 
-	function addGroup(report, description, allowedExtensions, dir, skip = "") {
+	let addGroup = (report, description, allowedExtensions, dir, skip = "") => {
 		if (!test("-d", join(cfg.dirProject, dir))) return; // Directory doesn't exist
 		options.allowedExtensions = allowedExtensions;
 
@@ -116,7 +116,7 @@ export function generateStats() {
 		});
 
 		report.addGroup(group);
-	}
+	};
 	if (cfg.options.projectOverview.configuration) {
 		addGroup(report, "Configuration", [".json"], "", "config");
 	}

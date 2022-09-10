@@ -1,6 +1,6 @@
 # Configuration
 
-Back to [main  page](../README.md).
+Back to
 
 As described in the [design goals and roadmap](./design-goals-and-roadmap.md), the plan was to build a toolbox with one configuration file. Apart from the TypeScript configuration file (see heading TypeScript on this page, about type checking). This succeeded for production environment, though for development environment there could be some additional configuration files.
 
@@ -13,7 +13,7 @@ As a **general rule** all directory paths in config.json are relative to the pro
 + See [Colors](./colors.md) for project-specifically defined colors, to be auto-generated in .js and .sass.
 + See [Apps and bundles](./apps-bundles.md) for project-specific JavaScript apps and bundles.
 
-Settings.json in a project directory **overrides** the default program settings, as configured in [default-settings.js](https://github.com/hfndb/cookware-headless-ice/blob/master/src/default-settings.ts) in the 'src' directory. It contains the following sections:
+Settings.json in a project directory **overrides** the default program settings, as configured in [default-settings.mjs](https://github.com/hfndb/cookware-headless-ice/blob/master/src/default-settings.ts) in the 'src' directory. It contains the following sections:
 
 
 ## Version information
@@ -535,6 +535,17 @@ Example: If set to 8000, this website can be opened with http://localhost:8000/
 + *static / log*: Log static files; css, js and pictures. If set to false, only html, markdown, epub and pdf requests will be logged.
 + *static / url*: Directory for static files; css, js and pictures.
 + *watchTimeout*: A timeout for filewatching using fs.watch(). Unit: ms. If you observe multiple changes in the console output, while you changed a file only once, then you could increase this timeout a bit.
+
+
+## Sponsoring
+
+For information, see [sponsoring](./sponsoring.md).
+
+```javascript
+	"sponsor": {
+		"dirRemote": "/data/projects/remote"
+	},
+```
 
 
 ## Stripping

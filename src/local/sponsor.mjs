@@ -1,0 +1,155 @@
+#! /usr/bin/env node
+import { dirname, join } from "node:path";
+import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
+import { test, SysUtils } from "../generic/sys.mjs";
+
+let cfg, log;
+
+export class Sponsor {
+	constructor() {
+		cfg = AppConfig.getInstance();
+		log = Logger.getInstance();
+		let path = join(cfg.dirProject, "dev", "sponsor.json");
+		if (!test("-f", path)) {
+			log.info(`Config file ${path} doesn't exist'`);
+			process.exit(-1);
+		}
+		this.dirLocal = join(cfg.dirProject, "src", "generic");
+		this.pathRepository = join(
+			cfg.options.sponsor.dirRemote,
+			cfg.options.sponsor.fileRemote,
+		);
+		this.project = FileUtils.readJsonFile(path);
+	}
+
+	/**
+	 * Main routine
+	 */
+	static main() {
+		let s = new Sponsor();
+		s.outgoing();
+		s.incoming();
+		s.compare();
+	}
+
+	/**
+	 * @private
+	 * Get directory names to ignore
+	 */
+	getDirs() {
+		let item,
+			rt = [];
+
+		for (let i = 0; i < this.project.files.in.length; i++) {
+			item = this.project.files.in[i];
+			let isDir = test("-d", join(this.dirLocal, item));
+			if (isDir) rt.push(item);
+		}
+
+		for (let i = 0; i < this.project.files.out.length; i++) {
+			item = this.project.files.out[i];
+			let isDir = test("-d", join(this.dirLocal, item));
+			if (isDir) rt.push(item);
+		}
+
+		return rt;
+	}
+
+	/**
+	 * @private
+	 * @param {string} dirSrc
+	 * @param {string} dirTar
+	 * @param {string[]} lst
+	 */
+	cp(dirSrc, dirTar, lst) {
+		let cmd = `#!/bin/bash
+
+cd ${cfg.dirProject}\n`;
+		for (let i = 0; i < lst.length; i++) {
+			let pths = {
+				src: join(dirSrc, lst[i]),
+				tar: join(dirTar, lst[i]),
+			};
+			let isDir = test("-d", pths.src);
+			if (isDir) {
+				FileUtils.mkdir(pths.tar);
+			} else {
+				FileUtils.mkdir(dirname(pths.tar));
+			}
+			let sf = {
+				src: isDir ? "/*" : "",
+				tar: isDir ? "/" : "",
+			};
+			cmd += `cp -aruv ${pths.src}${sf.src} ${pths.tar}${sf.tar}\n`;
+		}
+
+		// One shell script is faster than multiple child processes
+		let scrpt = "sponsor.sh";
+		FileUtils.writeFile("/tmp", scrpt, cmd, false);
+		scrpt = `/tmp/${scrpt}`;
+		SysUtils.execBashCmd(`chmod +x ${scrpt}; ${scrpt}; rm ${scrpt}`);
+	}
+
+	/**
+	 * Compare local files with files to send outgoing
+	 */
+	compare() {
+		let dirs = this.getDirs(),
+			saydHello = false,
+			sources = FileUtils.getFileList(this.dirLocal, {
+				allowedExtensions: [".ts", ".cts", ".mts", ".js", ".cjs", ".mjs"],
+			});
+
+		let output = msg => {
+			if (!saydHello) {
+				saydHello = true;
+				console.log("Not configured to send out:");
+			}
+			console.log(msg);
+		};
+
+		let canSkip, src;
+		for (let i = 0; i < sources.length; i++) {
+			src = sources[i];
+			canSkip = dirs.reduce((acc, el) => {
+				if (src.startsWith(el)) acc = true;
+				return acc;
+			}, false);
+			if (
+				!canSkip &&
+				!this.project.files.in.includes(src) &&
+				!this.project.files.out.includes(src)
+			) {
+				output(`${src}`);
+			}
+		}
+	}
+
+	/**
+	 * Get required files from respository
+	 */
+	incoming() {
+		let dir = join(cfg.options.sponsor.dirRemote, "generic");
+		this.cp(dir, this.dirLocal, this.project.files.in);
+		if (this.project.hooks.afterIn) {
+			SysUtils.execBashCmd(this.project.hooks.afterIn);
+		}
+	}
+
+	/**
+	 * Send required files to respository
+	 */
+	outgoing() {
+		let dir = join(cfg.options.sponsor.dirRemote, "generic");
+		this.cp(this.dirLocal, dir, this.project.files.out);
+
+		let reg = test("-f", this.pathRepository)
+			? FileUtils.readJsonFile(this.pathRepository)
+			: {};
+		reg[this.project.name] = {
+			dir: cfg.dirProject,
+			files: this.project.files.out,
+		};
+		FileUtils.writeJsonFile(reg, "", this.pathRepository, false);
+	}
+}
