@@ -32,5 +32,5 @@ As you can see, the directory name file-system will result in copying all files 
 
 Internal procedure in steps:
 + Send configured files to generic repository
-+ Receive configured files to generic repository
++ Receive configured files from generic repository
 + Compare files in directory src/generic with configured files to send to generic repository and show differences
