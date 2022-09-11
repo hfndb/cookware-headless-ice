@@ -27,10 +27,10 @@ In your project directory, subdirectory dev, you put a file sponsor.json with th
 
 As you can see, the directory name file-system will result in copying all files in that directory to the generic repository.
 
-
 ## Procedure
 
 Internal procedure in steps:
 + Send configured files to generic repository
 + Receive configured files from generic repository
 + Compare files in directory src/generic with configured files to send to generic repository and show differences
++ If project names are configured in sponsor.projects, all projects will be fully sponsored in order of appearance

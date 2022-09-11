@@ -234,8 +234,12 @@ let DefaultConfig = {
 		exclude: [],
 	},
 	sponsor: {
-		dirRemote: "/tmp",
+		dir: {
+			generic: "generic",
+			remote: "/tmp"
+		},
 		fileRemote: "sponsor-repository.json",
+		projects: [],
 	},
 	stripping: {
 		suffix: "stripped",

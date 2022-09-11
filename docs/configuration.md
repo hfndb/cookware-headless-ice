@@ -543,9 +543,17 @@ For information, see [sponsoring](./sponsoring.md).
 
 ```javascript
 	"sponsor": {
-		"dirRemote": "/data/projects/remote"
+		"dir": {
+			"generic": "generic",
+			"remote": "/tmp"
+		},
+		"projects": [],
 	},
 ```
+
+Entries:
++ *dir / generic*: Directory of generic files relative to javascript.dir.source
++ *projects*: If project names are configured, all projects will be fully sponsored in order of appearance
 
 
 ## Stripping

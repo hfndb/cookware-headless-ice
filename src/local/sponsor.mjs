@@ -14,9 +14,13 @@ export class Sponsor {
 			log.info(`Config file ${path} doesn't exist'`);
 			process.exit(-1);
 		}
-		this.dirLocal = join(cfg.dirProject, "src", "generic");
+		this.dirLocal = join(
+			cfg.dirProject,
+			cfg.options.javascript.dirs.source,
+			cfg.options.sponsor.dir.generic,
+		);
 		this.pathRepository = join(
-			cfg.options.sponsor.dirRemote,
+			cfg.options.sponsor.dir.remote,
 			cfg.options.sponsor.fileRemote,
 		);
 		this.project = FileUtils.readJsonFile(path);
@@ -26,10 +30,51 @@ export class Sponsor {
 	 * Main routine
 	 */
 	static main() {
-		let s = new Sponsor();
-		s.outgoing();
-		s.incoming();
-		s.compare();
+		let config,
+			idx,
+			s = new Sponsor(),
+			path,
+			project;
+
+		if (cfg.options.sponsor.projects.length == 0) {
+			s.outgoing();
+			s.incoming();
+			s.compare();
+			return;
+		}
+
+		let reg = s.getRegistry();
+		for (let i = 0; i < cfg.options.sponsor.projects.length; i++) {
+			project = cfg.options.sponsor.projects[i];
+			if (!reg[project]) {
+				log.info(`Couldn't find project ${project}`);
+				process.exit(-1);
+			}
+
+			// Read project config
+			config = FileUtils.readJsonFile(
+				join(reg[project].dir, "settings.json"),
+				false,
+			);
+			path = join(reg[project].dir, "dev", "sponsor.json");
+			if (!test("-f", path)) {
+				log.info(`Config file ${path} doesn't exist'`);
+				process.exit(-1);
+			}
+			s.project = FileUtils.readJsonFile(path);
+
+			s.dirLocal = join(
+				reg[project].dir,
+				config?.javascript?.dirs?.source || cfg.defaults.javascript.dirs.source,
+				config?.sponsor?.dir?.generic || cfg.defaults.sponsor.dir.generic,
+			);
+
+			console.log(`Sponsoring project ${project}`);
+			s.outgoing();
+			s.incoming();
+			s.compare();
+			console.log();
+		}
 	}
 
 	/**
@@ -53,6 +98,15 @@ export class Sponsor {
 		}
 
 		return rt;
+	}
+
+	/**
+	 * @private
+	 */
+	getRegistry() {
+		return test("-f", this.pathRepository)
+			? FileUtils.readJsonFile(this.pathRepository)
+			: {};
 	}
 
 	/**
@@ -87,7 +141,7 @@ cd ${cfg.dirProject}\n`;
 		let scrpt = "sponsor.sh";
 		FileUtils.writeFile("/tmp", scrpt, cmd, false);
 		scrpt = `/tmp/${scrpt}`;
-		SysUtils.execBashCmd(`chmod +x ${scrpt}; ${scrpt}; rm ${scrpt}`);
+		//SysUtils.execBashCmd(`chmod +x ${scrpt}; ${scrpt}; rm ${scrpt}`);
 	}
 
 	/**
@@ -110,7 +164,7 @@ cd ${cfg.dirProject}\n`;
 
 		let canSkip, src;
 		for (let i = 0; i < sources.length; i++) {
-			src = sources[i];
+			src = sources[i].replace(this.dirLocal, "");
 			canSkip = dirs.reduce((acc, el) => {
 				if (src.startsWith(el)) acc = true;
 				return acc;
@@ -129,7 +183,7 @@ cd ${cfg.dirProject}\n`;
 	 * Get required files from respository
 	 */
 	incoming() {
-		let dir = join(cfg.options.sponsor.dirRemote, "generic");
+		let dir = join(cfg.options.sponsor.dir.remote, "generic");
 		this.cp(dir, this.dirLocal, this.project.files.in);
 		if (this.project.hooks.afterIn) {
 			SysUtils.execBashCmd(this.project.hooks.afterIn);
@@ -140,12 +194,10 @@ cd ${cfg.dirProject}\n`;
 	 * Send required files to respository
 	 */
 	outgoing() {
-		let dir = join(cfg.options.sponsor.dirRemote, "generic");
+		let dir = join(cfg.options.sponsor.dir.remote, "generic");
 		this.cp(this.dirLocal, dir, this.project.files.out);
 
-		let reg = test("-f", this.pathRepository)
-			? FileUtils.readJsonFile(this.pathRepository)
-			: {};
+		let reg = this.getRegistry();
 		reg[this.project.name] = {
 			dir: cfg.dirProject,
 			files: this.project.files.out,
