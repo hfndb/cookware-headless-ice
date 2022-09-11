@@ -61,15 +61,18 @@ export class Sponsor {
 				log.info(`Config file ${path} doesn't exist'`);
 				process.exit(-1);
 			}
-			s.project = FileUtils.readJsonFile(path);
 
-			s.dirLocal = join(
-				reg[project].dir,
-				config?.javascript?.dirs?.source || cfg.defaults.javascript.dirs.source,
-				config?.sponsor?.dir?.generic || cfg.defaults.sponsor.dir.generic,
-			);
+			// Alter some config settings
+			cfg.dirProject = reg[project].dir;
+			if (config?.javascript?.dirs?.source) {
+				cfg.options.javascript.dirs.source = config.javascript.dirs.source;
+			}
+			if (config?.sponsor?.dir?.generic) {
+				cfg.options.sponsor.dir.generic = config.sponsor.dir.generic;
+			}
 
 			console.log(`Sponsoring project ${project}`);
+			s = new Sponsor();
 			s.outgoing();
 			s.incoming();
 			s.compare();
@@ -141,7 +144,7 @@ cd ${cfg.dirProject}\n`;
 		let scrpt = "sponsor.sh";
 		FileUtils.writeFile("/tmp", scrpt, cmd, false);
 		scrpt = `/tmp/${scrpt}`;
-		//SysUtils.execBashCmd(`chmod +x ${scrpt}; ${scrpt}; rm ${scrpt}`);
+		SysUtils.execBashCmd(`chmod +x ${scrpt}; ${scrpt}; rm ${scrpt}`);
 	}
 
 	/**
