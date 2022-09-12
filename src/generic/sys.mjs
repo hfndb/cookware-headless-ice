@@ -1,5 +1,5 @@
 "use strict";
-import { Console } from "console";
+import { Console } from "node:console";
 import { createWriteStream } from "node:fs";
 import { join } from "node:path";
 import { stdin, stdout } from "node:process";

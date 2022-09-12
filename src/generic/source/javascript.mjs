@@ -1,6 +1,6 @@
 "use strict";
 import { join } from "node:path";
-import { Logger, StringExt } from "../../generic/index.mjs";
+import { Logger, StringExt } from "../index.mjs";
 
 // ---------------------------------------------------
 // Some utilities to analyze and edit code

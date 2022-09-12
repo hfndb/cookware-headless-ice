@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 import { join } from "node:path";
 import { AppConfig, FileUtils, Logger } from "./index.mjs";
-import { exec, test } from "../generic/sys.mjs";
+import { exec, test } from "./sys.mjs";
 import { Formatter } from "./utils.mjs";
 
 /**

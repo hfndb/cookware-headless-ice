@@ -8,7 +8,7 @@ import { DefaultConfig } from "../default-settings.mjs";
 import { Logger } from "./log.mjs";
 import { FileUtils } from "./file-system/files.mjs";
 import { ObjectUtils } from "./object.mjs";
-import { cp, test } from "../generic/sys.mjs";
+import { cp, test } from "./sys.mjs";
 const { diff } = deepdiff;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

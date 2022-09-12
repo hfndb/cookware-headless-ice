@@ -1,7 +1,8 @@
-#! /usr/bin/env node
+"use strict";
 import { dirname, join } from "node:path";
 import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
 import { test, SysUtils } from "../generic/sys.mjs";
+import { Requires } from "./requires.mjs";
 
 let cfg, log;
 
@@ -19,9 +20,9 @@ export class Sponsor {
 			cfg.options.javascript.dirs.source,
 			cfg.options.sponsor.dir.generic,
 		);
-		this.pathRepository = join(
+		this.path2repository = join(
 			cfg.options.sponsor.dir.remote,
-			cfg.options.sponsor.fileRemote,
+			cfg.options.sponsor.file.repository,
 		);
 		this.project = FileUtils.readJsonFile(path);
 	}
@@ -32,18 +33,17 @@ export class Sponsor {
 	static main() {
 		let config,
 			idx,
-			s = new Sponsor(),
 			path,
-			project;
+			project,
+			rqrs,
+			spnsr = new Sponsor();
 
 		if (cfg.options.sponsor.projects.length == 0) {
-			s.outgoing();
-			s.incoming();
-			s.compare();
+			spnsr.sponsorProject();
 			return;
 		}
 
-		let reg = s.getRegistry();
+		let reg = spnsr.getRegistry();
 		for (let i = 0; i < cfg.options.sponsor.projects.length; i++) {
 			project = cfg.options.sponsor.projects[i];
 			if (!reg[project]) {
@@ -72,10 +72,8 @@ export class Sponsor {
 			}
 
 			console.log(`Sponsoring project ${project}`);
-			s = new Sponsor();
-			s.outgoing();
-			s.incoming();
-			s.compare();
+			spnsr = new Sponsor();
+			spnsr.sponsorProject();
 			console.log();
 		}
 	}
@@ -107,8 +105,8 @@ export class Sponsor {
 	 * @private
 	 */
 	getRegistry() {
-		return test("-f", this.pathRepository)
-			? FileUtils.readJsonFile(this.pathRepository)
+		return test("-f", this.path2repository)
+			? FileUtils.readJsonFile(this.path2repository)
 			: {};
 	}
 
@@ -205,6 +203,17 @@ cd ${cfg.dirProject}\n`;
 			dir: cfg.dirProject,
 			files: this.project.files.out,
 		};
-		FileUtils.writeJsonFile(reg, "", this.pathRepository, false);
+		FileUtils.writeJsonFile(reg, "", this.path2repository, false);
+	}
+
+	sponsorProject() {
+		// Copy and compare files
+		this.outgoing();
+		this.incoming();
+		this.compare();
+
+		// Update whatever updated files need
+		let rqrs = new Requires(cfg.dirProject, this.project.files.out);
+		rqrs.updateList();
 	}
 }

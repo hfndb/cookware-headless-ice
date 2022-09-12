@@ -2,10 +2,9 @@
 import bodyParser from "body-parser";
 import express from "express";
 import fileUpload from "express-fileupload";
-// import cookieParser from "cookie-parser"; // Somehow blocks incoming requests
 import session from "express-session";
 import MemoryStore from "memorystore";
-import { AppConfig } from "../generic/config.mjs";
+import { AppConfig } from "./config.mjs";
 import { Logger } from "./log.mjs";
 
 /**
