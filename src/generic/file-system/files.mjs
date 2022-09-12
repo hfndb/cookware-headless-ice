@@ -7,7 +7,6 @@ import { Logger } from "../log.mjs";
 import { ArrayUtils } from "../object.mjs";
 import { mkdir, mv, rm, test, touch } from "../sys.mjs";
 import { StringExt } from "../utils.mjs";
-import { getDirList } from "./dirs.mjs";
 
 /**
  * This file is created for and maintained in cookware-headless-ice
@@ -171,6 +170,32 @@ The structure of this file is invalid, meaning, messed up.
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to create a list of directories within a directory name
+	 *
+	 * @param path of dir
+	 * @returns array with dir list
+	 */
+	static getDirList(path, recursive = true) {
+		if (!test("-e", path)) {
+			throw new Error(`Path ${path} doesn't exist`);
+		}
+		const fl = new fdir()
+			.onlyDirs()
+			.crawl(path)
+			.sync();
+		let dirs = [];
+		for (let d = 0; d < fl.length; d++) {
+			let dir = fl[d];
+			if (dir.endsWith(sep)) dir = dir.slice(0, -1); // strip trailing separator
+			dir = dir.substring(path.length + 1);
+			if (!dir) continue;
+			if (!recursive && dir.includes(sep)) continue;
+			dirs.push(dir);
+		}
+		return dirs;
 	}
 
 	/**

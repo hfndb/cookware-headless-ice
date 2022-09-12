@@ -1,11 +1,11 @@
 "use strict";
-import { AppConfig } from "../generic//config.mjs";
+import { AppConfig } from "../generic/config.mjs";
 import { Packages } from "../generic/package-json.mjs";
 
-let cfg = AppConfig.getInstance("cookware");
+let cfg = AppConfig.getInstance("cookware-headless-ice");
 
-Packages.updatePackages(true); // system packages
+Packages.updatePackages(true, cfg.dirMain); // system packages
 
 if (cfg.isProject) {
-	Packages.updatePackages(false); // project packages
+	Packages.updatePackages(false, cfg.dirProject); // project packages
 }

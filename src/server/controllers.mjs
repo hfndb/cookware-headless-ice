@@ -111,8 +111,8 @@ async function controllerGeneric(
 	if (prefix == "/sys" && url == "index.html") {
 		additionalContext = Object.assign(additionalContext, {
 			isProject: false,
-			systemPackages: Packages.getPackageReadmeFiles(true),
-			projectPackages: Packages.getPackageReadmeFiles(false),
+			systemPackages: Packages.getPackageReadmeFiles(true, cfg.dirMain),
+			projectPackages: Packages.getPackageReadmeFiles(false, cfg.dirProject),
 		});
 	}
 

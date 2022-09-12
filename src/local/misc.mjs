@@ -7,7 +7,7 @@ import { FileStatus } from "../generic/file-system/diff.mjs";
 import { Git as GitGeneric } from "../generic/git.mjs";
 import { Content } from "../generic/html.mjs";
 import { Sitemap } from "../generic/sitemap.mjs";
-import { exec, test, SysUtils } from "../generic/sys.mjs";
+import { exec, test, touch, SysUtils } from "../generic/sys.mjs";
 import { Formatter } from "../generic/utils.mjs";
 import { SourceUtils } from "./source.mjs";
 import { SassUtils } from "./styling.mjs";
@@ -247,5 +247,106 @@ export class Misc {
 		});
 
 		return data;
+	}
+
+	/**
+	 * Create a directory tree.
+	 *
+	 * Usage:
+	 *
+	 * 	const tree = {
+	 *		"dirs": ["backups", "notes", "sass"],
+	 *		"content": {
+	 *			"dirs": ["includes", "tmeplates"]
+	 *		},
+	 *		"dist": {
+	 *			"static": {
+	 *				"dirs": ["css", "img"],
+	 *				"js": {
+	 *					"dirs": ["browser", "local", "test"],
+	 *					"server": {
+	 *						"dirs": ["controllers", "views"]
+	 *					}
+	 *				}
+	 *			}
+	 *		},
+	 *		"src": {
+	 *			"dirs": ["browser", "local", "test"],
+	 *			"server": {
+	 *				"dirs": ["controllers", "views"]
+	 *			}
+	 *		}
+	 *	};
+	 *
+	 *	createDirTree("/tmp/test", tree);
+	 *
+	 * Creates directory structure:
+	 *
+	 * - /tmp/test/backups
+	 * - /tmp/test/notes
+	 * - /tmp/test/sass
+	 * - /tmp/test/content/includes
+	 * - /tmp/test/content/tmeplates
+	 * - /tmp/test/dist/static/css
+	 * - /tmp/test/dist/static/img
+	 * - /tmp/test/dist/static/js/browser
+	 * - /tmp/test/dist/static/js/local
+	 * - /tmp/test/dist/static/js/test
+	 * - /tmp/test/dist/static/js/server/controllers
+	 * - /tmp/test/dist/static/js/server/views
+	 * - /tmp/test/src/browser
+	 * - /tmp/test/src/local
+	 * - /tmp/test/src/test
+	 * - /tmp/test/src/server/controllers
+	 * - /tmp/test/src/server/views
+	 *
+	 * @param rootDir
+	 * @param tree object with definition
+	 * @param sourceControl in case of Source Controle, touch a delete-me.txt file
+	 */
+	createDirTree(rootDir, tree, sourceControl = false) {
+		Object.entries(tree).forEach(entry => {
+			let key = entry[0];
+			if (key == "dirs") {
+				let value = entry[1];
+				for (let i = 0; i < value.length; i++) {
+					FileUtils.mkdir(join(rootDir, value[i]));
+					if (sourceControl) {
+						touch(join(rootDir, value[i], "delete-me.txt"));
+					}
+				}
+			} else if (key != "length") {
+				if (join(rootDir, key).includes("length")) {
+					throw new Error("test error");
+				}
+				let value = entry[1];
+				FileUtils.mkdir(join(rootDir, key));
+				Misc.createDirTree(join(rootDir, key), value, sourceControl);
+			}
+		});
+	}
+
+	/**
+	 * Initialize new project
+	 */
+	static initNewProject() {
+		process.env.isNew = "true"; // Hack to prevent passing a var through the call stack
+		let cfg = AppConfig.getInstance("cookware-headless-ice");
+		let dir = join(cfg.dirMain, "default-project");
+		if (!test("-d", dir)) {
+			console.error(`Couldn't find directory ${dir}`);
+			return;
+		}
+		console.log("Initializing new project directory");
+		cp("-fr", join(dir, sep, "*"), join(cfg.dirProject, sep));
+		cfg.read();
+		let log = Logger.getInstance(cfg.options.logging);
+		process.on("uncaughtException", err => {
+			if (!log.isShuttingDown) {
+				console.log(Logger.error2string(err));
+			}
+		});
+		Misc.createDirTree(cfg.dirProject, cfg.options.newProject.dirStructure, true);
+		console.log("... done");
 	}
 }

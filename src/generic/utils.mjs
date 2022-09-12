@@ -101,14 +101,23 @@ export class StringExt {
 		let re = new RegExp(exp, flags); // Default: Global, case insensitive, multiline
 		let result;
 		while ((result = re.exec(str)) !== null) {
-			let rw = [];
-			for (let i = 1; i < result.length; i++) {
-				// Ignore element 0 with source line
-				rw.push(result[i]);
-			}
-			toReturn.push(rw);
+			toReturn.push(new RegexResult(result));
 		}
 		return toReturn;
+	}
+
+	/**
+	 * @param {RegexResult[]} results
+	 * @param {number} idx
+	 * @returns {string[]}
+	 */
+	static getRegexGroup(results, idx) {
+		let rt = [];
+		for (let r = 0; r < results.length; r++) {
+			if (results[r].groups[idx]) rt.push(results[r].groups[idx]);
+		}
+
+		return rt;
 	}
 
 	/**
@@ -416,5 +425,16 @@ export class Formatter {
 			.replace(/\-\-+/g, "-") // Replace multiple - with single -
 			.replace(/^-+/, "") // Trim - from start of text
 			.replace(/-+$/, ""); // Trim - from end of text
+	}
+}
+
+export class RegexResult {
+	constructor(result) {
+		this.index = result.index;
+		this.groups = [];
+		for (let i = 1; i < result.length; i++) {
+			// Ignore element 0 with source line
+			this.groups.push(result[i]);
+		}
 	}
 }

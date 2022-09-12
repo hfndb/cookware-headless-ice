@@ -1,6 +1,9 @@
 "use strict";
 import { AppConfig } from "../generic/config.mjs";
-import { upgrade } from "./upgrades.mjs";
+import { Packages } from "../generic/package-json.mjs";
 
-let cfg = AppConfig.getInstance("cookware");
-upgrade(cfg, true);
+// npm run-script postinstall
+
+let cfg = AppConfig.getInstance("cookware-headless-ice");
+
+Packages.updatePackages(true, cfg.dirMain);

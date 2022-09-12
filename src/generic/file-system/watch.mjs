@@ -4,7 +4,6 @@ import { join } from "node:path";
 import { Logger } from "../log.mjs";
 import { test } from "../sys.mjs";
 import { FileUtils } from "./files.mjs";
-import { getDirList } from "./dirs.mjs";
 
 /** @typedef WatchOptions
  * @property {string} workingDir
@@ -51,7 +50,7 @@ export class FileWatcher {
 		// Workaround: Watch for all files in directory.
 		let fullPath = join(opts.workingDir, opts.path, opts.file);
 		if (!test("-f", fullPath)) {
-			let dirs = getDirList(fullPath);
+			let dirs = FileUtils.getDirList(fullPath);
 			for (let i = 0; i < dirs.length; i++) {
 				let tmp = Object.assign({}, opts);
 				tmp.file = dirs[i];

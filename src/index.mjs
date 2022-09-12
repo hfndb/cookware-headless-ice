@@ -168,7 +168,7 @@ am.setName("cookware-headless-ice");
 
 let choice = am.getUserChoice();
 if (choice.init) {
-	AppConfig.initNewProject();
+	Misc.initNewProject();
 	process.exit(0);
 }
 

@@ -57,13 +57,12 @@ export class CodeJs {
 		// First look at prototyped methods to gather class names
 		let name,
 			method,
-			re = new RegExp(`(\\w*).prototype.(\\w*)`, "g"),
-			results,
+			results = StringExt.matchAll(`(\\w*).prototype.(\\w*)`, source, "g"),
 			rt = {};
 
-		while ((results = re.exec(source)) !== null) {
-			name = results[1];
-			method = results[2];
+		for (let i = 0; i < results.length; i++) {
+			name = results[i].groups[0] || "";
+			method = results[i].groups[1] || "";
 			if (cls && cls != name) continue; // Ignore class we aren't looking for
 			if (!CodeJs.fu.test(name[0])) continue; // Ignore if first letter isn't uppercase
 
@@ -77,7 +76,8 @@ export class CodeJs {
 		}
 
 		// Now look for class definition itself
-		let classes = Object.keys(rt);
+		let classes = Object.keys(rt),
+			re;
 		for (let i = 0; i < classes.length; i++) {
 			name = classes[i];
 			re = new RegExp(`\n[\\s\\w]*function ${name}\\(`, "g"); // Style: export function classname(
@@ -196,6 +196,18 @@ export class CodeJs {
 		let rt = CodeJs.getBlock(source, biClass, name, re, "Method");
 		if (!debug) rt.stripDebug();
 		return rt;
+	}
+
+	/**
+	 * Get all imports from source - as in src directory
+	 *
+	 * @param {string} source
+	 * @returns {string[]}
+	 */
+	static getImports(source) {
+		let result = StringExt.matchAll(`import.*from.*["']+(.*)["']+;`, source);
+
+		return StringExt.getRegexGroup(result, 0);
 	}
 
 	/**

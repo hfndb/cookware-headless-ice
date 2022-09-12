@@ -165,11 +165,14 @@ export class SassFiles {
 			`@import ["']+(.*)["']+;`,
 			FileUtils.readFile(fullPath),
 		);
+		// Array with instances of RegexResult to string array
+		result = StringExt.getRegexGroup(result, 0);
+
 		let [d, f] = this.getDirFile("", entry.source);
 
 		for (let i = 0; i < result.length; i++) {
 			let lst = this.deps.get(entry.source) || [];
-			let fl = this.getImport(d, result[i][0]);
+			let fl = this.getImport(d, result[i]);
 			lst.push(fl);
 			this.deps.set(entry.source, lst);
 		}

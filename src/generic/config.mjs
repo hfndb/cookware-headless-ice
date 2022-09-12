@@ -6,7 +6,6 @@ import { fileURLToPath } from "node:url";
 import deepdiff from "deep-diff";
 import { DefaultConfig } from "../default-settings.mjs";
 import { Logger } from "./log.mjs";
-import { createDirTree } from "./file-system/dirs.mjs";
 import { FileUtils } from "./file-system/files.mjs";
 import { ObjectUtils } from "./object.mjs";
 import { cp, test } from "../generic/sys.mjs";
@@ -233,29 +232,5 @@ export class AppConfig {
 		if (saydHello) {
 			log.info("... done");
 		}
-	}
-
-	/**
-	 * Initialize new project
-	 */
-	static initNewProject() {
-		process.env.isNew = "true"; // Hack to prevent passing a var through the call stack
-		let cfg = AppConfig.getInstance("cookware-headless-ice");
-		let dir = join(cfg.dirMain, "default-project");
-		if (!test("-d", dir)) {
-			console.error(`Couldn't find directory ${dir}`);
-			return;
-		}
-		console.log("Initializing new project directory");
-		cp("-fr", join(dir, sep, "*"), join(cfg.dirProject, sep));
-		cfg.read();
-		let log = Logger.getInstance(cfg.options.logging);
-		process.on("uncaughtException", err => {
-			if (!log.isShuttingDown) {
-				console.log(Logger.error2string(err));
-			}
-		});
-		createDirTree(cfg.dirProject, cfg.options.newProject.dirStructure, true);
-		console.log("... done");
 	}
 }
