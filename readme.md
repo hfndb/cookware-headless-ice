@@ -1,4 +1,4 @@
-**cookware-headless-ice** is a console based working environment, constructed as a [Node.js](https://en.wikipedia.org/wiki/Node.js) project. Like a chef, you can use this gear to 'cook' your own code for projects. So... In Case of Emergency (ICE), feeling an itch to write some code, you could use this 'integrated cooking environment' (ice) 😉
+`cookware-headless-ice` is a console based working environment, constructed as a [Node.js](https://en.wikipedia.org/wiki/Node.js) project. Like a chef, you can use this gear to 'cook' your own code for projects. So... In Case of Emergency (ICE), feeling an itch to write some code, you could use this 'integrated cooking environment' (ice) 😉
 
 This project is developed in a Linux environment and should also run in Apple (BSD like) environments. For background information like **project philosophy**, see [design goals and roadmap](./docs/design-goals-and-roadmap.md).
 
@@ -202,6 +202,7 @@ Diagrams:
 
 
 ## Read more
++ [Built-in Artificial Intelligence (AI)](./docs/built-in-ai.md)
 + [Design goals and roadmap](./docs/design-goals-and-roadmap.md)
 + [Configuration](./docs/configuration.md)
 + [Used languages](./docs/languages.md)

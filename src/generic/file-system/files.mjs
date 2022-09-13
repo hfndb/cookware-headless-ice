@@ -34,7 +34,7 @@ export class FileUtils {
 	 * Method to safely read a json file by importing
 	 * Introduced in Node.js v17.5.0, so far experimental.
 	 *
-	 * @param path {string} to json file to read
+	 * @param {string} path to json file to read
 	 * @returns {*} object with read json content or null
 	 */
 	static async importJsonFile(path, ignoreErrors = true) {
@@ -106,6 +106,8 @@ The structure of this file is invalid, meaning, messed up.
 
 	/**
 	 * Method to safely read a file.
+	 *
+	 * @param {string} path
 	 */
 	static readFile(path) {
 		let data = "";
@@ -124,6 +126,8 @@ The structure of this file is invalid, meaning, messed up.
 	/**
 	 * Replace Carriage Return (CR, \r, on older Macs), CR followed by LF (\r\n, on WinDOS)
 	 * with Line Feed (LF, \n, on Unices incl. Linux).
+	 *
+	 * @param {string} str
 	 */
 	static stripLineBreaks(str) {
 		return str.replace(/\r?\n|\r/g, "\n");
@@ -175,8 +179,8 @@ The structure of this file is invalid, meaning, messed up.
 	/**
 	 * Method to create a list of directories within a directory name
 	 *
-	 * @param path of dir
-	 * @returns array with dir list
+	 * @param {string} path of dir
+	 * @returns {string[]} dir list
 	 */
 	static getDirList(path, recursive = true) {
 		if (!test("-e", path)) {
@@ -202,6 +206,10 @@ The structure of this file is invalid, meaning, messed up.
 	 * Method to get a list of file(s) from:
 	 * - a single file name
 	 * - a directory
+	 *
+	 * @param {string} path
+	 * @param {Object} opts
+	 * @returns {string[]}
 	 */
 	static getFileList(path, opts = {}) {
 		if (!test("-e", path)) {
@@ -239,6 +247,39 @@ The structure of this file is invalid, meaning, messed up.
 		return files;
 	}
 
+	/**
+	 * Expand a file list by replacing a directory name with all files in that directory
+	 *
+	 * @param {string} dirBase
+	 * @param {string[]} lst
+	 * @returns {string[]}
+	 */
+	static expandFileList(dirBase, files) {
+		let lst,
+			path,
+			rt = [];
+
+		for (let i = 0; i < files.length; i++) {
+			path = join(dirBase, files[i]);
+			if (!test("-d", path)) {
+				rt.push(files[i]); // File
+				continue;
+			}
+			lst = FileUtils.getFileList(path); // Files in directory
+			lst.forEach(item => {
+				item = item.replace(dirBase + sep, "");
+				rt.push(item);
+			});
+		}
+
+		return rt;
+	}
+
+	/**
+	 * @param {string} path
+	 * @param {string} file
+	 * @param {boolean} includeSize
+	 */
 	static getFileInfo(path, file, includeSize = false) {
 		let rt = {
 			path: {
@@ -279,6 +320,9 @@ The structure of this file is invalid, meaning, messed up.
 
 	/**
 	 * Get filesize in bytes
+	 *
+	 * @param {string} file Full path
+	 * @returns {number}
 	 */
 	static getFileSize(file) {
 		if (test("-f", file)) {
@@ -288,7 +332,9 @@ The structure of this file is invalid, meaning, messed up.
 	}
 
 	/**
-	 * @returns Last modified timestamp
+	 * @param {string} path
+	 * @param {string} file
+	 * @returns {number} Last modified timestamp
 	 */
 	static getLastModified(path, file) {
 		let fullPath = join(path, file);
@@ -296,7 +342,9 @@ The structure of this file is invalid, meaning, messed up.
 	}
 
 	/**
-	 * @returns Last modified
+	 * @param {string} path
+	 * @param {string} file
+	 * @returns {Date} Last modified
 	 */
 	static getLastModifiedDate(path, file) {
 		let fullPath = join(path, file);
@@ -306,6 +354,10 @@ The structure of this file is invalid, meaning, messed up.
 	/**
 	 * Translate a file name to name with suffix
 	 * For example: dir/file.txt becomes dir/file-suffix.txt
+	 *
+	 * @param {string} path
+	 * @param {string} suffix
+	 * @returns {string}
 	 */
 	static getSuffixedFile(path, suffix) {
 		let dir = path.includes(sep) || path.includes("/") ? dirname(path) : "";
@@ -316,6 +368,10 @@ The structure of this file is invalid, meaning, messed up.
 	/**
 	 * Comparable with a console dir command to retrieve file names, size in bytes and last modified
 	 * Returns object with key/value pairs; name (key), fileEntry (value).
+	 *
+	 * @param {string} path
+	 * @param {boolean} recursive
+	 * @returns {Object}
 	 */
 	static dir(path, recursive = false) {
 		let lst = new Map();
@@ -337,6 +393,12 @@ The structure of this file is invalid, meaning, messed up.
 		return lst;
 	}
 
+	/**
+	 * @param {string} path
+	 * @param {string[]} string
+	 * @param {number} startAt
+	 * @returns {number}
+	 */
 	static getLastChangeInDirectory(path, extensions, startAt = 0) {
 		let retVal = startAt;
 		let lst = FileUtils.getFileList(path, { allowedExtensions: extensions });
@@ -348,6 +410,11 @@ The structure of this file is invalid, meaning, messed up.
 
 	/**
 	 * Get a unique filename, provided given file already exists
+	 *
+	 * @param {string} dir
+	 * @param {string} file
+	 * @param {string} ext
+	 * @returns {string}
 	 */
 	static getUniqueFileName(dir, file, ext) {
 		let orgFile = file;
@@ -365,6 +432,9 @@ The structure of this file is invalid, meaning, messed up.
 	 * Get a temp filename, without directory or extension.
 	 * Composed of Date.now() and random numerical suffix, with hyphen in between
 	 * If called more than 1 millisecond apart, 100% unique.
+	 *
+	 * @param {string} lengthSuffix
+	 * @returns {string}
 	 */
 	static getTempFileName(lengthSuffix) {
 		// Date.now is updated every millisecond
@@ -373,6 +443,8 @@ The structure of this file is invalid, meaning, messed up.
 
 	/**
 	 * If a directory doesn't exist yet, create
+	 *
+	 * @param {string} path
 	 */
 	static mkdir(path) {
 		if (!test("-e", path)) {
@@ -383,6 +455,9 @@ The structure of this file is invalid, meaning, messed up.
 	/**
 	 * Touch all files in a directory resursively.
 	 * Default value for opts.resursive = true.
+	 *
+	 * @param {string} path
+	 * @param {Object} opts
 	 */
 	static touchRecursive(path, opts) {
 		if (!opts) opts = {};
@@ -410,10 +485,10 @@ The structure of this file is invalid, meaning, messed up.
 /**
  * Remove obsolete output files
  *
- * @param removeObsolete settings from settings.json
- * @param processed by production of output files
- * @param outputDir
- * @param ext to search for
+ * @param {Object} removeObsolete settings from settings.json
+ * @param {string[]} processed by production of output files
+ * @param {string} outputDir
+ * @param {string} ext to search for
  */
 export function removeObsolete(removeObsolete, processed, outputDir, ext) {
 	if (!removeObsolete.active) return 0;

@@ -2,7 +2,7 @@
 
 Back to [main  page](../README.md).
 
-Not following fashion, cookware-headless-ice uses bundles which are composed in a quite specific way, thus reducing bloat which fashion regarding bundlers and packers causes.
+Not following fashion, `cookware-headless-ice` uses bundles which are composed in a quite specific way, thus reducing bloat which fashion regarding bundlers and packers causes.
 
 ## Bundles
 

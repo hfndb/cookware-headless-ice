@@ -1,7 +1,7 @@
 "use strict";
 import { dirname, join } from "node:path";
 import { AppConfig, FileUtils, Logger } from "../generic/index.mjs";
-import { test, SysUtils } from "../generic/sys.mjs";
+import { cd, test, SysUtils } from "../generic/sys.mjs";
 import { Requires } from "./requires.mjs";
 
 let cfg, log;
@@ -10,21 +10,21 @@ export class Sponsor {
 	constructor() {
 		cfg = AppConfig.getInstance();
 		log = Logger.getInstance();
-		let path = join(cfg.dirProject, "dev", "sponsor.json");
-		if (!test("-f", path)) {
-			log.info(`Config file ${path} doesn't exist'`);
-			process.exit(-1);
-		}
 		this.dirLocal = join(
 			cfg.dirProject,
 			cfg.options.javascript.dirs.source,
 			cfg.options.sponsor.dir.generic,
 		);
+		this.path2sponsor = join(cfg.dirProject, "dev", "sponsor.json");
 		this.path2repository = join(
 			cfg.options.sponsor.dir.remote,
 			cfg.options.sponsor.file.repository,
 		);
-		this.project = FileUtils.readJsonFile(path);
+		if (!test("-f", this.path2sponsor)) {
+			log.info(`Config file ${this.path2sponsor} doesn't exist'`);
+			process.exit(-1);
+		}
+		this.project = FileUtils.readJsonFile(this.path2sponsor);
 	}
 
 	/**
@@ -182,11 +182,13 @@ cd ${cfg.dirProject}\n`;
 
 	/**
 	 * Get required files from respository
+	 *
+	 * @param (boolean) firstRun
 	 */
-	incoming() {
+	incoming(firstRun = true) {
 		let dir = join(cfg.options.sponsor.dir.remote, "generic");
 		this.cp(dir, this.dirLocal, this.project.files.in);
-		if (this.project.hooks.afterIn) {
+		if (firstRun && this.project.hooks.afterIn) {
 			SysUtils.execBashCmd(this.project.hooks.afterIn);
 		}
 	}
@@ -206,14 +208,43 @@ cd ${cfg.dirProject}\n`;
 		FileUtils.writeJsonFile(reg, "", this.path2repository, false);
 	}
 
+	/**
+	 * Sponsoring procedure per project
+	 */
 	sponsorProject() {
-		// Copy and compare files
-		this.outgoing();
-		this.incoming();
-		this.compare();
+		this.outgoing(); // Copy files to repositoriy
+		this.incoming(); // Copy files from repositoriy
+		this.compare(); // See which files aren't configured to copy to repositoriy
 
-		// Update whatever updated files need
+		// Look at what generic files need
 		let rqrs = new Requires(cfg.dirProject, this.project.files.out);
 		rqrs.updateList();
+
+		// Need anything else from repositoriy?
+		let an = rqrs.getNeeds(
+			FileUtils.expandFileList(
+				join(cfg.options.sponsor.dir.remote, "generic"),
+				this.project.files.in,
+			),
+		);
+		if (an.generic.length > 0) {
+			// Add to incoming and overwrite
+			this.project.files.in.push(...an.generic);
+			FileUtils.writeJsonFile(this.project, "", this.path2sponsor, false);
+			// Copy from repositoriy
+			this.project.files.in = an.generic;
+			//this.incoming(false);
+		}
+
+		// Need to get npm packages?
+		let cmd = an.getNpmInstall();
+		if (cfg.options.sponsor.autoRunNpm) {
+			console.log("\nInstalling packages...");
+			cd(cfg.dirProject);
+			SysUtils.execBashCmd(cmd);
+			cd(cfg.dirMain); // Reset to default
+		} else if (cmd) {
+			console.log("\nRun command:\n%s", cmd);
+		}
 	}
 }

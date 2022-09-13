@@ -188,7 +188,11 @@ export class Shrinker {
 		// Object with functions as methods syntax
 
 		// Method name inserted by transcompiler, like interpolation to roll back
-		this.shorten(`${mS}: function ${mS}`, `${mR}:function `);
+		this.shorten(
+			new RegExp(`${mS}:\\s*function\\s*${mS}`, "g"),
+			`${mR}:function `,
+		);
+
 		// In case method name was not inserted by transcompiler
 		this.shorten(`${mS}: function`, `${mR}:function `);
 

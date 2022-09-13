@@ -16,7 +16,7 @@ For another project, [cookware-texts](https://github.com/hfndb/cookware-texts), 
 
 For another situation, I made a tiny program, [Notifications](https://github.com/hfndb/tools/tree/master/programs/notifications). To show notifications in the system tray of a [KDE](https://en.wikipedia.org/wiki/KDE) desktop ([Kubuntu Linux](https://kubuntu.org/])), though that facility can also trigger [Gnome](https://en.wikipedia.org/wiki/GNOME) etc notifications.
 
-In this project, cookware-headless-ice, I already added a project overview, code statistics of a project.
+In this project, `cookware-headless-ice`, I already added a project overview, code statistics of a project.
 
 ## Looking now
 

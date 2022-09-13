@@ -150,9 +150,14 @@ export class SourceUtils {
 		}
 		if (!source) return false;
 
-		FileUtils.writeFile(entry.targetDir, entry.target, source, true);
+		let written = FileUtils.writeFile(
+			entry.targetDir,
+			entry.target,
+			source,
+			true,
+		);
 
-		if (!forBrowser) return true;
+		if (!forBrowser) return written;
 		// ------------------------------------------------------
 		// For browser from here
 		// ------------------------------------------------------
@@ -183,23 +188,23 @@ export class SourceUtils {
 			default:
 				return false; // Unknown
 		}
-		if (!FileUtils.writeFile(entry.targetDir, file, source, false)) return false;
+		written = FileUtils.writeFile(entry.targetDir, file, source, false);
 
 		if (isBundle && bundle.copyTo) {
 			// Make extra copy
-			cp("-f", output, bundle.copyTo);
+			cp("-fu", output, bundle.copyTo);
 			let stripped = FileUtils.getSuffixedFile(
 				bundle.copyTo,
 				cfg.options.stripping.suffix,
 			);
 			cp(
-				"-f",
+				"-fu",
 				join(entry.targetDir, file),
 				join(dirname(bundle.copyTo), basename(stripped)),
 			);
 		}
 
-		return true;
+		return written;
 	}
 
 	/**
@@ -215,16 +220,16 @@ export class SourceUtils {
 		let source = FileUtils.readFile(fi.full);
 		let orgSource = source;
 
-		source = Beautify.content(fi.file.full, source);
+		source = Beautify.content(entry.source, source);
 		if (!source) return; // Error during beautify
 		if (source == orgSource) false;
 
 		if (source != orgSource)
-			FileUtils.writeFile(fi.path.full, fi.file.full, source, false, true);
+			FileUtils.writeFile(entry.dir, entry.source, source, false, true);
 
 		if (fi.file.ext == ".mjs") {
 			source = Stripper.stripJs(source, true);
-			FileUtils.writeFile(join(dir, fi.path.next), fi.file.full, source, true);
+			FileUtils.writeFile(entry.targetDir, entry.target, source, true);
 		}
 	}
 }

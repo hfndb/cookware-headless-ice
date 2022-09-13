@@ -24,7 +24,7 @@ Settings.json in a project directory **overrides** the default program settings,
 }
 ```
 
-Version information. When cookware-headless-ice is upgraded, your configuration will be converted to the latest required structure.
+Version information. When `cookware-headless-ice` is upgraded, your configuration will be converted to the latest required structure.
 
 
 ## Cli
@@ -543,6 +543,7 @@ For information, see [sponsoring](./sponsoring.md).
 
 ```javascript
 	"sponsor": {
+		"autoRunNpm": false,
 		"dir": {
 			"generic": "generic",
 			"remote": "/tmp"
@@ -552,6 +553,7 @@ For information, see [sponsoring](./sponsoring.md).
 ```
 
 Entries:
++ *autoRunNpm*: Automatically install and/or update npm packages needed for generic source files
 + *dir / generic*: Directory of generic files relative to javascript.dir.source
 + *projects*: If project names are configured, all projects will be fully sponsored in order of appearance
 

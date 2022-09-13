@@ -205,7 +205,7 @@ export class CodeJs {
 	 * @returns {string[]}
 	 */
 	static getImports(source) {
-		let result = StringExt.matchAll(`import.*from.*["']+(.*)["']+;`, source);
+		let result = StringExt.matchAll(`^import.*from.*["']+(.*)["']+;`, source);
 
 		return StringExt.getRegexGroup(result, 0);
 	}

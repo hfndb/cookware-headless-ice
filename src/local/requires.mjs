@@ -27,26 +27,19 @@ export class Requires {
 			cfg.options.sponsor.dir.generic,
 		);
 		this.dirProject = dirProject;
-		this.files = [];
+		this.dirRemoteSource = join(cfg.options.sponsor.dir.remote, "generic");
+		this.files = FileUtils.expandFileList(this.dirRemoteSource, files);
 		this.path2json = join(
 			cfg.options.sponsor.dir.remote,
 			cfg.options.sponsor.file.requires,
 		);
 
-		// Configure files
-		let file, lst, path;
-		for (let i = 0; i < files.length; i++) {
-			path = join(this.basePath, files[i]);
-			if (!test("-d", path)) {
-				this.files.push(files[i]); // File
-				continue;
-			}
-			lst = FileUtils.getFileList(path); // Files in directory
-			lst.forEach(item => {
-				file = join(path, item).replace(this.basePath + sep, "");
-				this.files.push(file);
-			});
-		}
+		// Read project package.json
+		let pkgs = FileUtils.readJsonFile(
+			join(this.dirProject, "package.json"),
+			true,
+		);
+		this.pkgs = pkgs.dependencies;
 
 		// Read what we have so far
 		if (test("-f", this.path2json)) {
@@ -59,7 +52,7 @@ export class Requires {
 	}
 
 	/**
-	 * Update what we have so far
+	 * Step 1: Update what we have so far
 	 */
 	updateList() {
 		let changed = false,
@@ -70,17 +63,10 @@ export class Requires {
 			path,
 			source;
 
-		// Read project package.json
-		let pkgs = FileUtils.readJsonFile(
-			join(this.dirProject, "package.json"),
-			true,
-		);
-		pkgs = pkgs.dependencies;
-
 		for (let i = 0; i < this.files.length; i++) {
 			file = this.files[i];
 			idx = this.lst.findIndex(item => item.name == file);
-			path = join(this.basePath, file);
+			path = join(this.dirRemoteSource, file);
 
 			if (
 				idx >= 0 &&
@@ -96,7 +82,7 @@ export class Requires {
 			// Extract and update imports
 			source = FileUtils.readFile(path);
 			imports = CodeJs.getImports(source);
-			item.updateImports(this.basePath, path, imports, pkgs);
+			item.updateImports(this.basePath, path, imports, this.pkgs);
 
 			if (idx >= 0) {
 				this.lst[idx] = item;
@@ -108,6 +94,76 @@ export class Requires {
 		if (changed) {
 			FileUtils.writeJsonFile(this.lst, "", this.path2json, false);
 		}
+	}
+
+	/**
+	 * Step 2: What else does this project need?
+	 *
+	 * @param {string[]} files List of available generic files
+	 * @returns {AlsoNeeds}
+	 */
+	getNeeds(files) {
+		let an = new AlsoNeeds(files, this.pkgs),
+			file,
+			idx,
+			pkg;
+
+		// Scan current files and check npm
+		for (let f = 0; f < an.current.files.length; f++) {
+			file = an.current.files[f];
+			this.addFile(an, file);
+		}
+
+		Reflect.deleteProperty(an, "current");
+		return an;
+	}
+
+	/**
+	 * Add a generic source file
+	 *
+	 * @private
+	 * @param {AlsoNeeds} an
+	 * @param {string} file
+	 */
+	addFile(an, file) {
+		let idx = this.lst.findIndex(item => item.name == file);
+		if (idx < 0) return; // Not found
+
+		// Check which generic files are needed
+		let entry = this.lst[idx];
+		if (
+			!an.current.files.includes(entry.name) &&
+			!an.generic.includes(entry.name)
+		) {
+			an.generic.push(entry.name);
+		}
+		entry.imports.forEach(name => {
+			if (!an.current.files.includes(name) && !an.generic.includes(name)) {
+				this.addFile(an, name); // Recursive call
+			}
+		});
+
+		// Check which npm packages are needed
+		let currentVersion, installedVersion;
+		entry.npm.forEach(item => {
+			currentVersion = new NodePackage(item.version);
+			installedVersion = this.pkgs[item.name] || "";
+			if (!installedVersion) {
+				an.npm.push(item); // Not installed yet
+				return;
+			}
+
+			installedVersion = new NodePackage(installedVersion);
+			if (NodePackage.isOlder(installedVersion, currentVersion)) {
+				console.log(
+					"- Package %s needs an update; version %s -> %s",
+					item.name,
+					installedVersion.toString(),
+					currentVersion.toString(),
+				);
+				an.npm.push(item); // Older version installed, update
+			}
+		});
 	}
 }
 
@@ -122,7 +178,7 @@ class EntryFile {
 	 * @param {string} basePath
 	 * @param {string} path
 	 * @param {string[]} imports
-	 * @param {Object} pkgs
+	 * @param {Object} pkgs As in project package.json
 	 */
 	updateImports(basePath, path, imports, pkgs) {
 		this.imports = []; // Reset
@@ -143,12 +199,7 @@ class EntryFile {
 				} else {
 					current = "--unknown";
 				}
-				this.npm.push(
-					new EntryPkg({
-						name: mprt,
-						version: current.toString(),
-					}),
-				);
+				this.npm.push(new EntryPkg(mprt, current.toString()));
 			}
 		}
 
@@ -156,9 +207,59 @@ class EntryFile {
 	}
 }
 
+/**
+ * Results of a search of what a project also needs
+ *
+ * @property {string[]} files List of available generic files
+ * @property {string[]} generic Generic files not available yet
+ * @property {EntryPkg[]} npm Npm packages not available yet
+ */
+class AlsoNeeds {
+	/**
+	 * @param {string[]} files
+	 * @param {Object} pkgs As in project package.json
+	 */
+	constructor(files, pkgs) {
+		this.current = {
+			files: files,
+			npm: [],
+		};
+		this.generic = [];
+		this.npm = [];
+
+		let version;
+		Object.keys(pkgs).forEach(key => {
+			version = new NodePackage(pkgs[key]);
+			this.current.npm.push(new EntryPkg(key, version.toString()));
+		});
+	}
+
+	/**
+	 * @returns {string} Npm install command
+	 */
+	getNpmInstall() {
+		if (this.npm.length == 0) return "";
+		let pkg,
+			rt = "npm i ";
+		for (let i = 0; i < this.npm.length; i++) {
+			pkg = this.npm[i];
+			rt += `${pkg.name}@${pkg.version} `;
+		}
+
+		return rt + "--save";
+	}
+}
+
+/**
+ * For internal usage within this file
+ */
 class EntryPkg {
-	constructor(obj) {
-		this.name = obj.name;
-		this.version = obj.version;
+	/**
+	 * @param {string} name
+	 * @param {string} version
+	 */
+	constructor(name, version) {
+		this.name = name;
+		this.version = version;
 	}
 }

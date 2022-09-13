@@ -108,7 +108,7 @@ export class SessionVars {
 		return retVal.length > 0
 			? "\n"
 					.concat("------------------------------------------------\n")
-					.concat("Number of changed files during this session:\n")
+					.concat("Number of processed files during this session:\n")
 					.concat(retVal)
 					.concat("------------------------------------------------\n")
 			: "No changed source files detected during this session";

@@ -234,6 +234,7 @@ let DefaultConfig = {
 		exclude: [],
 	},
 	sponsor: {
+		autoRunNpm: false,
 		dir: {
 			generic: "generic",
 			remote: "/tmp",
