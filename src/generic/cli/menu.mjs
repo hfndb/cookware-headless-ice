@@ -148,7 +148,17 @@ export class CliMenu {
 
 		// chosen?.positionals is a string array
 
-		return chosen?.values || {};
+		// Get key/value pairs to return while transforming slug-case to camelCase
+		let name,
+			rt = {};
+		for (let i = 0; chosen?.values && i < this.options.length; i++) {
+			opt = this.options[i];
+			if (chosen.values[opt.name] == undefined) continue;
+			name = StringExt.caseSlug2camel(opt.name);
+			rt[name] = chosen.values[opt.name];
+		}
+
+		return rt;
 	}
 
 	setName(name) {

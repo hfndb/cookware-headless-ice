@@ -282,7 +282,7 @@ The structure of this file is invalid, meaning, messed up.
 	 */
 	static getFileInfo(path, file, includeSize = false) {
 		let rt = {
-			path: {
+			dir: {
 				base: path,
 				full: "",
 				next: "",
@@ -290,6 +290,7 @@ The structure of this file is invalid, meaning, messed up.
 			file: {
 				ext: "",
 				full: file,
+				name: file,
 				size: 0,
 				stem: "",
 			},
@@ -297,8 +298,8 @@ The structure of this file is invalid, meaning, messed up.
 		};
 
 		if (rt.file.full.includes(sep)) {
-			rt.path.next = dirname(file);
-			rt.file.full = basename(file);
+			rt.dir.next = dirname(file).replace(rt.dir.base + sep, "");
+			rt.file.full = basename(file).replace(rt.dir.base + sep, "");
 		}
 
 		if (rt.file.full.includes(".")) {
@@ -308,8 +309,8 @@ The structure of this file is invalid, meaning, messed up.
 			rt.file.stem = basename(file);
 		}
 
-		rt.path.full = join(rt.path.base, rt.path.next);
-		rt.full = join(rt.path.full, rt.file.full);
+		rt.dir.full = join(rt.dir.base, rt.dir.next);
+		rt.full = join(rt.dir.full, rt.file.full);
 
 		if (includeSize) {
 			rt.file.size = FileUtils.getFileSize(rt.full);
@@ -362,7 +363,7 @@ The structure of this file is invalid, meaning, messed up.
 	static getSuffixedFile(path, suffix) {
 		let dir = path.includes(sep) || path.includes("/") ? dirname(path) : "";
 		let fi = FileUtils.getFileInfo("", path);
-		return join(fi.path.full, `${fi.file.stem}-${suffix}${fi.file.ext}`);
+		return join(fi.dir.full, `${fi.file.stem}-${suffix}${fi.file.ext}`);
 	}
 
 	/**

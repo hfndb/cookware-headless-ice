@@ -207,12 +207,12 @@ if (choice.beautify) {
 	Lint.content();
 } else if (choice.overview) {
 	writeStats();
-} else if (choice["git-read"]) {
+} else if (choice.gitRead) {
 	Git.read(choice.file);
-} else if (choice["git-list"]) {
+} else if (choice.gitList) {
 	Git.list(choice.file);
-} else if (choice["git-show"]) {
-	Git.show(choice["git-show"]);
+} else if (choice.gitShow) {
+	Git.show(choice.gitShow);
 } else if (choice.pdf) {
 	renderPdf();
 } else if (choice.run) {

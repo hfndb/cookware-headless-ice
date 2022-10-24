@@ -135,6 +135,7 @@ cd ${cfg.dirProject}\n`;
 				src: isDir ? "/*" : "",
 				tar: isDir ? "/" : "",
 			};
+			cmd += `mkdir -p ${dirname(pths.tar)}\n`;
 			cmd += `cp -aruv ${pths.src}${sf.src} ${pths.tar}${sf.tar}\n`;
 		}
 

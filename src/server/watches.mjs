@@ -55,11 +55,12 @@ class JsWatch extends FileWatcher {
 		dir = join(cfg.dirProject, cfg.options.javascript.dirs.output);
 
 		log.info(`- ${file} changed`);
-		status.setTarget(dir, ".js");
 
 		if ([".cjs", ".mjs"].includes(fi.file.ext)) {
+			status.setTarget(dir, fi.file.ext);
 			SourceUtils.stripModule(status, true);
 		} else if ([".js", ".ts", ".cts", ".mts"].includes(fi.file.ext)) {
+			status.setTarget(dir, ".js");
 			let session = SessionVars.getInstance();
 			session.add(
 				isTypescript ? ProcessingTypes.typescript : ProcessingTypes.javascript,
@@ -93,7 +94,7 @@ class PhpWatch extends FileWatcher {
 
 		log.info(`- ${file} changed`);
 		let session = SessionVars.getInstance();
-		session.add(ProcessingTypes.php, fi.file.full);
+		session.add(ProcessingTypes.php, fi.file.name);
 
 		// Setup inplace editing
 		let status = new FileStatus(dir);
@@ -118,7 +119,7 @@ class SassWatch extends FileWatcher {
 
 		log.info(`- ${file} changed`);
 		let session = SessionVars.getInstance();
-		session.add(ProcessingTypes.sass, fi.file.full);
+		session.add(ProcessingTypes.sass, fi.file.name);
 
 		let status = new FileStatus(
 			join(cfg.dirProject, cfg.options.sass.dirs.source),
@@ -131,7 +132,7 @@ class SassWatch extends FileWatcher {
 			let source = FileUtils.readFile(fi.full);
 			source = Beautify.content(file, source);
 			if (source) {
-				FileUtils.writeFile(fi.path.full, fi.file.full, source, false);
+				FileUtils.writeFile(fi.dir.full, fi.file.full, source, false);
 			}
 		}
 		if (SassFiles.isImport(file)) {

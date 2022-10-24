@@ -1,5 +1,5 @@
 "use strict";
-import { isAbsolute, join } from "node:path";
+import { isAbsolute, join, sep } from "node:path";
 import { AppConfig, FileUtils } from "../index.mjs";
 import { StringExt } from "../utils.mjs";
 
@@ -401,6 +401,8 @@ export class Stripper {
 			file = files[i];
 			fi = FileUtils.getFileInfo(isAbsolute(file) ? "" : cfg.dirProject, file);
 
+			if (fi.file.ext == ".js" && !file.includes("browser" + sep)) continue; // Not for browser
+
 			if (stripped) {
 				if (!fi.file.stem.includes(suffix)) continue;
 				// Original to remove
@@ -408,7 +410,7 @@ export class Stripper {
 			} else {
 				if (fi.file.stem.includes(suffix)) continue;
 				// Stripped version to remove
-				file = join(fi.path.full, `${fi.file.stem}-${suffix}${fi.file.ext}`);
+				file = join(fi.dir.full, `${fi.file.stem}-${suffix}${fi.file.ext}`);
 			}
 
 			FileUtils.rmFile(file); // Remove if exists

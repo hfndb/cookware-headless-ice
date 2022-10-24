@@ -44,10 +44,10 @@ export class FileStatus {
 	 */
 	setSource(file, ext) {
 		let fi = FileUtils.getFileInfo(this.dir, file);
-		this.source = join(fi.path.next, fi.file.full);
+		this.source = join(fi.dir.next, fi.file.full);
 		this.ext = ext;
 		if (test("-e", fi.full)) {
-			this.lastModified = FileUtils.getLastModified(fi.path.full, fi.file.full);
+			this.lastModified = FileUtils.getLastModified(fi.dir.full, fi.file.full);
 		}
 		this.status = "unknown";
 	}
@@ -66,12 +66,12 @@ export class FileStatus {
 		if (flatten) {
 			this.target = fi.file.stem.concat(this.targetExt);
 		} else {
-			this.target = join(fi.path.next, fi.file.stem).concat(this.targetExt);
+			this.target = join(fi.dir.next, fi.file.stem).concat(this.targetExt);
 		}
 		fi = FileUtils.getFileInfo(this.targetDir, this.target);
 		if (test("-e", fi.full)) {
 			this.targetLastModified = FileUtils.getLastModified(
-				fi.path.full,
+				fi.dir.full,
 				fi.file.full,
 			);
 			this.status =

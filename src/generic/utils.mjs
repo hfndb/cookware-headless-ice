@@ -272,6 +272,22 @@ export class StringExt {
 		let rndm = Math.floor(Math.random() * (end - begin)) + begin;
 		return rndm.toString();
 	}
+
+	/**
+	 * Slug-case to camelCase
+	 */
+	static caseSlug2camel(str) {
+		let pos,
+			rt = str;
+
+		while (rt.includes("-")) {
+			pos = rt.indexOf("-");
+			rt =
+				rt.substring(0, pos) + StringExt.initialCapitalized(rt.substring(pos + 1));
+		}
+
+		return rt;
+	}
 }
 
 /**

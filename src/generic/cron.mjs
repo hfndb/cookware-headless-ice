@@ -28,6 +28,10 @@ export class Task {
 	 * │    └──────────────────── minute (0 - 59)
 	 * └───────────────────────── second (0 - 59, optional)
 	 *
+	 * For translation to readable texts
+	 * @see https://github.com/bradymholt/cronstrue
+	 * cRonstrue: Library to Convert cron Expressions into Human Readable Form
+	 *   will return somthing like “Every 10 minutes”. No dependencies.
 	 */
 	constructor(name, crontab, plugin = "", runAtstartup = false) {
 		this.crontab = crontab;
