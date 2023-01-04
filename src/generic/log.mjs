@@ -1,6 +1,5 @@
 "use strict";
 import { basename, dirname, join } from "node:path";
-import logSymbols from "log-symbols";
 import { SysUtils } from "./sys.mjs";
 import { FileUtils } from "./file-system/files.mjs";
 import { ObjectUtils } from "./object.mjs";
@@ -116,16 +115,16 @@ export class Logger {
 		let stamp = frmtr.date(new Date(), this.opts.transports.console.format);
 		switch (level) {
 			case "error":
-				console.log(stamp, logSymbols.error, pars);
+				console.log(stamp, level.red, pars);
 				break;
 			case "info":
-				console.log(stamp, logSymbols.info, pars);
+				console.log(stamp, level.green, pars);
 				break;
 			case "success":
-				console.log(stamp, logSymbols.success, pars);
+				console.log(stamp, level.blue, pars);
 				break;
 			case "warn":
-				console.log(stamp, logSymbols.warning, pars);
+				console.log(stamp, level.red, pars);
 				break;
 			default:
 				console.log(stamp, level, pars);

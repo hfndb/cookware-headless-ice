@@ -1,11 +1,12 @@
 "use strict";
 import { readFileSync, statSync, writeFileSync } from "node:fs";
+import { platform } from "node:os";
 import { basename, dirname, extname, join, sep } from "node:path";
 import { fdir } from "fdir";
 import { AppConfig } from "../config.mjs";
 import { Logger } from "../log.mjs";
 import { ArrayUtils } from "../object.mjs";
-import { mkdir, mv, rm, test, touch } from "../sys.mjs";
+import { mkdir, mv, rm, test, touch, SysUtils } from "../sys.mjs";
 import { StringExt } from "../utils.mjs";
 
 /**
@@ -298,8 +299,12 @@ The structure of this file is invalid, meaning, messed up.
 		};
 
 		if (rt.file.full.includes(sep)) {
-			rt.dir.next = dirname(file).replace(rt.dir.base + sep, "");
-			rt.file.full = basename(file).replace(rt.dir.base + sep, "");
+			rt.dir.next = rt.dir.base
+				? dirname(file).replace(rt.dir.base + sep, "")
+				: dirname(file);
+			rt.file.full = rt.dir.base
+				? basename(file).replace(rt.dir.base + sep, "")
+				: basename(file);
 		}
 
 		if (rt.file.full.includes(".")) {
@@ -461,6 +466,12 @@ The structure of this file is invalid, meaning, messed up.
 	 * @param {Object} opts
 	 */
 	static touchRecursive(path, opts) {
+		// Simplest method of touching: Using shell command
+		if (!opts && platform() != "win32") {
+			SysUtils.execBashCmd(`find ${path} -type f | xargs touch`, true, true);
+			return;
+		}
+
 		if (!opts) opts = {};
 		if (opts.filterContains == undefined) opts.filterContains = [];
 		if (opts.recursive == undefined) opts.recursive = true;

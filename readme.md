@@ -167,7 +167,6 @@ Generic:
 + [date-and-time](https://www.npmjs.com/package/date-and-time) to format and manipulate dates and times
 + [deep-diff](https://www.npmjs.com/package/deep-diff) to check and display overridden settings in project settings.json
 + [fdir](https://www.npmjs.com/package/fdir) to scan directories and files
-+ [log-symbols](https://www.npmjs.com/package/log-symbols) for icons in console output
 + [Mocha](https://www.npmjs.com/package/mocha) and [Chai](https://www.chaijs.com/) for unit testing
 + [q-i](https://www.npmjs.com/package/q-i) to display a colored and formatted version of objects with json structure
 + [shelljs](https://www.npmjs.com/package/shelljs) for Linux-like commands, made portable to Windows
