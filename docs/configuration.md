@@ -414,13 +414,18 @@ Notable entry:
 			"content": "dist",
 			"output": "dist/downloads"
 		},
+		"engine": "wkhtmltopdf",
 		"rendering": {
 			"exclude": [
 				"downloads"
 			],
 			"firstUpdateWeb": true,
-			"marginLeft": 10,
-			"marginRight": 10,
+			"margin: {
+				"bottom": 10,
+				"top": 10,
+				"left": 10,
+				"right": 10,
+			},
 			"removeObsolete": {
 				"active": true,
 				"exclude": []
@@ -433,11 +438,11 @@ Notable entry:
 
 Entries:
 + *dirs / content*: Rendered HTML content which yet needs to be converted to PDF.
++ *engine*: wkhtmltopdf or puppeteer.
 + *dirs / output*: Where to put your rendered PDF files.
 + *rendering / exclude*: An array with HTML files to exclude from rendering.
 + *rendering / firstUpdateSources*: Before rendering PDF files, first update sources, sass and content.
-+ *rendering / marginLeft*: A setting for wkhtmltopdf. Unit: mm.
-+ *rendering / marginRight*: A setting for wkhtmltopdf. Unit: mm.
++ *rendering / margin*: If using puppeteer in px, if using wkhtmltopdf in mm.
 + *rendering / removeObsolete / active*: After rendering, remove all PDF files which have become obsolete. They will not be actually removed, but moved to a temp directory. The exact location of these trash files will be reported to you.
 + *rendering / removeObsolete / exclude*: An array with PDF files which will be excluded from auto-removal.
 + *rendering / sign*: Sign produced PDF files with PGP.

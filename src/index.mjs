@@ -12,7 +12,7 @@ import { renderEpub } from "./local/epub.mjs";
 import { generateJsDocs } from "./local/javascript.mjs";
 import { Colors, Git, Misc } from "./local/misc.mjs";
 import { writeStats } from "./local/overview.mjs";
-import { renderPdf } from "./local/pdf.mjs";
+import { Pdf } from "./local/pdf.mjs";
 import { Sponsor } from "./local/sponsor.mjs";
 import { generateTsDocs } from "./local/typescript.mjs";
 import { playGround } from "./dev/playground.mjs";
@@ -114,7 +114,7 @@ am.addOption({
 am.addOption({
 	name: "write",
 	type: Boolean,
-	description: "Write default settings to settings-default.json",
+	description: "Write default settings to <project dir>/settings-default.json",
 });
 am.addOption({
 	name: "colors",
@@ -214,7 +214,7 @@ if (choice.beautify) {
 } else if (choice.gitShow) {
 	Git.show(choice.gitShow);
 } else if (choice.pdf) {
-	renderPdf();
+	await Pdf.renderAll();
 } else if (choice.run) {
 	coatRack();
 } else if (choice.sponsor && platform() != "win32") {

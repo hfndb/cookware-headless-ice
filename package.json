@@ -42,6 +42,7 @@
 		"nunjucks": "^3.2.3",
 		"postcss": "^7.0.39",
 		"prettier": "^1.19.1",
+		"puppeteer": "^19.6.3",
 		"q-i": "^2.0.1",
 		"shelljs": "^0.8.5",
 		"source-map-support": "^0.5.21",

@@ -172,11 +172,16 @@ let DefaultConfig = {
 			content: "dist",
 			output: "dist/downloads",
 		},
+		engine: "wkhtmltopdf", // or puppeteer
 		rendering: {
 			exclude: ["downloads"],
 			firstUpdateWeb: true,
-			marginLeft: 10,
-			marginRight: 10,
+			margin: {
+				bottom: 10,
+				top: 10,
+				left: 10,
+				right: 10,
+			},
 			removeObsolete: {
 				active: true,
 				exclude: [],

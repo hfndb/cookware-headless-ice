@@ -14,15 +14,18 @@ export class Packages {
 	 * Get a list of installed packages, excluding types
 	 *
 	 * @param {string} dir
+	 * @param {boolean} [production] For production usage
 	 */
-	static getPackages(dir) {
+	static getPackages(dir, production = true) {
 		let packages = FileUtils.readJsonFile(join(dir, "package.json"), true);
 		let pkg = [];
 		for (let key in packages.dependencies) {
 			if (!key.startsWith("@types")) pkg.push(key);
 		}
-		for (let key in packages.devDependencies) {
-			if (!key.startsWith("@types")) pkg.push(key);
+		if (production) {
+			for (let key in packages.devDependencies) {
+				if (!key.startsWith("@types")) pkg.push(key);
+			}
 		}
 		return pkg;
 	}
@@ -142,8 +145,10 @@ export class Packages {
 export class NodePackage {
 	/**
 	 * @param {string} version as in package.json
+	 * @param {string} [name]
 	 */
-	constructor(version) {
+	constructor(version, name) {
+		this.name = name || "";
 		/*
 			Version numbers by semantic versioner for npm:
 				https://github.com/npm/node-semver#versions

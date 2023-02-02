@@ -56,7 +56,7 @@ $ sudo npm install -g dts-gen jsdoc mocha @pintora/cli typescript ts-node zx
 
 In case you don't want to install npm packages as root user, look [here](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally).
 
-For PDF file creation, download and install [wkhtmltopdf](http://wkhtmltopdf.org/downloads.html).
+For PDF file creation, if you prefer to use wkhtmltopdf, then download and install [wkhtmltopdf](http://wkhtmltopdf.org/downloads.html).
 Note: Do not use the version delivered by your package manager, since it has less functionality.
 
 
@@ -188,6 +188,10 @@ JavaScript:
 TypeScript:
 + [ts-node](https://www.npmjs.com/package/ts-node) for live TypeScript execution during debugging
 + [typedoc](https://www.npmjs.com/package/typedoc) for generating TypeScript API documentation
+
+PDF:
+[puppeteer](https://www.npmjs.com/package/puppeteer) to generate PDF files from rendered HTML, if not wkhtmltopdf isn't configured in project settings
+
 
 Epub:
 + [epub-gen](https://www.npmjs.com/package/epub-gen) to generate ePub files

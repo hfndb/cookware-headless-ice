@@ -117,152 +117,6 @@ export class ArrayUtils {
 	}
 }
 
-/** @typedef DateDiff
- * @property {number} days
- * @property {number} weeks
- * @property {number} months
- */
-
-export class DateUtils {
-	/**
-	 * @returns {number} minute in ms
-	 */
-	static getMinuteAsMs() {
-		return 1000 * 60;
-	}
-
-	/**
-	 * @returns {number} hour in ms
-	 */
-	static getHourAsMs() {
-		return DateUtils.getMinuteAsMs() * 60;
-	}
-
-	/**
-	 * @returns {number} natural day of 24 hrs in ms
-	 */
-	static getDayAsMs() {
-		return DateUtils.getHourAsMs() * 24;
-	}
-
-	/**
-	 * @returns {number} week of 7 natural days in ms
-	 */
-	static getWeekAsMs() {
-		return DateUtils.getDayAsMs() * 7;
-	}
-
-	/**
-	 * Same calendar day?
-	 *
-	 * @param {Date} a
-	 * @param {Date} b
-	 * @returns {boolean}
-	 */
-	static isSameDay(a, b) {
-		return DateUtils.isSameMonth(a, b) && a.getDate() == b.getDate();
-	}
-
-	/**
-	 * Same calendar month?
-	 *
-	 * @param {Date} a
-	 * @param {Date} b
-	 * @returns {boolean}
-	 */
-	static isSameMonth(a, b) {
-		return a.getMonth() == b.getMonth() && DateUtils.isSameYear(a, b);
-	}
-
-	/**
-	 * Same calendar year?
-	 *
-	 * @param {Date} a
-	 * @param {Date} b
-	 * @returns {boolean}
-	 */
-	static isSameYear(a, b) {
-		return a.getFullYear() == b.getFullYear();
-	}
-
-	/**
-	 * Add days to a date
-	 *
-	 * @param {Date} dt
-	 * @param (number) days
-	 * @param (boolean) change Change existiting instance or return new instance
-	 */
-	static addDays(dt, days, change = true) {
-		// Pointer to original or new instance?
-		let rt = change ? dt : new Date(dt.valueOf());
-		// Set to go
-		rt.setDate(rt.getDate() + days);
-
-		return rt;
-	}
-
-	/**
-	 * Go from a Date instance to string parts in an object
-	 *
-	 * @param {Date} dt
-	 * @returns {Object}
-	 */
-	static date2parts(dt) {
-		return {
-			year: dt.getFullYear().toString(),
-			// Month index starts with 0, so correct
-			month: (dt.getMonth() + 1).toString().padStart(2, "0"),
-			day: dt
-				.getDate()
-				.toString()
-				.padStart(2, "0"),
-			hours: dt
-				.getHours()
-				.toString()
-				.padStart(2, "0"),
-			minutes: dt
-				.getMinutes()
-				.toString()
-				.padStart(2, "0"),
-			seconds: dt
-				.getSeconds()
-				.toString()
-				.padStart(2, "0"),
-		};
-	}
-
-	/**
-	 * Calculate the difference between two days in days, weeks and months
-	 *
-	 * @param {Date} dtFrom
-	 * @param {Date} dtTo
-	 * @param {boolean} floorEm Floor days and months
-	 * @returns {DateDiff}
-	 * @see https://stackoverflow.com/questions/2536379/difference-in-months-between-two-dates-in-javascript#2536445
-	 */
-	static dateDiff(dtFrom, dtTo, floorEm = true) {
-		let diffT = dtTo.getTime() - dtFrom.getTime(); // Time
-
-		let rt = {
-			days: diffT / (1000 * 60 * 60 * 24),
-			months:
-				dtTo.getMonth() -
-				dtFrom.getMonth() +
-				12 * (dtTo.getFullYear() - dtFrom.getFullYear()),
-			weeks: 0,
-		};
-
-		rt.weeks = rt.days / 7;
-
-		if (floorEm) {
-			rt.days = Math.floor(rt.days);
-			rt.weeks = Math.floor(rt.weeks);
-		}
-
-		return rt;
-	}
-}
-
 export class ObjectUtils {
 	/**
 	 * Safely clone an object
@@ -364,24 +218,24 @@ export class ObjectUtils {
 }
 
 /**
- * Class to deal with dataasets of records, like resultsets from database or similar entries in a .json file
+ * Class to deal with datasets of records, like resultsets from database or similar entries in a .json file
  */
 export class Dataset {
 	/**
 	 * Sort an array with results
 	 *
-	 * @param data
-	 * @param fields
+	 * @param {object[]} data
+	 * @param {string[]} fields
 	 */
 	static sort(data, fields) {
 		return arraySort(data, fields);
 	}
 
 	/**
-	 * Take data from an array with results and return a resultset with the same entries, though including only specified fields
+	 * Take data from an array with results and return a resultset with the same entries, though including only specified fields. Another approach than array.filter()
 	 *
-	 * @param data
-	 * @param fields
+	 * @param {object[]} data
+	 * @param {string[]} fields
 	 */
 	static extractFields(data, fields) {
 		let log = Logger.getInstance();

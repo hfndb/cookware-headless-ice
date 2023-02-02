@@ -22,6 +22,7 @@ export class Beautify {
 		if (!pathIsDir) path = "";
 		for (let i = 0; i < files.length; i++) {
 			let file = files[i];
+			if (file.includes("node_modules")) continue;
 			let content = FileUtils.readFile(join(cfg.dirProject, path, file));
 			let data = Beautify.content(file, content);
 			if (data) {
