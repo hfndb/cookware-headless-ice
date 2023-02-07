@@ -231,7 +231,7 @@ The structure of this file is invalid, meaning, messed up.
 		for (let d = 0; d < fl.length; d++) {
 			file = fl[d];
 
-			if (file.startsWith(cfg.dirProject)) {
+			if (file.startsWith(path)) {
 				file = file.substring(path.length + 1);
 			}
 
@@ -268,8 +268,7 @@ The structure of this file is invalid, meaning, messed up.
 			}
 			lst = FileUtils.getFileList(path); // Files in directory
 			lst.forEach(item => {
-				item = item.replace(dirBase + sep, "");
-				rt.push(item);
+				rt.push(join(files[i], item));
 			});
 		}
 
