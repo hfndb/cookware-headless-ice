@@ -10,11 +10,9 @@ let cfg, log;
 
 export class Task {
 	/**
-	 * @param {string} crontab
 	 * @param {string} name
-	 * @param {string} [plugin]
-	 * @param {boolean} [runAtstartup]
-	 *
+	 * @param {string} crontab
+	 * @param {Object} [opts]
 	 * @see http://en.wikipedia.org/wiki/Crontab
 	 * @see https://github.com/harrisiirak/cron-parser
 	 *
@@ -33,11 +31,11 @@ export class Task {
 	 * cRonstrue: Library to Convert cron Expressions into Human Readable Form
 	 *   will return somthing like “Every 10 minutes”. No dependencies.
 	 */
-	constructor(name, crontab, plugin = "", runAtstartup = false) {
-		this.crontab = crontab;
+	constructor(name, crontab, opts = {}) {
 		this.name = name;
-		this.plugin = plugin || "generic";
-		this.runAtstartup = runAtstartup;
+		this.crontab = crontab;
+		this.plugin = opts.plugin || "generic";
+		this.runAtstartup = opts.runAtstartup != undefined ? opts.runAtstartup : true;
 	}
 }
 
@@ -76,14 +74,13 @@ export class Cron {
 	 * registered.
 	 *
 	 * @param {string} dir Directory
-	 * @param {string} file
 	 */
-	static init(dir, file) {
+	static init(dir) {
 		cfg = AppConfig.getInstance();
 		log = Logger.getInstance();
 
 		Cron.dir = dir;
-		Cron.file = file;
+		Cron.file = "schedule.json";
 
 		let path = join(Cron.dir, Cron.file);
 		if (test("-f", path)) {

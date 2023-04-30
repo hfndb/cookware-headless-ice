@@ -27,6 +27,7 @@ export class SourceUtils {
 		let cfg = AppConfig.getInstance();
 		let log = Logger.getInstance(cfg.options.logging);
 		let outDir = JavascriptUtils.getOutputDir();
+		if (!outDir) return;
 
 		/**
 		 * @type {string[]}

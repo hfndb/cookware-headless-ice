@@ -31,7 +31,7 @@ export class FileWatcher {
 		this.watchers = [];
 		this.workingDir = opts.workingDir;
 
-		if (!test("-e", this.workingDir)) {
+		if (!test("-e", join(this.workingDir, opts.path))) {
 			log.info(
 				`Path ${opts.path} doesn't exist. Request to watch ${this.description} ignored`,
 			);

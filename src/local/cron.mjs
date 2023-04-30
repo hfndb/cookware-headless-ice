@@ -18,9 +18,7 @@ let cfg, log;
 export class CronTasks {
 	constructor() {
 		this.changed = false; // Changes for settings.json?
-		this.dir = join(cfg.dirProject, "dev");
-		this.file = "cron-cache.json";
-		Cron.init(this.dir, this.file);
+		Cron.init(join(cfg.dirProject, "dev", "cron"));
 
 		// Fresh cache file?
 		if (Cron.data.sys == undefined) Cron.data.sys = {}; // 'Plugin'

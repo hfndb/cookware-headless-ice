@@ -100,10 +100,11 @@ export class ShrinkConfig {
 				if (idx >= 0) {
 					cfgPart[idx] = Object.assign(cfgPart[idx], entry); // Overwrite entry
 				} else {
-					idx = cfgPart.push(entry); // Add entry
+					Object.assign(entry, { methods: {} });
+					idx = cfgPart.push(entry) - 1; // Add entry
 				}
 				cfgPart[idx].methods = ShrinkConfig.updateMethods(
-					cfgPart[idx].methods || {},
+					cfgPart[idx].methods,
 					cls,
 					src,
 				);

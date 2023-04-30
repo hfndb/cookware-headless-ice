@@ -317,7 +317,7 @@ The structure of this file is invalid, meaning, messed up.
 		rt.full = join(rt.dir.full, rt.file.full);
 
 		if (includeSize) {
-			rt.file.size = FileUtils.getFileSize(rt.full);
+			rt.file.size = test("-f", rt.full) ? FileUtils.getFileSize(rt.full) : -1;
 		}
 
 		return rt;

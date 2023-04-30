@@ -4,6 +4,7 @@ import puppeteer from "puppeteer";
 import { AppConfig } from "./config.mjs";
 import { Logger } from "./log.mjs";
 import { signFile } from "./pgp.mjs";
+import { exec } from "../generic/sys.mjs";
 
 export class PdfGenerator {
 	constructor() {
@@ -23,7 +24,10 @@ export class PdfGenerator {
 	}
 
 	async cleanup() {
-		await this.browser.close();
+		let cfg = AppConfig.getInstance();
+		if (cfg.options.pdf.engine == "puppeteer") {
+			await this.browser.close();
+		}
 	}
 
 	/**
@@ -36,21 +40,29 @@ export class PdfGenerator {
 	 */
 	async write(dirHtml, fileHtml, dirPdf, filePdf, verbose = true) {
 		let cfg = AppConfig.getInstance();
+		let log = Logger.getInstance();
 
 		if (cfg.options.pdf.engine == "wkhtmltopdf") {
-			// Download binary: https://wkhtmltopdf.org/downloads.html
-			let cmd = "wkhtmltopdf -q -s A4 -L "
-				.concat(cfg.options.pdf.rendering.marginLeft.toString())
-				.concat("mm -R ")
-				.concat(cfg.options.pdf.rendering.marginRight.toString())
-				.concat(
-					'mm --print-media-type --enable-local-file-access  --header-right "[page] / [toPage]" ',
-				)
-				.concat(join(dirHtml, fileHtml))
-				.concat(" ")
-				.concat(join(dirPdf, filePdf));
+			const m = cfg.options.pdf.rendering.margin; // shorthand
+
+			let cmd = [
+				"wkhtmltopdf -q",
+				"-s A4",
+				`-L ${m.left}mm -R ${m.right}mm`,
+				`-B ${m.bottom}mm -T ${m.top}mm`,
+				"--encoding UTF-8",
+				"--enable-local-file-access",
+				"--enable-javascript",
+				'--header-right "[page] / [toPage]"',
+				"--load-error-handling ignore", // default
+				"--print-media-type",
+				join(dirHtml, fileHtml),
+				join(dirPdf, filePdf),
+			];
+
 			try {
-				let r = exec(cmd, {});
+				let r = exec(cmd.join(" "), {});
+				//process.exit()
 				if (r.stderr) {
 					log.warn(`- Failed to render file: ${filePdf}`); // , r.stderr.toString()
 					return false;
@@ -90,6 +102,7 @@ export class PdfGenerator {
 	 * @param {string} file
 	 */
 	sign(file) {
+		let cfg = AppConfig.getInstance();
 		if (cfg.options.pdf.rendering.sign) {
 			signFile(file);
 		}

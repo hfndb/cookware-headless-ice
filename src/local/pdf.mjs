@@ -9,7 +9,6 @@ import {
 import { removeObsolete } from "../generic/file-system/files.mjs";
 import { Content } from "../generic/html.mjs";
 import { PdfGenerator } from "../generic/pdf.mjs";
-import { exec } from "../generic/sys.mjs";
 import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 import { SourceUtils } from "./source.mjs";
 import { SassUtils } from "./styling.mjs";
@@ -45,16 +44,16 @@ export class Pdf {
 		let pg = new PdfGenerator();
 		let saydHello = false;
 
-		changeList.forEach(entry => {
-			if (entry.isNewOrModified()) {
+		for (let i = 0; i < changeList.length; i++) {
+			if (changeList[i].isNewOrModified()) {
 				if (!saydHello) {
 					saydHello = true;
 					log.info("Rendering PDF files");
 				}
-				Pdf.renderFile(entry);
+				await Pdf.renderFile(changeList[i], pg);
 			}
-			processed.push(basename(entry.target));
-		});
+			processed.push(basename(changeList[i].target));
+		}
 
 		await pg.cleanup();
 		removeObsolete(
@@ -81,14 +80,14 @@ export class Pdf {
 	static async renderFile(fileStatus, pg) {
 		if (!fileStatus.isNewOrModified()) return true;
 
-		if (
-			await pg.write(
-				fileStatus.dir,
-				fileStatus.source,
-				fileStatus.targetDir,
-				fileStatus.target,
-			)
-		) {
+		let rt = await pg.write(
+			fileStatus.dir,
+			fileStatus.source,
+			fileStatus.targetDir,
+			fileStatus.target,
+		);
+
+		if (rt) {
 			let session = SessionVars.getInstance();
 			session.add(ProcessingTypes.pdf, fileStatus.target);
 			return true;

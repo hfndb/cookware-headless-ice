@@ -28,7 +28,7 @@ export class JavascriptUtils {
 			// In case of absolute path
 			outputDir = cfg.options.javascript.dirs.output;
 		} else {
-			log.error("JavaScript output directory couldn't be determined");
+			log.warn("JavaScript output directory couldn't be determined");
 		}
 
 		return outputDir;

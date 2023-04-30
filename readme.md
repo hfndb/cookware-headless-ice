@@ -56,8 +56,11 @@ $ sudo npm install -g dts-gen jsdoc mocha @pintora/cli typescript ts-node zx
 
 In case you don't want to install npm packages as root user, look [here](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally).
 
-For PDF file creation, if you prefer to use wkhtmltopdf, then download and install [wkhtmltopdf](http://wkhtmltopdf.org/downloads.html).
-Note: Do not use the version delivered by your package manager, since it has less functionality.
+### wkhtmltopdf
+
+For PDF file creation, if you prefer to use wkhtmltopdf, then download and install [wkhtmltopdf](http://wkhtmltopdf.org/downloads.html). Do not use the version delivered by your package manager, since it has less functionality.
+
+Wkhtmltopdf uses [QtWeb](http://www.qtweb.net/) as a rendering engine. QtWeb is an open source project based on Nokia's Qt framework and Apple's WebKit.
 
 
 ## Installation

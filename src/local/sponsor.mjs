@@ -173,6 +173,7 @@ cd ${cfg.dirProject}\n`;
 			}, false);
 			if (
 				!canSkip &&
+				!src.endsWith("test.mjs") &&
 				!this.project.files.in.includes(src) &&
 				!this.project.files.out.includes(src)
 			) {

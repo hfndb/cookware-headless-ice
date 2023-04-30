@@ -109,25 +109,29 @@ export class Logger {
 			.replace(new RegExp("dist/static/js", "g"), "src");
 	}
 
-	writeConsole(level, pars) {
+	writeConsole(level, ...pars) {
 		if (!this.opts.transports.console.active) return;
 		const frmtr = Formatter.getInstance();
 		let stamp = frmtr.date(new Date(), this.opts.transports.console.format);
 		switch (level) {
 			case "error":
-				console.log(stamp, level.red, pars);
+				console.log(stamp, level.red, ...pars);
+				console.trace();
 				break;
 			case "info":
-				console.log(stamp, level.green, pars);
+				console.log(stamp, level.green, ...pars);
 				break;
 			case "success":
-				console.log(stamp, level.blue, pars);
+				console.log(stamp, level.blue, ...pars);
 				break;
 			case "warn":
-				console.log(stamp, level.red, pars);
+				console.log(stamp, level.red, ...pars);
+				break;
+			case "debug":
+				console.log(stamp, level.magenta, ...pars);
 				break;
 			default:
-				console.log(stamp, level, pars);
+				console.log(stamp, level, ...pars);
 				break;
 		}
 	}
@@ -188,7 +192,7 @@ export class Logger {
 	/**
 	 * Method to write to another transport, user defined
 	 */
-	writeUdf(level, args) {
+	writeUdf(level, ...args) {
 		if (!this.opts.transports.udf || !this.udfLogging) return false;
 		return this.udfLogging(level, args);
 	}
@@ -197,21 +201,22 @@ export class Logger {
 		if (process.env.NODE_ENV == "production" || process.env.NODE_ENV == "test") {
 			return;
 		}
+
 		let stack = Logger.getStackInfo();
 		args.unshift(
-			`  [ ${stack.dir}/${stack.file}:${stack.line}:${stack.pos}, ${stack.method} ]`,
+			`  [ ${stack.dir}/${stack.file}:${stack.line}:${stack.pos}, ${stack.method} ]\n`,
 		);
-		let pars = Logger.args2string(args);
 
 		// In view of possible monkey patching console.debug...
 		let log = Logger.getInstance();
-		log.writeConsole("Debug".blue, pars);
+		log.writeConsole("debug", ...args);
+		let pars = Logger.args2string(args);
 		log.writeFile(log.fileAll, "debug", pars + "\n");
 	}
 
 	warn(...args) {
+		this.writeConsole("warn", ...args);
 		let pars = Logger.args2string(args);
-		this.writeConsole("warn", pars);
 		this.writeFile(this.fileAll, "warning", pars + "\n");
 		if (this.opts.playSoundOn.warning) {
 			// Taken from https://www.soundjay.com/
@@ -220,32 +225,20 @@ export class Logger {
 	}
 
 	info(...args) {
+		this.writeConsole("info", ...args);
 		let pars = Logger.args2string(args);
-		this.writeConsole("info", pars);
 		this.writeFile(this.fileAll, "info", pars + "\n");
 	}
 
 	success(...args) {
+		this.writeConsole("success", ...args);
 		let pars = Logger.args2string(args);
-		this.writeConsole("success", ` ${pars}`);
 		this.writeFile(this.fileAll, "succ", `${pars}\n`);
 	}
 
-	"";
-
-	sql(...args) {
-		let tmp = this.opts.logDatabase;
-		if (!tmp) return;
-		let pars = Logger.args2string(args);
-		this.writeConsole("Info", pars);
-		this.opts.logDatabase = false;
-		this.writeFile(this.fileDatabase, "", pars + "\n");
-		this.opts.logDatabase = tmp;
-	}
-
 	error(...args) {
+		this.writeConsole("error", ...args);
 		let pars = Logger.args2string(args);
-		this.writeConsole("error", pars);
 		this.writeFile(this.fileError, "error", pars + "\n");
 		if (this.opts.playSoundOn.error) {
 			// Taken from https://www.soundjay.com/
