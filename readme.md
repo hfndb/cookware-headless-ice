@@ -4,7 +4,7 @@ This project is developed in a Linux environment and should also run in Apple (B
 
 The **command line toolbox**
 + transcompiles (changed or new) [Sass](https://en.wikipedia.org/wiki/Sass_%28stylesheet_language%29) files to [CSS](https://en.wikipedia.org/wikiCascading_Style_Sheets),
-+ transcompiles (changed or new) [Flow](https://flow.org/), [JavaScript](https://en.wikipedia.org/wiki/JavaScript) (.js) and [TypeScript](https://en.wikipedia.org/wiki/TypeScript) (.ts, .cts, .mts) files to [CommonJS](https://en.wikipedia.org/wiki/CommonJS) (.js)
++ transcompiles (changed or new) [Flow](https://flow.org/), [JavaScript](https://en.wikipedia.org/wiki/JavaScript) (.js) and [TypeScript](https://en.wikipedia.org/wiki/TypeScript) (.ts, .cts, .mts) files to [CommonJS](https://en.wikipedia.org/wiki/CommonJS) (.js) for browser or ES Modules for local usage (.mjs)
 + generates Sass and JavaScript files with definitions of configured colors and looks, see 'Laboratory' below,
 + renders (changed or new) template based HTML-content to static .html disk files,
 + [lints](https://en.wikipedia.org/wiki/Lint_%28software%29) HTML content files,
@@ -56,12 +56,6 @@ $ sudo npm install -g dts-gen jsdoc mocha @pintora/cli typescript ts-node zx
 
 In case you don't want to install npm packages as root user, look [here](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally).
 
-### wkhtmltopdf
-
-For PDF file creation, if you prefer to use wkhtmltopdf, then download and install [wkhtmltopdf](http://wkhtmltopdf.org/downloads.html). Do not use the version delivered by your package manager, since it has less functionality.
-
-Wkhtmltopdf uses [QtWeb](http://www.qtweb.net/) as a rendering engine. QtWeb is an open source project based on Nokia's Qt framework and Apple's WebKit.
-
 
 ## Installation
 
@@ -83,6 +77,9 @@ alias cookware=/opt/cookware/bin/starter.sh
 
 You might want to change the default configuration. Details about configuration [here](./docs/configuration.md).
 
+
+### Sass transcompiler
+
 For installation of a binary sass transcompiler, see the [releases page](https://github.com/sass/dart-sass/releases/) for an URL. Then downlad and install the version you want like this:
 
 ```bash
@@ -92,6 +89,14 @@ $ tar -xf [downloaded .tar.gz file]
 $ cd -
 $ mv /tmp/dart-sass/sass ./bin/
 ```
+
+
+### wkhtmltopdf
+
+For PDF file creation, if you prefer to use wkhtmltopdf, then download and install [wkhtmltopdf](http://wkhtmltopdf.org/downloads.html). Do not use the version delivered by your package manager, since it has less functionality.
+
+Wkhtmltopdf uses [QtWeb](http://www.qtweb.net/) as a rendering engine. QtWeb is an open source project based on Nokia's Qt framework and Apple's WebKit.
+
 
 ## Update
 

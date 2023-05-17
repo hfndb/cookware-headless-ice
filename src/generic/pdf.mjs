@@ -62,7 +62,6 @@ export class PdfGenerator {
 
 			try {
 				let r = exec(cmd.join(" "), {});
-				//process.exit()
 				if (r.stderr) {
 					log.warn(`- Failed to render file: ${filePdf}`); // , r.stderr.toString()
 					return false;

@@ -3,8 +3,12 @@ import { join } from "node:path";
 import { FileUtils, FileStatus, Logger } from "../generic/index.mjs";
 import { Beautify } from "../generic/beautify.mjs";
 import { AppConfig } from "../generic/config.mjs";
+import { Content } from "../generic/html.mjs";
+import { PdfGenerator } from "../generic/pdf.mjs";
 import { FileWatcher } from "../generic/file-system/watch.mjs";
+import { Sitemap } from "../generic/sitemap.mjs";
 import { JavascriptUtils } from "../local/javascript.mjs";
+import { Pdf } from "../local/pdf.mjs";
 import { PhpUtils } from "../local/php.mjs";
 import { SourceUtils } from "../local/source.mjs";
 import { Double, SassFiles, SassUtils } from "../local/styling.mjs";
@@ -13,6 +17,10 @@ import { ProcessingTypes, SessionVars } from "../sys/session.mjs";
 
 let cfg = AppConfig.getInstance();
 let log = Logger.getInstance();
+let other = {
+	html: false,
+	pdf: false,
+};
 
 /**
  * Active watches
@@ -34,6 +42,42 @@ class ConfigWatch extends FileWatcher {
 		file;
 		cfg.read();
 		log.info(`- settings.json changed and reloaded`);
+	}
+}
+
+class HtmlWatch extends FileWatcher {
+	/**
+	 * @param {any} event
+	 * @param {string} file
+	 */
+	async change(event, file) {
+		event; // Fool compiler - unused variable
+		if (Double.is(file)) return;
+
+		let dir = join(cfg.dirProject, cfg.options.html.dirs.content);
+		let fi = FileUtils.getFileInfo(dir, file);
+		let entry = new FileStatus(dir);
+		entry.setSource(file, fi.file.ext);
+		entry.setTarget(join(cfg.dirProject, cfg.options.html.dirs.output), ".html");
+
+		dir = join(cfg.dirProject, cfg.options.html.dirs.output);
+
+		log.info(`- ${file} changed`);
+
+		// Generate static HTML and update sitemap
+		let content = new Content();
+		const toWrite = content.render(entry.dir, entry.source, {});
+		content.writeOutput(entry, toWrite, true);
+		Sitemap.generate(true);
+
+		// Generate PDF
+		entry.setTarget(join(cfg.dirProject, cfg.options.pdf.dirs.output), ".pdf", true);
+		let pg = new PdfGenerator();
+		await Pdf.renderFile(entry, pg);
+
+		// Register processed file
+		let session = SessionVars.getInstance();
+		session.add(ProcessingTypes.html, file);
 	}
 }
 
@@ -146,19 +190,31 @@ class SassWatch extends FileWatcher {
 
 /**
  * Setup file watching. In bash this would need, for example:
+ * @param {boolean} html
  *
  * @example
  * while inotifywait -qr -e attrib --format 'Changed: %w%f' ./src ./sass; do
  *	    /opt/projects/cookware-headless-ice/bin/starter.sh -g
  * done
  */
-export function initWatches() {
+export function initWatches(html) {
+	other.html = html;
+
 	watches.config = new ConfigWatch({
 		workingDir: cfg.dirProject,
 		path: "settings.json",
 		description: "project settings file (settings.json)",
 		timeout: cfg.options.server.watchTimeout,
 	});
+
+	if (other.html) {
+		watches.html = new HtmlWatch({
+			workingDir: cfg.dirProject,
+			path: cfg.options.html.dirs.content,
+			description: "HTML content files",
+			timeout: cfg.options.server.watchTimeout,
+		});
+	}
 
 	if (cfg.options.javascript.useWatch) {
 		let tp = "JavaScript";
@@ -201,4 +257,5 @@ export function terminateWatches() {
 	if (watches.js) watches.js.stop();
 	if (watches.php) watches.php.stop();
 	if (watches.sass) watches.sass.stop();
+	if (other.html) watches.html.stop();
 }

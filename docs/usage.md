@@ -172,6 +172,15 @@ $ cookware --touch sass
 ```
 
 
+## Watch
+
+```
+$ cookware --watch [--html] [--pdf]
+```
+
+Shortcut -w. Watch for changes in sass, source. With parameter --html in content too. With parameter --pdf updates related .pdf file too. Render or transcompile on change.
+
+
 ## Write default config
 
 ```

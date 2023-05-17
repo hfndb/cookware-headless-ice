@@ -151,6 +151,11 @@ am.addOption({
 	description: "Parameter: Touch source for browser only",
 });
 am.addOption({
+	name: "html",
+	type: Boolean,
+	description: "Parameter: Watch for changed content files too",
+});
+am.addOption({
 	name: "production",
 	type: Boolean,
 	description: "Parameter: (Trans)compile etc for production use",
@@ -213,14 +218,14 @@ if (choice.beautify) {
 	Git.list(choice.file);
 } else if (choice.gitShow) {
 	Git.show(choice.gitShow);
+} else if (choice.watch) {
+	initWatches(choice.html, choice.pdf); // specific usage of parameter pdf
 } else if (choice.pdf) {
 	await Pdf.renderAll();
 } else if (choice.run) {
 	coatRack();
 } else if (choice.sponsor && platform() != "win32") {
 	Sponsor.main();
-} else if (choice.watch) {
-	initWatches();
 } else if (choice.touch) {
 	let allow = [],
 		dir = cfg.options.html.dirs.content,
