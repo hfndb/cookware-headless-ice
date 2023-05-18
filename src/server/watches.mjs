@@ -71,9 +71,15 @@ class HtmlWatch extends FileWatcher {
 		Sitemap.generate(true);
 
 		// Generate PDF
-		entry.setTarget(join(cfg.dirProject, cfg.options.pdf.dirs.output), ".pdf", true);
-		let pg = new PdfGenerator();
-		await Pdf.renderFile(entry, pg);
+		if (other.pdf) {
+			entry.setTarget(
+				join(cfg.dirProject, cfg.options.pdf.dirs.output),
+				".pdf",
+				true,
+			);
+			let pg = new PdfGenerator();
+			await Pdf.renderFile(entry, pg);
+		}
 
 		// Register processed file
 		let session = SessionVars.getInstance();
@@ -197,8 +203,9 @@ class SassWatch extends FileWatcher {
  *	    /opt/projects/cookware-headless-ice/bin/starter.sh -g
  * done
  */
-export function initWatches(html) {
+export function initWatches(html, pdf) {
 	other.html = html;
+	other.pdf = pdf;
 
 	watches.config = new ConfigWatch({
 		workingDir: cfg.dirProject,
@@ -257,5 +264,5 @@ export function terminateWatches() {
 	if (watches.js) watches.js.stop();
 	if (watches.php) watches.php.stop();
 	if (watches.sass) watches.sass.stop();
-	if (other.html) watches.html.stop();
+	if (watches.html) watches.html.stop();
 }
